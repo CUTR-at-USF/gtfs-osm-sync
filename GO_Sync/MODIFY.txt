@@ -1,0 +1,64 @@
+stop_id,stop_name,stop_lat,stop_lon
+3111,Holly Dr @ Cypress Dr,28.0661097,-82.42355
+3086,131St Av @ Bruce B Downs  @ Va Hosp,28.065459,-82.427307
+4491,131St Av @ 23Rd St,28.065432,-82.432457
+7027,Leroy Collins Blvd @ Fowler Av,28.054976,-82.413421
+7590,56th St @ E Fowler Av,28.053579,-82.393908
+4598,50th St @ Sun Ridge Condos,28.05849,-82.401762
+6264,50th St @ 122nd Av,28.057385,-82.401752
+4616,Holly Dr @ 50th St,28.066277,-82.402083
+missing,none,28.0690301,-82.4230719
+missing,none,28.0690301,-82.4230719
+missing,none,28.0690921,-82.429993
+missing,none,28.0581517,-82.4196986
+missing,none,28.0542502,-82.401116
+4555,Mckinley Dr @ Linebaugh Av,28.03917,-82.416439
+4610,Fletcher Av @ John Knox Village,28.068971,-82.416843
+2012,56th St @ Whiteway Dr,28.04782,-82.393851
+5887,Fletcher Av @ Livingston Av West,28.06913,-82.430708
+886,Fletcher Av @ 19th St,28.069272,-82.438499
+4657,Fletcher Av @ 31St St (Uch),28.069269,-82.423516
+1622,Mckinley Dr @ Bougainvillea Av,28.044154,-82.416414
+881,Fletcher Av @ Livingston Av,28.069296,-82.427179
+4656,Fletcher Av @ Magnolia Dr N/S,28.069252,-82.42025
+4619,50th St @ Elm Dr,28.0592668,-82.4019926
+7581,Fletcher Av @ Magnolia Dr,28.068971,-82.419926
+4258,Usf @ Administration Bldg,28.0607499,-82.4134114
+938,Fletcher Av @ Livingston Av East,28.069132,-82.429987
+4553,Mckinley Dr @ D.O.T. Bldg,28.050861,-82.416281
+4552,Mckinley Dr @ Fowler Av,28.053455,-82.416369
+1617,Mckinley Dr @ Linebaugh Av,28.039471,-82.416137
+4543,Malcom McKinley Dr  @ D.O.T. Bldg,28.050524,-82.416144
+1616,Mckinley Dr @ Busch Blvd,28.034706,-82.416406
+4544,Leroy Collins Blvd @ Alumni Dr,28.057706,-82.412974
+4545,Leroy Collins Blvd @ Elm Dr@Library,28.059734,-82.412953
+4974,30th St @ Pine Dr,28.056123,-82.425899
+4546,Leroy Collins Blvd @  Alumni Dr,28.057416,-82.413393
+4547,Magnolia @ Medical Dr Traffic Light,28.061258,-82.419551
+4548,Magnolia Dr @ Moffit Hospital,28.064245,-82.420143
+4977,Bruce B Downs Blvd @ 132nd Av,28.0675,-82.42626
+4597,50th St @ Terrace Palms Apts 11801,28.056281,-82.401743
+4601,50th St @ Excellence Blvd,28.0662122,-82.4017507
+1619,Mckinley Dr @ Fowler Av,28.053616,-82.416055
+1618,Mckinley Dr @ Bougainvillea Av,28.044336,-82.416145
+4600,50th St @ Sycamore Dr,28.063453,-82.401853
+2021,56th St @ Busch Blvd,28.032734,-82.393636
+2020,56th St @ Sewaha St,28.034437,-82.393635
+7029,56th St @ Serena Dr,28.042858,-82.393691
+4607,Fletcher Av @ Fmhi @ 31St St,28.068972,-82.423058
+1515,Sligh Av @ 50th St,28.010768,-82.401793
+5312,Sheldon Rd @ Bay Plaza,27.998277,-82.583032
+4541,Malcom McKinley Dr @ Busch Blvd,28.033303,-82.416214
+5015,Fletcher Av @ Railroad Crossing,28.069298,-82.449124
+6904,Fletcher Av @ 20th St,28.069272,-82.43634
+6903,Fletcher Av @ 22nd St,28.06935,-82.435071
+890,Fletcher Av @ 12th St,28.06928,-82.446762
+5341,Sheldon Rd @ Hamilton Av,28.015196,-82.583298
+4487,Fletcher Av @ Cecelia St,28.069165,-82.445602
+4486,Fletcher Av @ 12th St,28.069175,-82.44749
+4621,50th St @ Terrace Palms Apts,28.0572161,-82.4019285
+4620,50th St @ 122nd Av,28.0582965,-82.4019663
+4622,Fowler Av @ 51St St,28.054243,-82.400618
+7615,Fowler Av @ 52nd St,28.054242,-82.397669
+4625,56th St @ Temple Terrace City Hall,28.050537,-82.393849
+7434,Fletcher Av @ 42nd St Ws,28.069229,-82.414502

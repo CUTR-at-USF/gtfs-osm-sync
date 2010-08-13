@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='xapi: OSM Extended API 2.0' xmlns:xapi='http://www.informationfreeway.org/xapi/0.6' xapi:uri='/api/0.6/node[highway=bus_stop][bbox=-82.405878,28.049578999999998,-82.38990799999999,28.062807000000003]' xapi:planetDate='20100715' xapi:copyright='2010 OpenStreetMap contributors' xapi:license='Creative commons CC-BY-SA 2.0' xapi:bugs='For assistance or to report bugs contact 80n80n@gmail.com' xapi:instance='zappyHyper'>
+  <node id='454063837' lat='28.0598215' lon='-82.4048793' version='1' changeset='2009469' user='ShannonLadd' uid='148778' visible='true' timestamp='2009-08-02T05:13:58Z'>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='name' v='Bull Runner Bus Stop'/>
+  </node>
+  <node id='454063838' lat='28.0599048' lon='-82.4046218' version='1' changeset='2009469' user='ShannonLadd' uid='148778' visible='true' timestamp='2009-08-02T05:13:58Z'>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='name' v='Bull Runner Bus Stop'/>
+  </node>
+  <node id='454063840' lat='28.060133' lon='-82.4028917' version='2' changeset='3159571' user='EdHillsman' uid='103107' visible='true' timestamp='2009-11-19T12:42:22Z'>
+    <tag k='bench' v='no'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='name' v='Bull Runner Bus Stop'/>
+    <tag k='operator' v='USF Bull Runner'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+  <node id='454063841' lat='28.0601782' lon='-82.4026042' version='2' changeset='3150181' user='EdHillsman' uid='103107' visible='true' timestamp='2009-11-18T12:51:45Z'>
+    <tag k='bench' v='yes'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='name' v='Sheltered Bull Runner Bus Stop'/>
+    <tag k='operator' v='USF Bull Runner'/>
+    <tag k='shade' v='partial'/>
+    <tag k='shelter' v='yes'/>
+  </node>
+  <node id='736996851' lat='28.0624573' lon='-82.4019982' version='2' changeset='4743990' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-18T23:56:14Z'>
+    <tag k='bench' v='undefined'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART route 6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+  <node id='736996853' lat='28.062443' lon='-82.4016818' version='3' changeset='5126351' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-03T17:58:40Z'>
+    <tag k='bench' v='yes'/>
+    <tag k='gtfs_id' v='4599'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART'/>
+    <tag k='route' v='6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+  <node id='739086088' lat='28.0592667' lon='-82.4019923' version='1' changeset='4743990' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-18T23:56:14Z'>
+    <tag k='bency' v='yes'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART route 6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+  </node>
+  <node id='739086089' lat='28.0592052' lon='-82.4016651' version='1' changeset='4743990' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-18T23:56:14Z'>
+    <tag k='bency' v='yes'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART route 6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+  </node>
+  <node id='454063852' lat='28.0576738' lon='-82.4055227' version='3' changeset='4743990' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-19T00:55:48Z'>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='name' v='Bull Runner Bus Stop'/>
+  </node>
+  <node id='454063853' lat='28.0576856' lon='-82.4053376' version='2' changeset='4743990' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-19T00:55:48Z'>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='name' v='Bull Runner Bus Stop'/>
+  </node>
+  <node id='736993282' lat='28.0570823' lon='-82.4017459' version='1' changeset='4724325' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-17T00:54:19Z'>
+    <tag k='bench' v='yes'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART route 6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+  <node id='736993284' lat='28.0572158' lon='-82.4019285' version='1' changeset='4724325' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-17T00:54:19Z'>
+    <tag k='bench' v='yes'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART route 6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+  <node id='736993285' lat='28.0580575' lon='-82.4017539' version='1' changeset='4724325' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-17T00:54:19Z'>
+    <tag k='bench' v='yes'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART route 6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+  <node id='736993287' lat='28.0582963' lon='-82.4019661' version='2' changeset='4743990' user='EdHillsman' uid='103107' visible='true' timestamp='2010-05-18T23:56:15Z'>
+    <tag k='bench' v='yes'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART route 6'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+  <node id='790024724' lat='28.0562812' lon='-82.4017432' version='8' changeset='5230888' user='ktran9' uid='298201' visible='true' timestamp='2010-07-15T21:59:30Z'>
+    <tag k='FIX_ME' v='This bus stop could be redundant'/>
+    <tag k='comment' v='hi there'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART'/>
+  </node>
+  <node id='790024736' lat='28.05603' lon='-82.40185' version='1' changeset='5074459' user='ktran9' uid='298201' visible='true' timestamp='2010-06-25T14:59:56Z'>
+    <tag k='created_by' v='ktran9'/>
+    <tag k='highway' v='bus_stop'/>
+  </node>
+  <node id='806511956' lat='28.0542756' lon='-82.4011084' version='1' changeset='5165537' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-08T11:43:48Z'>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART'/>
+    <tag k='route' v='6'/>
+  </node>
+  <node id='806511957' lat='28.0542519' lon='-82.3977798' version='1' changeset='5165537' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-08T11:43:48Z'>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='HART'/>
+    <tag k='route' v='6'/>
+  </node>
+  <node id='812649955' lat='28.054619' lon='-82.3928503' version='2' changeset='5195390' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-12T01:50:00Z'>
+    <tag k='bench' v='yes'/>
+    <tag k='gtfs_id' v='7164'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit'/>
+    <tag k='route' v='57'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
+  </node>
+</osm>

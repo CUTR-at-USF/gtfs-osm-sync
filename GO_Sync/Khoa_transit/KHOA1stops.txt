@@ -1,0 +1,4 @@
+stop_id,stop_code,stop_name,stop_lat,stop_lon
+3594,3594,Fowler Av @ 51St St,28.054575,-82.399757
+3595,3595,Fowler Av @ 50th St,28.054577,-82.401516
+4596,4596,Fowler Av @ 52nd St,28.05457,-82.397453

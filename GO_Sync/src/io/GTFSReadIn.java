@@ -25,10 +25,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import object.Stop;
+import tools.OsmFormatter;
 
 public class GTFSReadIn {
     private List<Stop> stops;
     private final String ROUTE_KEY = "route_ref";
+    private HashSet<String> allRoutes;
+
     public List<Stop> readBusStop(String fName, String agencyName, String trips_fName, String stop_times_fName){
         Hashtable stopIDs = new Hashtable();
         Hashtable id = readRoutes(trips_fName, stop_times_fName);
@@ -63,16 +66,18 @@ public class GTFSReadIn {
                 }
                 else {
                     elements = thisLine.split(",");
-                    Stop s = new Stop(elements[stopIdKey], agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey]);
+                    //add leading 0's to gtfs_id
+                    String tempStopId = OsmFormatter.getValidBusStopId(elements[stopIdKey]);
+                    Stop s = new Stop(tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey]);
                     HashSet<String> keys = new HashSet<String>();
                     keys.addAll(keysIndex.keySet());
                     Iterator it = keys.iterator();
                     while(it.hasNext()){
                         String k = (String)it.next();
                         String v = elements[(Integer)keysIndex.get(k)];
-                        if (!v.equals("")) s.addTag(k, v);
+                        if ((v!=null) && (!v.equals(""))) s.addTag(k, v);
                     }
-                    String r = getRoutesInText((HashSet<String>)stopIDs.get(elements[stopIdKey]));
+                    String r = getRoutesInTextByBusStop((HashSet<String>)stopIDs.get(elements[stopIdKey]));
                     if (!r.isEmpty()) s.addTag(ROUTE_KEY, r);
                     stops.add(s);
 //                    System.out.println(thisLine);
@@ -112,6 +117,7 @@ public class GTFSReadIn {
                         System.out.println("Repeat "+elements[tripIdKey]);
                     }
                     tripIDs.put(elements[tripIdKey], elements[routeIdKey]);
+                    allRoutes.add(elements[routeIdKey]);
                 }
             }
         }
@@ -154,23 +160,45 @@ public class GTFSReadIn {
         return stopIDs;
     }
 
-    public String getRoutesInText(HashSet<String> routes) {
+    public String getRoutesInTextByBusStop(HashSet<String> r) {
         String text="";
-        if (routes!=null) {
-            Iterator it = routes.iterator();
-            while (it.hasNext()){
-                String sid = (String)it.next();
-                text = text+ ";" +sid;
+        if (r!=null) {
+            ArrayList<String> routes = new ArrayList<String>();
+            //convert from hashset to arraylist
+            routes.addAll(r);
+            //ordering by hashcode
+            for (int i=0; i<routes.size()-1; i++) {
+                int k=i;
+                for (int j=i+1; j<routes.size(); j++) {
+                    if (routes.get(k).hashCode() > routes.get(j).hashCode()) {
+                        k = j;
+                    }
+                }
+                String temp = routes.get(i);
+                routes.set(i, routes.get(k));
+                routes.set(k, temp);
             }
+
+            //to text
+            for (int i=0; i<routes.size(); i++) {
+                text = text + ";" + routes.get(i);
+            }
+            //delete the 1st semi-colon
             if (!text.isEmpty()) {
                 text = text.substring(1);
             }
         }
         return text;
     }
-//
+
+    public HashSet<String> getAllRoutesID(){
+        System.out.println(allRoutes);
+        return allRoutes;
+    }
+    
     public GTFSReadIn() {
         stops = new ArrayList<Stop>();
+        allRoutes = new HashSet<String>();
 //        readBusStop("C:\\Users\\Khoa Tran\\Desktop\\Summer REU\\Khoa_transit\\stops.txt");
     }
 }

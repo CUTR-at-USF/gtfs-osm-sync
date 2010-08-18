@@ -40,9 +40,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import object.Session;
 import org.xml.sax.SAXException;
@@ -58,7 +60,10 @@ public class HttpRequest {
     private static final String SERVER_URL = "http://api.openstreetmap.org/api/0.6/";
     
     private ArrayList<AttributesImpl> existingNodes = new ArrayList<AttributesImpl>();
-    private ArrayList<Hashtable> existingTags = new ArrayList<Hashtable>();
+    private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
+    private ArrayList<Hashtable> existingBusTags = new ArrayList<Hashtable>();
+    private ArrayList<Hashtable> existingRelationTags = new ArrayList<Hashtable>();
+    private ArrayList<Hashtable> existingRelationMembers = new ArrayList<Hashtable>();
 
     private boolean isSupportVersion = false;
 
@@ -139,28 +144,20 @@ public class HttpRequest {
         }
     }
 
-    // this method needs to be invoked after getExistingBusStops
-    public ArrayList<Hashtable> getExistingBusStopsTags(){
-        System.out.println("tags = "+existingTags.size());
-        if (existingTags.size() !=0 )
-            return existingTags;
-        return null;
-    }
-
     public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) {
 //        http://www.informationfreeway.org/api/0.6/node[highway=bus_stop][bbox=-82.4269,28.0534,-82.4011,28.0699]
         String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
         String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
-            InputSource inputSource = new InputSource(new StringReader(s));
+//            String s = sendRequest(url, "GET", "");
+//            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-//            InputSource inputSource = new InputSource("DataFromServer.osm");
+            InputSource inputSource = new InputSource("DataFromServer.osm");
             NodeParser par = new NodeParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingNodes.addAll(par.getNodes());
-            existingTags.addAll(par.getTags());
+            existingBusTags.addAll(par.getTags());
 
         } catch(IOException e) {
             System.out.println(e);
@@ -174,12 +171,110 @@ public class HttpRequest {
         return null;
     }
 
-    public static String getApiVersion() {
-        return API_VERSION;
+    // this method needs to be invoked after getExistingBusStops
+    public ArrayList<Hashtable> getExistingBusStopsTags(){
+        System.out.println("tags = "+existingBusTags.size());
+        if (existingBusTags.size() !=0 )
+            return existingBusTags;
+        return null;
     }
 
-    public static void setApiVersion(){
+    private class RelationParser extends DefaultHandler {
+        Hashtable tempTag, tempMember;
+        private ArrayList<AttributesImpl> xmlRelations;
+        //xmlTags<String, String> ----------- xmlMembers<String(refID), AttributesImpl>
+        private ArrayList<Hashtable> xmlTags, xmlMembers;
+        public RelationParser(){
+            xmlRelations = new ArrayList<AttributesImpl>();
+            xmlTags = new ArrayList<Hashtable>();
+            xmlMembers = new ArrayList<Hashtable>();
+        }
+        @Override public void startElement(String namespaceURI, String localName, String qname, Attributes attributes) throws SAXException {
+            if (qname.equals("relation")) {
+                AttributesImpl attImpl = new AttributesImpl(attributes);
+                xmlRelations.add(attImpl);
+                tempTag = new Hashtable();      // start to collect tags of that relation
+                tempMember = new Hashtable();
+            }
+            if (tempTag!=null && qname.equals("tag")) {
+                AttributesImpl attImpl = new AttributesImpl(attributes);
+                tempTag.put(attImpl.getValue("k"), attImpl.getValue("v"));         // insert key and value of that tag into Hashtable
+            }
+            if (tempMember!=null && qname.equals("member")) {
+                AttributesImpl attImpl = new AttributesImpl(attributes);
+                if (attImpl.getValue("type").equals("node")) {                     // only need bus_stop, which is node. [no member way]
+                    tempMember.put(attImpl.getValue("ref"), attImpl);
+                }
+            }
+        }
 
+        @Override public void endElement (String uri, String localName, String qName) throws SAXException {
+            if (qName.equals("relation")) {
+                xmlTags.add(tempTag);
+                xmlMembers.add(tempMember);
+                tempTag = null;
+                tempMember = null;
+            }
+        }
+
+        public ArrayList<AttributesImpl> getRelations(){
+            return xmlRelations;
+        }
+
+        public ArrayList<Hashtable> getTags(){
+            return xmlTags;
+        }
+
+        public ArrayList<Hashtable> getMembers(){
+            return xmlMembers;
+        }
+    }
+
+    public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) {
+        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
+        String url = "http://www.informationfreeway.org" + urlSuffix;
+        try {
+            // get data from server
+//            String s = sendRequest(url, "GET", "");
+//            InputSource inputSource = new InputSource(new StringReader(s));
+            // get data from file - need to remove this for REAL APPLICATION
+            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
+            RelationParser par = new RelationParser();
+            SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
+            existingRelations.addAll(par.getRelations());
+            existingRelationTags.addAll(par.getTags());
+            existingRelationMembers.addAll(par.getMembers());
+
+        } catch(IOException e) {
+            System.out.println(e);
+        } catch(SAXException e) {
+            System.out.println(e);
+        } catch(ParserConfigurationException e) {
+            System.out.println(e);
+        }
+        if (existingRelations.size()!=0) return existingRelations;
+        System.out.println("null relations");
+        return null;
+    }
+
+    // this method needs to be invoked after getExistingBusRelations
+    public ArrayList<Hashtable> getExistingBusRelationTags(){
+        System.out.println("relation tags = "+existingRelationTags.size());
+        if (existingRelationTags.size() !=0 )
+            return existingRelationTags;
+        return null;
+    }
+
+    // this method needs to be invoked after getExistingBusRelations
+    public ArrayList<Hashtable> getExistingBusRelationMembers(){
+        System.out.println("tags = "+existingRelationMembers.size());
+        if (existingRelationMembers.size() !=0 )
+            return existingRelationMembers;
+        return null;
+    }
+
+    public static String getApiVersion() {
+        return API_VERSION;
     }
 
     private String getRequestContents() {
@@ -304,15 +399,16 @@ public class HttpRequest {
         HttpURLConnection conn = null;
         StringBuffer responseText = new StringBuffer();
         URL serverAddress = null;
-        
+        int retry = 1;
         while (true) {
             try {
-                System.out.println("Connecting "+url+" using method "+method);
+                System.out.println("Connecting "+url+" using method "+method+" "+retry);
                 serverAddress = new URL(url);
                 
                 // set the initial connection
                 conn = (HttpURLConnection) serverAddress.openConnection();
                 conn.setRequestMethod(method);
+                conn.setConnectTimeout(15000);
                 
                 if (method.equals("PUT") || method.equals("POST") || method.equals("DELETE")) {
                     BASE64Encoder enc = new sun.misc.BASE64Encoder();
@@ -329,7 +425,7 @@ public class HttpRequest {
                         osw.flush();
                     }
                 }
-
+                
                 conn.connect();
 
                 int responseCode = conn.getResponseCode();
@@ -382,6 +478,12 @@ public class HttpRequest {
                         }
                         break;
                 }
+            } catch (ConnectException e) {
+                retry ++;
+                continue;
+            } catch (SocketTimeoutException e) {
+                retry ++;
+                continue;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (ProtocolException e) {

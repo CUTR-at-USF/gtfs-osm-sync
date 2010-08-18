@@ -23,6 +23,11 @@ import java.util.Iterator;
 import java.util.List;
 import object.Stop;
 
+/**
+ *
+ * @author Khoa Tran
+ */
+
 public class WriteFile {
 //    List<Stop> stops = new ArrayList<Stop>();
     public WriteFile(String fname, HashSet<Stop> s){

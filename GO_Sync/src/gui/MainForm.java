@@ -32,11 +32,13 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import object.OperatorInfo;
+import object.Route;
 import object.Session;
 import object.Stop;
 import org.xml.sax.helpers.AttributesImpl;
 import osm.HttpRequest;
 import tools.OsmDistance;
+import tools.OsmFormatter;
 
 /**
  *
@@ -47,6 +49,9 @@ public class MainForm extends javax.swing.JFrame {
     private List<Stop> GTFSstops = new ArrayList<Stop>();
     private ArrayList<AttributesImpl> OSMNodes = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> OSMTags = new ArrayList<Hashtable>();
+    private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
+    private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
+    private ArrayList<Hashtable> OSMRelationMembers = new ArrayList<Hashtable>();
     private Hashtable report = new Hashtable();
     private HashSet<Stop> noUpload = new HashSet<Stop>();
     private HashSet<Stop> upload = new HashSet<Stop>();
@@ -59,6 +64,7 @@ public class MainForm extends javax.swing.JFrame {
     private final double ERROR_TO_ZERO = 0.5;       // acceptable error while calculating distance ~= consider as 0
     private final double DELTA = 0.004;   // ~400m in Lat and 400m in Lon       0.00001 ~= 1.108m in Lat and 0.983 in Lon
     private final double RANGE = 400;         // FIX ME bus stop is within 400 meters
+    private final String ROUTE_KEY = "route_ref";
     private final String _operatorName = "Hillsborough Area Regional Transit";
     private final String _operatorNameAbbreviate = "HART";
     private final String _operatorNtdId = "4041"; // 4046 for Sarasota
@@ -157,12 +163,16 @@ public class MainForm extends javax.swing.JFrame {
         }
     }
 
-    public void reviseUpload(){
-        Iterator it = noUpload.iterator();
+    /* Remove duplicates between modify set and noUpload set
+     * Otherwise, all modify nodes will be in noUpload set
+     * since our algorithm add node into noUpload set everytime a gtfs node matches an OSM node
+     * */
+    public void reviseNoUpload(){
+        Iterator it = modify.iterator();
         while (it.hasNext()) {
             Stop s = (Stop)it.next();
-            if (upload.contains(s)) {
-                upload.remove(s);
+            if (noUpload.contains(s)) {
+                noUpload.remove(s);
             }
         }
     }
@@ -186,7 +196,58 @@ public class MainForm extends javax.swing.JFrame {
         return diff;
     }
 
-    public void compareData() {
+    /*
+     * Only consider uploaded bus stops 
+     * e.g., stops in noUpload and (modify sets - modified stops in osm)
+     * We can use report hashtable for convenience
+     * ALWAYS Invoke this method AFTER compareBusStopData()
+     * */
+    public void compareRouteData() {
+        // get all the routes and its associated bus stops
+        Hashtable routes = new Hashtable();
+        ArrayList<Stop> reportKeys = new ArrayList<Stop>();
+        reportKeys.addAll(report.keySet());
+        for (int i=0; i<reportKeys.size(); i++) {
+            Stop st = reportKeys.get(i);
+            String category = st.getTag("REPORT_CATEGORY");
+            if (category.equals("MODIFY") || category.equals("NOTHING_NEW")) {
+                String routeText = st.getTag(ROUTE_KEY);
+                String[] routeArray = routeText.split(";");
+                for (int j=0; j<routeArray.length; j++) {
+                    Route r = new Route(routeArray[j], OperatorInfo.getFullName());
+                    if(routes.containsKey(routeArray[j])){
+                        Route rt = (Route)routes.get(routeArray[j]);
+                        r.addOsmMembers(rt.getOsmMembers());
+                        String osmNodeId = st.getTag("OSM_NODE_ID");
+                        r.addOsmMember(osmNodeId);
+                    }
+                    routes.put(routeArray[j], r);
+                }
+            }
+        }
+ /*
+        private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
+    private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
+    private ArrayList<Hashtable> OSMRelationMembers = new ArrayList<Hashtable>();*/
+        //compare with existing OSM relation
+        ArrayList<Stop> routeKeys = new ArrayList<Stop>();
+        routeKeys.addAll(routes.keySet());
+        for(int osm=0; osm<OSMRelations.size(); osm++){
+            AttributesImpl osmRelation = OSMRelations.get(osm);
+            Hashtable osmtag = new Hashtable();
+            osmtag.putAll(OSMRelationTags.get(osm));
+            String routeRef = (String)osmtag.get("ref");
+            String operator = (String)osmtag.get("operator");
+            if(routeKeys.contains(routeRef) && operator!=null && OperatorInfo.isTheSameOperator(operator)) {
+                Route eroute = new Route(routeRef, OperatorInfo.getFullName());
+                eroute.addTags(osmtag);
+                eroute.addTag("version", osmRelation.getValue("version"));
+                eroute.addTag("OSM_RELATION_ID", osmRelation.getValue("id"));
+            }
+        }
+    }
+
+    public void compareBusStopData() {
         //Compare the OSM stops with GTFS data
 //        HashSet<Stop> matched = new HashSet<Stop>();
         for (int osmindex=0; osmindex<OSMNodes.size(); osmindex++){
@@ -194,6 +255,14 @@ public class MainForm extends javax.swing.JFrame {
             osmtag.putAll(OSMTags.get(osmindex));
             String osmOperator = (String)osmtag.get("operator");
             String osmStopID = (String)osmtag.get("gtfs_id");
+            //add leading 0's
+            if(osmStopID!=null) {
+                if (!osmStopID.equals("missing")) {
+                    osmStopID = OsmFormatter.getValidBusStopId(osmStopID);
+                    osmtag.put("gtfs_id", osmStopID);
+                }
+            }
+            
             boolean fixme = osmtag.containsKey("FIXME");
             boolean isOp;
             if (osmOperator!=null) {
@@ -205,8 +274,12 @@ public class MainForm extends javax.swing.JFrame {
                     osmOperator = _operatorName;
                 }
             }
-            // osmOperator == null --> isOp is true since we we to get to the for loop
-            else isOp=true;
+            // osmOperator == null --> isOp is true since we need to get to the for loop
+            else {
+                isOp=true;
+                // set operator field to missing
+                osmOperator = "missing";
+            }
             String osmStopName = (String)osmtag.get("name");
             AttributesImpl node = OSMNodes.get(osmindex);
             String version = Integer.toString(Integer.parseInt(node.getValue("version")));
@@ -259,11 +332,11 @@ public class MainForm extends javax.swing.JFrame {
                                 es.addTags(osmtag);
                                 es.addTag("OSM_NODE_ID", node.getValue("id"));
                                 if (diff.size()==0) {
-                                    ns.addTag("REPORT", "Stop already exists in OSM. Nothing new from last upload.\n" +
+                                    es.addTag("REPORT", "Stop already exists in OSM. Nothing new from last upload.\n" +
                                         "\t   " + es.printOSMStop() +
                                         "\n ACTION: No upload!");
                                     ns.addTag("REPORT_CATEGORY", "NOTHING_NEW");
-                                    addToReport(ns, null, true);
+                                    addToReport(ns, es, true);
                                     noUpload.add(ns);
                                 } else {
                                     es.addTag("REPORT", "Stop already exists in OSM but some TAGs are different.\n" +
@@ -344,7 +417,7 @@ public class MainForm extends javax.swing.JFrame {
                 }
             }
         }
-        reviseUpload();
+        reviseNoUpload();
         // Add everything else without worries
         HashSet<Stop> reportKeys = new HashSet<Stop>(report.size());
         reportKeys.addAll(report.keySet());
@@ -360,13 +433,10 @@ public class MainForm extends javax.swing.JFrame {
         }
 
         Iterator it = lastUsers.keySet().iterator();
-        int count=1;
         HashSet<String> OSMUserList = new HashSet<String>();
         while (it.hasNext()) {
             Stop s = new Stop((Stop)it.next());
-            System.out.println(count+". "+s.printOSMStop()+"\n"+lastUsers.get(s));
             OSMUserList.add((String)lastUsers.get(s));
-            count++;
         }
         System.out.println(OSMUserList.toString());
     }
@@ -378,15 +448,21 @@ public class MainForm extends javax.swing.JFrame {
         osmRequest.checkVersion();
         ArrayList<AttributesImpl> tempOSMNodes = osmRequest.getExistingBusStops(Double.toString(minLon), Double.toString(minLat),
                 Double.toString(maxLon), Double.toString(maxLat));
+        ArrayList<AttributesImpl> tempOSMRelations = osmRequest.getExistingBusRelations(Double.toString(minLon), Double.toString(minLat),
+                Double.toString(maxLon), Double.toString(maxLat));
         if (tempOSMNodes!=null) {
             OSMNodes.addAll(tempOSMNodes);
             OSMTags.addAll(osmRequest.getExistingBusStopsTags());
             new WriteFile(FILE_NAME_OUT_EXISTING, convertToStopObject(OSMNodes, _operatorName));
             System.out.println("Existing Nodes = "+OSMNodes.size());
             System.out.println("New Nodes = "+GTFSstops.size());
+            compareBusStopData();
 
-            compareData();
-
+            OSMRelations.addAll(tempOSMRelations);
+            OSMRelationTags.addAll(osmRequest.getExistingBusRelationTags());
+            OSMRelationMembers.addAll(osmRequest.getExistingBusRelationMembers());
+            System.out.println(OSMRelations.get(1).getValue("id")+": 1st relation members: "+OSMRelationMembers.get(1).keySet());
+/*            compareRouteData();*/
         }
         else {
             System.out.println("There's no bus stop in the region "+minLon+", "+minLat+", "+maxLon+", "+maxLat);

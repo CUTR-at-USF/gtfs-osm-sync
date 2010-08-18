@@ -12,27 +12,26 @@ stop_id,stop_name,stop_lat,stop_lon
 5368,Hillsborough Av @ Hesperides St,27.995974,-82.518818
 5369,Hillsborough Av @ Bally 4402,27.995967,-82.516195
 2950,Nuccio Pkwy @ Nebraska Av,27.953391,-82.450862
-1821,Dale Mabry Hwy @ Corona St,27.914038,-82.506107
-1822,Dale Mabry Hwy @ El Prado Blvd,27.911767,-82.506163
 2955,20th St @ Waters Av,28.02569,-82.436615
-1820,Dale Mabry Hwy @ San Luis St,27.915722,-82.50608
-532,Nebraska Av @ Floribraska Av,27.970992,-82.451246
 2954,Nuccio Pkwy @ 7th Av,27.959949,-82.446539
 1825,Dale Mabry Hwy @ Gandy Blvd,27.895119,-82.506401
+0708,22nd St @ Rae Ct,28.079114,-82.434565
 2957,20th St @ Seward St,28.02818,-82.436625
 1826,Dale Mabry Hwy @ Paxton Av,27.888117,-82.506511
-538,Nebraska Av @ Palm Av,27.962702,-82.451309
 2956,20th St @ Fairbanks St,28.026758,-82.436615
 1823,Dale Mabry Hwy @ Cam St,27.903996,-82.506337
 2959,20th St @ Eskimo Av,28.029719,-82.436807
 1824,Dale Mabry Hwy @ Fair Oaks Av,27.901873,-82.50632
+0705,22nd St @ Aimee Ct,28.078308,-82.434707
 2958,20th St @ Eskimo Av,28.029538,-82.436625
 1829,Dale Mabry Hwy @ Wallace Av,27.885502,-82.506551
+0703,22nd St @ Fletcher Av,28.068897,-82.434525
+0702,22nd St @ 133Rd Av,28.068131,-82.434484
 1828,Dale Mabry Hwy @ Rogers Av,27.886963,-82.50653
+0701,22nd St @ 132nd Av,28.067261,-82.434484
 5361,Hillsborough Av @ 7620,27.996495,-82.566679
 3295,Howard Av @ Southview Av,27.930213,-82.483097
 3294,Howard Av @ Dekle Av,27.928855,-82.483127
-5363,Hillsborough Av @ Sawyer Rd,27.996426,-82.557181
 5362,Hillsborough Av @ 7012,27.996439,-82.559243
 5365,Hillsborough Av @ Benjamin Rd,27.99622,-82.542264
 5364,Hillsborough Av @ Golden Dr,27.996397,-82.553123
@@ -42,13 +41,9 @@ stop_id,stop_name,stop_lat,stop_lon
 3296,Howard Av @ Marjory Av,27.93092,-82.483057
 2940,Nuccio Pkwy @ 7th Av,27.960565,-82.446509
 6879,Mccormick Dr @ Wright Cr,28.062213,-82.646182
-541,Nebraska Av @ 7th Av,27.960623,-82.451275
 2944,Nuccio Pkwy @ 7th Av Ns,27.960438,-82.446843
-544,Nebraska Av @ India St,27.955701,-82.451296
 6876,Temple Terrace Hwy @ Hamilton Hills,28.03277,-82.361743
-2943,Nuccio Pkwy @ 7th Av Ss,27.959723,-82.446934
 6878,Linebaugh Av @ Montague St,28.045057,-82.598785
-546,Nebraska Av @ Cass St,27.953618,-82.451312
 1810,Dale Mabry Hwy @ Inman Av,27.935853,-82.505835
 6877,56th St @ 127th Av,28.062118,-82.393488
 2941,Nuccio Pkwy @ Palm Av,27.96224,-82.44654
@@ -59,61 +54,42 @@ stop_id,stop_name,stop_lat,stop_lon
 1815,Dale Mabry Hwy @ San Carlos St,27.924018,-82.505965
 1816,Dale Mabry Hwy @ Barcelona St,27.921928,-82.506002
 1817,Dale Mabry Hwy @ Bay To Bay Blvd,27.920009,-82.506022
-1818,Dale Mabry Hwy @ San Juan St,27.918512,-82.506036
-1819,Dale Mabry Hwy @ Obispo St,27.917004,-82.50607
+0715,22nd St @ Fletcher Av,28.069661,-82.434677
 6081,Hanna Av @ Hesperides St,28.003771,-82.519312
-6891,Waters Av @ Sheldon Rd,28.02581,-82.582524
 6892,56th St @ 127th Av,28.061211,-82.393806
 5355,Webb Rd @ Town N Country Medical Pl,28.002564,-82.575049
 2980,34th St @ Lindell Av,27.979982,-82.422315
 5350,Hillsborough Av @ 8332,27.996594,-82.577646
-513,Nebraska Av @ Henry Av,27.999848,-82.451273
 6889,Linebaugh Av @ Montague St,28.044785,-82.598868
 2975,34th St @ 24th Av,27.972505,-82.422339
 1843,Kennedy Blvd @ Delaware Av,27.944704,-82.470041
-512,Nebraska Av @ Idlewild Av,28.00189,-82.451345
 2974,34th St @ 22nd Av,27.971559,-82.422266
 1844,Kennedy Blvd @ Willow Av,27.944727,-82.472379
-511,Nebraska Av @ Hanna Av,28.003038,-82.451374
 2977,34th St @ 28th Av,27.975834,-82.422296
-1841,Kennedy Blvd @ Brevard Av,27.94473,-82.466349
-510,Nebraska Av @ Jean St,28.004542,-82.451354
 2976,34th St @ 26th Av,27.973992,-82.422354
-1842,Kennedy Blvd @ N Boulevard,27.944707,-82.468349
-5348,Sheldon Rd @ 7-11 Store,27.999201,-82.583495
-5349,Hillsborough Av @ Ross Plaza,27.996629,-82.580417
 5346,Sheldon Rd @ Island Club Apt Ss,28.004392,-82.583481
 2973,34th St @ 21St Av,27.969521,-82.422267
 5347,Sheldon Rd @ Mohr Rd,28.003015,-82.583499
 2972,34th St @ 18th Av,27.968113,-82.422307
 1849,Kennedy Blvd @ Howard Av,27.944812,-82.482788
-518,Nebraska Av @ Frierson Av,27.994374,-82.451187
-517,Nebraska Av @ Hillsborough Av,27.996385,-82.451208
 2979,34th St @ 32nd Av,27.979163,-82.422381
 1847,Kennedy Blvd @ Fremont Av,27.944775,-82.478777
-516,Nebraska Av @ Mohawk Av,27.996931,-82.451223
 2978,34th St @ Lake Av,27.977617,-82.422363
 1848,Kennedy Blvd @ Albany Av,27.944796,-82.480859
 1845,Kennedy Blvd @ Oregon Av,27.94474,-82.474568
-514,Nebraska Av @ Powhattan Av,27.998906,-82.451248
 1846,Kennedy Blvd @ Rome Av,27.94476,-82.476655
 5343,Sheldon Rd @ Westbay Blvd,28.010884,-82.583409
 5342,Sheldon Rd @ Flora St,28.013147,-82.583332
 5345,Sheldon Rd @ Island Club Apts Ns,28.00479,-82.583481
 2100,Manhattan Av @ Rembrandt Dr,27.872598,-82.518561
 5344,Sheldon Rd @ Brennan Circle,28.008326,-82.583408
-5341,Sheldon Rd @ Hamilton Av,28.015196,-82.583298
 5340,Sheldon Rd @ Broad St,28.017071,-82.583324
 1830,Dale Mabry Hwy @ Oklahoma Av,27.884108,-82.506566
-522,Nebraska Av @ Osborne Av,27.988561,-82.451202
 6898,Florida Av @ 111th Av,28.049842,-82.459328
 5339,Sheldon Rd @ Patterson St,28.018511,-82.583304
 1831,Dale Mabry Hwy @ Wisconsin Av,27.881738,-82.506663
-521,Nebraska Av @ New Orleans Av,27.990457,-82.451185
 1832,Dale Mabry Hwy @ Iowa Av,27.881122,-82.506662
-524,Nebraska Av @ Chelsea St,27.985481,-82.451206
 1833,Dale Mabry Hwy @ Bay Av,27.879188,-82.506608
-523,Nebraska Av @ Cayuga St,27.987051,-82.451204
 6899,Florida Av @ 115th Av,28.052411,-82.459314
 5335,Waters Av @ River Oaks Dr,28.026088,-82.579686
 2962,20th St @ Waters Av,28.025527,-82.436807
@@ -122,68 +98,50 @@ stop_id,stop_name,stop_lat,stop_lon
 5337,Sheldon Rd @ Woodlake Blvd,28.022821,-82.583265
 2960,20th St @ Seward St,28.028379,-82.436807
 5338,Sheldon Rd @ Crown Blvd,28.019991,-82.583282
-529,Nebraska Av @ Emily St,27.975488,-82.451226
-1839,Kennedy Blvd @ Hyde Park Av,27.945778,-82.46349
 1835,Dale Mabry Hwy @ Mango Av,27.875198,-82.50653
-525,Nebraska Av @ North Bay St,27.983429,-82.451211
 1836,Dale Mabry Hwy @ Interbay Blvd,27.872833,-82.506514
-528,Nebraska Av @ Lake Av,27.977988,-82.451227
 7597,Henderson Rd @ Logan Gate Blvd,28.057968,-82.549643
 7598,Henderson Rd @ Logan Gate Blvd,28.057207,-82.549916
 7599,Himes Av @ W Hamilton Av,28.014261,-82.500872
 7593,Manhattan Av @ Fair Oaks Av,27.900871,-82.518223
-571,Florida Av @ Hillsborough Av,27.995839,-82.459316
 5333,Waters Av @ Flowerfield Dr,28.026063,-82.574006
-570,Florida Av @ Frierson Av,27.994185,-82.459373
+3242,Bay To Bay Blvd @ MacDill Av,27.919771,-82.49341
 5334,Waters Av @ Shell Dr,28.026117,-82.576465
 7594,Tampa St @ Scott St,27.956487,-82.461008
-3242,Bay To Bay Blvd @ MacDill Av,27.919771,-82.49341
 3243,Bay To Bay Blvd @ Esperanza Av,27.919774,-82.495264
-7595,West Tampa Transfer Center,27.977701,-82.501088
-5331,Bj'S @ Waters Av @ Hanley Rd,28.026041,-82.564447
 7596,Himes Av @ Ohio Av @ Bus Bay,27.97771,-82.501301
 5332,Waters Av @ Beasley Rd,28.026034,-82.567385
 3244,Bay To Bay Blvd @ Ferdinand Av,27.919782,-82.496979
-7590,56th St @ E Fowler Av,28.053579,-82.393908
 7591,Bell Shoals Rd @ Rosemead Lane,27.886833,-82.269378
 7592,Manhattan Av @ Wallcraft Av,27.903217,-82.518347
 3235,78th St @ 35th Av,27.916621,-82.368781
 2103,Manhattan Av @ Iowa Av,27.880783,-82.518454
-574,Florida Av @ Idlewild Av,28.001527,-82.459328
 5327,Waters Av @ Pinehurst Dr,28.025797,-82.571631
+0743,22nd St @ 31St Av,27.978556,-82.434807
 2992,34th St @ Chipco St,27.975637,-82.4224
 3234,78th St @ 34th Av,27.917853,-82.368791
 2104,Manhattan Av @ Coolidge Av,27.88272,-82.518432
-575,Florida Av @ Hanna Av,28.003265,-82.459338
+0744,22nd St @ Lake Av,27.977283,-82.43481
 2993,34th St @ 26th Av,27.974235,-82.422398
 2101,Manhattan Av @ Mango Av,27.875669,-82.518554
-572,Florida Av @ Comanche Av,27.99775,-82.459317
 5325,Waters Av @ Riverwood Blvd,28.025814,-82.579727
+0741,22nd St @ M L King Jr Blvd,27.982085,-82.434818
 2994,34th St @ 24th Av,27.972755,-82.422395
 2102,Manhattan Av @ Bay Av,27.87913,-82.518527
-573,Florida Av @ Henry Av,27.999525,-82.459317
-5324,Sheldon Rd @ Waters Av,28.026263,-82.582839
 2995,34th St @ 22nd Av,27.97138,-82.422387
 3239,78th St @ Madison Av,27.898586,-82.368746
 2107,Manhattan Av @ Pearl Av,27.88746,-82.51839
 2996,34th St @ 18th Av,27.968447,-82.422426
 3238,78th St @ 49th Av,27.903767,-82.368741
-579,Florida Av @ Hiawatha St,28.009496,-82.45939
 2997,Columbus Dr @ 13th St,27.966889,-82.445396
 2105,Manhattan Av @ Oklahoma Av,27.883735,-82.51843
-576,Florida Av @ Fern St,28.004895,-82.459349
 2998,Columbus Dr @ 12th St,27.966899,-82.447026
 2106,Manhattan Av @ Wallace Circle,27.885136,-82.51832
-577,Florida Av @ Lambright St,28.006281,-82.459369
 2999,Columbus Dr @ 10th St,27.966914,-82.449082
-7588,Dale Mabry Hwy @ Pinewood St,27.868765,-82.506501
 3250,Bay To Bay Blvd @ Sterling Av,27.919668,-82.503627
-7589,Dale Mabry Hwy @ Pinewood St,27.868928,-82.506157
 3251,Bay To Bay Blvd @ Himes Av,27.91966,-82.501947
 7586,Harney Rd @ Netpark Transfer Center,27.989436,-82.390944
-7587,Netpark Transfer Center,27.989935,-82.391552
 2120,Manhattan Av @ Vasconia St,27.912367,-82.517829
-580,Florida Av @ Sligh Av,28.011063,-82.459411
 5320,Sheldon Rd @ 7301,28.0166,-82.582965
 2991,34th St @ Lake Av,27.978096,-82.422525
 3254,Bay To Bay Blvd @ Ferdinand Av,27.919645,-82.49717
@@ -192,39 +150,35 @@ stop_id,stop_name,stop_lat,stop_lon
 2990,34th St @ Lindell Av,27.980217,-82.422459
 7585,Dale Mabry Hwy @ Watrous Av,27.931832,-82.505883
 2122,Manhattan Av @ San Luis St,27.915582,-82.517771
-582,Florida Av @ Hamilton Av,28.014223,-82.459392
 7582,56th St @ Mission Hills Av,28.03996,-82.393682
 5322,Sheldon Rd @ Faith Outreach Ctr,28.018185,-82.582987
 3252,Bay To Bay Blvd @ Malijo Av,27.919652,-82.50058
 2121,Manhattan Av @ Corona St,27.91408,-82.5178
-581,Florida Av @ Flora St,28.01233,-82.459411
 7583,56th St @ 98th Av,28.03843,-82.393633
 5323,Sheldon @  8023 Sheldon Shore Apts,28.022921,-82.582925
 3253,Bay To Bay Blvd @ Concordia Av,27.919662,-82.49889
 7580,Burnett Pk Pnr @Cr579 @ Clay Pit Rd,27.988445,-82.302449
-7581,Fletcher Av @ Magnolia Dr,28.068971,-82.419926
 2989,34th St @  M L King Jr Blvd,27.98125,-82.422487
 2112,Manhattan Av @ Gandy Blvd,27.89451,-82.518384
-583,Florida Av @ Broad St,28.016016,-82.459402
 5314,Sheldon Rd @ 6201,28.005113,-82.58311
 2983,34th St @ Emma St,27.985925,-82.422405
 3248,Bay To Bay Blvd @ Sterling Av,27.91982,-82.505035
+0753,22nd St @ Chapin St,27.943709,-82.434795
 2113,Manhattan Av @ Aegean Dr,27.89694,-82.518311
 5313,Sheldon Rd @ Mohr Rd,28.002644,-82.583123
 2984,34th St @ Osborne Av,27.988629,-82.422381
 3247,Bay To Bay Blvd @ Himes Av,27.919824,-82.501798
-585,Florida Av @ Kirby St,28.017619,-82.459402
+0754,22nd St @ Flagler St,27.941635,-82.434795
 5316,Sheldon Rd @ Mayflower Rd,28.008513,-82.583052
 2981,34th St @ North Bay St,27.982898,-82.422315
 3246,Bay To Bay Blvd @ Malijo Av,27.91979,-82.500055
+0755,22nd St @ Oakwood Av,27.939642,-82.434775
 2115,Manhattan Av @ La Villa Lane,27.898443,-82.518332
+3245,Bay To Bay Blvd @ Concordia Av,27.919792,-82.4986
 5315,Sheldon Rd @ 6309,28.005542,-82.583088
 2982,34th St @ Genessee St,27.984519,-82.422325
-3245,Bay To Bay Blvd @ Concordia Av,27.919792,-82.4986
-587,Florida Av @ Bird St,28.0226,-82.459394
 5318,Sheldon Rd @ Orville Lane,28.013059,-82.582999
 2987,34th St @ Genessee St,27.984519,-82.422507
-588,Florida Av @ Waters Av,28.024125,-82.459445
 5317,Sheldon Rd @ Fountain Av,28.010496,-82.583066
 2988,34th St @ North Bay St,27.983143,-82.422497
 2118,Manhattan Av @ Bay View Av,27.904929,-82.518348
@@ -235,37 +189,34 @@ stop_id,stop_name,stop_lat,stop_lon
 7571,E Davis Blvd @ Barbados Av,27.927015,-82.453713
 5311,Hillsborough Av @ 8327,27.996808,-82.577021
 7572,St Joseph'S Hospital North,28.129602,-82.5075
-5312,Sheldon Rd @ Bay Plaza,27.998277,-82.583032
 7573,Mt Zion Assembly Of God  Pnr,28.029546,-82.157672
 5310,Hillsborough Av @ Buccaneer Square,27.996843,-82.579724
 7575,Adamo Dr @ 50th St,27.952208,-82.402689
-7576,Northwest Transfer Center,28.028126,-82.584433
 7577,S Manhattan Av @ W Bay Vista Av,27.90675,-82.518259
 7578,S Manhattan Av @ Oakellar Av,27.896604,-82.518492
 1809,Dale Mabry Hwy @ Swann Av,27.93775,-82.505824
 7570,E Davis Blvd @ Bosphorous Av,27.929053,-82.455525
+0725,22nd St @ Bougainvillea Av,28.043693,-82.434643
 1808,Dale Mabry Hwy @ Dale Av,27.939531,-82.505808
 1807,Dale Mabry Hwy @ Azeele St,27.94127,-82.505799
+0723,22nd St @ 109th Av,28.047312,-82.434633
 1806,Dale Mabry Hwy @ Cleveland St,27.943063,-82.50578
+0724,22nd St @ Marvy Av,28.04578,-82.43464
 1805,Dale Mabry Hwy @ Roland St,27.944025,-82.505782
 1804,Dale Mabry Hwy @ North B St,27.946791,-82.505793
 1803,Dale Mabry Hwy @ Gray St,27.948947,-82.505781
-558,Florida Av @ 26th Av,27.974439,-82.459311
 1802,Dale Mabry Hwy @ Cass St,27.950178,-82.505769
-559,Florida Av @ Lake Av,27.977726,-82.459302
+0727,22nd St @ Diana St,28.007188,-82.434802
 1801,Dale Mabry Hwy @ State St,27.951621,-82.505761
 7569,Danube Av @ Chesapeake Av,27.924415,-82.453297
 1800,Dale Mabry Hwy @ Grace St,27.952841,-82.50577
-556,Florida Av @ Floribraska Av,27.970716,-82.45933
-557,Florida Av @ Plymouth St,27.973053,-82.459321
-554,Florida Av @ Columbus Dr,27.96713,-82.45934
 2127,Manhattan Av @ Palmira Av,27.922775,-82.517725
 2125,Manhattan Av @ Bay To Bay Blvd,27.9197,-82.517747
 3256,Bay To Bay Blvd @ MacDill Av,27.919628,-82.49386
-553,Florida Av @ Frances St,27.964938,-82.459359
+0722,22nd St @ 111th Av,28.049577,-82.434708
 2126,Manhattan Av @ Granada St,27.92121,-82.51771
 2123,Manhattan Av @ Obispo St,27.91698,-82.51775
-551,Florida Av @ Palm Av,27.962103,-82.459369
+0720,22nd St @ 115th Av,28.051947,-82.434624
 2124,Manhattan Av @ San Juan St,27.91838,-82.51778
 2142,Manhattan Av @ Leona St,27.915394,-82.517977
 7562,Floribraska Av @ Central Av,27.970961,-82.455462
@@ -282,47 +233,61 @@ stop_id,stop_name,stop_lat,stop_lon
 7567,Cypress St @ Ins/Homeland Security,27.95241,-82.540596
 3273,Cleveland St @ Edison Av,27.943213,-82.469463
 7564,Floribraska Av @ Central Av,27.970798,-82.455371
-3270,Cleveland St @ Magnolia Av,27.943181,-82.465631
 7565,Floribraska Av @ Nebraska Av,27.97069,-82.451249
-569,Florida Av @ Wilder Av,27.992324,-82.459375
+0734,22nd St @ Shadowlawn Av,27.993441,-82.434853
+0737,22nd St @ Osborne Av,27.988968,-82.434775
+0738,22nd St @ Chelsea St,27.985279,-82.434773
 7559,Cypress Villagel@ Upper Creek (Ccp),27.717581,-82.378174
-566,Florida Av @ Osborne Av,27.988591,-82.459376
 2139,Manhattan Av @ Bay To Bay Blvd,27.919414,-82.517907
 7558,Cypress Village @ Upper Creek (Ccp),27.717735,-82.377851
 7557,N Pebble Beach Bl @ Sun City Center,27.71712,-82.353841
 2134,Manhattan Av @ Minnehaha St,28.008699,-82.517442
-562,Florida Av @ M L King Jr Blvd,27.981169,-82.459368
+0730,22nd St @ Idlewild Av,28.001583,-82.434843
 2135,Manhattan Av @ Lambright St,28.007277,-82.517451
-563,Florida Av @ Ida St,27.982565,-82.459369
+0731,22nd St @ Henry Av,27.99981,-82.434753
 2136,Manhattan Av @ North St,28.005892,-82.51746
-564,Florida Av @ Chelsea St,27.984983,-82.459374
+0732,22nd St @ Hillsborough Av,27.996819,-82.434786
 2137,Manhattan Av @ Hanna Av,28.003918,-82.517468
 3267,Bearss Av @ 22nd St,28.080264,-82.43491
+0733,22nd St @ Giddens Av,27.995398,-82.434779
+0786,15th St @ Hanna Av,28.003168,-82.442846
+0785,15th St @ Idlewild Av,28.001492,-82.442856
+0788,15th St @ Diana St,28.007252,-82.442866
 2147,Manhattan Av @ Wallcraft Av,27.903394,-82.51847
+0787,15th St @ North St,28.005033,-82.442846
+0782,15th St @ Hillsborough Av,27.995588,-82.442845
 2149,Manhattan Av @ Fair Oaks Av,27.900554,-82.518468
+0781,15th St @ Frierson Av,27.994129,-82.442855
+0784,15th St @ Henry Av,27.99959,-82.442856
+0783,15th St @ Comanche Av,27.997797,-82.442845
+0789,15th St @ Escort Av,28.009625,-82.442866
+0790,15th St @ Sligh Av,28.010403,-82.442876
+0791,15th St @ Poinsettia Av,28.041627,-82.442797
 3200,Kelly Rd @ Hillsborough Av,27.996305,-82.564795
 2159,Manhattan Av @ Wallace Av,27.885335,-82.518502
 3201,Kelly Rd @ Hillsborough Av,27.996131,-82.564897
+0799,15th St @ 122nd Av,28.057863,-82.442757
 1894,Kennedy Blvd @ Oregon Av,27.944582,-82.474884
 2158,Manhattan Av @ Pearl Av,27.887763,-82.518515
 3202,Kelly Rd @ Caracas St,27.992806,-82.564895
 1895,Kennedy Blvd @ Willow Av,27.944555,-82.4729
 2157,Manhattan Av @ Ballast Point Blvd,27.889726,-82.518437
 3203,Kelly Rd @ New Orleans St,27.991353,-82.564913
+0797,15th St @ Fowler Av,28.053987,-82.442767
 1892,Kennedy Blvd @ Fremont Av,27.944608,-82.478934
 2156,Manhattan Av @ Paul Av,27.891507,-82.518423
 3204,Kelly Rd @ Brighten Dr,27.988829,-82.56501
 1893,Kennedy Blvd @ Rome Av,27.944581,-82.476919
 6009,4th Av @ 16th St,27.95821,-82.441608
-1898,Kennedy Blvd @ Brevard Av,27.944494,-82.466785
 3206,Kelly Rd @ Carnaby Square,27.984256,-82.565053
+0794,15th St @ 109th Av,28.04706,-82.442787
 6008,4th Av @ 18th St,27.95816,-82.43914
-1899,Kennedy Blvd @ Hyde Park Av,27.94531,-82.464164
 3207,Kelly Rd @ Memorial Hwy,27.982263,-82.565071
+0793,15th St @ Charm Ln,28.045638,-82.442787
 6007,4th Av @ 19th St,27.958157,-82.437837
 1896,Kennedy Blvd @ Delaware Av,27.944529,-82.47043
+0792,15th St @ Bougainvillea Av,28.043429,-82.442797
 6006,Adamo Dr @ 22nd St,27.955846,-82.433701
-1897,Kennedy Blvd @ S Boulevard,27.944512,-82.468031
 3209,78th St @ Wichita Way,27.916751,-82.36868
 2161,Manhattan Av @ Wyoming Av,27.882563,-82.51853
 2162,Manhattan Av @ Iowa Av,27.881123,-82.518569
@@ -331,6 +296,7 @@ stop_id,stop_name,stop_lat,stop_lon
 2166,Manhattan Av @ McCoy St,27.869828,-82.518635
 6010,4th Av @ Republica De Cuba,27.95817,-82.444103
 3218,78th St @ Tidewater Trail,27.929725,-82.368606
+0760,15th St @ 11th Av,27.963038,-82.442864
 3219,78th St @ Cadillac Circle,27.930145,-82.36861
 6801,Causeway Blvd @ Ed Morse Cadillac,27.922917,-82.328141
 3216,78th St @ 24th Av,27.926163,-82.368613
@@ -338,9 +304,10 @@ stop_id,stop_name,stop_lat,stop_lon
 6800,7th Av @ 13th St,27.960166,-82.444788
 2168,Manhattan Av @ Interbay Blvd,27.866125,-82.518669
 2167,Manhattan Av @ Lancaster St,27.868572,-82.518643
-3213,78th St @ Causeway Blvd,27.922383,-82.369465
 2169,Macdill Av @ Helen Av,27.868609,-82.493979
+0768,15th St @ 24th Av,27.972222,-82.442949
 6809,Woodbridge Blvd @ Webb Rd,28.013214,-82.575269
+0769,15th St @ 26th Av,27.974069,-82.442854
 3222,78th St @ Parish Place,27.935963,-82.368589
 2174,Macdill Av @ Bay Av,27.878565,-82.493915
 2175,Macdill Av @ Interbay Blvd,27.879997,-82.493895
@@ -357,11 +324,20 @@ stop_id,stop_name,stop_lat,stop_lon
 2173,Macdill Av @ Binnicker Av,27.876744,-82.493934
 6005,Adamo Dr @ 26th St,27.955845,-82.430415
 3228,78th St @ Carnegie Circle South,27.931817,-82.368755
+0772,15th St @ 32nd Av,27.979485,-82.44289
 3229,78th St @ Paradise Place,27.929737,-82.368762
+0771,15th St @ Rodney St,27.977402,-82.442814
+0770,15th St @ 28th Av,27.975899,-82.442824
+0777,15th St @ Osborne Av,27.988623,-82.442845
 3224,78th St @ Destin Dr,27.939154,-82.368732
+0776,15th St @ Cayuga St,27.986875,-82.442855
 2179,Macdill Av @ Puritan Av,27.887576,-82.493849
+0775,15th St @ Chelsea St,27.985019,-82.442855
 3226,78th St @ Robindale Rd,27.934599,-82.368742
 2178,Macdill Av @ Tyson Av,27.885894,-82.493818
+0774,15th St @ North Bay St,27.983198,-82.442845
+0779,15th St @ Ellicott St,27.991186,-82.442855
+0778,15th St @ New Orleans Av,27.990117,-82.442835
 2180,Macdill Av @ Ballast Point Blvd,27.889581,-82.49379
 3231,78th St @ 24th Av,27.926469,-82.368762
 3230,78th St @ Patrician Place,27.928373,-82.368768
@@ -370,11 +346,10 @@ stop_id,stop_name,stop_lat,stop_lon
 2186,Macdill Av @ Alline Av,27.897958,-82.493789
 2183,Macdill Av @ Gandy Blvd,27.893458,-82.493732
 2184,Macdill Av @ Villa Rosa Park,27.895488,-82.493743
-2914,Us Hwy 41 @ Nundy Av,27.846017,-82.381509
+0780,15th St @ Wilder Av,27.992409,-82.442865
 1868,Kennedy Blvd @ Trask St,27.945,-82.521818
 1867,Kennedy Blvd @ Hesperides St,27.944992,-82.519965
 1869,Kennedy Blvd @ Westshore Blvd,27.944987,-82.523947
-2918,Us Hwy 41 @ Nundy Av,27.846253,-82.381712
 2916,Us Hwy 41 @ Gibsonton Dr,27.849554,-82.38159
 2917,Us Hwy 41 @ Gibsonton Dr,27.849284,-82.381841
 2189,Macdill Av @ Wallcraft Av,27.903106,-82.493718
@@ -389,39 +364,24 @@ stop_id,stop_name,stop_lat,stop_lon
 1865,Kennedy Blvd @ Hubert Av,27.944986,-82.515885
 2193,Macdill Av @ Bay Court Av,27.907028,-82.493619
 2195,Macdill Av @ El Prado Blvd,27.911177,-82.493592
-505,Nebraska Av @ Hamilton Av,28.014465,-82.451339
 1859,Kennedy Blvd @ Himes Av,27.944896,-82.501384
-506,Nebraska Av @ Flora St,28.012593,-82.451345
 1858,Kennedy Blvd @ Glen Av,27.944893,-82.499556
-503,Nebraska Av @ Kirby St,28.018399,-82.451337
 1857,Kennedy Blvd @ Lincoln Av,27.944883,-82.497304
 2904,Us Hwy 41 @ Ellsberry Rd,27.774076,-82.388569
-504,Nebraska Av @ Broad St,28.016277,-82.451334
 1856,Kennedy Blvd @ Matanzas Av,27.944917,-82.495243
-2905,Us Hwy 41 @ Big Bend Rd,27.792819,-82.384173
-509,Nebraska Av @ Lambright St,28.006678,-82.451347
 2907,Us Hwy 41 @ Kracker Av,27.814262,-82.383902
-507,Nebraska Av @ Sligh Av,28.010202,-82.451374
-2908,Us Hwy 41 @ Ohio St,27.822255,-82.38189
-508,Nebraska Av @ Knollwood St,28.008134,-82.451343
 1851,Kennedy Blvd @ Arrawana Av,27.944854,-82.487634
 6838,N Boulevard @ Frances Av,27.965008,-82.467634
 1850,Kennedy Blvd @ Armenia Av,27.944838,-82.484879
 6833,Zemke Av @ Centcom Av,27.860915,-82.49153
-501,Nebraska Av @ Sitka St,28.021404,-82.451329
 1855,Kennedy Blvd @ MacDill Av,27.944872,-82.493906
 1853,Kennedy Blvd @ Gomez Av,27.944859,-82.491029
 6832,Zemke Av @ Centcom Av,27.860873,-82.491749
-500,Nebraska Av @ Bird St,28.022807,-82.451389
 1852,Kennedy Blvd @ Habana Av,27.944854,-82.489015
 6053,Sr 60 @ Kings Av,27.937467,-82.292317
-6051,56th St @ Commerce Park Blvd,27.986658,-82.395291
 4709,Fowler Av @ 14th St,28.054683,-82.444776
 2939,Us Hwy 41 @ 4th Av Sw,27.716266,-82.434261
-4707,22nd St @ 12401 University Village,28.061295,-82.4346
 4708,Fowler Av @ 15th St,28.054672,-82.442068
-2935,Us Hwy 41 @ 7th Av Nw F/S,27.723716,-82.434018
-4706,22nd St @ Worthing Square Apts,28.063647,-82.434598
 4703,Bearss Av @ 19th St,28.080264,-82.438256
 4704,Bearss Av @ Gregory Dr,28.080264,-82.436938
 1885,Kennedy Blvd @ Gomez Av,27.944675,-82.491396
@@ -441,7 +401,6 @@ stop_id,stop_name,stop_lat,stop_lon
 6049,Oakfield Dr @ Morrison Rd,27.934346,-82.309389
 6048,Oakfield Dr @ Hilltop Rd,27.934119,-82.306012
 2927,Us Hwy 41 @ Pembroke Rd,27.805505,-82.384438
-2929,Us Hwy 41 @ Big Bend Rd,27.792031,-82.384516
 2923,Us Hwy 41 @ Isabel Av,27.83139,-82.381934
 2924,Us Hwy 41 @ Mabrey Av,27.82664,-82.381727
 4717,N Boulevard @ Patbur Av,28.036634,-82.467839
@@ -455,7 +414,6 @@ stop_id,stop_name,stop_lat,stop_lon
 2920,Us Hwy 41 @ Cedar Av,27.842348,-82.381752
 4713,N Boulevard @ 116th Av,28.053676,-82.467683
 1876,Kennedy Blvd @ Clark Av,27.944681,-82.512068
-2921,Us Hwy 41 @ Beach Av (Twin Oaks),27.840428,-82.38182
 4714,N Boulevard @ 113th Av,28.050923,-82.467722
 1875,Kennedy Blvd @ Lois Av,27.94467,-82.514306
 4715,N Boulevard @ 109th Av,28.046024,-82.467781
@@ -469,36 +427,21 @@ stop_id,stop_name,stop_lat,stop_lon
 1870,Kennedy Blvd @ Renellie Dr,27.944681,-82.523508
 1880,Kennedy Blvd @ Himes Av,27.944651,-82.501763
 6860,Tampa St @ 7th Av,27.960575,-82.460979
-4616,Holly Dr @ 50th St,28.066277,-82.402083
 4611,Fletcher Av @ 42nd St,28.068952,-82.414116
-4610,Fletcher Av @ John Knox Village,28.068971,-82.416843
-4619,50th St @ Elm Dr,28.0592668,-82.4019926
 4618,50th St @ 127th Av,28.0624574,-82.4019984
 4617,50th St @ 12850,28.0636523,-82.4019893
-4601,50th St @ Excellence Blvd,28.0662122,-82.4017507
-4600,50th St @ Sycamore Dr,28.063453,-82.401853
-4607,Fletcher Av @ Fmhi @ 31St St,28.068972,-82.423058
-4640,56th St @ 4316,27.985592,-82.39689
 4641,56th St @  M L King Jr Blvd,27.981715,-82.401659
 4634,Puritan Rd @ Whittier St,28.020385,-82.40033
 4633,Puritan Rd @ 53Rd St,28.020384,-82.397878
 4632,56th St @ Beverly St,28.028227,-82.393564
 4631,56th St @ 8836,28.030488,-82.393637
-4638,56th St @ Shadowlawn Av,27.99412,-82.393676
 4637,56th St @ 5806,28.0018,-82.393626
 4636,56th St @ Aaron  Rentals,28.009442,-82.393646
 4635,Sligh Av @ 5105,28.010605,-82.399787
-4621,50th St @ Terrace Palms Apts,28.0572161,-82.4019285
-4620,50th St @ 122nd Av,28.0582965,-82.4019663
-4622,Fowler Av @ 51St St,28.054243,-82.400618
-4625,56th St @ Temple Terrace City Hall,28.050537,-82.393849
-4663,M L King Blvd @ St Joseph Hospital,27.981447,-82.490234
 4662,Armenia Av@ St Isabel St,27.978255,-82.484691
 4661,Armenia Av @ 4021,27.975338,-82.484738
 4660,Howard Av @ Braddock St,27.972507,-82.483729
 4659,Howard Av @ Dewey St,27.97101,-82.48276
-4657,Fletcher Av @ 31St St (Uch),28.069269,-82.423516
-4656,Fletcher Av @ Magnolia Dr N/S,28.069252,-82.42025
 4653,Fletcher Av @ 42nd St,28.069251,-82.413741
 4654,Fletcher Av @ John Knott Village,28.069211,-82.417259
 4651,Palm Av @ Taliaferro Av,27.962339,-82.452625
@@ -510,8 +453,6 @@ stop_id,stop_name,stop_lat,stop_lon
 4645,21St Av @ 13th St,27.970594,-82.445264
 4681,Fowler Av @ 14th St,28.054313,-82.444906
 4680,Fowler Av @ Nebraska Av,28.05445,-82.451995
-4684,22nd St @ Worthing Square Apts,28.063594,-82.434485
-4683,22nd St @ 12401 University  Village,28.061566,-82.434495
 4682,Fowler Av @ 15th St,28.054343,-82.442292
 4677,Country Club Dr @ Ola Av,28.054564,-82.463567
 4678,Fowler Av @ Florida Av,28.054474,-82.45857
@@ -526,7 +467,6 @@ stop_id,stop_name,stop_lat,stop_lon
 4667,Rome Av @ School Light,27.986715,-82.476361
 4668,Rome Av @ Bedingfeild Dr,27.992058,-82.476201
 4669,Rome Av @ Clifton St,28.000671,-82.476053
-7535,Super Wal-Mart @ Gibsonton Dr,27.848114,-82.353265
 7536,Progress Blvd @ 83Rd St,27.899017,-82.364344
 7539,Main St @ Rome Av,27.957162,-82.477026
 7541,Waters Av @ Himes Av,28.025599,-82.501356
@@ -537,7 +477,6 @@ stop_id,stop_name,stop_lat,stop_lon
 7544,Erindale Dr @ Wrencrest Cr,27.884436,-82.240157
 7548,Duncan Rd @ Bloomingdale Av,27.893281,-82.330809
 7549,Gornto Lake Rd @ Bloomingdale Av,27.894078,-82.330616
-7546,Westshore Blvd @ Cypress St,27.952669,-82.523992
 7547,Hillsborough Av @ Armenia Av,27.996194,-82.48457
 4689,22nd St @ 142nd Av,28.075519,-82.434433
 4688,22nd St @ 140th Av,28.073645,-82.434444
@@ -554,13 +493,8 @@ stop_id,stop_name,stop_lat,stop_lon
 7520,N 26th St @ E Marconi St,27.950095,-82.430583
 7523,Crossroads United Methodist Pnr,28.172537,-82.382659
 7522,Southshore  Regional Library,27.739308,-82.368917
-595,Florida Av @ Bougainvillea Av,28.042947,-82.459277
-597,Florida Av @ Fowler Av,28.05515,-82.459302
 7528,Williams Rd @ Black Swan Ct,27.977171,-82.318641
-596,Florida Av @ 109th Av,28.047124,-82.459335
-599,Florida Av @ 122nd Av,28.058134,-82.459293
 7526,Williams Rd @ Williams Landing Cr,27.977397,-82.318833
-598,Florida Av @ Fowler Av,28.055006,-82.459511
 7527,Lakewood Dr @ thomas St,27.980802,-82.310614
 7524,Bloomingdale @ Van Gogh Cr,27.893702,-82.289236
 7525,Bloomingdale Ave @ Van Gogh Cr,27.893539,-82.289034
@@ -568,9 +502,6 @@ stop_id,stop_name,stop_lat,stop_lon
 7532,Hillsborough Av @ Himes Av,27.996221,-82.501659
 7531,South 301 Pnr Sr 674  @ Wal-Mart,27.716639,-82.332841
 7530,Wimauma Walmart,27.714291,-82.332147
-590,Florida Av @ Seward St,28.027933,-82.459314
-592,Florida Av @ Floriland Av,28.037297,-82.459265
-593,Florida Av @ Linebaugh Av,28.040665,-82.459266
 7500,Brandon Blvd @ Kings Av Fs,27.937868,-82.294341
 7501,Brandon Blvd @ Caldwell Dr,27.937873,-82.298198
 7505,Sr 60 @ Hilltop Rd,27.937521,-82.306185
@@ -585,8 +516,6 @@ stop_id,stop_name,stop_lat,stop_lon
 7512,S 26th St @ E Stuart St,27.94735,-82.4303
 7510,N 26th St @ Marconi St,27.950221,-82.430795
 5379,Hillsborough Av @ Ola Av,27.995965,-82.464239
-5384,Whiting St @ Franklin St,27.945698,-82.456691
-5385,Tampa St @ Brorein St,27.943849,-82.457245
 5382,Hillsborough Av @ Market Place,27.995992,-82.431624
 5383,Hillsborough Av @ Railroad Crossing,27.995998,-82.429114
 5380,Hillsborough Av @ 11th St,27.995994,-82.448125
@@ -603,11 +532,7 @@ stop_id,stop_name,stop_lat,stop_lon
 7491,131St Av @ 28th St,28.065613,-82.42831
 7490,30th St @ Va Hospital @ Sky Walk,28.064336,-82.426242
 7492,131St Av @ 28th St,28.06545,-82.428381
-1728,Dale Mabry Hwy @ Corona St,27.913978,-82.50595
-1729,Dale Mabry Hwy @ San Luis St,27.9155,-82.505931
-1726,Dale Mabry Hwy @ El Prado Blvd,27.911114,-82.506015
 2857,Flowers Av @ 79th St,27.894898,-82.367595
-1727,Dale Mabry Hwy @ Sevilla St,27.912764,-82.505969
 2209,Macdill Av @ Estrella St,27.928478,-82.49336
 2859,Flowers Av @ 82nd St,27.894887,-82.365521
 2208,Macdill Av @ Angeles St,27.927113,-82.493444
@@ -627,10 +552,8 @@ stop_id,stop_name,stop_lat,stop_lon
 6769,Hillsborough Av @ Forest Hills Dr,27.996053,-82.47443
 5226,Hillsborough Av @ Sherwin Williams,27.996336,-82.524837
 5222,Lois Av @ Woodlawn Av,27.9757,-82.513604
-5221,Himes Av @ Heiter St,27.974951,-82.501522
 7485,Howard Av @ Kathleen St,27.967177,-82.482701
 6781,Hillsborough Loop Dr @Brown Pelican,27.8561,-82.488621
-7484,Sheldon Rd @ Old Linebaugh Av F/S,28.040543,-82.582985
 2220,Macdill Av @ Horatio St,27.940036,-82.493428
 6782,Macdill Av @ Sea Swallow Av,27.863001,-82.494036
 5223,Lois Av @ Kentucky Av,27.978336,-82.513566
@@ -638,25 +561,20 @@ stop_id,stop_name,stop_lat,stop_lon
 6783,Webb Rd @ Town & Country Med Plaza,28.0027,-82.575242
 7489,Waters Av @ Benjamin Rd F/S,28.02545,-82.541281
 7488,Bloomingdale Av @ Bell Shoals Rd,27.893574,-82.270245
-5220,Himes Av @ Ohio Av,27.977338,-82.501493
 7487,Bloomingdale Av @ Bell Shoals Rd,27.893737,-82.270296
 6786,Channelside Dr @ Jefferson St,27.943482,-82.452116
 7482,M L King Jr Blvd @ I-275,27.981576,-82.45278
 7481,4th Av @ Republica De Cuba F/S,27.958038,-82.444038
 7480,Anderson @ Benjamin @ Green Iguana,28.031192,-82.540335
 1717,Dale Mabry Hwy @ Wallace Av,27.88518,-82.506251
-409,Nebraska Av @ 7th Av,27.960157,-82.451116
 1718,Dale Mabry Hwy @ Rogers Av,27.886675,-82.506232
 1719,Dale Mabry Hwy @ Paxton Av,27.888279,-82.506193
 1713,Dale Mabry Hwy @ Bay Av,27.878975,-82.506327
-405,Nebraska Av @ Maryland Av,27.95455,-82.451146
 1714,Dale Mabry Hwy @ Iowa Av,27.880895,-82.506308
 1715,Dale Mabry Hwy @ Wisconsin Av,27.881865,-82.506309
-407,Nebraska Av @ Estelle St,27.958481,-82.451116
 1716,Dale Mabry Hwy @ Oklahoma Av,27.883767,-82.50627
 2216,Macdill Av @ Cleveland St,27.94336,-82.493197
 2215,Macdill Av @ Azeele St,27.94064,-82.493285
-403,Nebraska Av @ Twiggs St,27.951797,-82.450892
 2218,Macdill Av @ Cleveland St,27.943089,-82.493379
 2842,Sr 674 @ Sheffield St,27.712566,-82.305233
 2211,Macdill Av @ Watrous Av,27.932278,-82.493251
@@ -671,10 +589,8 @@ stop_id,stop_name,stop_lat,stop_lon
 5255,Armenia Av @ Eddy Dr,27.985496,-82.484683
 5254,Armenia Av @ Cluster Av,28.012119,-82.484751
 2836,Sr 60 @ Limona Rd,27.937519,-82.30409
-418,Nebraska Av @ 26th Av,27.974132,-82.45115
 1704,30th St @ Ellicott St,27.990615,-82.426547
 1705,30th St @ Osborne Av,27.98913,-82.426537
-416,Nebraska Av @ 23Rd Av,27.97217,-82.451159
 2837,Sr 60 @ Pauls Dr,27.937516,-82.302308
 1703,30th St @ Wilder Av,27.992426,-82.426547
 1708,Dale Mabry Hwy @ Interbay Blvd,27.872389,-82.50618
@@ -684,12 +600,9 @@ stop_id,stop_name,stop_lat,stop_lon
 5249,Armenia Av @  Marianna St,28.037217,-82.482889
 5248,Armenia Av @ 8411 Windsor Manor,28.028288,-82.484131
 2832,Sr 60 @ Providence Rd,27.937498,-82.313835
-414,Nebraska Av @ 19th Av,27.968736,-82.451178
 1700,30th St @ Hillsborough Av Ns,27.996329,-82.426557
-413,Nebraska Av @ 15th Av,27.966342,-82.451183
 1701,30th St @ Hillsborough Av Ss,27.995623,-82.426557
 2833,Sr 60 @ Lakewood Dr,27.937482,-82.311226
-411,Nebraska Av @ 12th Av,27.963937,-82.451192
 5240,N Boulevard @ Warren Av,27.968436,-82.46761
 5242,N Boulevard @ Plymouth St,27.973697,-82.467617
 6763,Westfield Citrus Park,28.066258,-82.5769
@@ -699,21 +612,16 @@ stop_id,stop_name,stop_lat,stop_lon
 5243,N Boulevard @ Peninsular St,27.97584,-82.467601
 5246,Armenia Av @ Crest Av,27.993709,-82.484411
 5245,Armenia Av @ Wilder Av,27.992212,-82.484443
-427,Nebraska Av @ New Orleans Av,27.990083,-82.451097
 2827,Sr 60 @ Currie Davis Dr,27.949385,-82.346734
 2826,Sr 60 @ Ware Blvd,27.94953,-82.347503
-429,Nebraska Av @ Mc Berry St,27.992712,-82.451102
 2825,Sr 60 @ Buick Dealer (Wayne Pl),27.94956,-82.350389
 2824,Sr 60 @ Us Hwy 301,27.94939,-82.35289
 2829,Sr 60 @ Falkenburg Rd F/S,27.943459,-82.334754
 2828,Sr 60 @ Burger King(Phillip Lee Bl),27.946708,-82.341604
 5238,N Boulevard @ Arch St,27.954028,-82.468351
-420,Nebraska Av @ Lake Av,27.97769,-82.451129
 5239,N Boulevard @ Orient St,27.980817,-82.467663
-423,Nebraska Av @ North Bay St,27.983852,-82.451097
 2822,Sr 60 @ Wayne Place,27.949886,-82.350358
 2821,Sr 60 @ Ware Blvd,27.949892,-82.347483
-424,Nebraska Av @ Chelsea St,27.984984,-82.451094
 2820,Sr 60 @ Currie Davis Dr  (Pontiac),27.949825,-82.346995
 2253,Macdill Av @ Tyson Av,27.886249,-82.49394
 2252,Macdill Av @ Pearl Av,27.887223,-82.493939
@@ -722,26 +630,22 @@ stop_id,stop_name,stop_lat,stop_lon
 2250,Macdill Av @ Ballast Point Blvd,27.889771,-82.493918
 3380,Plant Av @ Kennedy Blvd,27.945742,-82.462657
 7456,Dover Park-N-Ride,27.938195,-82.220798
-435,Nebraska Av @ Henry Av,27.999928,-82.451193
-436,Nebraska Av @ Idelwild Av,28.001858,-82.451239
 2248,Macdill Av @ Gandy Blvd,27.893863,-82.493887
-433,Nebraska Av @ Powhattan Av,27.998681,-82.451168
 2249,Macdill Av @ Paul Av,27.891692,-82.493761
 2893,Us Hwy 41 @ 4th Av,27.715849,-82.433928
 2246,Macdill Av @ Oakellar Av,27.89644,-82.493875
-431,Nebraska Av @ Hillsborough Av,27.99578,-82.451076
+0600,Florida Av @ 124th Av,28.059992,-82.459287
 3378,Plant Av @ Brorein St,27.943118,-82.462665
 2894,Us Hwy 41 @ Shell Point Rd,27.720615,-82.4339
+0601,Florida Av @ 127th Av,28.062348,-82.459277
 3377,Plant Av @ Platt St,27.941895,-82.462685
-2896,Us Hwy 41 @ 7th Av,27.724041,-82.433646
 2245,Macdill Av @ Alline Av,27.898286,-82.493849
-430,Nebraska Av @ Frierson Av,27.994217,-82.451098
-439,Nebraska Av @ Lambright St,28.006811,-82.451266
-437,Nebraska Av @ Hanna Av,28.003183,-82.451245
-438,Nebraska Av @ Fern St,28.004934,-82.451267
+0605,Florida Av @ Fletcher Av,28.069922,-82.459273
+0602,Florida Av @ 130th Av,28.06427,-82.459272
+0608,Florida Av @ 143Rd Av,28.07667,-82.459356
+0606,Florida Av @ 138th Av,28.072032,-82.459305
 7441,Gulf To Bay Blvd @ Us Hwy 19,27.960399,-82.727877
 7442,Gulf To Bay Blvd @ Park Place Blvd,27.960485,-82.725415
-3398,Republica De Cuba @ 14th Av,27.964333,-82.444322
 2890,Us Hwy 301 @ Moody Rd,27.870548,-82.326752
 2265,Interbay Blvd @ Trask St,27.865974,-82.522439
 2264,Interbay Blvd @ 8015,27.86595,-82.52012
@@ -755,22 +659,16 @@ stop_id,stop_name,stop_lat,stop_lon
 2260,Macdill Av @ Hartnett Av,27.872273,-82.494082
 3392,Puritan Rd @ 53Rd St,28.020221,-82.397827
 7444,Orient Rd @ Tampa Bay Tech,28.008407,-82.373127
-444,Nebraska Av @ Broad St,28.015986,-82.451233
 7439,S Old Coachman Rd @ Nash St,27.96422,-82.73403
-445,Nebraska Av @ Patterson Av,28.017832,-82.451226
 7438,Drew St @ Us Hwy 19,27.968072,-82.727184
-446,Nebraska Av @ Hollywood St,28.019317,-82.451239
 7437,Fletcher Av @ 53Rd St,28.069064,-82.395695
-447,Nebraska Av @ Van Dyke Place,28.021031,-82.451214
 2255,Macdill Av @ Wyoming Av,27.882705,-82.49395
-440,Nebraska Av @ Knollwood St,28.008152,-82.451263
 2256,Macdill Av @ Interbay Blvd,27.880315,-82.494011
-441,Nebraska Av @ Sligh Av,28.01048,-82.451226
-442,Nebraska Av @ Flora St,28.012364,-82.451243
-443,Nebraska Av @ Hamilton St,28.014291,-82.451237
+0610,Florida Av @ 145th Av,28.0785,-82.459422
+0611,Florida Av @ Garland Ct,28.080365,-82.45945
+0612,Florida Av @ April  Lane,28.082121,-82.459483
 3388,Puritan Rd @ Pine Hill Dr,28.020318,-82.39617
-448,Nebraska Av @ Bird St,28.022444,-82.451209
-449,Nebraska Av @ Waters Av,28.024975,-82.451171
+0616,Florida Av @ Siobhan Av,28.083888,-82.459668
 7470,Cass St @ Governor St,27.953065,-82.453575
 7471,Florida Keys @ Seminole Indian Pl,27.852638,-82.491329
 6797,Northbridge Blvd @ Woodbrier Ct,28.018792,-82.575561
@@ -787,29 +685,23 @@ stop_id,stop_name,stop_lat,stop_lon
 3364,Main St @ Fremont Av,27.957167,-82.478642
 7475,Cypress Point  Park,27.950443,-82.542274
 3365,Main St @ Albany Av,27.957176,-82.480708
-453,Nebraska Av @ Yukon St,28.029168,-82.451212
 2224,Macdill Av @ Prospect Rd,27.930888,-82.493473
-454,Nebraska Av @ Humphrey St,28.030536,-82.45121
 5205,Davis Blvd @ Adriatic Av,27.933114,-82.457064
-451,Nebraska Av @ Fairbanks St,28.026736,-82.451212
 2222,Macdill Av @ Parkland Blvd,27.934556,-82.493414
 5204,Hyde Park Av @ Cleveland St,27.943788,-82.463991
-452,Nebraska Av @ Seward St,28.027704,-82.451218
 2223,Macdill Av @ Watrous Av,27.932573,-82.493403
-5203,Kennedy Blvd @ Franklin St,27.947639,-82.45813
-457,Nebraska Av @ Richmere St,28.035271,-82.451163
 2228,Macdill Av @ Palmira St,27.922663,-82.49367
 5209,22nd St @ Oakwood Av,27.939724,-82.434592
 2229,Macdill Av @ Granada St,27.921196,-82.493689
-458,Nebraska Av @ Castle Ct,28.036963,-82.451066
 3359,Main St @ N Boulevard,27.957073,-82.468707
 7469,Cass St @ Governor St,27.952911,-82.453454
 5208,22nd St @ Hemlock Av,27.938555,-82.43464
-455,Nebraska Av @ Skagway Av,28.031937,-82.451106
 2226,Macdill Av @ San Isidro St,27.925978,-82.493601
-456,Nebraska Av @ 93Rd Av,28.033487,-82.451168
 2227,Macdill Av @ San Miguel St,27.924674,-82.493631
-459,Nebraska Av @ Lotus Av,28.038313,-82.451145
+0629,Florida Av @ 122nd Av,28.05773,-82.459449
+0626,Florida Av @ 131St Av,28.065111,-82.459424
+0624,Florida Av @ Fletcher Av,28.070601,-82.459446
+0625,Florida Av @ Prince St,28.066988,-82.459435
 7460,Grand Regency Blvd @ Hsbc,27.94871,-82.32549
 7467,Henderson Rd @ Americas Cup Av,28.053803,-82.549698
 3371,Main St @ Oregon Av,27.956945,-82.474272
@@ -821,95 +713,133 @@ stop_id,stop_name,stop_lat,stop_lon
 3376,Plant Av @ Beach Place,27.940304,-82.462761
 7461,Grand Regency Blvd @ Hsbc,27.946493,-82.325943
 2243,Macdill Av @ Lawn Av,27.901593,-82.493899
-461,Nebraska Av @ Poinsettia Av,28.042352,-82.45112
 7462,Culbreath Rd @ Bloomingdale Av,27.891532,-82.246828
 2242,Macdill Av @ Wallcraft Av,27.90336,-82.49389
-460,Nebraska Av @ Linebaugh Av,28.039755,-82.45114
 3374,Main St @ N Boulevard,27.95692,-82.468784
 5202,Kennedy Blvd @ Pierce St,27.948735,-82.454941
-462,Nebraska Av @ Bougainvillea Av,28.043437,-82.451109
 3369,Main St @ Fremont Av,27.957034,-82.478909
 2863,Us Hwy 301 @ Balm Riverview Rd,27.865568,-82.326496
-463,Nebraska Av @ Chilkoot Av,28.044906,-82.451104
+0632,Florida Av @ 109th Av,28.047393,-82.459491
 3368,Main St @ Albany Av,27.957043,-82.480985
-464,Nebraska Av @ 109th Av,28.047038,-82.451102
+0633,Florida Av  @ Bougainvillea Av,28.043663,-82.4595
 3367,Main St @ Howard Av,27.95706,-82.483324
 2236,Macdill Av @ El Prado Blvd,27.911684,-82.493764
-465,Nebraska Av @ 10921,28.04916,-82.451017
+0634,Florida Av @ Linebaugh Av,28.040013,-82.4596
 3366,Main St @ Howard Av,27.957207,-82.48272
 2237,Macdill Av @ Euclid Av,27.908822,-82.493803
-466,Nebraska Av @ Fowler Av,28.055107,-82.451019
 6798,Northbridge Blvd @ Woodgrove Cr,28.020486,-82.575493
 2864,Us Hwy 301 @ Riverview Dr,27.871499,-82.326561
-468,Nebraska Av @ 120th Av,28.056774,-82.451086
 7459,78th St @ Harney Rd,28.023566,-82.368865
 7458,Southshore Regional Service Center,27.715486,-82.393623
-469,Nebraska Av @ 124th Av,28.059963,-82.451019
+0639,Florida Av @ Wood St,28.027073,-82.459668
+0647,Florida Av @ Sligh Av,28.010972,-82.459593
+0646,Florida Av @ Hamilton Av,28.014407,-82.459552
+0649,Florida Av @ Knollwood St,28.008105,-82.459531
+0648,Florida Av @ Hiawatha St,28.009566,-82.459566
+0640,Florida Av @ Bird St,28.022509,-82.459576
+0643,Florida Av @ Kirby St,28.017719,-82.459585
 2289,Henderson Av @ Florida Av,27.95944,-82.459611
+0642,Florida Av @ Hollywood St,28.019675,-82.459575
+0645,Florida Av @ Flora St,28.012616,-82.459549
+0644,Florida Av @ Broad St,28.016315,-82.459585
 3334,Spruce St @ Grady Av,27.959521,-82.509192
 3343,Spruce St @ Marie Av,27.959377,-82.504487
 3342,Spruce St @ Dale Mabry Hwy,27.959384,-82.506431
 3341,Spruce St @ Grady Av,27.959365,-82.508962
 2297,Platt St @ Westland Av,27.941808,-82.48205
 3340,Spruce St @ Clark Av,27.959363,-82.511474
+0657,Florida Av @ Wilder Av,27.992588,-82.459488
+0652,Florida Av @ Hanna Av,28.003503,-82.459506
 3348,Livingston Av @ Bearss Av,28.081024,-82.430772
 1799,Dale Mabry Hwy @ Laurel St,27.955577,-82.505709
+0651,Florida Av @ Fern St,28.005118,-82.459526
 3349,Livingston Av @ Irene St,28.081729,-82.43076
+0650,Florida Av @ North St,28.00609,-82.4596
 1797,Dale Mabry Hwy @ Cherry St,27.961223,-82.505675
 1798,Dale Mabry Hwy @ Spruce St,27.958866,-82.505709
+0656,Florida Av @ Hillsborough Av,27.995439,-82.459505
 3344,Spruce St @ Sterling Av,27.959341,-82.502695
 1796,Dale Mabry Hwy @ Palmetto St,27.964285,-82.505643
+0654,Florida Av @ Henry Av,27.999515,-82.459479
+0653,Florida Av @ Idlewild Av,28.00185,-82.459487
 3350,Livingston Av @ 149th Av,28.086411,-82.430721
 3319,Howard Av @ Jetton Av,27.932985,-82.483129
+0668,22nd St @ M L King Jr Blvd,27.981308,-82.434744
 2267,Interbay Blvd @ Westshore Blvd,27.86601,-82.526837
 3313,Howard Av @ IVy St,27.969505,-82.482747
+0665,22nd St @ 26th Av,27.974459,-82.434672
 2266,Interbay Blvd @ Sparkman Av,27.865975,-82.524449
+0664,22nd St @ 23Rd Av,27.972249,-82.434662
 2269,Interbay Blvd @ Sparkman St,27.865853,-82.524654
 3311,Howard Av @ St Louis St,27.965084,-82.48278
+0667,22nd St @ Lake Av,27.97733,-82.434682
 2268,Interbay Blvd @ Fitzgerald St,27.865861,-82.526333
 3312,Howard Av @ Aileen St,27.968045,-82.482755
+0661,22nd St @ 17th Av,27.96772,-82.434662
 3317,Howard Av @ Bristol Av,27.93523,-82.48306
 3318,Howard Av @ Morrison Av,27.933864,-82.483119
+0663,22nd St @ 21St Av,27.970229,-82.434672
+0662,22nd St @ 19th Av,27.968716,-82.434642
 3316,Howard Av @ Swann Av,27.936727,-82.483071
 2270,Interbay Blvd @ Trask St,27.865836,-82.522732
 2272,Idaho St @ Kissimmee St,27.859648,-82.528483
+0670,22nd St @ North Bay St,27.983189,-82.434641
 3321,Howard Av @ Southview Av,27.929756,-82.483242
 2274,Idaho St @ Sherrill St,27.859661,-82.53095
 3320,Howard Av @ Watrous Av,27.932097,-82.483169
 2276,Idaho St @ O'Brien St,27.859676,-82.532537
 1779,Dale Mabry @ Ehrlich @ South Trust,28.08287,-82.50603
+0679,22nd St @ Idlewild Av,28.001628,-82.43466
 3322,Howard Av @ Mississippi Av,27.928565,-82.483309
 1774,Dale Mabry Hwy @ Mapledale Blvd,28.098692,-82.502451
+0677,22nd St @ Henry Av,27.999418,-82.43462
 1771,Dale Mabry Hwy @ North Lakeview Dr,28.103287,-82.502123
 2278,Henderson Blvd @ Hubert Av,27.924542,-82.516353
 2277,Commerce St @ Westshore Blvd,27.865425,-82.527121
 3325,Howard Av @ Palm Dr,27.926333,-82.483625
+0675,22nd St @ Hillsborough Av,27.996593,-82.43463
 1777,Dale Mabry @ Carrollwood Springs Bl,28.088733,-82.503636
+0674,22nd St @ Mc Berry St,27.993595,-82.434671
 3326,Hyde Park Av @ Kennedy Blvd,27.945282,-82.463951
 1778,Dale Mabry Hwy @  Ehrlich Rd(15042),28.086791,-82.504429
+0672,22nd St @ Cayuga St,27.986431,-82.434651
 3328,Hyde Park Av @ Platt St,27.941886,-82.464001
+0671,22nd St @ Chelsea St,27.984892,-82.434661
 3329,Hyde Park Av @ Azeele St,27.940618,-82.464031
+0680,22nd St @ Hanna Av,28.003231,-82.43464
 2282,Henderson Blvd @ Hubert Av,27.924986,-82.51612
 2283,Henderson Av @ Nebraska Av,27.959653,-82.450978
+0681,22nd St @ Fern St,28.00468,-82.434619
 2281,Henderson Blvd @ Sterling Av,27.935719,-82.503801
 3332,Spruce St @ Dale Mabry Hwy,27.959523,-82.506675
 3331,Spruce St @ Sterling Av,27.959469,-82.503062
 2811,Sr 60 @ Lakeside Dr,27.937513,-82.299524
+0682,22nd St @ Diana St,28.00689,-82.434629
 1764,Dale Mabry Hwy @ Handy Rd,28.074687,-82.506681
+0683,22nd St @ Sligh Av,28.010376,-82.434599
 1767,Dale Mabry Hwy @ Bearss Av,28.086872,-82.503997
 1766,Dale Mabry Hwy @ Medical Dr,28.076506,-82.506694
+0685,22nd St @ Busch Blvd,28.033278,-82.434547
+0687,22nd St @ Okara Rd,28.036891,-82.434547
 1763,Dale Mabry Hwy @ Moran Rd,28.06915,-82.505863
+0688,22nd St @ Linebaugh Av,28.03968,-82.434557
 1762,Dale Mabry Hwy @ Fletcher Av,28.06639,-82.504905
+0689,22nd St @ Poinsettia Av,28.041591,-82.434547
 2819,Sr 60 @ Phillip Lee Bl (9938),27.949262,-82.34521
 2817,Sr 60 @ Grand Regency Blvd,27.938935,-82.322339
 2818,Sr 60 @ Falkenburg Rd,27.944655,-82.336613
 2813,Brandon Blvd @ Hilltop Rd,27.937902,-82.305977
+0690,22nd St @ Bougainvillea Av,28.043411,-82.434536
+0692,22nd St @ 111th Av,28.049016,-82.434526
+0691,22nd St @ 109th Av,28.047024,-82.434526
 1756,Dale Mabry Hwy @ 11007,28.049276,-82.504196
+0695,22nd St @ Fowler Av,28.053675,-82.434559
 3305,Howard Av @ Platt St,27.94168,-82.482891
 1755,Dale Mabry Hwy @ Floyd  Rd,28.047308,-82.504338
 3304,Howard Av @ Azeele St,27.94082,-82.48292
 2800,Providence Rd @ Hannaway Dr,27.875494,-82.318522
 1754,Dale Mabry Hwy @ Lake Carroll Way,28.043554,-82.504562
+0693,22nd St @ 113th Av,28.050682,-82.434526
 3307,Howard Av @ Walnut St,27.959921,-82.482848
 2801,Providence Rd @ Dianne Cove,27.872242,-82.318516
 3306,Howard Av @ Chestnut St,27.958519,-82.482876
@@ -936,11 +866,8 @@ stop_id,stop_name,stop_lat,stop_lon
 1746,Dale Mabry Hwy @ Gray St,27.948867,-82.505536
 1749,Dale Mabry Hwy @ Chestnut St,27.958316,-82.505468
 1748,Dale Mabry Hwy @ Cypress St,27.951912,-82.5055
-1730,Dale Mabry Hwy @ Obispo St,27.916895,-82.505902
 1734,Dale Mabry Hwy @ San Carlos St,27.923625,-82.505795
 1733,Dale Mabry Hwy @ Barcelona St,27.921741,-82.505845
-1732,Dale Mabry Hwy @ Bay To Bay Blvd,27.91944,-82.505863
-1731,Dale Mabry Hwy @ San Juan St,27.91829,-82.505882
 1738,Dale Mabry Hwy @ Jetton Av,27.932665,-82.505681
 1736,Dale Mabry Hwy @ Neptune St,27.930718,-82.50572
 1739,Dale Mabry Hwy @ Inman Av,27.935283,-82.505663
@@ -964,19 +891,9 @@ stop_id,stop_name,stop_lat,stop_lon
 4561,40th St @ Paris St,28.002757,-82.414298
 4556,40th St @ Jackson Place,28.019982,-82.414364
 4557,40th St @ River Pine Dr,28.017745,-82.414233
-4555,Mckinley Dr @ Linebaugh Av,28.03917,-82.416439
 4559,40th St @ Flora St,28.013262,-82.414984
 4551,Alumni Dr @ Laurel Dr,28.058051,-82.417802
-4553,Mckinley Dr @ D.O.T. Bldg,28.050861,-82.416281
-4552,Mckinley Dr @ Fowler Av,28.053455,-82.416369
-4543,Malcom McKinley Dr  @ D.O.T. Bldg,28.050524,-82.416144
-4544,Leroy Collins Blvd @ Alumni Dr,28.057706,-82.412974
-4545,Leroy Collins Blvd @ Elm Dr@Library,28.059734,-82.412953
-4546,Leroy Collins Blvd @  Alumni Dr,28.057416,-82.413393
-4547,Magnolia @ Medical Dr Traffic Light,28.061258,-82.419551
-4548,Magnolia Dr @ Moffit Hospital,28.064245,-82.420143
 4549,Magnolia Dr @ Moffit Hospital,28.0638191,-82.4203033
-4541,Malcom McKinley Dr @ Busch Blvd,28.033303,-82.416214
 4540,40th St @ Humphrey  St,28.030549,-82.416223
 4539,40th St @ Hutton Place,28.013724,-82.414609
 4536,40th St @ Conover St,27.993864,-82.413905
@@ -995,30 +912,17 @@ stop_id,stop_name,stop_lat,stop_lon
 4521,Dale Mabry Hwy @ Mango Av,27.875288,-82.506243
 4523,Palm Dr @ Maryland Av,27.923943,-82.48694
 4524,Palm Dr @ Ardson Place,27.925076,-82.485281
-487,Nebraska Av @ Bougainvillea Av,28.043777,-82.451285
 4599,50th St @ 127th Av,28.0624431,-82.4016819
-4598,50th St @ Sun Ridge Condos,28.05849,-82.401762
-485,Nebraska Av @ 109th Av,28.047431,-82.451331
-488,Nebraska Av @ McEwen Av,28.042396,-82.451361
 7400,Falkenburg Rd @ Queen Palm Dr,27.975431,-82.334887
 7402,Falkenburg Rd @ Princess Palm Av,27.978766,-82.33517
 7401,Falkenburg Rd @ Princess Palm Av,27.978882,-82.334924
-482,Nebraska Av @ 113th Av,28.051098,-82.451332
-483,Nebraska Av @ 112th Av,28.049522,-82.451332
-480,Nebraska Av @ Fowler Av,28.053601,-82.451304
-473,Nebraska Av @ Fletcher Av,28.068737,-82.451314
 4589,Sligh Av @ 51St St,28.010767,-82.39926
-476,Nebraska Av @ 128th Av,28.062661,-82.451354
 7407,N 42nd St @ Hellenic Dr,28.078251,-82.414225
-475,Nebraska Av @ 131St Av,28.065776,-82.451324
 7408,N 42nd St @ Vanderbilt Dr,28.076159,-82.414134
 4587,56th St @ Diana St,28.007097,-82.393325
-478,Nebraska Av @ 123Rd Av,28.059302,-82.451343
 7405,Bruce B Downs Blvd @ N 37th St,28.080509,-82.41816
-477,Nebraska Av @ 126th Av,28.06143,-82.451354
 7406,Skipper Rd @ 42nd St,28.080382,-82.414472
 7403,Falkenburg Rd @ Queen Palm Dr,27.974526,-82.335223
-479,Nebraska Av @ 120th Av,28.056993,-82.451353
 7404,Anderson Rd @ Waters Av,28.024847,-82.537339
 4592,56th St @ Temple Terrace Shops,28.033757,-82.393311
 7413,Orient Rd @ Park East Blvd,28.000376,-82.37322
@@ -1028,65 +932,44 @@ stop_id,stop_name,stop_lat,stop_lon
 7411,Harney Rd @ Sligh Av N/S,28.011752,-82.375927
 4591,56th St @ Temple Terrace Plaza,28.032164,-82.393322
 4596,Fowler Av @ 52nd St,28.05457,-82.397453
-470,Nebraska Av @ 128th Av,28.062607,-82.451009
-4597,50th St @ Terrace Palms Apts 11801,28.056281,-82.401743
-471,Nebraska Av @ 131St Av,28.065359,-82.450999
 7414,Orient Rd @ Hillsborough Av N/S,27.996857,-82.373114
 7415,Orient Rd @ Hillsborough Av F/S,27.996663,-82.37297
 7416,Orient Rd @ Park East Blvd,28.000348,-82.373081
 7417,Orient Rd @ Sligh Av N/S,28.010591,-82.37315
 7418,Sligh Av @ Harney Rd,28.01081,-82.376029
-4579,50th St @  M L King Jr Blvd,27.981969,-82.401218
-2785,Providence Rd @ Providence Ridge Bl,27.907135,-82.318831
-2790,Providence @ Providence Bapt Church,27.897608,-82.318652
-2791,Providence Rd @ Providence Oaks Dr,27.896176,-82.318624
 4584,56th St @ Hillsborough Av,27.997072,-82.39331
 2792,Providence Rd @ Bloomingdale Av Fs,27.893531,-82.318587
 4585,56th St @ Henry Av,28.00016,-82.393319
 2793,Providence Rd @ Watermark 6000,27.891026,-82.318577
 4586,56th St @ 5805 Hanna Av,28.00151,-82.393308
 7421,N 42nd St @ Reuter Strasse Cr,28.07831,-82.414113
-4580,56th St @ Commerce Park Blvd,27.986459,-82.394937
 7424,Bruce B Downs @ Lake Forest Dr,28.080746,-82.420958
-4581,56th St @ Cone Rd,27.992942,-82.393282
 7423,Bruce B Downs Blvd @ N 37th St,28.080805,-82.417712
-4582,Hillsborough Av @ 56th St,27.996004,-82.392373
 7427,Bruce B Downs Blvd @ Lake Forest Dr,28.080519,-82.422141
-499,Nebraska Av @ Juneau St,28.024214,-82.451334
 7428,N 42nd St @ Rocinante Blvd,28.072556,-82.414125
 2799,Providence Rd @ Desoto Rd,27.877261,-82.318529
 2798,Providence Rd @ Hackney Dr,27.879011,-82.318459
 7426,Bruce B Downs Bl @ Tower Diagnostic,28.077143,-82.426027
 4569,21St Av @ 23Rd St,27.970365,-82.433254
 2797,Providence Rd @ Mahin Lane,27.880588,-82.318454
-496,Nebraska Av @ Seward St,28.028072,-82.451299
 2796,Providence Rd @ Roberts Lane,27.882005,-82.318485
-495,Nebraska Av @ Yukon St,28.029697,-82.451296
 4567,34th St @ 32nd Av,27.979209,-82.422495
 2795,Providence Rd @ Watson Rd,27.88653,-82.318516
-498,Nebraska Av @ Waters Av,28.025417,-82.451346
 4566,Osborne Av @ Webster St,27.98882,-82.421424
-497,Nebraska Av @ Fairbanks St,28.026718,-82.451307
 4565,Osborne Av @ Troy St,27.988813,-82.420046
-491,Nebraska Av @ Annie St,28.036558,-82.451324
-7431,Bruce B Downs Bl @ Barnhard (Ntic),28.077303,-82.426335
-492,Nebraska Av @ Richmere St,28.035325,-82.45133
 7430,N 42nd St @ Winding Moss Trail,28.076111,-82.414026
 4572,21St Av @ 38th St,27.970308,-82.417345
 4573,21St Av @ 42nd St,27.970338,-82.412409
 7435,Bloomingdale @ Duncan Rd Home Depot,27.89351,-82.332964
 4570,21St Av @ 31St St,27.970346,-82.425943
-7434,Fletcher Av @ 42nd St Ws,28.069229,-82.414502
 4571,21St Av @ 35th St,27.970345,-82.420454
 7433,Bruce B Downs Bl @ Medical Park Dr,28.070736,-82.426213
 7432,Oakfield Dr @ Bob Dykes Dr,27.93414,-82.2993
-490,Nebraska Av @ Castle Ct,28.03795,-82.451381
 5260,Orient Rd @ 14th Av,27.964818,-82.37297
 5263,Broadway Av @ 50th St Es,27.962008,-82.401521
 5264,18th Av @ 34th St,27.968269,-82.421893
 5261,Broadway Av @ 71St St,27.966868,-82.375059
 5262,Broadway Av @ 70th St,27.966815,-82.376503
-5267,Himes Av @ Leroy St,27.972154,-82.501551
 5268,Columbus Dr @ Gomez Av,27.966593,-82.491237
 5265,17th Av @ 15th St,27.96732,-82.44334
 5266,Columbus Dr @ Grove Dr,27.966892,-82.454332
@@ -1095,11 +978,7 @@ stop_id,stop_name,stop_lat,stop_lon
 5272,Broadway Av @ Locicero Dr,27.966697,-82.377975
 5274,Orient Rd @ Waycross Av,27.976458,-82.372975
 5275,Orient Rd @ Delano Av,27.978182,-82.373032
-5276,Orient Rd @ I-4 Fairground Entrance,27.988367,-82.373037
-5277,Orient Rd @ Seminole Complex,27.992486,-82.37298
-5281,Hillsborough Av @ Walton Way,27.996341,-82.380462
 5282,Hillsborough Av @ 39th St,27.996146,-82.415434
-5280,Hillsborough Av @ 6804,27.99634,-82.377852
 5285,Hillsborough Av @ 9th Av,27.99614,-82.449632
 5286,Hillsborough Av @ Highland Av,27.996346,-82.461808
 5283,Hillsborough Av @ Railroad Crossing,27.996149,-82.4292
@@ -1114,18 +993,25 @@ stop_id,stop_name,stop_lat,stop_lon
 3477,Yukon St @ 28th St,28.028868,-82.428822
 3479,Yukon St @ Ruth Place,28.028867,-82.427261
 7338,Westshore Plaza Transfer Center,27.948825,-82.525819
-7346,M L King Jr Blvd @ Burdines Dr,27.981414,-82.495843
 7340,Citrus Park Dr @ Sheldon Rd,28.065771,-82.580681
 7341,Sheldon Rd @ Citrus Park Dr,28.064512,-82.582346
+0968,N Boulevard @ 116th Av,28.053522,-82.46751
+0965,N Boulevard @ Seneca Av,28.045372,-82.467609
+0966,N Boulevard @ 109th Av,28.047183,-82.467589
+0960,N Boulevard @ Patbur Av,28.03667,-82.467657
+0963,N Boulevard @ Bougainvillea Av,28.043525,-82.467608
+0961,N Boulevard @ Linebaugh Av,28.039767,-82.467637
 7330,Boyette Rd @ Us Hwy 301,27.857021,-82.325384
 7331,Boyette Rd @ Us Hwy 301,27.857184,-82.325303
-7332,Hillsborough Av @ 59th St,27.99632,-82.39047
-7333,Hillsborough Av @ 59th St,27.99602,-82.389158
 7335,Westshore Plaza,27.94881,-82.525601
 7336,Elliott St @ Bradley St,27.860808,-82.533316
 7316,Super Walmart @ Henderson Rd,28.062226,-82.550374
 5129,Dale Mabry Hwy @ Cypress Meadows Dr,28.111354,-82.502617
+0941,N Boulevard @ Laurel St,27.955358,-82.468326
 5126,Lumsden Rd @ Kensington Ridge Blvd,27.923421,-82.313419
+0947,N Boulevard @ Lowry Ln,28.013555,-82.467719
+0944,N Boulevard @ Virginia Av,27.97963,-82.46762
+0943,N Boulevard @ West St,27.970491,-82.467619
 7392,Henderson Rd @ Cedar Creek Blvd,28.059903,-82.549782
 7391,Henderson Rd @ Cedar Creek Blvd,28.059888,-82.549625
 7394,Henderson Rd @ Palmview Ct,28.050226,-82.549896
@@ -1137,10 +1023,18 @@ stop_id,stop_name,stop_lat,stop_lon
 7395,Henderson Rd @ Airview Dr,28.04635,-82.549912
 7398,Sligh Av @ Renellie Dr,28.010696,-82.523138
 5115,Greenhollow Ln @ Bell Shoals Rd,27.885265,-82.26924
+0951,N Boulevard @ Hollywood St,28.019437,-82.467681
 5116,Greenhollow Ln @ Orangecrest St,27.884835,-82.266287
+0950,N Boulevard @ Kirby St,28.017961,-82.467711
 5117,Bell Shoals Rd @ Rosemead Ln,27.88752,-82.26919
+0953,N Boulevard @ Sitka St,28.021955,-82.467672
 5118,Bell Shoals  @ Starwood  @ Sweetbay,27.891769,-82.269197
+0952,N Boulevard @ Ola Av,28.020524,-82.467682
 5119,Bloomingdale Av @ Bryan Rd,27.893728,-82.277272
+0955,N Boulevard @ Waters Av North,28.02613,-82.467613
+0954,N Boulevard @ Waters Av South,28.025034,-82.467632
+0957,N Boulevard @ Humphrey St,28.030784,-82.467655
+0956,N Boulevard @ Yukon St,28.028855,-82.467644
 7383,Sligh Av @ Hesperides St,28.010822,-82.519176
 7382,N Boulevard @ North B St,27.946622,-82.468546
 7381,N Boulevard @ Arch St,27.954361,-82.468508
@@ -1159,10 +1053,14 @@ stop_id,stop_name,stop_lat,stop_lon
 5108,Bell Shoals Rd @ Garnet Dr,27.879305,-82.269383
 1600,40th St @ Fern St,28.005067,-82.414178
 5106,Bell Shoals @   Starwood  @ Walmart,27.891009,-82.26937
+0920,Fletcher Av @ Rome Av,28.069306,-82.47605
 5104,Bloomingdale @ Bloomingdale Villas,27.893565,-82.282275
 5105,Bloomingdale Av @ Bryan Rd,27.89354,-82.277692
+0924,Fletcher Av @ Ola Av,28.069259,-82.46362
+0923,Fletcher Av @ N Boulevard,28.069082,-82.467876
 1607,40th St @ River Hills Dr,28.02145,-82.415076
-7370,Ashley Dr @ Jackson St,27.946153,-82.459102
+0921,Fletcher Av @ Forest Hills Dr,28.069303,-82.473856
+0928,Fletcher Av @ Summit Av,28.069201,-82.453374
 7372,Ashley Dr @ Polk St,27.949812,-82.460662
 5114,Natures Way Blvd @ Callista Ln,27.883369,-82.265862
 7374,N Boulevard @ North B St,27.946051,-82.468466
@@ -1176,6 +1074,7 @@ stop_id,stop_name,stop_lat,stop_lon
 7378,N Boulevard @ Columbus Dr,27.967271,-82.467605
 7377,N Boulevard @ Ross Av,27.963072,-82.467643
 7379,N Boulevard @ Ross Av,27.963021,-82.46776
+0930,Fletcher Av @ Nebraska Av Es,28.069183,-82.45034
 5101,Lumsden Rd @ Heather Lakes Bl East,27.923102,-82.30645
 5100,Lumsden Rd @ Heather Lakes Bl West,27.923091,-82.312989
 5103,Kings Av @ Southwood Cove,27.903477,-82.294038
@@ -1185,28 +1084,22 @@ stop_id,stop_name,stop_lat,stop_lon
 4043,Broadway Av @ 70th St,27.966697,-82.376608
 4047,Busch Blvd @ 30th St,28.03267,-82.427015
 4044,Broadway Av @ 50th St Ws,27.961674,-82.402859
-4927,Kennedy Blvd @ Parker St,27.94637,-82.461754
 4925,Busch Blvd @ N Boulevard,28.033039,-82.467625
 1628,40th St @ Humphrey St,28.030767,-82.416438
 4926,Yukon St @ Taliaferro Av,28.02928,-82.45336
 1629,40th St @ Yukon St,28.02911,-82.416438
 4929,Macdill Av @ Stovall St,27.916349,-82.493737
 4920,Waters Av @ Hulsey Rd,28.025622,-82.55864
-1622,Mckinley Dr @ Bougainvillea Av,28.044154,-82.416414
 4923,Waters Av @ Fl Orida Mining Blvd,28.025403,-82.533681
 4924,Waters Av @ 4030,28.025267,-82.511135
 4921,Waters Av @ Jr Manor Dr,28.025597,-82.556704
 4936,Macdil Av @ Chapin Av,27.899727,-82.493908
 3408,Rome Av @ Powhatan Av,27.999222,-82.476072
-1617,Mckinley Dr @ Linebaugh Av,28.039471,-82.416137
 4937,Macdill Av @ Leila Av,27.88486,-82.49396
 3407,Rome Av @ Comanche Av,27.997555,-82.476061
-1616,Mckinley Dr @ Busch Blvd,28.034706,-82.416406
 4938,Macdill Av @ 6207,27.878571,-82.494038
 4939,Macdill Av @ 6321,27.876608,-82.49406
 3409,Rome Av @ Burke St,28.001776,-82.476053
-1619,Mckinley Dr @ Fowler Av,28.053616,-82.416055
-1618,Mckinley Dr @ Bougainvillea Av,28.044336,-82.416145
 4027,Nebraska Av @ Fletcher Av,28.0689,-82.45098
 4930,Macdill Av @ Academy Of Holy Names,27.915136,-82.493746
 4931,Macdill   @ Bayshore Terrace Condos,27.914094,-82.493765
@@ -1222,8 +1115,6 @@ stop_id,stop_name,stop_lat,stop_lon
 1610,40th St @ Bird St,28.023195,-82.415508
 3420,Rome Av @ Burke St,28.001824,-82.476166
 4022,17th Av @ 21St St,27.967498,-82.435372
-4021,Henderson Av @ Florida Av,27.959575,-82.459303
-4020,Waters Av @ Hanley Rd,28.025699,-82.562551
 4949,Macdill Av @ Chapin Av,27.899591,-82.493716
 1648,40th St @ Ellicott St,27.990768,-82.41421
 1647,40th St @ Conover St,27.99346,-82.414197
@@ -1246,7 +1137,6 @@ stop_id,stop_name,stop_lat,stop_lon
 4942,Bay Haven Dr @ 2826,27.867143,-82.491955
 3412,Rome Av @ Lambright St,28.005688,-82.476004
 3411,Rome Av @ Hanna Av,28.003188,-82.476044
-4015,Tampa St @ Oak Av,27.961133,-82.460989
 4940,Macdill Av @ Averill Av,27.874987,-82.494125
 4016,Tampa St @ Henderson Av,27.959114,-82.461019
 4960,29th St @ 28th Av,27.976521,-82.428021
@@ -1257,7 +1147,6 @@ stop_id,stop_name,stop_lat,stop_lon
 4958,Macdill Av @ Parkland Blvd,27.93462,-82.493232
 3429,Rome Av @ Johnston Av,27.985097,-82.476495
 1638,40th St @ Norfolk St,28.011542,-82.415197
-4959,Kennedy Blvd @ Ashley Dr,27.946823,-82.459973
 4954,Macdill Av @ Acadamy Of Holy  Names,27.915036,-82.493564
 3426,Rome Av @ Bedingfield Dr,27.99232,-82.476295
 4955,Macdill Av @ Stovall St,27.916431,-82.493554
@@ -1282,16 +1171,9 @@ stop_id,stop_name,stop_lat,stop_lon
 4007,Tampa St @ Adalee St,27.971969,-82.460919
 4003,Tampa St @ Indiana Av,27.978153,-82.461145
 6263,Gunn Hwy @Plantation/Sugarmill Dr W,28.052839,-82.524964
-6264,50th St @ 122nd Av,28.057385,-82.401752
 1670,30th St @ Bougainvillea  Av,28.043362,-82.426114
-3434,Rowlett Park Dr @ 22nd St,28.02234,-82.435156
 1661,30th St @ Hanna Av,28.003203,-82.426414
-3432,Rowlett Park Dr @ Sligh Av,28.011227,-82.430111
-1663,30th St @ Fern St,28.004625,-82.426424
-1664,30th St @ Diana St,28.006817,-82.426413
 3438,Rowlett Park Dr @ Mulberry Dr,28.022728,-82.435581
-1665,30th St @ Pocahontas Av,28.008628,-82.426393
-1666,30th St @ Sligh Av,28.01052,-82.426372
 3439,Rowlett Park Dr @ Sligh Av,28.011371,-82.430315
 1667,30th St @ River Forest Cr,28.030318,-82.426361
 3436,Rowlett Park Dr @ Waters Av,28.024875,-82.436817
@@ -1328,7 +1210,6 @@ stop_id,stop_name,stop_lat,stop_lon
 3462,Ysabella Av @ Barcelona St,27.92078,-82.490521
 6242,Linebaugh Av @ Sheldon Rd,28.044645,-82.583572
 3461,Ysabella Av @ Bay To Bay Blvd,27.919594,-82.491188
-1692,30th St @ Diana Ct,28.007161,-82.426531
 6244,Mccormick Dr @ 13801,28.060192,-82.645881
 6246,Tri-County Business Park,28.064246,-82.644199
 1687,30th St @ 97th Av,28.03784,-82.42629
@@ -1343,12 +1224,10 @@ stop_id,stop_name,stop_lat,stop_lon
 4906,Busch Blvd @ Florida Av,28.033027,-82.460922
 4905,Taliaferro Av @ Yukon St,28.029475,-82.453361
 4904,Taliaferro Av @ Humphery St,28.030823,-82.453406
-3473,Yukon St @ Suwanee Av,28.028966,-82.458888
 1682,30th St @ Bougainvillea Av,28.043801,-82.426278
 1681,30th St @ 109th Av,28.04653,-82.426272
 3475,Yukon St @ Nebraska Av,28.029193,-82.451937
 1680,30th St @ 113th Av,28.051045,-82.426262
-3471,Yukon St @ Florida Av,28.029138,-82.459172
 3470,Yukon St @ 26th St,28.028886,-82.430443
 4911,Waters Av @ Quail Oaks Apts,28.025592,-82.521701
 3469,Yukon St @ Linda Ct,28.028978,-82.42822
@@ -1363,19 +1242,13 @@ stop_id,stop_name,stop_lat,stop_lon
 4914,Waters Av @ Comfort Suites,28.025746,-82.534664
 4917,Waters Av @ Hulsey Rd,28.025932,-82.557019
 4916,Waters Av @ Rustic Dr,28.025966,-82.559208
-1577,Sligh Av @ 30th St,28.010548,-82.426717
 1579,Sligh Av @ 47th St,28.010589,-82.40614
-1574,Sligh Av @ 24th St,28.010566,-82.432775
 4897,22nd St @ 23Rd Av,27.972085,-82.434768
 4898,Nebraska Av @  Estelle St,27.958516,-82.451291
-1573,Sligh Av @ 22nd St,28.010467,-82.434984
 4895,22nd St @ 28th Av,27.975717,-82.434806
 4896,22nd St @ 26th Av @ Lee Davis Bldg,27.974784,-82.434806
 1581,Sligh Av @ 50th St,28.010596,-82.402107
 1583,Sligh Av @ 53Rd St,28.010613,-82.397953
-4888,Rowlett Park Dr @ theochem Lab,28.016063,-82.431822
-4889,Rowlett Park Dr @ Gas Station,28.015574,-82.43167
-4884,Rowlett Park Dr @ theochem Lab,28.019758,-82.433332
 1587,Harney Rd @ Sligh Av,28.010271,-82.376719
 4885,22nd St @ Sewaha St,28.034817,-82.434517
 4886,22nd St @ 115th Av,28.052049,-82.434516
@@ -1387,7 +1260,6 @@ stop_id,stop_name,stop_lat,stop_lon
 4894,22nd St  @ Cayuga St,27.986632,-82.434773
 1591,40th St @ Osborne Av,27.989177,-82.413983
 1592,40th St @ Ellicott St,27.990364,-82.413977
-4890,Sligh Av @ 24th Av,28.010747,-82.432512
 1596,40th St @ Powhattan Av,27.9988,-82.414056
 1595,40th St @ Comanche Av,27.997373,-82.413954
 1598,40th St @ Paris St,28.002576,-82.414105
@@ -1417,13 +1289,11 @@ stop_id,stop_name,stop_lat,stop_lon
 4081,Morgan St @ Brorein St,27.945112,-82.45402
 4083,Northbridge Blvd @ Waters Av,28.025203,-82.575602
 4850,15th St @ College Park Lane,28.055513,-82.442903
-4085,Nuccio Pkwy @ Palm Av,27.962657,-82.446854
 4876,Laurel St @ 4913,27.955864,-82.526992
 4875,Laurel St @ Laurel Oaks,27.95588,-82.529392
 4874,Laurel St @ 5215,27.955949,-82.534292
 4049,Columbus Dr @ Massachusetts Av,27.966793,-82.465719
 4048,Columbus Dr @ Woodrow Av,27.966802,-82.466904
-4879,Cass St @ N Boulevard,27.950073,-82.467992
 4878,Cypress St @ Holiday Inn,27.95212,-82.520174
 4877,Laurel St @ Westshore Blvd,27.955848,-82.524947
 4050,Columbus Dr @ Jefferson St,27.966768,-82.457173
@@ -1432,16 +1302,12 @@ stop_id,stop_name,stop_lat,stop_lon
 4051,Columbus Dr @ Grove St,27.96675,-82.454388
 4052,Columbus Dr @ 22nd St,27.966706,-82.434875
 4882,22nd St @ Giddens Av,27.995171,-82.43465
-4883,Rowlett Park Dr @ Gas Station,28.015855,-82.431559
 4055,Dale Mabry Hwy @ Stall Rd,28.061963,-82.503593
 4880,Westshore Blvd @ North B St,27.946329,-82.524056
 4863,14th St @ 21St Av,27.970756,-82.444258
 4059,Dale Mabry Hwy @ Northgreen Av,28.10364,-82.502529
 4862,14th St @ 23Rd Av,27.972022,-82.444302
-4865,Republica De Cuba @ 19th Av,27.968851,-82.444243
-4864,Republica De Cuba @ 20th Av,27.969893,-82.444242
 4867,Nuccio Pkwy @ 4th Av,27.958418,-82.447137
-4869,Cass St @ N Boulevard,27.950236,-82.468043
 4868,Nuccio Pkwy @ 1330,27.955722,-82.448933
 4061,Habana Av @ Sligh Av,28.010365,-82.488468
 4062,Hanna Av @ 43Rd St,28.003291,-82.410235
@@ -1450,16 +1316,19 @@ stop_id,stop_name,stop_lat,stop_lon
 4065,Himes Av @ Hillsborough Av,27.996765,-82.500829
 4870,Cypress St @ Edison Av,27.952023,-82.469719
 4069,Linebaugh Av @ Albany Av,28.039899,-82.480134
-5168,Us Hwy 41 @ Ohio St,27.822058,-82.382254
 5950,Grand Regency Blvd @ Pineberry St,27.951148,-82.325309
 5166,Us Hwy 41 @ Symmes Rd,27.834534,-82.381912
 5167,Us Hwy 41 @ Mabrey Av,27.827132,-82.382028
 5164,Us Hwy 41 @ Shirley Av,27.84463,-82.38171
 5161,Lynn Turner Rd @ Barrett Dr,28.062551,-82.541671
+0913,Fletcher Av @ Paddock Av,28.065716,-82.490289
+0910,Fletcher Av @ Reseda Ct,28.06584,-82.49302
+0911,Fletcher Av @ Orange Grove Dr,28.06572,-82.50029
+0917,Fletcher Av @ Armenia Av,28.066084,-82.483617
+0914,Fletcher @ Park At Lake Magdalene,28.065674,-82.488926
 5948,Grand Regency Blvd @ Lake Kathy St,27.947108,-82.325244
+0915,Fletcher Av @ Sebring Blvd,28.06571,-82.48768
 5947,Grand Regency Blvd @ Vildibill Dr,27.943089,-82.325342
-5946,Town Center Blvd @ Providence Rd,27.925769,-82.317458
-5945,Town Center Blvd @ Providence Rd,27.925995,-82.317195
 5943,Moon Av @ Oakfield Dr (Hosp),27.934137,-82.288507
 5942,Moon Av @  Sr Hwy 60,27.937241,-82.288503
 5941,Sr 60 @ Knights Av,27.937563,-82.289989
@@ -1468,9 +1337,13 @@ stop_id,stop_name,stop_lat,stop_lon
 5178,Gibsonton Dr @ Ethel St,27.849658,-82.379112
 5175,Us Hwy 41 @ Isabel Av,27.830803,-82.381643
 5176,Us Hwy 41 @  Cedar Av,27.841936,-82.381482
+0907,Fletcher @ Park At Lake Magdalene,28.065853,-82.488898
+0900,Fletcher Av @ Rome Av,28.069443,-82.47535
 5938,Grand Regency Bl @ Atlantic Bus Pk,27.94863,-82.325606
+0903,Fletcher Av @ Greentree Dr,28.069391,-82.478141
 5937,Grand Regency Blvd @ Tealwood Dr,27.951483,-82.325511
 5939,Grand Regency Bl @ Lake Kathy Rd,27.94738,-82.325415
+0906,Fletcher Av @ Lake George Ln,28.065855,-82.485475
 5934,Falkenburg Rd @ Cedar Run,27.955981,-82.335216
 5933,Falkenburg Rd @ Fisher Rd,27.959247,-82.335281
 5936,Woodberrry Rd @ Hobbs St,27.952104,-82.329813
@@ -1532,23 +1405,34 @@ stop_id,stop_name,stop_lat,stop_lon
 5998,Adamo Dr @ 68th St,27.9523,-82.38075
 5999,Adamo Dr @ Maydell Dr,27.952288,-82.385952
 2006,56th St @ 113th Av @ City Hall,28.049894,-82.393464
+0842,Busch Blvd @ 40th St,28.032724,-82.41583
 2005,56th St @ Whiteway Dr,28.04753,-82.393466
+0840,Busch Blvd @ 46th St,28.032732,-82.409661
 2003,56th St @ Deer Park Av,28.042622,-82.393377
-2012,56th St @ Whiteway Dr,28.04782,-82.393851
+0841,Busch Blvd @ 42nd St,28.032734,-82.411901
+0847,Busch Blvd @ 26th St,28.032674,-82.430231
+0849,Busch Blvd @ 22nd St,28.032698,-82.433939
 7210,Grand Regency Blvd @ Holiday Inn,27.945244,-82.326184
-7212,M L King Jr Blvd @ 68th St,27.981587,-82.378609
 7213,Us Hwy 41 @ Apollo Beach Blvd,27.769362,-82.391452
 7214,Adamo Dr @ Tampa Warehouse,27.952223,-82.396862
 7215,Providence @ Providence Park  Apts,27.933157,-82.314492
 2018,56th St @ Temple Heights Rd,28.036374,-82.393634
-2021,56th St @ Busch Blvd,28.032734,-82.393636
-2020,56th St @ Sewaha St,28.034437,-82.393635
+0851,Busch Blvd @ 19th St,28.032667,-82.437362
+0852,Busch Blvd @ Elmer St,28.032695,-82.439792
+0855,Busch Blvd @ 12th St,28.032907,-82.446895
+0857,Busch Blvd @ Ola Av,28.03304,-82.463815
+0858,Busch Blvd @  N Boulevard,28.033259,-82.467549
+0859,Busch Blvd @ Florida Av,28.032864,-82.459974
 7204,Nebraska Av @ Linnwood Dr,28.067529,-82.45108
 7202,Marion St @ Fortune St,27.954314,-82.458648
 3598,Fowler Av @ 9th St,28.054693,-82.449589
+0862,Busch Blvd @ 12th St,28.032644,-82.447265
 3599,Fowler Av @ Florida Av,28.054706,-82.459181
 7228,Waters Av @ 12th St,28.025137,-82.447437
+0860,Busch Blvd @ Ola Av,28.032804,-82.463754
 7229,Palm River Rd @ Maydell Dr,27.94163,-82.384978
+0869,Busch Blvd @ 26th St,28.032408,-82.43022
+0867,Busch Blvd @ 22nd St,28.032391,-82.43478
 7235,Bloomingdale Av @ Cricket Hollow Dr,27.8936,-82.32571
 7236,Bloomingdale Av @ Providence Rd,27.893533,-82.320287
 7237,Providence Lakes@ Lake Lucerne Way,27.912138,-82.319451
@@ -1556,46 +1440,73 @@ stop_id,stop_name,stop_lat,stop_lon
 7231,Progress Blvd @ 86th St,27.899006,-82.361642
 7232,Progress Blvd @ Us Hwy 301 W/S,27.893726,-82.340663
 7233,Bloomingdale Av @ Us Hwy 301 E/S,27.893613,-82.335969
+0874,Busch Blvd @ 37th Av,28.032452,-82.417887
+0878,Busch Blvd @ 46th St,28.032459,-82.410205
+0879,Busch Blvd @ Temple Av,28.032458,-82.407043
 7225,Waters Av @ 9th St,28.025223,-82.450426
 7226,Waters Av @ 9th St,28.025091,-82.450528
 7221,Columbus Dr @ Himes Av,27.966887,-82.500473
 2001,56th St @ Mission Hills Av,28.039661,-82.393358
+0802,15th St @ 130th Av,28.0645,-82.442737
+0801,15th St @ 127th Av,28.061756,-82.442747
+0807,15th St @ 127th Av,28.062077,-82.442864
 7249,Palm River Rd @ Maydell Dr,27.941852,-82.385007
+0808,15th St @ 124th Av,28.060313,-82.44287
+0809,15th St @ 122nd Av,28.058403,-82.442881
 7250,Palm River Rd @ 58th St,27.943151,-82.3901
+0811,15th St @ Fowler Av N,28.054805,-82.442925
+0813,15th St @ 113th Av,28.051046,-82.442909
+0816,15th St @ Seneca Av,28.045873,-82.442916
+0815,15th St @ Poinsettia Av,28.041864,-82.44292
+0818,15th St @ 109th Av,28.047349,-82.442913
+0817,15th St @ Bougainvillea Av,28.043723,-82.442919
 7238,Providence Lakes Bl @ Ladora Dr,27.912114,-82.321366
 7239,Gornto Lake Rd @ Aston Commons Pl,27.91544,-82.323515
+0810,15th St @ Fowler Av S,28.053306,-82.442921
 7244,Providence Lakes @ Lake Lucerne Way,27.911831,-82.320028
 7243,Providence Lakes Blvd  @ Ladora Dr,27.911916,-82.323196
 7242,Gornto Lake Rd @ Astor Commons Pl,27.915812,-82.323858
-7241,Gornto Lake Rd @ Causeway Blvd F/S,27.921418,-82.32296
 7248,Progress Blvd @ 86th St,27.899268,-82.36178
 7247,Bloomingdale Av@ Bandera Springs Cr,27.893856,-82.334137
 7246,Bloomingdale Av @ Duncan Rd,27.893807,-82.330627
 7245,Bloomingdale Av @ Cricket Hollow Dr,27.893715,-82.324065
-7240,Gornto Lake Rd @ Causeway Blvd N/S,27.921925,-82.322626
+0819,15th St @ Linebaugh Av,28.040047,-82.442929
 6194,Powhatan Av @ Town N Country Blvd,28.000028,-82.568633
+0829,15th St @ Wilder Av,27.992508,-82.443048
+0828,15th St @ Frierson Av,27.994474,-82.443028
+0827,15th St @ Hillsborough Av,27.996312,-82.443028
+0826,15th St @ Comanche Av,27.997997,-82.443028
+0825,15th St @ Henry Av,27.999808,-82.443048
+0824,15th St @ Idlewild Av,28.001655,-82.443028
+0823,15th St @ Hanna Av,28.003466,-82.443028
+0822,15th St @ North St,28.00526,-82.443038
+0821,15th St @ Diana St,28.007116,-82.443048
 5007,Hanley Rd @ 6000 (School),28.001448,-82.562777
 5008,Hanley Rd @ 5520,27.999271,-82.562845
-5005,Hanley Rd @ 7948,28.019523,-82.562623
 5006,Hanley Rd @ Fountain Av,28.010619,-82.5626
 6988,Macinnes Place @ Fortune St,27.952329,-82.463184
 5009,Hanley Rd@  Auto Zone,27.99819,-82.56288
 5011,Spruce St @ Frontage Rd,27.959682,-82.532059
 5010,Memorial Hwy @ Chase Manhattan,27.981625,-82.553078
 6992,Columbus Dr @ Tech Blvd,27.966828,-82.329496
-5015,Fletcher Av @ Railroad Crossing,28.069298,-82.449124
-5014,Westshore Blvd @ 700 Omni Hotel,27.951446,-82.524315
 6991,Columbus Dr @ Tech Blvd,27.966641,-82.329693
-5013,Westshore Blvd @ 1300,27.954517,-82.524287
 7271,140th Av @ 1401,28.074721,-82.444953
 7273,140th Av @ North Towne Ct,28.0747,-82.448988
 7272,140th Av @ 12th St,28.074722,-82.446937
+0838,Busch Blvd @ Busch Plaza,28.032765,-82.402543
+0837,15th St @ 31St Av,27.978801,-82.442998
+0839,Busch Blvd @ Temple St,28.032741,-82.407279
+0834,15th St @ Chelsea St,27.985254,-82.443037
+0833,15th St @ Cayuga St,27.986386,-82.443037
+0836,15th St @ M L King Jr Blvd,27.981725,-82.442996
+0835,15th St @ North Bay St,27.983407,-82.443027
+0830,15th St @ Ellicott St,27.991313,-82.443048
+0832,15th St @ Osborne Av,27.988881,-82.44298
+0831,15th St @ New Orleans Av,27.990317,-82.443027
 5000,Memorial Hwy @ 5109,27.981878,-82.55285
 7268,140th Av @ 1402,28.074586,-82.444775
 5002,Hanley Rd @ 6000 (School),28.001552,-82.562618
 7265,Cypress St @ O'Brien St,27.952264,-82.532759
-5004,Hanley Rd @ Winging Way Dr,28.023445,-82.562224
-5003,Hanley Rd @ 7937,28.01946,-82.562309
 7290,Causeway Blvd @ 70th St,27.922605,-82.377207
 2090,Cypress St @ Howard Av,27.951988,-82.48323
 7291,Causeway Blvd @ 70th St,27.922767,-82.376742
@@ -1621,28 +1532,19 @@ stop_id,stop_name,stop_lat,stop_lon
 6169,Timberlane Dr @ Enchanted Oaks Ct,28.02001,-82.596451
 2095,Cypress St @ Edison Av,27.951848,-82.46938
 6963,Florida Keys Av @ Cypress Stand St,27.852641,-82.486202
-1523,Sligh Av @ 21St St,28.01063,-82.436088
 3538,29th St @ Lake Av,27.977574,-82.428149
-1522,Sligh Av @ 22nd St,28.010711,-82.433788
 3537,29th St @ 31St Av,27.97866,-82.428139
-1525,Sligh Av @ 17th St,28.010675,-82.441124
 3536,29th St @ Lindell Av,27.980055,-82.428139
 4823,143Rd Av @ 19th St,28.076597,-82.438083
-6966,Marion Transit Center,27.95515,-82.458671
-1524,Sligh Av @ 19th St,28.010648,-82.438601
 3535,29th St @ M L King Jr Blvd,27.981631,-82.428129
 4820,131St Av @ 1505,28.06546,-82.44221
 6967,Marion Transit Center,27.955343,-82.45832
 3534,29th St @ North Bay St,27.982935,-82.428128
 4821,131St Av @ 22nd St,28.065441,-82.434931
-6968,Marion Transit Center,27.954848,-82.458102
 3533,29th St @ 38th Av,27.983814,-82.428118
-6969,Marion Transit Center,27.954333,-82.458423
-1520,Sligh Av @ Rowlett Park Dr,28.01072,-82.429928
 3531,29th St @ Chelsea Av,27.984964,-82.427926
 1527,Sligh Av @ 13th St,28.01067,-82.44496
 4828,Nebraska Av @  140th Av,28.074495,-82.451112
-1526,Sligh Av @ 15th St,28.010684,-82.442826
 1529,Sligh Av @ 10th St,28.010655,-82.44907
 1528,Sligh Av @ 12th St,28.01067,-82.447
 3539,29th St @ 28th Av,27.976449,-82.428084
@@ -1655,8 +1557,6 @@ stop_id,stop_name,stop_lat,stop_lon
 3551,43Rd St @ 6524,28.009999,-82.410125
 7288,Causeway Blvd @ Maydell Dr,27.922663,-82.384677
 7289,Causeway Blvd @ 66th St,27.922634,-82.380709
-6984,Franklin St @ Whiting St,27.944939,-82.456586
-6981,Dick Greco Plaza,27.941118,-82.45496
 4833,Nebraska Av @ Bearss Av,28.086221,-82.451256
 3547,43Rd St @ Fern St,28.005346,-82.409991
 1513,Sligh Av @ 53Rd St,28.010776,-82.39767
@@ -1671,12 +1571,10 @@ stop_id,stop_name,stop_lat,stop_lon
 1518,Sligh Av @ Trout St,28.010694,-82.408377
 1517,Sligh Av @ Bream St,28.010708,-82.403707
 4839,Nebraska Av @ April Lane,28.0823,-82.451509
-1515,Sligh Av @ 50th St,28.010768,-82.401793
 6181,Memorial Hwy @ Middlesex Dr,28.003353,-82.588804
 6183,Mohr Rd @  Bryce Ln,28.002516,-82.583984
 6180,Memorial Hwy @ Kings Point Dr,28.00487,-82.590352
 2071,Cypress St @ Trask St,27.952145,-82.522351
-6951,Himes Av @ IVy St,27.969832,-82.501582
 2074,Cypress St @ Hubert Av,27.952078,-82.516084
 6950,Linebaugh Av @ Dale Mabry Hwy,28.040187,-82.506673
 2073,Cypress St @ Manhattan Av,27.952103,-82.51817
@@ -1726,12 +1624,9 @@ stop_id,stop_name,stop_lat,stop_lon
 3523,29th St @ 25th Av,27.973208,-82.427978
 3522,29th St @ 23Rd Av,27.971822,-82.427978
 6954,Himes Av @ St Conrad St,27.964147,-82.501472
-4811,Nuccio Pkwy @ 4th Av,27.958201,-82.44663
-6955,Sterling Av @ Euclid Av,27.907937,-82.504144
 4812,Nuccio Pkwy @ 1330,27.955511,-82.448787
 3524,29th St @ 27th Av,27.974775,-82.427967
 4813,15th St @ M L King Jr Blvd,27.980845,-82.442868
-6952,Himes Av @ Aileen St,27.968037,-82.501537
 3527,29th St @ 31St Av,27.978452,-82.428023
 6953,Himes Av @ St Joseph St,27.966027,-82.501566
 3526,29th St @ Lake Av,27.977704,-82.428023
@@ -1741,11 +1636,9 @@ stop_id,stop_name,stop_lat,stop_lon
 4818,15th St @ 113th Av,28.050628,-82.442767
 4819,15th St @ Shaw Elementary School,28.051923,-82.442777
 2053,Cypress St @ Grady Av,27.952258,-82.509596
-1570,Sligh Av @ 17th St,28.010512,-82.441377
 2055,Cypress St @ Lois Av,27.952315,-82.513584
 2056,Cypress St @ Hubert Av,27.952322,-82.516226
 2050,Cypress St @ Himes Av,27.952205,-82.501292
-3580,Brorein St @ Hyde Park Av,27.943178,-82.46364
 2051,Cypress St @ Dale Mabry Hwy,27.95223,-82.505221
 2052,Cypress St @ Church Av,27.952267,-82.507598
 6927,Nebraska Av @ Kay St,27.95702,-82.451248
@@ -1759,8 +1652,8 @@ stop_id,stop_name,stop_lat,stop_lon
 1563,Sligh Av @ Dixon Av,28.01063,-82.4572
 6923,Bearss Av @ 1913 Pine Lake Plaza,28.08035,-82.436424
 2046,Cypress St @ MacDill Av,27.952101,-82.492312
-3578,Brorein St @ Parker St,27.94347,-82.460659
 1564,Sligh Av @ Central Av,28.010583,-82.455551
+0887,Fletcher Av @ Winward Dr,28.069281,-82.440081
 2049,Cypress St @ Glen Av,27.952188,-82.499318
 1565,Sligh Av @ Nebraska Av,28.010566,-82.45083
 6925,Nebraska Av @ Skagway Av,28.031881,-82.451357
@@ -1776,14 +1669,18 @@ stop_id,stop_name,stop_lat,stop_lon
 2060,Cypress St @ Occident St,27.952432,-82.525946
 3591,Elliot St @ Ingraham St,27.862104,-82.533287
 2061,Cypress St @ Ward St,27.952458,-82.528031
+0899,Fletcher Av @  N Boulevard,28.069348,-82.467274
 6938,Hwy 60 @ Meadowlark Pl,27.96064,-82.71195
 1559,Sligh Av @ N Boulevard,28.010692,-82.468028
-1557,Sligh Av @ Oregon Av,28.01066,-82.474314
+0894,Fletcher Av @ Central Av,28.069343,-82.45615
 6107,Town N Country Bl @ Hillsborough Av,27.997791,-82.568926
+0893,Fletcher Av @ Summit Av,28.069316,-82.453028
+0892,Fletcher Av @ Nebraska Av,28.069316,-82.450787
 6931,Harney Rd @ Steamboat Ln,28.023258,-82.368845
 6105,Town N Country Library,27.999125,-82.566433
 6930,Temple Terrace Hwy @ Hamilton Hill,28.03248,-82.361126
 6937,Nebraska Av @ 114th Av,28.052787,-82.451057
+0898,Fletcher Av @ Ola Av,28.069403,-82.463249
 6936,Nebraska Av @ 112th Av,28.049714,-82.451095
 1551,Sligh Av @ Rome Av,28.01066,-82.476371
 6935,Nebraska Av @ 93Rd Av,28.03379,-82.451362
@@ -1814,9 +1711,7 @@ stop_id,stop_name,stop_lat,stop_lon
 6901,Fletcher Av @ 23Rd St,28.069131,-82.43255
 2024,56th St @ River Hills Dr,28.026681,-82.393558
 1542,Sligh Av @ Albany Av,28.010795,-82.480165
-6904,Fletcher Av @ 20th St,28.069272,-82.43634
 1543,Sligh Av @ Howard Av,28.010813,-82.482341
-6903,Fletcher Av @ 22nd St,28.06935,-82.435071
 2026,56th St @ Kirby St,28.018169,-82.393526
 1544,Sligh Av @ Armenia Av,28.010828,-82.484133
 6139,Hanna Av @ Manhattan Av,28.003619,-82.51764
@@ -1834,7 +1729,6 @@ stop_id,stop_name,stop_lat,stop_lon
 2045,Cypress St @ Excelda Av,27.952051,-82.490288
 2042,Cypress St @ Howard Av,27.952129,-82.482243
 2043,Cypress St @ Armenia Av,27.952156,-82.484842
-1538,Sligh Av @ Oregon Av,28.010805,-82.474306
 6918,Florida Av @ Mohawk Av,27.997112,-82.459511
 6917,Florida Av @ 115th Av,28.053017,-82.459495
 6916,Florida Av @ 111th Av,28.048091,-82.459491
@@ -1853,10 +1747,8 @@ stop_id,stop_name,stop_lat,stop_lon
 1534,Sligh Av @ Duncan Rd,28.010736,-82.460882
 2039,Cypress St @ Rome Av,27.952075,-82.476615
 1475,Waters Av @ Anderson Rd,28.025426,-82.538231
-4798,Channelside Dr @ Harbor St,27.9536,-82.445577
 4796,7th Av @ 2900,27.960277,-82.427073
 1476,Waters Av @ 5400 thompson Center,28.025428,-82.536458
-4797,Channelside Dr @ Adamo Dr,27.956399,-82.445638
 1480,Waters Av @ Savarese Blvd,28.025361,-82.53028
 1481,Waters Av @ Woodland Center Blvd,28.02531,-82.525351
 1482,Waters Av @ Woodland Corporate Blvd,28.025295,-82.522504
@@ -1982,7 +1874,6 @@ stop_id,stop_name,stop_lat,stop_lon
 5047,Dale Mabry Hwy @ Jetton Av,27.932674,-82.505863
 5048,Dale Mabry Hwy @ San Nicholas St,27.925546,-82.505787
 5045,M L King Jr Blvd @ Florida Av Es,27.98159,-82.458672
-5046,M L King Jr Blvd @ 2125,27.981349,-82.481676
 5043,M L King Jr Blvd @ 29th St,27.981506,-82.427809
 5044,M L King Jr Blvd @ 17th St,27.981563,-82.439928
 5042,M L King Jr Blvd @ 42nd St,27.981498,-82.412525
@@ -2012,7 +1903,6 @@ stop_id,stop_name,stop_lat,stop_lon
 5062,Sligh Av @ Halifax River Dr (6102),28.01076,-82.387852
 5061,Sligh Av @ Peoples Park,28.010789,-82.386393
 5060,Sligh Av @ 6216,28.010785,-82.3828
-5887,Fletcher Av @ Livingston Av West,28.06913,-82.430708
 5885,N Florida Av @ Polk St,27.950736,-82.458172
 5075,Habana Av @ Idlewild Av,28.001119,-82.488452
 5074,Habana Av @ Frierson Av,27.994845,-82.48847
@@ -2020,25 +1910,18 @@ stop_id,stop_name,stop_lat,stop_lon
 5076,Habana Av @ Paris St,28.002839,-82.488433
 5079,Sligh Av @ Albany Av,28.01064,-82.480312
 5078,Sligh Av @  Howard Av,28.010675,-82.482409
-5881,S Harbor Island Bl @ Westin Hotel,27.938989,-82.454029
 5884,N Florida Av @ Madison St,27.949142,-82.457513
 5071,Habana Av @ Violet St,27.990185,-82.488777
 5070,Habana Av @ Rio Vista Av,27.997822,-82.488653
 5073,Habana Av @ 4600,27.98227,-82.48895
 5072,Habana Av @ 4700,27.985137,-82.488864
-5876,Tampa Convention Center,27.941109,-82.455153
-5877,S Harbour Island Bl @ Westin  Hotel,27.938401,-82.453998
 5878,Knights Run @ Harbour Place Dr,27.937658,-82.451346
 5879,Beneficial Dr @ Knights Run Av,27.938356,-82.449878
-5873,Franklin St @ Whiting St,27.944786,-82.456763
-5872,Tampa St @ Jackson St,27.94647,-82.458454
 5871,Tampa St @ Zack St,27.949395,-82.459771
 5870,Tampa St @ Cass St,27.950808,-82.460369
 5089,43Rd St @ Smugglers Cove,28.010132,-82.410069
 5088,43Rd St @ 6521,28.00886,-82.410095
 5086,Hanna Av @ 30th St,28.003285,-82.425938
-5085,Sligh Av @ 21St St,28.010467,-82.436068
-5084,Sligh Av @ 19th St,28.010485,-82.438722
 5083,Sligh Av @ Duncan Av,28.010582,-82.461245
 5082,Sligh Av @ Ola Av,28.010635,-82.463318
 5081,Sligh Av @ Packwood Av,28.010641,-82.477607
@@ -2060,37 +1943,26 @@ stop_id,stop_name,stop_lat,stop_lon
 5853,Brandon Hcc @ Columbus Dr,27.968072,-82.328714
 1410,Westshore Blvd @ Lancaster St,27.868613,-82.52698
 1415,Westshore Blvd @ Idaho St,27.859764,-82.527003
-941,N Boulevard @ Laurel St,27.955358,-82.468326
 1414,Westshore Blvd @ Bradley St,27.860998,-82.527004
 1413,Westshore Blvd @ Ingraham St,27.862265,-82.526988
 1412,Westshore Blvd @ Loughman St,27.863489,-82.52699
 1419,Waters Av @ Mulberry St,28.025345,-82.443944
 1418,Waters Av @ Semmes St,28.025382,-82.441955
-943,N Boulevard @ West St,27.970491,-82.467619
-944,N Boulevard @ Virginia Av,27.97963,-82.46762
-947,N Boulevard @ Lowry Ln,28.013555,-82.467719
 6499,27th St @ Uatc,28.066139,-82.429482
 1422,Waters Av @ Edison Av,28.025395,-82.468523
 1421,Waters Av @ 12th St,28.025329,-82.44718
 1424,Waters Av @ Willow Av,28.025386,-82.471543
 1423,Waters Av @ El Portal Dr,28.025388,-82.469545
 1426,Waters Av @ Rome Av,28.025367,-82.475728
-930,Fletcher Av @ Nebraska Av Es,28.069183,-82.45034
 1425,Waters Av @ Orleans Av,28.025386,-82.473176
 1427,Waters Av @ Jones Av,28.025383,-82.478018
 1429,Waters Av @ Armenia Av,28.025439,-82.484001
-938,Fletcher Av @ Livingston Av East,28.069132,-82.429987
 1437,Waters Av @ Grady Av,28.025575,-82.5088
-920,Fletcher Av @ Rome Av,28.069306,-82.47605
 1435,Waters Av @ Dale Mabry Hwy Es,28.025579,-82.503707
 1433,Waters Av @ Sevilla Dr,28.025522,-82.498195
 1431,Waters Av @ Twin Lakes Blvd,28.025501,-82.492348
 1430,Waters Av @ Habana Av,28.025409,-82.488115
-928,Fletcher Av @ Summit Av,28.069201,-82.453374
-923,Fletcher Av @ N Boulevard,28.069082,-82.467876
-924,Fletcher Av @ Ola Av,28.069259,-82.46362
 1439,Waters Av @ Lois Av,28.025568,-82.512898
-921,Fletcher Av @ Forest Hills Dr,28.069303,-82.473856
 1438,Waters Av @ Lake Melena Way,28.025566,-82.510896
 1440,Waters Av @ Camden St,28.025573,-82.514478
 1448,Waters Av @ Anderson Rd,28.025761,-82.537978
@@ -2098,30 +1970,9 @@ stop_id,stop_name,stop_lat,stop_lon
 1442,Waters Av @ Cypress Lake Apts,28.025632,-82.519708
 1441,Waters Av @ Manhattan Av,28.025578,-82.516945
 1443,Waters Av @ Sunstate St,28.025645,-82.528673
-914,Fletcher @ Park At Lake Magdalene,28.065674,-82.488926
-915,Fletcher Av @ Sebring Blvd,28.06571,-82.48768
-917,Fletcher Av @ Armenia Av,28.066084,-82.483617
-910,Fletcher Av @ Reseda Ct,28.06584,-82.49302
-911,Fletcher Av @ Orange Grove Dr,28.06572,-82.50029
-913,Fletcher Av @ Paddock Av,28.065716,-82.490289
-907,Fletcher @ Park At Lake Magdalene,28.065853,-82.488898
 1450,Waters Av @ Benjamin Rd,28.025738,-82.541523
 1451,Waters Av @ Henderson Rd,28.025822,-82.55026
-968,N Boulevard @ 116th Av,28.053522,-82.46751
-966,N Boulevard @ 109th Av,28.047183,-82.467589
-965,N Boulevard @ Seneca Av,28.045372,-82.467609
-963,N Boulevard @ Bougainvillea Av,28.043525,-82.467608
-961,N Boulevard @ Linebaugh Av,28.039767,-82.467637
-960,N Boulevard @ Patbur Av,28.03667,-82.467657
-955,N Boulevard @ Waters Av North,28.02613,-82.467613
-954,N Boulevard @ Waters Av South,28.025034,-82.467632
-957,N Boulevard @ Humphrey St,28.030784,-82.467655
-956,N Boulevard @ Yukon St,28.028855,-82.467644
-951,N Boulevard @ Hollywood St,28.019437,-82.467681
 1402,Westshore Blvd @ Everett St,27.87193,-82.52697
-950,N Boulevard @ Kirby St,28.017961,-82.467711
-953,N Boulevard @ Sitka St,28.021955,-82.467672
-952,N Boulevard @ Ola Av,28.020524,-82.467682
 3684,Reo St @ Cypress St,27.952102,-82.536407
 3678,Northbridge Blvd @ Wooddrift Dr,28.015567,-82.57661
 4292,Frontage Rd @ Laurel St,27.956001,-82.536651
@@ -2172,14 +2023,11 @@ stop_id,stop_name,stop_lat,stop_lon
 3664,Memorial Hwy @ George Rd,27.98161,-82.549736
 2530,Lois Av @ Swann Av,27.937786,-82.514188
 2533,Lois Av @ Zelar St,27.93131,-82.514142
-3665,Morgan St @ Eunice Av,27.94402,-82.453364
 2437,Gibsonton Dr @ Ray St,27.849834,-82.35831
 2438,Gibsonton Dr @ Linda St,27.849838,-82.361278
 2436,Gibsonton Dr @ Vaughn St,27.849772,-82.356348
 2433,Gibsonton Dr @ Hagadorn Rd,27.85721,-82.33489
-5732,Providence @ Providence Bapt Church,27.897646,-82.31853
 3721,Webb Rd @ Jackson Springs Rd,28.007962,-82.575301
-5731,Providence Rd @ Purity Lane,27.900995,-82.318455
 3720,Webb Rd @ Elm St,28.010135,-82.575274
 2432,Gibsonton Dr @ Oak Ridge Av,27.857193,-82.329293
 5733,Providence Rd @ Lakewood Dr,27.92554,-82.315384
@@ -2190,7 +2038,6 @@ stop_id,stop_name,stop_lat,stop_lon
 7061,Waters Av @ Perry Ellis Int'L,28.025343,-82.529314
 2441,Gibsonton Dr @ Alafia St,27.849835,-82.370363
 2440,Gibsonton Dr @ River Dr,27.84983,-82.366053
-4210,Whiting St @ Franklin St,27.94532,-82.457036
 5741,Sheldon Rd @ Fawn Ridge Blvd,28.062122,-82.582732
 5749,Sheldon Rd @ Meadow Pkwy,28.033244,-82.583145
 3712,Webb Rd @ Jackson Springs Rd,28.007464,-82.575108
@@ -2209,7 +2056,6 @@ stop_id,stop_name,stop_lat,stop_lon
 5751,Dale Mabry Hwy @ 12000,28.059027,-82.50381
 7077,Dale Mabry Hwy@ Gaither High School,28.101676,-82.502518
 5752,Dale Mabry Hwy @ Colby Rd N/S,28.057028,-82.503974
-7076,Hillsborough Av @ Orient Rd,27.996357,-82.373551
 4223,Westshore Blvd @ Ballast Point Blvd,27.889613,-82.526731
 7079,Dale Mabry @ 14306 Landmark Plaza,28.076838,-82.50699
 7078,Dale Mabry@ 14502 Village French Pz,28.08155,-82.506575
@@ -2242,11 +2088,9 @@ stop_id,stop_name,stop_lat,stop_lon
 7047,Armenia Av @ Armenia Place,28.03583,-82.48349
 7046,Linebaugh Av @ Valle Dr,28.039927,-82.477894
 5760,Sheldon Rd @ Sheldon Chase Dr,28.034765,-82.583127
-4234,Marion St @ Zack St,27.950863,-82.457311
 7045,Armenia Av @ 6905,28.011873,-82.484554
 3750,Armenia Av @ Kenmore Av,28.018843,-82.484237
 5761,Sheldon Rd @ Fountain Estates,28.030935,-82.583181
-4233,Marion St @ Kennedy Blvd,27.948681,-82.456328
 2461,Gibsonton Dr @ Kenda Dr,27.85694,-82.335336
 7044,M L King Jr Blvd @ Berkley Dr,27.981354,-82.368604
 4231,Hillsborough Av @ Rome Av,27.99607,-82.47597
@@ -2254,13 +2098,10 @@ stop_id,stop_name,stop_lat,stop_lon
 7043,Nuccio Pkwy @ 13th St,27.963219,-82.445527
 3730,Armenia Av @ Virginia Av,27.979628,-82.484676
 5767,Sheldon Rd @ Fountain Estates,28.031479,-82.582777
-4235,Marion St @ Cass St,27.952312,-82.457939
 2443,Gibsonton Dr @ Gloria St,27.849854,-82.372652
 5766,Sheldon @River Oaks Treatment Plant,28.026706,-82.58284
 2444,Gibsonton Dr @ Davis St,27.849855,-82.37648
 3732,Armenia Av @ Eddy Dr,27.98544,-82.484582
-5765,Waters Av @ Sheldon Rd,28.026107,-82.583943
-4237,Marion Transit Center,27.954927,-82.458753
 2445,Gibsonton Dr @ Ethel St,27.84984,-82.37872
 3731,Armenia Av @ Wishart Blvd,27.982894,-82.484566
 5764,Waters Av @ Jasmine Apts,28.025732,-82.56548
@@ -2273,22 +2114,17 @@ stop_id,stop_name,stop_lat,stop_lon
 3735,Armenia Av @ Violet St,27.99047,-82.484487
 5768,Sheldon Rd @ Country Side Villas,28.033389,-82.58274
 3739,Armenia Av @ Comanche Av,27.997506,-82.484346
-7051,M L King Jr Blvd @ Habana Av  Ws,27.981158,-82.489687
 7050,Armenia Av @ Clifton St,28.000631,-82.484459
 7053,Bearss Av @ Livingston Av,28.080511,-82.430206
 7052,N Boulevard @ Braddock St,27.972157,-82.4677
 7058,Macdill Av @ S Adams St,27.869116,-82.494161
 5770,Sheldon Rd @ Redwood Blvd,28.036468,-82.582674
-4241,Marion St @ Cass St,27.951651,-82.457858
 5773,Sheldon Rd @ Gardner Rd,28.050748,-82.582505
 5774,Sheldon Rd @ S Meadowview Cr,28.052949,-82.582459
 7054,Livingston Av @ 148th Av,28.083659,-82.430742
-4242,Marion St @ Washington St,27.947177,-82.45566
 5771,Sheldon @ N Hills Co Health Ctr,28.03904,-82.582607
 7057,Macdill Av @ Estrella St,27.92846,-82.493542
 2451,Gibsonton Dr @ Alafia St,27.849658,-82.37093
-4244,Marion St @ Estelle St,27.958208,-82.45869
-7056,30th St @ Fern St,28.004833,-82.426596
 2479,Broadway Av @ 52nd St,27.962668,-82.398108
 2478,Broadway Av @ 51St St,27.962414,-82.399161
 4247,Florida Av @ Waters Av,28.024459,-82.459563
@@ -2296,7 +2132,6 @@ stop_id,stop_name,stop_lat,stop_lon
 2484,Broadway Av @ 59th St,27.965073,-82.388396
 4256,South Boulevard @ Deleon St,27.938973,-82.46865
 4253,South Boulevard @ Deleon St,27.93864,-82.46859
-4254,Britton Plaza,27.906778,-82.504183
 2481,Broadway Av @ 53Rd St,27.963228,-82.39586
 5706,Us Hwy 41 @ Dimare Packing,27.759138,-82.401191
 5707,Us Hwy 41 @ Dickman Dr,27.718124,-82.434251
@@ -2304,15 +2139,12 @@ stop_id,stop_name,stop_lat,stop_lon
 5705,Gibsonton  @ Gibsonton Elem School,27.84986,-82.36851
 2468,Broadway Av @ 62nd St,27.966254,-82.384122
 5702,Us Hwy 301 @ Balm Riverview Rd,27.865937,-82.326697
-4258,Usf @ Administration Bldg,28.0607499,-82.4134114
 2465,Broadway Av @ Locicero Dr,27.966824,-82.378119
-5701,Providence Rd @ Purity Lane,27.901467,-82.318647
 2466,Broadway Av @ 68th St,27.966839,-82.379589
 4264,21St Av @ 43Rd St,27.970334,-82.410246
 2471,Broadway Av @ 59th St,27.965256,-82.388161
 2472,Broadway Av @ 58th St,27.964858,-82.389772
 5717,Us Hwy 41 @ Pembroke Rd,27.80739,-82.3841
-5718,Us Hwy 41 @ Beach Av  (Twin Oaks),27.840939,-82.381483
 5719,Gibsonton Dr @ Massachusetts St,27.849654,-82.380425
 2499,Lois Av @ Dale Av,27.939344,-82.513987
 5711,Sr 674 @ South Bay Hospital,27.713057,-82.365334
@@ -2323,11 +2155,9 @@ stop_id,stop_name,stop_lat,stop_lon
 5715,Us Hwy 41 @ Dimare Packing,27.758977,-82.400995
 3700,Tampa Bay Blvd @ Dale Mabry Hwy,27.974123,-82.503852
 5716,Us Hwy 41 @ P.T.G. Packing,27.784678,-82.3842
-4273,University Mall,28.057475,-82.436651
 4271,N Boulevard @ Sligh Av,28.011124,-82.467729
 4272,N Boulevard @ Country Club Dr,28.054482,-82.46744
 7089,Broadway Av @ 61St St,27.965766,-82.386095
-7087,Orient Rd @ King Alfred Dr,27.982571,-82.373234
 7088,Broadway Av @ 64th St,27.96642,-82.383606
 7085,Causeway Blvd @ Vemtura Av,27.923113,-82.344372
 7086,Tampa St @ Royal St,27.953362,-82.461037
@@ -2344,14 +2174,12 @@ stop_id,stop_name,stop_lat,stop_lon
 5727,Riverview Dr @ North St,27.871602,-82.32139
 5724,Gibsonton Dr @ Oak Ridge Av,27.856933,-82.328216
 5725,Us Hwy 301 @ Rivercrest Dr,27.861044,-82.326431
-4284,Westfield Brandon,27.931992,-82.324716
 4285,Palm River Rd @ 50th St,27.942878,-82.401185
 2492,Broadway Av @ 73Rd St,27.966704,-82.374056
 2493,Lois Av @ Henderson Blvd,27.927071,-82.513997
 7099,Hillsborough Av @ 44th St,27.996189,-82.408227
 2494,Lois Av @ Estrella Av,27.928339,-82.513998
 2495,Lois Av @ Zelar St,27.931111,-82.51397
-4289,Republica De Cuba @ Columbus Dr,27.966534,-82.444312
 2496,Lois Av @ Morrison Av,27.933883,-82.513942
 7094,Manhattan Av @ Euclid Av,27.907946,-82.518048
 7095,Ingraham St @ Kissimmee St,27.862099,-82.529019
@@ -2368,7 +2196,6 @@ stop_id,stop_name,stop_lat,stop_lon
 7023,21St St @ 11th Av,27.96344,-82.435558
 7024,Palm Av @ Nuccio Pkwy,27.962477,-82.446424
 7025,Palm Av @ Nuccio Pkwy,27.962259,-82.447107
-7027,Leroy Collins Blvd @ Fowler Av,28.054976,-82.413421
 7028,56th St @ 11402,28.051325,-82.393849
 7020,40th St @ Bluff Av,28.019656,-82.414039
 7019,40th St @ River Pines Apts,28.017926,-82.414111
@@ -2386,7 +2213,6 @@ stop_id,stop_name,stop_lat,stop_lon
 5795,Westshore Blvd @ Interbay Blvd,27.86606,-82.52705
 7038,N Boulevard @ El Portal Dr,28.032269,-82.467675
 7039,Country Club Dr @ Country Club Pl,28.054676,-82.464526
-7036,Nuccio Pkwy @ 13th St,27.963415,-82.445814
 7037,Rome Av @ Ferris Av,27.982782,-82.476529
 7030,34th St @ Palifox St,27.986847,-82.422527
 7031,15th St @ Mohawk Av,27.996711,-82.442845
@@ -2395,7 +2221,6 @@ stop_id,stop_name,stop_lat,stop_lon
 1336,Westshore Blvd @ Coachman Av,27.897377,-82.526669
 1337,Westshore Blvd @ Alline St,27.898854,-82.52666
 1338,Westshore Blvd @ Fair Oaks Av,27.900221,-82.526651
-7029,56th St @ Serena Dr,28.042858,-82.393691
 1334,Westshore Blvd @ Gandy Blvd,27.894205,-82.526793
 7006,12th St @ Washington St,27.948668,-82.446623
 7000,Falkenburg Rd @ Columbus Dr,27.965922,-82.335375
@@ -2404,21 +2229,12 @@ stop_id,stop_name,stop_lat,stop_lon
 5798,Tampa St @ Kennedy Blvd,27.947149,-82.458768
 7016,Osborne Av @ 40th St,27.988711,-82.414616
 7017,40th St @ Norfork St,28.01156,-82.415004
-7014,Morgan St @ Bell St,27.945257,-82.453868
-7015,M L King Jr Blvd @ 6605,27.981335,-82.380598
 7012,Dale Mabry Hwy @ Elmwood Terrace,27.877381,-82.506295
 7013,Dale Mabry Hwy @ Cam St,27.903806,-82.506003
 7010,Swann Av @ Edison Av,27.937337,-82.469627
 7011,Dale Mabry Hwy @ Elmwood Terrace,27.877728,-82.506577
 7008,56th St @ Puritan Rd Ns,28.021197,-82.393535
 7007,12th St @ Kennendy Blvd,27.950249,-82.446559
-807,15th St @ 127th Av,28.062077,-82.442864
-802,15th St @ 130th Av,28.0645,-82.442737
-801,15th St @ 127th Av,28.061756,-82.442747
-1317,Hillsborough Av @ Orient Rd,27.996029,-82.373507
-1316,Hillsborough Av @ 6813,27.996031,-82.375938
-1314,Hillsborough Av @ Walton Way,27.996024,-82.380689
-1313,Hillsborough Av @ Harney Rd,27.996026,-82.382938
 1311,Hillsborough Av @ 50th St,27.995925,-82.401982
 1310,Hillsborough Av @ 46th St,27.996002,-82.406746
 1329,Westshore Blvd @ Pearl Av,27.887602,-82.526739
@@ -2429,79 +2245,22 @@ stop_id,stop_name,stop_lat,stop_lon
 1321,Westshore Blvd @ Everett St,27.871767,-82.526804
 1320,Westshore Blvd @ McCoy St,27.869635,-82.526904
 1322,Westshore Blvd @ Westshore Circle,27.87337,-82.526816
-824,15th St @ Idlewild Av,28.001655,-82.443028
-825,15th St @ Henry Av,27.999808,-82.443048
-822,15th St @ North St,28.00526,-82.443038
-823,15th St @ Hanna Av,28.003466,-82.443028
-828,15th St @ Frierson Av,27.994474,-82.443028
-829,15th St @ Wilder Av,27.992508,-82.443048
-826,15th St @ Comanche Av,27.997997,-82.443028
-827,15th St @ Hillsborough Av,27.996312,-82.443028
-821,15th St @ Diana St,28.007116,-82.443048
-819,15th St @ Linebaugh Av,28.040047,-82.442929
-811,15th St @ Fowler Av N,28.054805,-82.442925
 1307,Hillsborough Av @ 43Rd St,27.995998,-82.410105
 1306,Hillsborough Av @ 40th St Es,27.996001,-82.413184
-813,15th St @ 113th Av,28.051046,-82.442909
 1308,Hillsborough Av @ 44th St,27.996,-82.408603
-815,15th St @ Poinsettia Av,28.041864,-82.44292
-816,15th St @ Seneca Av,28.045873,-82.442916
-817,15th St @ Bougainvillea Av,28.043723,-82.442919
-818,15th St @ 109th Av,28.047349,-82.442913
 1301,Hillsborough Av @ 32nd St,27.995997,-82.424601
 1303,Hillsborough Av @ 36th St,27.996002,-82.42049
 1302,Hillsborough Av @ 34th St,27.996,-82.422638
 1305,Hillsborough Av @ 40th St Ws,27.996002,-82.41553
-810,15th St @ Fowler Av S,28.053306,-82.442921
 1304,Hillsborough Av @ 37th St,27.996004,-82.418513
-809,15th St @ 122nd Av,28.058403,-82.442881
-808,15th St @ 124th Av,28.060313,-82.44287
-842,Busch Blvd @ 40th St,28.032724,-82.41583
-841,Busch Blvd @ 42nd St,28.032734,-82.411901
-840,Busch Blvd @ 46th St,28.032732,-82.409661
-849,Busch Blvd @ 22nd St,28.032698,-82.433939
-847,Busch Blvd @ 26th St,28.032674,-82.430231
-830,15th St @ Ellicott St,27.991313,-82.443048
-832,15th St @ Osborne Av,27.988881,-82.44298
-831,15th St @ New Orleans Av,27.990317,-82.443027
-838,Busch Blvd @ Busch Plaza,28.032765,-82.402543
-837,15th St @ 31St Av,27.978801,-82.442998
-839,Busch Blvd @ Temple St,28.032741,-82.407279
-834,15th St @ Chelsea St,27.985254,-82.443037
-833,15th St @ Cayuga St,27.986386,-82.443037
-836,15th St @ M L King Jr Blvd,27.981725,-82.442996
-835,15th St @ North Bay St,27.983407,-82.443027
-860,Busch Blvd @ Ola Av,28.032804,-82.463754
-862,Busch Blvd @ 12th St,28.032644,-82.447265
-869,Busch Blvd @ 26th St,28.032408,-82.43022
-867,Busch Blvd @ 22nd St,28.032391,-82.43478
-852,Busch Blvd @ Elmer St,28.032695,-82.439792
-851,Busch Blvd @ 19th St,28.032667,-82.437362
-855,Busch Blvd @ 12th St,28.032907,-82.446895
-858,Busch Blvd @  N Boulevard,28.033259,-82.467549
-857,Busch Blvd @ Ola Av,28.03304,-82.463815
-859,Busch Blvd @ Florida Av,28.032864,-82.459974
-886,Fletcher Av @ 19th St,28.069272,-82.438499
-887,Fletcher Av @ Winward Dr,28.069281,-82.440081
-881,Fletcher Av @ Livingston Av,28.069296,-82.427179
 4196,Gunn Hwy @ Anderson Rd,28.061443,-82.542855
-879,Busch Blvd @ Temple Av,28.032458,-82.407043
-878,Busch Blvd @ 46th St,28.032459,-82.410205
-874,Busch Blvd @ 37th Av,28.032452,-82.417887
 4185,Fowler Av @ 17th St,28.054667,-82.440466
-4184,Tyler St @ Ashley Dr,27.951505,-82.462171
 3797,Armenia Av @ Braddock St,27.972658,-82.484863
 3799,Armenia Av @ Abdella St,27.970455,-82.484931
 4173,S Meridian St @ Cumberland Av,27.945502,-82.448249
 4172,Jefferson St @ Crosstown Expwy,27.9459,-82.452177
-890,Fletcher Av @ 12th St,28.06928,-82.446762
 4179,Pierce St @ Whiting St,27.946798,-82.453758
 4178,North St @ Delia St,27.715812,-82.306561
-899,Fletcher Av @  N Boulevard,28.069348,-82.467274
-893,Fletcher Av @ Summit Av,28.069316,-82.453028
-894,Fletcher Av @ Central Av,28.069343,-82.45615
-892,Fletcher Av @ Nebraska Av,28.069316,-82.450787
-898,Fletcher Av @ Ola Av,28.069403,-82.463249
 3783,Armenia Av @ Comanche Av,27.997665,-82.484464
 3782,Armenia Av @ Powhatan Av,27.999148,-82.484457
 2405,21St Av @ 9th St,27.970536,-82.44967
@@ -2548,21 +2307,14 @@ stop_id,stop_name,stop_lat,stop_lon
 3765,Armenia Av @ Humphrey St,28.029918,-82.484294
 3768,Armenia Av @ Waters Av,28.025218,-82.484342
 3869,Bloomingdale Av @ Kings Av,27.893499,-82.293232
-5633,M L King Jr Blvd @ 6606,27.981642,-82.380708
-5632,M L King Jr Blvd @ 69th St,27.981584,-82.377383
 2335,7th Av @ 23Rd St,27.960139,-82.433609
 4103,131St Av @ 20th St,28.065451,-82.436755
 2332,7th Av @ 10th St,27.960338,-82.448414
-5635,M L King Jr Blvd @ Carroway St,27.98153,-82.391179
 2333,7th Av @ Scott St,27.960184,-82.448372
-5634,M L King Blvd @ Interstate Ind Park,27.981561,-82.388023
-5637,M L King Jr Blvd @ 52nd St,27.981545,-82.39772
 2338,7th Av @ 31St St,27.96013,-82.425408
-5636,M L King Jr Blvd @ 54th St,27.981527,-82.395661
 4107,22nd St @ Aimee Ct,28.078199,-82.434524
 2336,7th Av @ 24th St,27.96013,-82.432101
 5639,Cleveland St @ Melville Av,27.943353,-82.479754
-5638,M L King Jr Blvd @ Phillips St,27.981552,-82.399608
 2337,7th Av @ 25 th St,27.96013,-82.431118
 7169,Fowler Av @ Riverhills Dr,28.054136,-82.368059
 7168,Fowler Av @ Gillette Av,28.054204,-82.376148
@@ -2618,17 +2370,13 @@ stop_id,stop_name,stop_lat,stop_lon
 7186,Linebaugh Av @ Florida Av,28.0399,-82.458861
 7185,Temple Terrace Hwy @ 78th St Fs,28.03262,-82.368364
 7184,Dale Mabry Hwy @ Columbus Dr,27.966098,-82.505317
-2307,Platt St @ Plant Av,27.941551,-82.462695
-2308,Platt St @ Parker St,27.94156,-82.461308
 5629,M L King Jr Blvd @ Danny Bryan Rd,27.981628,-82.364234
 5628,M L King Jr Blvd @ Us Hwy 301 Ws,27.981636,-82.360662
 2303,Platt St @ Delaware Av,27.94173,-82.470785
 5627,M L King Jr Blvd @ Us Hwy 301 Es,27.981603,-82.358588
 2304,Platt St @ S Boulevard,27.941631,-82.468718
 5626,M L King Jr Blvd @ 9001,27.981627,-82.356827
-2305,Platt St @ Magnolia Av,27.941596,-82.465995
 5625,M L King Jr Blvd @ Coconut Palm,27.981496,-82.350328
-2306,Platt St @ Hyde Park Av,27.941596,-82.464162
 5624,M L King Jr Blvd @ Riga Blvd,27.981411,-82.346721
 5623,M L King Jr Blvd @ Cragmont Dr,27.98146,-82.341716
 2300,Platt St @ Packwood Av,27.941755,-82.477697
@@ -2639,14 +2387,12 @@ stop_id,stop_name,stop_lat,stop_lon
 7198,56th St @ King High School,28.008912,-82.393405
 5630,M L King Jr Blvd @ Cromwell Dr,27.981601,-82.367811
 7197,Hillsborough Av @ Jamaica St,27.996017,-82.494618
-5631,M L King Jr Blvd @ Orient Rd Ws,27.981625,-82.373975
 4102,Linebaugh Av @ Armenia Av,28.040056,-82.480554
 7199,Gunn Hwy @ Birmingham St,28.063303,-82.547805
 7192,Sr 60 @ Nissan,27.948531,-82.343819
 7191,Sr 60 @ Comfort Suites,27.945933,-82.339667
 7194,Kennedy Bl @ Lincoln Av,27.944654,-82.496903
 7193,Florida Av @ 12738,28.062569,-82.459454
-7196,Cass St @ Ashley Dr,27.950428,-82.46216
 2382,21St Av @ 43Rd St,27.970455,-82.410341
 2386,21St Av @ 38th St,27.970452,-82.417206
 2383,21St Av @ 42nd St,27.970497,-82.412322
@@ -2716,16 +2462,13 @@ stop_id,stop_name,stop_lat,stop_lon
 1277,Hillsborough Av @ Himes Av,27.995939,-82.500511
 1278,Hillsborough Av @ Lincoln Av,27.995952,-82.49709
 1274,Hillsborough Av @ Lois Av,27.995979,-82.512933
-7101,Winn Dixie Pnr @ Apollo Beach Blvd,27.767959,-82.393938
 1272,Hillsborough Av @ Lois Av,27.995962,-82.513803
 7100,Hillsborough Av @ Airport Blvd,27.996125,-82.527318
 7102,Hillsborough Av @ 4941,27.996,-82.403546
 7105,Memorial Hwy @ Mohr Rd,28.001408,-82.58682
-7104,Hillsborough Av @ Beaumont Ctr Blvd,27.996275,-82.549156
 1269,Hillsborough Av @ Hoover Blvd,27.996147,-82.533345
 2398,21St Av @ 17th St,27.970533,-82.439923
 2399,21St Av @ 16th St,27.970525,-82.441328
-5699,Providence Rd @ Providence Lake Bl,27.911558,-82.318865
 5698,Providence Rd @ Sweetridge Av,27.916047,-82.318843
 1261,Hillsborough Av @ Kelly Rd,27.996483,-82.564521
 7112,Gunn Hwy @ Citrus Park Dr,28.065923,-82.569372
@@ -2762,7 +2505,6 @@ stop_id,stop_name,stop_lat,stop_lon
 5684,Henderson Blvd @ Himes Av,27.937097,-82.50197
 7123,Sr 674 @ 33Rd St Se,27.712197,-82.376502
 1250,Hillsborough Av @ Halifax Dr,27.996755,-82.572013
-1245,Hillsborough Av @ Sawyer Rd,27.996639,-82.556358
 5679,Manhattan Av @ Ballast Point Blvd,27.889575,-82.518336
 1246,Hillsborough Av @ Hanley Rd,27.996691,-82.563689
 5676,Manhattan Av @ Lancaster St,27.868358,-82.518496
@@ -2780,7 +2522,6 @@ stop_id,stop_name,stop_lat,stop_lon
 7133,Kelly Rd @ Swindon Rd,27.986257,-82.565016
 1240,Hillsborough @ 5555 Crown Bowling,27.996432,-82.537866
 5697,Providence Rd @ Windingwood Av,27.919731,-82.31884
-1242,Hillsborough Av @ Beaumont Ctr Blvd,27.996524,-82.548751
 1241,Hillsborough Av @ Benjamin Dr,27.996469,-82.540496
 7132,Channelside,27.943881,-82.447075
 1232,Hillsborough Av @ Lois Av N/S,27.996261,-82.513961
@@ -2833,28 +2574,7 @@ stop_id,stop_name,stop_lat,stop_lon
 1212,Hillsborough Av @ 22nd St,27.996131,-82.4346
 5668,Westshore Blvd @ Price Av,27.89061,-82.526722
 1213,Hillsborough Av @ 20th St,27.996131,-82.436484
-903,Fletcher Av @ Greentree Dr,28.069391,-82.478141
-906,Fletcher Av @ Lake George Ln,28.065855,-82.485475
-900,Fletcher Av @ Rome Av,28.069443,-82.47535
 1219,Hillsborough Av @ Central Av,27.996243,-82.45561
-744,22nd St @ Lake Av,27.977283,-82.43481
-743,22nd St @ 31St Av,27.978556,-82.434807
-741,22nd St @ M L King Jr Blvd,27.982085,-82.434818
-734,22nd St @ Shadowlawn Av,27.993441,-82.434853
-737,22nd St @ Osborne Av,27.988968,-82.434775
-738,22nd St @ Chelsea St,27.985279,-82.434773
-731,22nd St @ Henry Av,27.99981,-82.434753
-730,22nd St @ Idlewild Av,28.001583,-82.434843
-733,22nd St @ Giddens Av,27.995398,-82.434779
-732,22nd St @ Hillsborough Av,27.996819,-82.434786
-727,22nd St @ Diana St,28.007188,-82.434802
-725,22nd St @ Bougainvillea Av,28.043693,-82.434643
-724,22nd St @ Marvy Av,28.04578,-82.43464
-723,22nd St @ 109th Av,28.047312,-82.434633
-722,22nd St @ 111th Av,28.049577,-82.434708
-720,22nd St @ 115th Av,28.051947,-82.434624
-717,22nd St @ 131St Av,28.065156,-82.434615
-715,22nd St @ Fletcher Av,28.069661,-82.434677
 4971,30th St @ 109th Av,28.046904,-82.426112
 4970,3Oth St @ Times Customer Service,28.045185,-82.426111
 4963,22nd St @ Water Av,28.02512,-82.434586
@@ -2865,26 +2585,18 @@ stop_id,stop_name,stop_lat,stop_lon
 4968,30th St @ Pointsettia Av,28.041295,-82.426117
 4965,Yukon St @ 26th St,28.028705,-82.430433
 4966,30th St @ 97th Av,28.038276,-82.426115
-703,22nd St @ Fletcher Av,28.068897,-82.434525
-701,22nd St @ 132nd Av,28.067261,-82.434484
 4969,30th St @ University Center,28.04482,-82.42609
-702,22nd St @ 133Rd Av,28.068131,-82.434484
-708,22nd St @ Rae Ct,28.079114,-82.434565
-705,22nd St @ Aimee Ct,28.078308,-82.434707
 4980,30th St @ Railroad Crossing,28.053833,-82.426315
 4981,30th St @ Foxfire II Apts,28.045507,-82.426277
 4972,30th St @ 113th Av,28.050822,-82.426099
 4973,30th St @ Railroad Crossing,28.052574,-82.426031
-4974,30th St @ Pine Dr,28.056123,-82.425899
 4975,30th St @ Campus Hill Dr,28.060313,-82.425948
-4977,Bruce B Downs Blvd @ 132nd Av,28.0675,-82.42626
 4978,30th St @ Campus Hill Dr,28.060433,-82.426205
 4979,30th St @ Pine Dr,28.057753,-82.426254
 4993,Kennedy Blvd @ Grady Av,27.944972,-82.510287
 4991,30th St @ Shadowlawn St,27.993739,-82.426547
 4990,30th St @ Comanche Av,27.997686,-82.42651
 4989,30th St @ Idlewild Av,28.001078,-82.426527
-4987,30th St @ Pocahontas Av,28.00888,-82.42653
 4988,30th St @ County Hospital,28.002319,-82.426533
 4985,22nd St @ Waters Av,28.025554,-82.434517
 4986,22nd St @ Rowlett Park Dr,28.022692,-82.435186
@@ -2895,11 +2607,8 @@ stop_id,stop_name,stop_lat,stop_lon
 4999,Tpa Internat'L  Airport Post Office,27.968271,-82.538498
 1203,Hillsborough Av @ 40th St,27.996146,-82.413591
 1206,Hillsborough Av @ 36th St,27.996156,-82.420114
-4994,Westshore Blvd @ 1311 N,27.95478,-82.523994
 1200,Hillsborough Av @ 46th St,27.996189,-82.406637
-4996,Westshore Blvd @ Main St,27.957334,-82.523976
 1202,Hillsborough Av @ 43Rd St,27.996192,-82.409904
-4997,Spruce St @ Westshore Blvd,27.959987,-82.524951
 1208,Hillsborough Av @ 32nd St,27.996166,-82.424136
 1207,Hillsborough Av @ 34th St,27.996157,-82.42215
 1209,Hillsborough Av @ 30th St,27.996157,-82.426263
@@ -2949,70 +2658,52 @@ stop_id,stop_name,stop_lat,stop_lon
 3033,Columbus Dr @ Tampania Av,27.966614,-82.487055
 3032,Columbus Dr @ Habana Av,27.966662,-82.48916
 3030,Columbus Dr @ MacDill Av,27.966574,-82.493425
-799,15th St @ 122nd Av,28.057863,-82.442757
 3018,Columbus Dr @ Armenia Av,27.966748,-82.484727
 3019,Columbus Dr @ Tampania Av,27.966759,-82.486843
-2779,Providence Rd @ Providence Lakes Bl,27.910597,-82.318441
-797,15th St @ Fowler Av,28.053987,-82.442767
-2778,Providence Rd @ Providence Ridge Bl,27.907934,-82.318425
 3014,Columbus Dr @ Rome Av,27.966664,-82.476875
-794,15th St @ 109th Av,28.04706,-82.442787
 3015,Columbus Dr @ Fremont Av,27.966684,-82.478962
-2775,Providence Rd @ Providence Park,27.895777,-82.318422
-793,15th St @ Charm Ln,28.045638,-82.442787
 3016,Columbus Dr @ Albany Av,27.966687,-82.480409
 2774,Providence Rd @ Bloomingdale Av,27.893458,-82.318405
-792,15th St @ Bougainvillea Av,28.043429,-82.442797
 3017,Columbus Dr @ Howard Av,27.966725,-82.482584
-790,15th St @ Sligh Av,28.010403,-82.442876
 3022,Columbus Dr @ MacDill Av,27.966812,-82.492872
-791,15th St @ Poinsettia Av,28.041627,-82.442797
 3021,Columbus Dr @ Gomez Av,27.966779,-82.491001
 2781,Providence Rd @ Sweetridge Av,27.912573,-82.31847
 3024,Columbus Dr @ Lincoln Av,27.966797,-82.497176
 2782,Providence Rd @ Windingwood Av,27.92073,-82.318483
 3023,Columbus Dr @ Matanzas Av,27.966812,-82.495101
 3020,Columbus Dr @ Habana Av,27.966777,-82.488907
-781,15th St @ Frierson Av,27.994129,-82.442855
-782,15th St @ Hillsborough Av,27.995588,-82.442845
-783,15th St @ Comanche Av,27.997797,-82.442845
+0488,Nebraska Av @ McEwen Av,28.042396,-82.451361
 3048,Columbus Dr @ Nebraska Av,27.96675,-82.451036
-784,15th St @ Henry Av,27.99959,-82.442856
 3047,Columbus Dr @ Central Av,27.966759,-82.455603
-785,15th St @ Idlewild Av,28.001492,-82.442856
-786,15th St @ Hanna Av,28.003168,-82.442846
-787,15th St @ North St,28.005033,-82.442846
-788,15th St @ Diana St,28.007252,-82.442866
-789,15th St @ Escort Av,28.009625,-82.442866
+0485,Nebraska Av @ 109th Av,28.047431,-82.451331
+0487,Nebraska Av @ Bougainvillea Av,28.043777,-82.451285
 2705,Osborne Av @ 39th St,27.988831,-82.416109
 2706,Osborne Av @ 37th St,27.988875,-82.418181
 2709,Osborne Av @ Webster St,27.988694,-82.421149
+0492,Nebraska Av @ Richmere St,28.035325,-82.45133
 3052,Columbus Dr @ 13th St,27.966733,-82.445558
+0491,Nebraska Av @ Annie St,28.036558,-82.451324
 3053,Columbus Dr @ Republica De Cuba,27.966724,-82.444393
 3050,Columbus Dr @ 10th St,27.966751,-82.449163
 3051,Columbus Dr @ 12th St,27.966751,-82.447026
 3056,Columbus Dr @ 17th St,27.966715,-82.440545
 3057,Columbus Dr @ 19th St,27.966715,-82.438075
-780,15th St @ Wilder Av,27.992409,-82.442865
+0490,Nebraska Av @ Castle Ct,28.03795,-82.451381
 3054,Columbus Dr @ 15th St,27.966715,-82.44332
 3055,Columbus Dr @ 16th St,27.966715,-82.441781
-772,15th St @ 32nd Av,27.979485,-82.44289
 3037,Columbus Dr @ Fremont Av,27.966535,-82.478802
 3036,Columbus Dr @ Albany Av,27.966535,-82.480402
-770,15th St @ 28th Av,27.975899,-82.442824
+0499,Nebraska Av @ Juneau St,28.024214,-82.451334
 3039,Columbus Dr @ Ridgewood Av,27.966827,-82.473243
-771,15th St @ Rodney St,27.977402,-82.442814
 3038,Columbus Dr @ Rome Av,27.966509,-82.476757
-776,15th St @ Cayuga St,27.986875,-82.442855
+0497,Nebraska Av @ Fairbanks St,28.026718,-82.451307
 2710,Osborne Av @ Troy St,27.988694,-82.419741
-777,15th St @ Osborne Av,27.988623,-82.442845
+0498,Nebraska Av @ Waters Av,28.025417,-82.451346
 2711,Osborne Av @ 37th St,27.988712,-82.41813
-774,15th St @ North Bay St,27.983198,-82.442845
+0495,Nebraska Av @ Yukon St,28.029697,-82.451296
 2712,Osborne Av @ 39th St,27.988711,-82.416439
 2713,Palm River Rd @ 78th St,27.941135,-82.369504
-775,15th St @ Chelsea St,27.985019,-82.442855
-778,15th St @ New Orleans Av,27.990117,-82.442835
-779,15th St @ Ellicott St,27.991186,-82.442855
+0496,Nebraska Av @ Seward St,28.028072,-82.451299
 2718,Palm River Rd @ 68th St,27.94115,-82.379072
 3040,Columbus Dr @ Poplar Av,27.966801,-82.471177
 3041,Columbus Dr @ Glenwood Dr,27.966801,-82.469213
@@ -3020,30 +2711,16 @@ stop_id,stop_name,stop_lat,stop_lon
 3043,Columbus Dr @ Highland Av,27.966776,-82.462448
 3045,Columbus Dr @ Tampa St,27.966776,-82.461051
 3046,Columbus Dr @ Florida Av,27.966776,-82.459583
-763,15th St @ 15th Av,27.965873,-82.442874
 2724,Palm River Rd @ 56th St,27.942921,-82.395303
-764,15th St @ Columbus Dr,27.966715,-82.442874
-765,15th St @ 17th Av,27.967327,-82.442925
 2722,Palm River Rd @ 50th St,27.943042,-82.40162
-766,15th St @ 19th Av,27.968626,-82.442928
-760,15th St @ 11th Av,27.963038,-82.442864
 2729,Palm River Rd @ 70th St,27.941001,-82.377315
 2727,Palm River Rd @ 66th St,27.941031,-82.381435
-767,15th St @ 21St Av,27.970374,-82.442933
-768,15th St @ 24th Av,27.972222,-82.442949
 2725,Palm River Rd @ 57th St,27.943038,-82.39177
-769,15th St @ 26th Av,27.974069,-82.442854
 2726,Palm River Rd @ 58th St,27.94301,-82.389735
 3079,131St Av @ 20th St,28.065605,-82.436522
-3076,131St Av @ 25th St,28.065579,-82.43101
-3077,131St Av @ 23Rd St,28.065554,-82.432328
-3075,131St Av @ Bruce B Downs @ Va Hosp,28.065622,-82.427307
 2732,Palm River Rd @ 76th St,27.941035,-82.372962
-754,22nd St @ Flagler St,27.941635,-82.434795
 2733,Palm River Rd @ 78th St,27.940933,-82.369014
-755,22nd St @ Oakwood Av,27.939642,-82.434775
 2734,Palm Av @ 20th St,27.962525,-82.436498
-753,22nd St @ Chapin St,27.943709,-82.434795
 2735,Palm Av @ 19th St,27.962527,-82.437781
 3059,Columbus Dr @ 23Rd St,27.966697,-82.433882
 3058,Columbus Dr @ 21St St,27.966715,-82.435725
@@ -3061,61 +2738,80 @@ stop_id,stop_name,stop_lat,stop_lon
 3063,Columbus Dr @ 29th St,27.966687,-82.428374
 3064,Columbus Dr @ 31St St,27.96666,-82.425862
 4497,Nebraska Av @  Hollwood St,28.01925,-82.451341
-1196,Hillsborough Av @ Harney Rd,27.99633,-82.382835
 4495,Nebraska Av @ Linnwood Dr,28.067578,-82.451324
 1198,Hillsborough Av @ 50th St,27.996192,-82.402004
 4496,Nebraska Av @ Linebaugh Av,28.040141,-82.451315
 4493,22nd St @ 131St Av,28.065918,-82.434539
 3086,131St Av @ Bruce B Downs  @ Va Hosp,28.065459,-82.427307
+0580,Florida Av @ Sligh Av,28.011063,-82.459411
 3085,131St Av @ 19th St,28.065451,-82.438915
+0581,Florida Av @ Flora St,28.01233,-82.459411
 4491,131St Av @ 23Rd St,28.065432,-82.432457
 3084,131St Av @ 17th St,28.06546,-82.44077
 6620,Mulberry Dr @ Ogontz Av,28.021569,-82.436746
-4492,131St Av @ Livingston Av,28.065441,-82.430723
+0582,Florida Av @ Hamilton Av,28.014223,-82.459392
 6621,Mulberry Dr @ Rowlett Park Dr,28.022357,-82.435389
 3081,131St Av @ 15th St,28.065614,-82.441987
 4490,22nd St @ 131St Av,28.066202,-82.434667
 3080,131St Av @ 19th St,28.065605,-82.438509
-1190,M L King Jr Blvd @ Carroway St,27.981403,-82.391323
+0573,Florida Av @ Henry Av,27.999525,-82.459317
+0572,Florida Av @ Comanche Av,27.99775,-82.459317
 6611,Linebaugh Av @ Florida Av,28.039995,-82.458239
+0575,Florida Av @ Hanna Av,28.003265,-82.459338
 6614,Waters Av @ Arden Av,28.0251,-82.453
+0574,Florida Av @ Idlewild Av,28.001527,-82.459328
 6613,Waters Av @ Lamar Av,28.025154,-82.454621
+0577,Florida Av @ Lambright St,28.006281,-82.459369
 6616,17th St @ Juneau St,28.023987,-82.440881
-1188,M L King Jr Blvd @ 54th St,27.981396,-82.395456
+0576,Florida Av @ Fern St,28.004895,-82.459349
 6615,Waters Av @ 17th St,28.025219,-82.440921
+0579,Florida Av @ Hiawatha St,28.009496,-82.45939
 4489,22nd St @ 132nd Av,28.066981,-82.434667
 6618,Sitka St @ 18th St,28.021144,-82.439604
 4488,Fletcher Av @ Winward Dr,28.0690879,-82.4401345
 6617,17th St @ Sitka St,28.021379,-82.440921
-1187,M L King Jr Blvd @ 52nd St,27.981388,-82.397866
-1186,M L King Jr Blvd @ Phillips St,27.981389,-82.399639
 1185,M L King Jr Blvd @ 50th St,27.98139,-82.402525
 1184,M L King Jr Blvd @ 42nd St,27.981375,-82.412754
+0570,Florida Av @ Frierson Av,27.994185,-82.459373
+0571,Florida Av @ Hillsborough Av,27.995839,-82.459316
 6610,Linebaugh Av @ Central Av,28.039979,-82.455826
 1181,M L King Jr Blvd @ 37th St,27.981331,-82.418365
 1180,M L King Jr Blvd @ 35th St,27.981322,-82.42033
-3917,Marion St @ Kennedy Blvd,27.947748,-82.456116
 6609,Linebaugh Av @ Arden Av,28.039964,-82.4529
+0569,Florida Av @ Wilder Av,27.992324,-82.459375
 6608,Linebaugh Av @ Nebraska Av,28.039983,-82.450975
 3915,Ashley Dr @ Washington St,27.94561,-82.458515
+0564,Florida Av @ Chelsea St,27.984983,-82.459374
 6603,Linebaugh Av @  15th St,28.039807,-82.44302
+0563,Florida Av @ Ida St,27.982565,-82.459369
 6602,Linebaugh Av @ 14th St,28.039807,-82.445351
+0562,Florida Av @ M L King Jr Blvd,27.981169,-82.459368
 6601,Linebaugh Av @ 12th St,28.039825,-82.447611
 6600,Linebaugh Av @ Jasmine Av,28.039834,-82.449709
 6607,Linebaugh Av @ Jasmine Av,28.03995,-82.449392
 1179,M L King Jr Blvd @ 34th St,27.98134,-82.42269
 4499,Nebraska Av @ Wilder St,27.992715,-82.451187
 6606,Linebaugh Av @ Lantana St,28.039947,-82.446717
+0566,Florida Av @ Osborne Av,27.988591,-82.459376
 6605,Linebaugh Av @ 14th St,28.039942,-82.445214
 1178,M L King Jr Blvd @ 31St St,27.98135,-82.425394
+0599,Florida Av @ 122nd Av,28.058134,-82.459293
+0598,Florida Av @ Fowler Av,28.055006,-82.459511
+0595,Florida Av @ Bougainvillea Av,28.042947,-82.459277
 3942,Brandon Blvd @ Lakewood Dr,27.93788,-82.311213
+0597,Florida Av @ Fowler Av,28.05515,-82.459302
 3943,Memorial Hwy @ Bray Rd,27.981872,-82.556362
+0596,Florida Av @ 109th Av,28.047124,-82.459335
+0592,Florida Av @ Floriland Av,28.037297,-82.459265
+0593,Florida Av @ Linebaugh Av,28.040665,-82.459266
+0590,Florida Av @ Seward St,28.027933,-82.459314
+0588,Florida Av @ Waters Av,28.024125,-82.459445
 1199,Hillsborough Av @ 48th St,27.996188,-82.403625
-4454,Yukon St @ Branch Av,28.02912,-82.457976
-2683,Orient Rd @ Chelsea St,27.985062,-82.372979
+0587,Florida Av @ Bird St,28.0226,-82.459394
+0585,Florida Av @ Kirby St,28.017619,-82.459402
+0583,Florida Av @ Broad St,28.016016,-82.459402
 4453,Florida Av @ Hollywood St,28.019485,-82.459393
 3970,Linebaugh Av @  N Boulevard,28.039885,-82.467952
-2682,Orient Rd @ King Alfred Dr,27.98316,-82.372899
 4452,Florida Av @ Knollwood St,28.008255,-82.45937
 4451,Florida Av @ Fairbanks St,28.026566,-82.459324
 3967,Linebaugh Av @ Forest Hills Dr,28.03991,-82.472664
@@ -3124,12 +2820,14 @@ stop_id,stop_name,stop_lat,stop_lon
 2677,Orient Rd @ 21St Av,27.970362,-82.372929
 3964,Linebaugh Av @ Dale Mabry Hwy,28.040046,-82.506671
 2678,Orient Rd @ Rhode Island Dr,27.97279,-82.372948
+0532,Nebraska Av @ Floribraska Av,27.970992,-82.451246
 4446,22nd St @ 32nd Av,27.978913,-82.434741
 3962,Linebaugh Av @ Valle Dr,28.040081,-82.477681
 3961,Linebaugh Av @ Oregon Av,28.040073,-82.474266
 4444,Nebraska Av @ Kay St,27.957132,-82.451116
 3960,Linebaugh Av @ Forest Hills Dr,28.04003,-82.47238
 4445,22nd St @ 28th Av,27.975696,-82.434743
+0538,Nebraska Av @ Palm Av,27.962702,-82.451309
 3968,Linebaugh Av @ Newport Av,28.039893,-82.469867
 5510,Busch Blvd @ Willow Av,28.033476,-82.47161
 4465,Florida Av @ April Lane,28.0812,-82.45962
@@ -3140,19 +2838,25 @@ stop_id,stop_name,stop_lat,stop_lon
 3956,Linebaugh Av @ Ola Av,28.040001,-82.463748
 5505,50th St @ 9422,28.035798,-82.401742
 3955,Linebaugh Av @ Tampa St,28.040009,-82.460402
+0523,Nebraska Av @ Cayuga St,27.987051,-82.451204
 4455,Florida Av @ Humphrey St,28.031139,-82.459294
+0524,Nebraska Av @ Chelsea St,27.985481,-82.451206
 4456,Florida Av @ Hamiller Av,28.034155,-82.459295
 5501,Wimauma Senior Center,27.715949,-82.300513
+0521,Nebraska Av @ New Orleans Av,27.990457,-82.451185
 4457,Florida Av @Moore Clinical Research,28.041417,-82.459276
+0522,Nebraska Av @ Osborne Av,27.988561,-82.451202
 4458,Florida Av @ Prince St,28.067597,-82.459259
+0528,Nebraska Av @ Lake Av,27.977988,-82.451227
+0525,Nebraska Av @ North Bay St,27.983429,-82.451211
 3958,Linebaugh Av @ N Boulevard,28.040025,-82.467695
 3957,Linebaugh Av @ 816,28.040002,-82.466044
+0529,Nebraska Av @ Emily St,27.975488,-82.451226
 5509,Busch Blvd @ 2308,28.03268,-82.432393
 3959,Linebaugh Av @ Newport Av,28.040056,-82.469604
 4472,Florida Av @ Ernie Haire Ford,28.038872,-82.459631
 4471,Florida Av @ 124th Av,28.060411,-82.459441
 4470,Florida Av @ 127th Av,28.062044,-82.459454
-4475,Yukon St @ Branch Av,28.028948,-82.457834
 4474,Florida Av @ Hamiller Av,28.034037,-82.45965
 5520,Gunn Hwy @ Four Oaks Rd,28.057225,-82.531841
 4473,Florida Av @ Floriland Av,28.036484,-82.459588
@@ -3160,47 +2864,50 @@ stop_id,stop_name,stop_lat,stop_lon
 5512,Busch Blvd @ Oakleaf Av,28.033496,-82.47892
 4468,Florida Av @ 143Rd Av,28.075908,-82.459528
 3985,Anderson Rd @ Waters Av,28.024549,-82.536821
+0554,Florida Av @ Columbus Dr,27.96713,-82.45934
 4469,Florida Av @ Wildwood St,28.074359,-82.459503
 2698,Orient Rd @ Broadway Av Ss,27.966405,-82.373105
 5514,Busch Blvd @ Twin Lakes Blvd,28.035997,-82.492258
 4466,Florida Av @ Floral Dr,28.080476,-82.459609
 3983,Anderson Rd @ Tampa West Blvd,28.019679,-82.5341
+0556,Florida Av @ Floribraska Av,27.970716,-82.45933
 2695,Orient Rd @ Rhode Island Dr,27.972826,-82.37313
 4467,Florida Av @ 145th Av,28.078546,-82.459575
+0557,Florida Av @ Plymouth St,27.973053,-82.459321
 2696,Orient Rd @ 21St Av,27.970535,-82.373122
 5516,Gunn Hwy @ Hubert Av,28.045775,-82.515445
 5515,Busch Blvd @ Himes Av,28.036377,-82.500411
 5518,Gunn Hwy @ Country Run Rd,28.052351,-82.523706
 2699,Orient Rd @ 14th Av,27.965463,-82.373095
 5517,Gunn Hwy @ Casey Rd,28.048141,-82.51821
+0553,Florida Av @ Frances St,27.964938,-82.459359
 5519,Gunn Hwy @ Marbrisa Apts,28.05548,-82.528291
+0558,Florida Av @ 26th Av,27.974439,-82.459311
+0559,Florida Av @ Lake Av,27.977726,-82.459302
 4481,Nebraska Av @ Mohawk Av,27.997086,-82.451106
 4480,Nebraska Av @ Palm Av,27.963047,-82.451199
-2690,Orient Rd @ Chelsea St,27.985342,-82.373161
 4482,Nebraska Av @ Juneau St,28.0236,-82.451202
 4485,Nebraska Av @ 126th Av,28.061212,-82.451019
 5531,Gunn Hwy @ Cain Rd,28.065266,-82.558037
 2692,Orient Rd @ Delano Av,27.977853,-82.373157
 4484,Nebraska Av @ 113th Av,28.05109,-82.451092
 5532,Gunn Hwy @ Normandie Rd,28.064529,-82.55319
-2691,Orient Rd @ M L King Jr Blvd,27.98172,-82.373235
-4487,Fletcher Av @ Cecelia St,28.069165,-82.445602
 3980,Anderson Rd @ Crenshaw St,28.015315,-82.533467
 2694,Orient Rd @ Westinghouse Av,27.974366,-82.373129
-4486,Fletcher Av @ 12th St,28.069175,-82.44749
 2693,Orient Rd @ Waycross Av,27.975978,-82.373148
-3972,Linebaugh Av @ Dartmouth Av,28.039868,-82.463259
 5525,Gunn Hwy @ Normandie Rd,28.065,-82.553484
+3972,Linebaugh Av @ Dartmouth Av,28.039868,-82.463259
 3971,Linebaugh Av @ 816,28.039867,-82.466066
 5524,Gunn Hwy @ Henderson Rd,28.063791,-82.549488
 4478,Tampa St @ Amelia Av,27.966242,-82.46097
+0546,Nebraska Av @ Cass St,27.953618,-82.451312
 5523,Gunn Hwy @ Mullis City Way,28.044354,-82.513715
 4479,Marion St @ Henderson Av,27.959069,-82.458872
-3973,Linebaugh Av @ Florida Av,28.039868,-82.460077
 5522,Gunn Hwy @ Forest Lane Dr,28.060053,-82.537846
+3973,Linebaugh Av @ Florida Av,28.039868,-82.460077
+0544,Nebraska Av @ India St,27.955701,-82.451296
 5529,Gunn Hwy @ Community Campus Dr,28.065368,-82.56415
-2688,Orient @ Draper  @ Seminole Complex,27.992359,-82.373193
-2689,Orient Rd @ Cayuga St @ Fairgrounds,27.987561,-82.3732
+0541,Nebraska Av @ 7th Av,27.960623,-82.451275
 5527,Gunn Hwy @ Landing Place Rd,28.065595,-82.560624
 5526,Gunn Hwy @ Cain Rd,28.065611,-82.557662
 1108,M L King Jr Blvd @ 37th St,27.981524,-82.418155
@@ -3234,10 +2941,18 @@ stop_id,stop_name,stop_lat,stop_lon
 5551,Busch Blvd @ 19th St,28.032391,-82.437922
 5554,Busch Blvd @ 29th St,28.032462,-82.426948
 5550,Busch Blvd @  Elmer St,28.032409,-82.440131
+0518,Nebraska Av @ Frierson Av,27.994374,-82.451187
+0517,Nebraska Av @ Hillsborough Av,27.996385,-82.451208
+0516,Nebraska Av @ Mohawk Av,27.996931,-82.451223
+0514,Nebraska Av @ Powhattan Av,27.998906,-82.451248
 1124,M L King Jr Blvd @ Central Av,27.98159,-82.455079
+0513,Nebraska Av @ Henry Av,27.999848,-82.451273
 5557,Busch Blvd @ 4200,28.032451,-82.4136
 1125,M L King Jr Blvd @ Branch Av,27.981588,-82.45719
+0512,Nebraska Av @ Idlewild Av,28.00189,-82.451345
 1122,M L King Jr Blvd @ 10th St,27.981553,-82.449062
+0511,Nebraska Av @ Hanna Av,28.003038,-82.451374
+0510,Nebraska Av @ Jean St,28.004542,-82.451354
 5556,Busch Blvd @ 40th St,28.032452,-82.415647
 1129,M L King Jr Blvd @ Highland Av,27.981588,-82.462436
 5559,Busch Blvd @ Broadmoor Apts,28.03244,-82.405462
@@ -3246,27 +2961,32 @@ stop_id,stop_name,stop_lat,stop_lon
 5560,Temple Heights Rd @ 5035,28.036151,-82.400059
 6684,19th St @ 142nd Av,28.075574,-82.43857
 6682,138th Av @ 19th St,28.072812,-82.438824
-5565,M L King Jr Blvd @ Fairview Park Dr,27.981305,-82.376759
 4430,Special Ops Command,27.852477,-82.488568
 1131,M L King Jr Blvd @ N Boulevard,27.981639,-82.467422
 6683,19th St @ 139th Av,28.073654,-82.43859
-5564,M L King Jr Blvd @ Corporex  Dr,27.981325,-82.380031
 1130,M L King Jr Blvd @ Lynn Av,27.981593,-82.46529
-5563,M L King Bl @ I-4 Foxworth Trailers,27.981411,-82.388012
 6681,138th Av @ 1805,28.072794,-82.440334
 5562,56th St @ Kenny Dr,28.015801,-82.393581
 1119,M L King Jr Blvd @ 15th St,27.98156,-82.44273
+0508,Nebraska Av @ Knollwood St,28.008134,-82.451343
+0507,Nebraska Av @ Sligh Av,28.010202,-82.451374
+0509,Nebraska Av @ Lambright St,28.006678,-82.451347
+0504,Nebraska Av @ Broad St,28.016277,-82.451334
+0503,Nebraska Av @ Kirby St,28.018399,-82.451337
+0506,Nebraska Av @ Flora St,28.012593,-82.451345
+0505,Nebraska Av @ Hamilton Av,28.014465,-82.451339
+0500,Nebraska Av @ Bird St,28.022807,-82.451389
 1111,M L King Jr Blvd @ 31St St,27.981552,-82.42531
 5566,M L King Jr Blvd @ Orient Rd E,27.981303,-82.372597
 4436,Harbour Place Dr @ Beneficial Dr,27.939433,-82.451063
 1113,M L King Jr Blvd @ 26th St,27.981531,-82.430488
 5568,M L King Jr Blvd @ Beechwood Blvd,27.981318,-82.367361
+0501,Nebraska Av @ Sitka St,28.021404,-82.451329
 1114,M L King Jr Blvd @ 24th St,27.981544,-82.432597
 5569,M L King Jr Blvd @ Danny Bryan Rd,27.981315,-82.363644
 6666,Bearss Av @ Reflections Apts,28.080254,-82.429241
 1116,M L King Jr Blvd @ 20th St,27.981553,-82.43741
 4438,Route 1 @ Yukon Transfer Center,28.029263,-82.456419
-6669,Bruce B Downs Blvd @ 138th Av,28.07316,-82.426234
 6673,142nd Av @ 19th St,28.07573,-82.438608
 5570,M L King Jr Blvd @ Us Hwy 301  Ws,27.981322,-82.361345
 6674,19th St @ 139th Av,28.073962,-82.438773
@@ -3283,9 +3003,7 @@ stop_id,stop_name,stop_lat,stop_lon
 5575,M L King Jr Blvd @ Cragmont Dr,27.981187,-82.341172
 7701,Causeway Blvd @ 50th St F/S,27.923033,-82.402287
 7700,Causeway Blvd @ 78th St,27.922781,-82.368989
-1149,M L King Jr Blvd @ Gomez Av,27.981175,-82.491601
 7703,Nebraska Av @ E Grove Av,28.070602,-82.45099
-7702,M L King Jr Bvdl @ Himes Av,27.981233,-82.500939
 7705,40th St @ Humphrey St,28.030396,-82.416428
 7704,Nebraska Av @ E Orange Av,28.070068,-82.451324
 5579,M L King Jr Blvd @ Lakewood Dr,27.981381,-82.310208
@@ -3295,31 +3013,19 @@ stop_id,stop_name,stop_lat,stop_lon
 5577,M L King Jr Blvd @ Sabal Park Ctr,27.98111,-82.335407
 7709,Cypress St @ Rome Av,27.951909,-82.475748
 7708,Columbus Dr @ N Gomez Av,27.966838,-82.491278
-1153,M L King Blvd @ Armenia Av Es,27.981151,-82.484177
 6661,151St  Av @ Livingston Av,28.0885,-82.430935
-1154,M L King Jr Blvd @ Howard Av,27.981197,-82.483336
-1151,M L King Jr Blvd @ Tampania Av,27.981132,-82.486344
-1152,M L King Jr Blvd @ Armenia Av    Ws,27.981151,-82.484906
 6665,Livingston Av @ Bearss Av,28.08202,-82.430935
-1150,M L King Jr Blvd @ Habana Av Es,27.981158,-82.488107
 6664,Livingston Av @ Irene St,28.083776,-82.430914
 5580,M L King Jr Blvd @ Hewitt St,27.981386,-82.306856
 7710,Kelly Rd @ Dosina Lane,27.982852,-82.565062
 6662,Livingston Av @ 149th Av,28.08654,-82.43085
 5581,M L King Blvd @ Cr 579,27.981725,-82.302662
 6645,Magnolia Dr @ Holly Dr,28.066832,-82.420449
-6647,Bruce B Downs Blvd @ 138th Av,28.072313,-82.425897
 5589,Providence @ Plantation Key Apts,27.931744,-82.314504
-1134,M L King Jr Blvd @ Poplar Av,27.981627,-82.471543
 5588,Providence Rd  @ Brandon  Blvd,27.936599,-82.314517
-1133,M L King Jr Blvd @ Myrtle Av,27.981619,-82.469571
 6649,Bearss Av @ Collegean Hall,28.080535,-82.427933
-1136,M L King Jr Blvd @ 1931,27.981342,-82.479417
-1135,M L King Jr Blvd @ Riverside Dr,27.981632,-82.473047
 5595,Oakfield Dr @ Hilltop Rd,27.933943,-82.305988
-1140,M L King Jr Blvd @ Tampania Av,27.981384,-82.48629
 5596,Oakfield Dr @ Buckingham Place,27.93413,-82.296017
-1141,M L King Jr Blvd @ Habana Av,27.981439,-82.488684
 5597,Oakfield Dr @ Lifestyles Fitness,27.934203,-82.292929
 5598,Oakfield Dr @ Sunlake Apts,27.933981,-82.299834
 5591,Providence Rd @ Town Center Blvd,27.925795,-82.315657
@@ -3329,18 +3035,14 @@ stop_id,stop_name,stop_lat,stop_lon
 1167,M L King Jr Blvd @ 10th St,27.981341,-82.449458
 5599,Parsons Ave @ Robertson St,27.936144,-82.285679
 1166,M L King Jr Blvd @ Nebraska Av,27.981332,-82.451393
-3903,Marion St @ Whiting St,27.946308,-82.455488
 3907,7th Av @ 15th St,27.960158,-82.443097
 3909,7th Av @ 22nd St,27.960139,-82.434581
 6643,Livingston Av @ Campus Lodge Apts,28.089888,-82.430701
 1171,M L King Jr Blvd @ 17th St,27.981278,-82.440211
 1170,M L King Jr Blvd @ 15th St,27.981314,-82.443148
-1156,M L King Jr Blvd @ St Isabel St,27.98118,-82.479012
 6626,Waters Av @ N Boulevard,28.025306,-82.467949
 6627,Waters Av @ Otis Av,28.025308,-82.46605
-1158,M L King Jr Blvd @ Myrtle Av,27.981464,-82.469714
 6628,Waters Av @ Ola Av,28.02531,-82.463487
-1157,M L King Jr Blvd @ Poplar Av,27.981482,-82.471791
 6629,Waters Av @ Ashley St,28.025302,-82.461965
 6622,Waters Av @ Ashley St,28.025413,-82.461286
 6623,Waters Av @ Ola Av,28.025409,-82.463187
@@ -3350,23 +3052,8 @@ stop_id,stop_name,stop_lat,stop_lon
 1161,M L King Jr Blvd @ Highland Av,27.981505,-82.462247
 1163,M L King Jr Blvd @ Suwanee Av,27.981376,-82.458108
 1165,M L King Jr Blvd @ Central Av,27.98135,-82.455586
-601,Florida Av @ 127th Av,28.062348,-82.459277
-600,Florida Av @ 124th Av,28.059992,-82.459287
-608,Florida Av @ 143Rd Av,28.07667,-82.459356
-606,Florida Av @ 138th Av,28.072032,-82.459305
-605,Florida Av @ Fletcher Av,28.069922,-82.459273
-602,Florida Av @ 130th Av,28.06427,-82.459272
-626,Florida Av @ 131St Av,28.065111,-82.459424
-625,Florida Av @ Prince St,28.066988,-82.459435
-624,Florida Av @ Fletcher Av,28.070601,-82.459446
-629,Florida Av @ 122nd Av,28.05773,-82.459449
-610,Florida Av @ 145th Av,28.0785,-82.459422
-612,Florida Av @ April  Lane,28.082121,-82.459483
-611,Florida Av @ Garland Ct,28.080365,-82.45945
-616,Florida Av @ Siobhan Av,28.083888,-82.459668
 6594,Waters Av @ Lamar Av,28.02532,-82.455
 6593,Waters Av @ Arden Av,28.025254,-82.452686
-3111,Holly Dr @ Cypress Dr,28.0661097,-82.42355
 6592,17th St @ Waters Av,28.025219,-82.440688
 6599,Linebaugh Av @ Nebraska Av,28.039843,-82.450651
 6598,Linebaugh Av @ Arden Av,28.039833,-82.453033
@@ -3375,30 +3062,21 @@ stop_id,stop_name,stop_lat,stop_lon
 6590,Sitka St @ 17th St,28.021286,-82.440703
 6589,Sitka St @ 18th St,28.021267,-82.439098
 2647,Kings Av @ Bloomingdale Av,27.894388,-82.293858
-687,22nd St @ Okara Rd,28.036891,-82.434547
-689,22nd St @ Poinsettia Av,28.041591,-82.434547
 7678,Busch Blvd @ Hyaleah Rd,28.03273,-82.405574
-688,22nd St @ Linebaugh Av,28.03968,-82.434557
 7679,Busch Blvd @ 33Rd St,28.032435,-82.423511
-683,22nd St @ Sligh Av,28.010376,-82.434599
-682,22nd St @ Diana St,28.00689,-82.434629
 2642,50th St @ Adamo Dr,27.952511,-82.401861
 3146,Habana Av @ Rio Vista Ct,27.99842,-82.488471
-685,22nd St @ Busch Blvd,28.033278,-82.434547
 3147,Habana Av @ Henry Av,27.999651,-82.488462
 2640,50th St @ Acline St,27.954626,-82.401959
 2648,Kings Av @ Southwood Cove,27.903482,-82.293867
 7680,Gunn Hwy @ Community Campus Dr,28.06573,-82.564201
 3156,Habana Av @ Paris St,28.002921,-82.488616
-7684,Kennedy Blvd @ Ashley Dr,27.946895,-82.460287
 2650,Kings Av @ Hickory Lake Dr,27.91454,-82.29379
 7683,Sheldon Rd @ Westchase Surgical Ctr,28.048829,-82.582533
 3154,Habana Av @ Ralston Beach Cr,28.008288,-82.488533
 7682,Sheldon @ Chase Professional Park,28.048756,-82.582948
-680,22nd St @ Hanna Av,28.003231,-82.43464
 3153,Habana Av @ Sligh Av,28.009883,-82.488532
 7681,Gunn Hwy @ Cedar Forest Dr,28.065309,-82.560541
-681,22nd St @ Fern St,28.00468,-82.434619
 7688,N 42nd St @ Lazy Oak Dr,28.072175,-82.414115
 3151,Habana Av @ Minnehaha St,28.008345,-82.488396
 7687,22nd St @ 140th Av,28.073917,-82.434626
@@ -3409,24 +3087,17 @@ stop_id,stop_name,stop_lat,stop_lon
 3139,Habana Av @ Eddy Dr,27.985195,-82.488708
 7689,N 42nd St @ Lazy Oak Dr,28.072728,-82.413943
 2655,Kings Av @ Oak Park Place,27.921174,-82.294116
-677,22nd St @ Henry Av,27.999418,-82.43462
 2658,Kings Av @ Tanglewood Way,27.909987,-82.294115
 2657,Kings Av @ Calm Dr,27.914272,-82.294087
-675,22nd St @ Hillsborough Av,27.996593,-82.43463
 3135,Temple Heights Rd @ 56th St,28.036085,-82.393664
-674,22nd St @ Mc Berry St,27.993595,-82.434671
 3137,Habana Av @ Bel Aire Circle,27.982446,-82.48872
-672,22nd St @ Cayuga St,27.986431,-82.434651
 3138,Habana Av @ Eddy Dr,27.984575,-82.48872
-671,22nd St @ Chelsea St,27.984892,-82.434661
-679,22nd St @ Idlewild Av,28.001628,-82.43466
 7691,6th Medical Group @ MacDill AFB,27.859809,-82.49994
 7690,Boy Scout Blvd @ Jim Walter Blvd,27.966355,-82.51156
 3143,Habana Av @ Wilder Av,27.9923,-82.488585
 7693,Melburne Blvd @ 49th St,27.970341,-82.402884
 7692,6th Medical Graoup @ MacDill AFB,27.859918,-82.500122
 3142,Habana Av @ Violet St,27.99045,-82.488615
-670,22nd St @ North Bay St,27.983189,-82.434641
 2660,Kings Av @ Bloomingdale Av,27.894865,-82.294151
 3145,Habana Av @ Mohawk Av,27.996714,-82.488551
 7695,50th St @ 26th Av,27.974434,-82.401455
@@ -3453,30 +3124,15 @@ stop_id,stop_name,stop_lat,stop_lon
 3131,Temple Heights Rd @ 50th St,28.036323,-82.401518
 3113,Holly Dr @ Pine Dr @ Crosswalk,28.0656648,-82.4247329
 2630,50th St @ Temple Heights Rd,28.036079,-82.401549
-695,22nd St @ Fowler Av,28.053675,-82.434559
 2632,50th St @ Busch Blvd,28.032885,-82.401709
-693,22nd St @ 113th Av,28.050682,-82.434526
 2634,50th St @ Puritan Rd,28.020023,-82.401961
-698,22nd St @ 131St Av,28.065299,-82.434529
 2636,50th St @ Dolphin Dr,28.013766,-82.402025
 2635,50th St @ Porpoise Dr,28.017533,-82.402033
-691,22nd St @ 109th Av,28.047024,-82.434526
-692,22nd St @ 111th Av,28.049016,-82.434526
-690,22nd St @ Bougainvillea Av,28.043411,-82.434536
-646,Florida Av @ Hamilton Av,28.014407,-82.459552
-647,Florida Av @ Sligh Av,28.010972,-82.459593
 2604,Fir Dr @ 81St St,27.90257,-82.366709
-648,Florida Av @ Hiawatha St,28.009566,-82.459566
 2605,Fir Dr @ 83Rd St,27.903529,-82.364876
-649,Florida Av @ Knollwood St,28.008105,-82.459531
 2602,Fir Dr @ 79th St,27.902481,-82.368297
-642,Florida Av @ Hollywood St,28.019675,-82.459575
-643,Florida Av @ Kirby St,28.017719,-82.459585
-644,Florida Av @ Broad St,28.016315,-82.459585
 2600,Chelsea St @ 29th St,27.985154,-82.427875
-645,Florida Av @ Flora St,28.012616,-82.459549
 2601,Chelsea St @ 30th St,27.984991,-82.426649
-640,Florida Av @ Bird St,28.022509,-82.459576
 3199,Kelly Rd @ Caracas St,27.992579,-82.564782
 3197,Kelly Rd @ Brighten Dr,27.988426,-82.564914
 3198,Kelly Rd @ New Orleans St,27.991085,-82.56479
@@ -3486,76 +3142,66 @@ stop_id,stop_name,stop_lat,stop_lon
 3191,Hanley Rd @ Henry Av,28.00049,-82.56279
 3192,Hanley Rd @ Hillsborough Av,27.996829,-82.562945
 2619,50th St @ Acline St,27.954328,-82.401663
-639,Florida Av @ Wood St,28.027073,-82.459668
 2616,Harney Rd @ Hillsborough Av,27.996847,-82.384524
-633,Florida Av  @ Bougainvillea Av,28.043663,-82.4595
-634,Florida Av @ Linebaugh Av,28.040013,-82.4596
-632,Florida Av @ 109th Av,28.047393,-82.459491
 2614,Harney Rd @ Hanna Av,28.002735,-82.381151
-3179,Hanley Rd @ Waters Av,28.02464,-82.562205
-3186,Hanley Rd @ Woodbridge Blvd,28.013171,-82.562548
-3188,Hanley Rd @ Jackson Springs Rd,28.00764,-82.562641
 3189,Hanley Rd @ Hanna Av,28.004228,-82.56272
-3182,Hanley Rd @ Winging Way Dr,28.023508,-82.562548
-3183,Hanley Rd @ Nesting Place Ct,28.022086,-82.562566
 3184,Hanley Rd @ Barry Rd,28.01779,-82.562572
-3185,Hanley Rd @ Barry Rd,28.017819,-82.562576
 3181,Hanley Rd @ Waters Av Ss,28.025545,-82.56251
-668,22nd St @ M L King Jr Blvd,27.981308,-82.434744
-661,22nd St @ 17th Av,27.96772,-82.434662
-3169,Hanley Rd @ Hillsborough Av,27.997273,-82.562748
-662,22nd St @ 19th Av,27.968716,-82.434642
 3168,Habana Av @ M L King Jr Blvd,27.981484,-82.488968
-663,22nd St @ 21St Av,27.970229,-82.434672
-664,22nd St @ 23Rd Av,27.972249,-82.434662
-665,22nd St @ 26th Av,27.974459,-82.434672
-667,22nd St @ Lake Av,27.97733,-82.434682
-3173,Hanley Rd @ Jackson Springs Rd,28.00724,-82.562506
 3174,Hanley Rd @ Fountain Av,28.01043,-82.562451
 3172,Hanley Rd @ Hanna Av,28.003857,-82.562575
-3177,Hanley Rd @ Twelve Oaks Blvd,28.021507,-82.562251
 3175,Hanley Rd @ Woodbridge Blvd,28.0128,-82.5624
-3176,Hanley Rd @ Barry Rd,28.017332,-82.562326
 3170,Hanley Rd @ Comanche Av,27.998948,-82.562701
-657,Florida Av @ Wilder Av,27.992588,-82.459488
-651,Florida Av @ Fern St,28.005118,-82.459526
 3158,Habana Av @ Henry Av,27.999914,-82.488644
-652,Florida Av @ Hanna Av,28.003503,-82.459506
 3157,Habana Av @ Idlewild Av,28.00101,-82.488635
-650,Florida Av @ North St,28.00609,-82.4596
-656,Florida Av @ Hillsborough Av,27.995439,-82.459505
-653,Florida Av @ Idlewild Av,28.00185,-82.459487
-654,Florida Av @ Henry Av,27.999515,-82.459479
 3161,Habana Av @ Frierson Av,27.994972,-82.488613
 3162,Habana Av @ Wilder Av,27.992877,-82.488714
 3164,Habana Av @ Osborne Av,27.988901,-82.488811
 3165,Habana Av @ Curtis Av,27.987892,-82.488819
+0480,Nebraska Av @ Fowler Av,28.053601,-82.451304
 7611,Nebraska Av @ 19th Av,27.968716,-82.45129
 7610,Nebraska Av @ 33Rd Av,27.980562,-82.451048
+0482,Nebraska Av @ 113th Av,28.051098,-82.451332
 1095,Himes Av @ Palmetto St,27.962502,-82.501494
+0483,Nebraska Av @ 112th Av,28.049522,-82.451332
 1097,Himes Av @ Spruce St,27.959659,-82.501514
 1096,Himes Av @ Pine St,27.961358,-82.501497
+0478,Nebraska Av @ 123Rd Av,28.059302,-82.451343
 7607,Marion St @ Kay St,27.956877,-82.458699
 7608,Fishhawk Sports Complex Pnr,27.854933,-82.210817
+0477,Nebraska Av @ 126th Av,28.06143,-82.451354
 7605,Ashley Dr @ Twiggs St,27.948526,-82.460014
 1972,Euclid Av @ Lois Av,27.908646,-82.514466
 4389,Courtney Cambell  @ Rocky Point Rd,27.96766,-82.56877
+0479,Nebraska Av @ 120th Av,28.056993,-82.451353
 7606,Cumberland St @ 11th St,27.944923,-82.447571
 1973,Euclid Av @ Clark Av,27.90862,-82.512412
 7603,Channelside Dr @ Times Forum Dr,27.943564,-82.450274
 1974,Euclid Av @ Grady Av,27.908613,-82.510317
+0473,Nebraska Av @ Fletcher Av,28.068737,-82.451314
 7604,Madison St @ Tampa St,27.947983,-82.459123
 1975,Euclid Av @ Church Av,27.908614,-82.508233
+0476,Nebraska Av @ 128th Av,28.062661,-82.451354
 7601,Marion Transit Center,27.955473,-82.458517
 1976,Euclid Av @ Dale Mabry Hwy,27.908588,-82.506785
+0475,Nebraska Av @ 131St Av,28.065776,-82.451324
 7602,Times Forum Dr @ Channelside Dr,27.943374,-82.450284
 1978,Euclid Av @ Himes Av,27.908581,-82.502748
 1979,Euclid Av @ Lynwood Av,27.908565,-82.49957
+0471,Nebraska Av @ 131St Av,28.065359,-82.450999
 1082,Himes Av @ Hillsborough Av,27.995751,-82.501051
 7600,Aparicio - Levy Technical Center,27.990073,-82.332459
 1081,Himes Av @ Hillsborough Av,27.996249,-82.501021
+0470,Nebraska Av @ 128th Av,28.062607,-82.451009
 1085,Himes Av @ M L King Blvd,27.982586,-82.501429
+0469,Nebraska Av @ 124th Av,28.059963,-82.451019
+0468,Nebraska Av @ 120th Av,28.056774,-82.451086
+0466,Nebraska Av @ Fowler Av,28.055107,-82.451019
+0465,Nebraska Av @ 10921,28.04916,-82.451017
+0464,Nebraska Av @ 109th Av,28.047038,-82.451102
 1987,56th St @ Hanna Av,28.003837,-82.393327
+0463,Nebraska Av @ Chilkoot Av,28.044906,-82.451104
+0462,Nebraska Av @ Bougainvillea Av,28.043437,-82.451109
 1075,Himes Av @ Sligh Av,28.010865,-82.500889
 1077,Himes Av @ Lambright St,28.007515,-82.500928
 4374,Orange Grove Dr @ Whittington Place,28.037855,-82.488324
@@ -3566,81 +3212,112 @@ stop_id,stop_name,stop_lat,stop_lon
 4373,Orange Grove Park-N-Ride,28.038117,-82.487848
 7632,S Meridian Av @ Cumberland Av,27.945167,-82.448482
 4370,Citrus Park Park-N-Ride,28.076127,-82.570107
+0460,Nebraska Av @ Linebaugh Av,28.039755,-82.45114
 7631,N Meridian Av @ Jackson St,27.94985,-82.448857
 4371,Carrollwood Park-N-Ride,28.081731,-82.54651
+0461,Nebraska Av @ Poinsettia Av,28.042352,-82.45112
 7630,N Meridian Av @ Jackson St,27.949633,-82.448655
+0452,Nebraska Av @ Seward St,28.027704,-82.451218
 1995,56th St @ River Hills Dr,28.027011,-82.393294
+0451,Nebraska Av @ Fairbanks St,28.026736,-82.451212
 7626,Sheldon Rd @ Linebaugh Av,28.044899,-82.582567
 1996,56th St @ Chicago Av,28.028034,-82.393314
 7623,Hcc Southshore Campus,27.722495,-82.400556
+0454,Nebraska Av @ Humphrey St,28.030536,-82.45121
 1997,56th St @ Bullard Pkwy,28.032399,-82.393322
+0453,Nebraska Av @ Yukon St,28.029168,-82.451212
 7624,21 St Avenue,27.969039,-82.410945
+0456,Nebraska Av @ 93Rd Av,28.033487,-82.451168
 1991,56th St @ Sligh Av,28.011564,-82.393391
 7629,Columbus Dr @ 43Rd St (Dacco),27.96681,-82.408435
+0455,Nebraska Av @ Skagway Av,28.031937,-82.451106
 1068,Himes Av @ Waters Av,28.025735,-82.500801
 1992,56th St @ Kenny Dr,28.01599,-82.39333
 7627,Boyette Rd @ McMullen Rd,27.853643,-82.30396
+0458,Nebraska Av @ Castle Ct,28.036963,-82.451066
 1993,56th St @ Neal Dr,28.017885,-82.393286
-4368,Sligh Av @ Rowlett Park Dr,28.010557,-82.429736
+0457,Nebraska Av @ Richmere St,28.035271,-82.451163
 1994,56th St @ Puritan Rd,28.020663,-82.393196
 7628,Columbus Dr @ 43Rd St (Dacco),27.966638,-82.409336
+0459,Nebraska Av @ Lotus Av,28.038313,-82.451145
 1065,Himes Av @ Kenyon Av,28.032529,-82.500801
 4387,Courtney Cambell @ Rocky Point Dr,27.967335,-82.56696
 1064,Himes Av @ Humphrey St,28.028475,-82.500805
 7620,Nebraska Av @ Saint Clair St,27.970183,-82.451097
 4382,Sun Coast Health Center,27.706197,-82.394486
 1061,Himes Av @ Kenyon Av,28.032472,-82.500642
-7622,Gornto Lake Rd @ Causeway Blvd,27.923619,-82.322977
 4384,Kings Point Club House,27.711043,-82.359693
-7621,Gornto Lake Rd @ Causeway Blvd,27.923637,-82.322654
-7615,Fowler Av @ 52nd St,28.054242,-82.397669
+0443,Nebraska Av @ Hamilton St,28.014291,-82.451237
+0442,Nebraska Av @ Flora St,28.012364,-82.451243
+0441,Nebraska Av @ Sligh Av,28.01048,-82.451226
+0440,Nebraska Av @ Knollwood St,28.008152,-82.451263
+0447,Nebraska Av @ Van Dyke Place,28.021031,-82.451214
 1058,Himes Av @ Waters Av,28.025264,-82.500657
 7616,Nebraska Av @ E Emily St,27.975699,-82.451078
 7617,Nebraka Av @ Osborne Av,27.989093,-82.451029
-7618,Nebraska Av @ 33Rd Av,27.980807,-82.45121
+0446,Nebraska Av @ Hollywood St,28.019317,-82.451239
+0445,Nebraska Av @ Patterson Av,28.017832,-82.451226
 1056,Himes Av @ Sitka St,28.021343,-82.500623
+7618,Nebraska Av @ 33Rd Av,27.980807,-82.45121
+0444,Nebraska Av @ Broad St,28.015986,-82.451233
 7619,Nebraska Av @ 24th Av,27.972746,-82.45128
+0449,Nebraska Av @ Waters Av,28.024975,-82.451171
+0448,Nebraska Av @ Bird St,28.022444,-82.451209
 4350,M L King Jr Blvd @ Florida Av,27.981367,-82.459637
-4352,M L King Jr Blvd @ Armenia Av,27.981376,-82.484433
 5400,Hwy 60 @ Grey Hound Bus Station,27.960489,-82.72053
+0437,Nebraska Av @ Hanna Av,28.003183,-82.451245
+0438,Nebraska Av @ Fern St,28.004934,-82.451267
+0439,Nebraska Av @ Lambright St,28.006811,-82.451266
+0433,Nebraska Av @ Powhattan Av,27.998681,-82.451168
 4347,M L King Jr Blvd @ 22nd St,27.98159,-82.435426
 4348,M L King Jr Blvd @ 22nd St,27.98136,-82.435006
+0435,Nebraska Av @ Henry Av,27.999928,-82.451193
 4345,M L King Jr Blvd @ 40th St,27.981518,-82.41376
+0436,Nebraska Av @ Idelwild Av,28.001858,-82.451239
 4346,M L King Jr Blvd @ 40th St,27.981375,-82.413443
+0430,Nebraska Av @ Frierson Av,27.994217,-82.451098
 4349,M L King Jr Blvd @ Florida Av,27.981584,-82.460176
+0431,Nebraska Av @ Hillsborough Av,27.99578,-82.451076
 4360,Hillsborough Av @ Hanley Rd,27.996452,-82.563084
 4361,Hillsborough Av @ Westshore Blvd,27.996077,-82.523015
 4364,Wal-Mart @ Mlk And Cr 579,27.982675,-82.301729
 4363,Brandon Regional Hospital,27.934071,-82.286533
 4366,M L King Jr Blvd @ Orient Rd,27.981303,-82.373275
 4365,M L King Jr Blvd @ Orient Rd,27.981627,-82.372715
+0429,Nebraska Av @ Mc Berry St,27.992712,-82.451102
+0427,Nebraska Av @ New Orleans Av,27.990083,-82.451097
+0424,Nebraska Av @ Chelsea St,27.984984,-82.451094
 4356,Tampa Bay Blvd @ Hills Comm College,27.973991,-82.510048
 4357,Tampa Bay Blvd @ Hills Comm College,27.97411,-82.510515
+0423,Nebraska Av @ North Bay St,27.983852,-82.451097
 5401,Hwy 60 @ Cross St,27.960588,-82.718096
 7635,Boyette Rd @ Balm Riverview Rd,27.853438,-82.313931
+0420,Nebraska Av @ Lake Av,27.97769,-82.451129
 7634,S Meridian Av @ Channelside Dr,27.943827,-82.448694
 4333,J C Handley Park Pnr,27.899361,-82.295315
 4331,Fletcher Av @ Florida Av,28.069188,-82.460216
 4330,Fletcher Av @ Florida Av,28.069382,-82.460195
-7676,Westshore Blvd @ Laurel St,27.955667,-82.524278
-7677,Westshore Blvd @ Laurel St,27.956211,-82.523995
-7674,Westshore Blvd @ Spruce St,27.959263,-82.524282
-7675,Westshore Blvd @ Union St,27.957488,-82.52426
-4329,Mission Bell,28.065758,-82.501659
+0416,Nebraska Av @ 23Rd Av,27.97217,-82.451159
+0418,Nebraska Av @ 26th Av,27.974132,-82.45115
 2559,83Rd St @ Progress Blvd,27.899407,-82.364789
 4327,Terrace Plaza Pnr,28.031684,-82.39317
-4326,113th Av @ Temple Terrace City Hall,28.050772,-82.394396
+0411,Nebraska Av @ 12th Av,27.963937,-82.451192
 4323,Brandon K-Mart @ Hwy 60,27.938032,-82.308826
+0413,Nebraska Av @ 15th Av,27.966342,-82.451183
 2553,83Rd St @ Ash St,27.899579,-82.364586
+0414,Nebraska Av @ 19th Av,27.968736,-82.451178
 4341,Westshore Plaza,27.948737,-82.525436
 4340,Tampa International Main Terminal,27.980492,-82.533571
+0407,Nebraska Av @ Estelle St,27.958481,-82.451116
+0405,Nebraska Av @ Maryland Av,27.95455,-82.451146
+0409,Nebraska Av @ 7th Av,27.960157,-82.451116
 2546,79th St @ 78th St,27.902299,-82.368227
 2547,82nd St @ Dahlia Av,27.896328,-82.365247
 2548,82nd St @ Bahia Av,27.89775,-82.365246
+0403,Nebraska Av @ Twiggs St,27.951797,-82.450892
 1003,N Boulevard @ Cliff Circle,28.045318,-82.467791
 4301,Yukon Transfer Center,28.029428,-82.456456
 1004,N Boulevard @ Newport Circle,28.042221,-82.467811
-4304,M L King Jr Blvd @ N Boulevard,27.981474,-82.46783
 4306,Hillsborough Co Jail Orient Rd,27.959412,-82.372276
 1008,N Boulevard @ Perdiz St,28.038547,-82.467761
 4305,Broadway Av @ 50th St,27.962035,-82.400721
@@ -3658,7 +3335,6 @@ stop_id,stop_name,stop_lat,stop_lon
 4317,N Boulevard@ Sligh Av,28.010961,-82.467901
 6548,Linebaugh Av @ Anderson Rd,28.040119,-82.542616
 4316,Country Club Dr @ N Boulevard,28.05469,-82.467421
-1900,Kennedy Blvd @ Parker St,27.945989,-82.462281
 1902,Swann Av @ Delaware Av,27.937346,-82.470589
 1903,Swann Av @ Newport Av,27.937355,-82.471581
 1904,Swann Av @ Orleans Av,27.937363,-82.473626
@@ -3735,15 +3411,9 @@ stop_id,stop_name,stop_lat,stop_lon
 1946,El Prado Blvd @ Clark Av,27.911438,-82.512394
 1949,El Prado Blvd @ Dale Mabry Hwy,27.911403,-82.506254
 1948,El Prado Blvd @ Church Av,27.911386,-82.508235
-1035,Himes Av @ Columbus Dr,27.967159,-82.501354
 6506,Linebaugh Av @ Henderson Av,28.040285,-82.548718
 1034,Himes Av @ Columbus Dr,27.966463,-82.501394
 5489,Manhattan Av @ Granada St,27.920872,-82.517888
-1037,Himes Av @ Leroy St,27.971757,-82.501397
-1036,Himes Av @ IVy St,27.969758,-82.501356
-1039,Himes Av @ Heiter St,27.974918,-82.501374
-1038,Himes Av @ Tampa Bay Blvd,27.973689,-82.501372
-1040,Himes Av @ Woodlawn Av,27.976126,-82.501372
 5490,Manhattan Av @ San Jaun St,27.918544,-82.517916
 5491,Manhattan Av @ Corona St,27.914327,-82.517989
 1959,Euclid Av @ Coolidge Av,27.908834,-82.517472
@@ -3759,7 +3429,6 @@ stop_id,stop_name,stop_lat,stop_lon
 1026,N Boulevard @ Plymouth St,27.973905,-82.46771
 5459,Dale Mabry Hwy @ 13734 Lake Side,28.07108,-82.50636
 1025,N Boulevard @ Peninsular St,27.97639,-82.46768
-5458,Stall Rd @ Orange Grove Dr,28.062001,-82.500704
 1024,N Boulevard @ Indiana Av,27.97813,-82.46769
 5457,Dale Mabry Hwy @ Colby Rd F/S,28.056376,-82.50367
 1023,N Boulevard @ Virginia Av,27.979856,-82.467692

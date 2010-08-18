@@ -92,11 +92,24 @@ public class ReportForm extends javax.swing.JFrame {
         }
 
         int ai=0, uci=0, unci=0, mi=0, nui=0;
-        HashSet<Stop> reportKeys = new HashSet<Stop>();
+        ArrayList<Stop> reportKeys = new ArrayList<Stop>();
+        //convert to arrayList for ordering
         reportKeys.addAll(report.keySet());
-        Iterator it = reportKeys.iterator();
-        while (it.hasNext()){
-            Stop st = new Stop((Stop)it.next());
+        //ordering by hashcode
+        for (int i=0; i<reportKeys.size()-1; i++) {
+            int k=i;
+            for (int j=i+1; j<reportKeys.size(); j++) {
+                if (reportKeys.get(k).getStopID().hashCode() > reportKeys.get(j).getStopID().hashCode()) {
+                    k = j;
+                }
+            }
+            Stop temp = new Stop(reportKeys.get(i));
+            reportKeys.set(i, reportKeys.get(k));
+            reportKeys.set(k, temp);
+        }
+
+        for (int i=0; i<reportKeys.size(); i++) {
+            Stop st = reportKeys.get(i);
             finalStops.put(st.getStopID(), st);
             gtfsIDAll.add(ai, st.getStopID());
             ai++;

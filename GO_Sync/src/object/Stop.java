@@ -14,6 +14,7 @@ Copyright 2010 University of South Florida
    limitations under the License.
 
 **/
+
 package object;
 
 import java.util.HashSet;
@@ -21,13 +22,17 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import tools.OsmDistance;
 
-public class Stop implements Comparable{
+/**
+ *
+ * @author Khoa Tran
+ */
+
+public class Stop extends OsmPrimitive implements Comparable{
     private final double ERROR_TO_ZERO = 0.5;
     private final String GTFS_STOP_ID_KEY = "gtfs_id";
     private final String GTFS_OPERATOR_KEY = "operator";
     private final String NTD_ID_KEY = "ntd_id";
     private String stopName, lat, lon;
-    private Hashtable osmTags;
     public Stop(String stopID, String operatorName, String stopName, String lat, String lon) {
         osmTags = new Hashtable();
         if (operatorName == null || operatorName.equals("")) operatorName="none";
@@ -52,38 +57,6 @@ public class Stop implements Comparable{
         if (!s.getOperatorName().equals("none")) osmTags.put(NTD_ID_KEY, OperatorInfo.getNTDID());
         this.lat = s.lat;
         this.lon = s.lon;
-    }
-
-    public void addTag(String k, String v){
-        if (!v.equals("")) {
-            osmTags.put(k, v);
-        } else {
-            osmTags.put(k, "none");
-        }
-    }
-
-    public void addTags(Hashtable h){
-        osmTags.putAll(h);
-    }
-
-    public String getTag(String k){
-        if (osmTags.containsKey(k))
-                return (String)osmTags.get(k);
-        return null;
-    }
-
-    public HashSet<String> keySet(){
-        HashSet<String> keys = new HashSet<String>(osmTags.size());
-        keys.addAll(osmTags.keySet());
-        return keys;
-    }
-
-    public boolean containsKey(String k){
-        return osmTags.containsKey(k);
-    }
-
-    public void removeTag(String k){
-        if (osmTags.containsKey(k)) osmTags.remove(k);
     }
 
     public String getStopID(){
@@ -124,8 +97,10 @@ public class Stop implements Comparable{
 /*        boolean t1 = s.getStopID().equals(this.getStopID());
         boolean t2 = this.compareOperatorName(s);
         boolean t3 = s.getStopName().equals(this.getStopName());*/
-        if (!(this.getStopID().equals("none")) && (!(s.getStopID().equals("none")))
-                && (!this.getOperatorName().equals("none")) && (!s.getOperatorName().equals("none"))) {
+        if (!(this.getStopID().equals("none")) && !(this.getStopID().equals("missing")) 
+                && (!(s.getStopID().equals("none"))) && (!(s.getStopID().equals("missing")))
+                && (!this.getOperatorName().equals("none")) && (!s.getOperatorName().equals("none"))
+                && (!this.getOperatorName().equals("missing")) && (!s.getOperatorName().equals("missing"))) {
             if ((s.getStopID().equals(this.getStopID())) && (this.compareOperatorName(s))) {
                 return 0;
             }

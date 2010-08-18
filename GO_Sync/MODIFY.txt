@@ -1,64 +1,343 @@
 stop_id,stop_name,stop_lat,stop_lon
-3111,Holly Dr @ Cypress Dr,28.0661097,-82.42355
-3086,131St Av @ Bruce B Downs  @ Va Hosp,28.065459,-82.427307
-4491,131St Av @ 23Rd St,28.065432,-82.432457
-7027,Leroy Collins Blvd @ Fowler Av,28.054976,-82.413421
-7590,56th St @ E Fowler Av,28.053579,-82.393908
-4598,50th St @ Sun Ridge Condos,28.05849,-82.401762
-6264,50th St @ 122nd Av,28.057385,-82.401752
-4616,Holly Dr @ 50th St,28.066277,-82.402083
-missing,none,28.0690301,-82.4230719
-missing,none,28.0690301,-82.4230719
-missing,none,28.0690921,-82.429993
-missing,none,28.0581517,-82.4196986
+1196,Hillsborough Av @ Harney Rd,27.99633,-82.382835
+4798,Channelside Dr @ Harbor St,27.9536,-82.445577
+4797,Channelside Dr @ Adamo Dr,27.956399,-82.445638
+5732,Providence @ Providence Bapt Church,27.897646,-82.31853
+5731,Providence Rd @ Purity Lane,27.900995,-82.318455
+1317,Hillsborough Av @ Orient Rd,27.996029,-82.373507
+4492,131St Av @ Livingston Av,28.065441,-82.430723
+5633,M L King Jr Blvd @ 6606,27.981642,-82.380708
+1316,Hillsborough Av @ 6813,27.996031,-82.375938
+5632,M L King Jr Blvd @ 69th St,27.981584,-82.377383
+1577,Sligh Av @ 30th St,28.010548,-82.426717
+1190,M L King Jr Blvd @ Carroway St,27.981403,-82.391323
+5635,M L King Jr Blvd @ Carroway St,27.98153,-82.391179
+1314,Hillsborough Av @ Walton Way,27.996024,-82.380689
+5634,M L King Blvd @ Interstate Ind Park,27.981561,-82.388023
+1313,Hillsborough Av @ Harney Rd,27.996026,-82.382938
+5637,M L King Jr Blvd @ 52nd St,27.981545,-82.39772
+1574,Sligh Av @ 24th St,28.010566,-82.432775
+5636,M L King Jr Blvd @ 54th St,27.981527,-82.395661
+1573,Sligh Av @ 22nd St,28.010467,-82.434984
+5638,M L King Jr Blvd @ Phillips St,27.981552,-82.399608
 missing,none,28.0542502,-82.401116
-4555,Mckinley Dr @ Linebaugh Av,28.03917,-82.416439
+missing,none,28.0581517,-82.4196986
+missing,none,28.0690921,-82.429993
+missing,none,28.0690301,-82.4230719
+missing,none,28.0690301,-82.4230719
+4616,Holly Dr @ 50th St,28.066277,-82.402083
+1728,Dale Mabry Hwy @ Corona St,27.913978,-82.50595
+1729,Dale Mabry Hwy @ San Luis St,27.9155,-82.505931
+1726,Dale Mabry Hwy @ El Prado Blvd,27.911114,-82.506015
+1821,Dale Mabry Hwy @ Corona St,27.914038,-82.506107
+1727,Dale Mabry Hwy @ Sevilla St,27.912764,-82.505969
+1822,Dale Mabry Hwy @ El Prado Blvd,27.911767,-82.506163
 4610,Fletcher Av @ John Knox Village,28.068971,-82.416843
+1820,Dale Mabry Hwy @ San Luis St,27.915722,-82.50608
 2012,56th St @ Whiteway Dr,28.04782,-82.393851
-5887,Fletcher Av @ Livingston Av West,28.06913,-82.430708
-886,Fletcher Av @ 19th St,28.069272,-82.438499
-4657,Fletcher Av @ 31St St (Uch),28.069269,-82.423516
-1622,Mckinley Dr @ Bougainvillea Av,28.044154,-82.416414
-881,Fletcher Av @ Livingston Av,28.069296,-82.427179
-4656,Fletcher Av @ Magnolia Dr N/S,28.069252,-82.42025
+4210,Whiting St @ Franklin St,27.94532,-82.457036
+7212,M L King Jr Blvd @ 68th St,27.981587,-82.378609
+1188,M L King Jr Blvd @ 54th St,27.981396,-82.395456
 4619,50th St @ Elm Dr,28.0592668,-82.4019926
-7581,Fletcher Av @ Magnolia Dr,28.068971,-82.419926
-4258,Usf @ Administration Bldg,28.0607499,-82.4134114
-938,Fletcher Av @ Livingston Av East,28.069132,-82.429987
-4553,Mckinley Dr @ D.O.T. Bldg,28.050861,-82.416281
-4552,Mckinley Dr @ Fowler Av,28.053455,-82.416369
-1617,Mckinley Dr @ Linebaugh Av,28.039471,-82.416137
-4543,Malcom McKinley Dr  @ D.O.T. Bldg,28.050524,-82.416144
-1616,Mckinley Dr @ Busch Blvd,28.034706,-82.416406
-4544,Leroy Collins Blvd @ Alumni Dr,28.057706,-82.412974
-4545,Leroy Collins Blvd @ Elm Dr@Library,28.059734,-82.412953
-4974,30th St @ Pine Dr,28.056123,-82.425899
-4546,Leroy Collins Blvd @  Alumni Dr,28.057416,-82.413393
-4547,Magnolia @ Medical Dr Traffic Light,28.061258,-82.419551
-4548,Magnolia Dr @ Moffit Hospital,28.064245,-82.420143
-4977,Bruce B Downs Blvd @ 132nd Av,28.0675,-82.42626
-4597,50th St @ Terrace Palms Apts 11801,28.056281,-82.401743
+1187,M L King Jr Blvd @ 52nd St,27.981388,-82.397866
+1186,M L King Jr Blvd @ Phillips St,27.981389,-82.399639
+5221,Himes Av @ Heiter St,27.974951,-82.501522
+7484,Sheldon Rd @ Old Linebaugh Av F/S,28.040543,-82.582985
+5220,Himes Av @ Ohio Av,27.977338,-82.501493
+4888,Rowlett Park Dr @ theochem Lab,28.016063,-82.431822
+4889,Rowlett Park Dr @ Gas Station,28.015574,-82.43167
+5363,Hillsborough Av @ Sawyer Rd,27.996426,-82.557181
+4884,Rowlett Park Dr @ theochem Lab,28.019758,-82.433332
+3917,Marion St @ Kennedy Blvd,27.947748,-82.456116
+7346,M L King Jr Blvd @ Burdines Dr,27.981414,-82.495843
+2943,Nuccio Pkwy @ 7th Av Ss,27.959723,-82.446934
+4890,Sligh Av @ 24th Av,28.010747,-82.432512
 4601,50th St @ Excellence Blvd,28.0662122,-82.4017507
-1619,Mckinley Dr @ Fowler Av,28.053616,-82.416055
-1618,Mckinley Dr @ Bougainvillea Av,28.044336,-82.416145
 4600,50th St @ Sycamore Dr,28.063453,-82.401853
 2021,56th St @ Busch Blvd,28.032734,-82.393636
+0717,22nd St @ 131St Av,28.065156,-82.434615
+7076,Hillsborough Av @ Orient Rd,27.996357,-82.373551
 2020,56th St @ Sewaha St,28.034437,-82.393635
-7029,56th St @ Serena Dr,28.042858,-82.393691
 4607,Fletcher Av @ Fmhi @ 31St St,28.068972,-82.423058
-1515,Sligh Av @ 50th St,28.010768,-82.401793
-5312,Sheldon Rd @ Bay Plaza,27.998277,-82.583032
-4541,Malcom McKinley Dr @ Busch Blvd,28.033303,-82.416214
-5015,Fletcher Av @ Railroad Crossing,28.069298,-82.449124
-6904,Fletcher Av @ 20th St,28.069272,-82.43634
-6903,Fletcher Av @ 22nd St,28.06935,-82.435071
-890,Fletcher Av @ 12th St,28.06928,-82.446762
+1818,Dale Mabry Hwy @ San Juan St,27.918512,-82.506036
+1819,Dale Mabry Hwy @ Obispo St,27.917004,-82.50607
+6891,Waters Av @ Sheldon Rd,28.02581,-82.582524
+4640,56th St @ 4316,27.985592,-82.39689
+1841,Kennedy Blvd @ Brevard Av,27.94473,-82.466349
+1842,Kennedy Blvd @ N Boulevard,27.944707,-82.468349
+7332,Hillsborough Av @ 59th St,27.99632,-82.39047
+7333,Hillsborough Av @ 59th St,27.99602,-82.389158
+4638,56th St @ Shadowlawn Av,27.99412,-82.393676
+5348,Sheldon Rd @ 7-11 Store,27.999201,-82.583495
+5349,Hillsborough Av @ Ross Plaza,27.996629,-82.580417
+4368,Sligh Av @ Rowlett Park Dr,28.010557,-82.429736
+4234,Marion St @ Zack St,27.950863,-82.457311
+4233,Marion St @ Kennedy Blvd,27.948681,-82.456328
+4235,Marion St @ Cass St,27.952312,-82.457939
+5765,Waters Av @ Sheldon Rd,28.026107,-82.583943
+4237,Marion Transit Center,27.954927,-82.458753
+2307,Platt St @ Plant Av,27.941551,-82.462695
+2308,Platt St @ Parker St,27.94156,-82.461308
+2305,Platt St @ Magnolia Av,27.941596,-82.465995
+2306,Platt St @ Hyde Park Av,27.941596,-82.464162
+7622,Gornto Lake Rd @ Causeway Blvd,27.923619,-82.322977
 5341,Sheldon Rd @ Hamilton Av,28.015196,-82.583298
+7621,Gornto Lake Rd @ Causeway Blvd,27.923637,-82.322654
+4621,50th St @ Terrace Palms Apts,28.0572161,-82.4019285
+7051,M L King Jr Blvd @ Habana Av  Ws,27.981158,-82.489687
+5631,M L King Jr Blvd @ Orient Rd Ws,27.981625,-82.373975
+4620,50th St @ 122nd Av,28.0582965,-82.4019663
+7615,Fowler Av @ 52nd St,28.054242,-82.397669
+4622,Fowler Av @ 51St St,28.054243,-82.400618
+4625,56th St @ Temple Terrace City Hall,28.050537,-82.393849
+1839,Kennedy Blvd @ Hyde Park Av,27.945778,-82.46349
+4241,Marion St @ Cass St,27.951651,-82.457858
+4242,Marion St @ Washington St,27.947177,-82.45566
+7196,Cass St @ Ashley Dr,27.950428,-82.46216
+7056,30th St @ Fern St,28.004833,-82.426596
+4244,Marion St @ Estelle St,27.958208,-82.45869
+4663,M L King Blvd @ St Joseph Hospital,27.981447,-82.490234
+3111,Holly Dr @ Cypress Dr,28.0661097,-82.42355
+5331,Bj'S @ Waters Av @ Hanley Rd,28.026041,-82.564447
+7595,West Tampa Transfer Center,27.977701,-82.501088
+4352,M L King Jr Blvd @ Armenia Av,27.981376,-82.484433
+2683,Orient Rd @ Chelsea St,27.985062,-82.372979
+4454,Yukon St @ Branch Av,28.02912,-82.457976
+2682,Orient Rd @ King Alfred Dr,27.98316,-82.372899
+7590,56th St @ E Fowler Av,28.053579,-82.393908
+4254,Britton Plaza,27.906778,-82.504183
+4555,Mckinley Dr @ Linebaugh Av,28.03917,-82.416439
+2896,Us Hwy 41 @ 7th Av,27.724041,-82.433646
+4657,Fletcher Av @ 31St St (Uch),28.069269,-82.423516
+5324,Sheldon Rd @ Waters Av,28.026263,-82.582839
+4656,Fletcher Av @ Magnolia Dr N/S,28.069252,-82.42025
+7588,Dale Mabry Hwy @ Pinewood St,27.868765,-82.506501
+7589,Dale Mabry Hwy @ Pinewood St,27.868928,-82.506157
+7587,Netpark Transfer Center,27.989935,-82.391552
+7581,Fletcher Av @ Magnolia Dr,28.068971,-82.419926
+3398,Republica De Cuba @ 14th Av,27.964333,-82.444322
+4258,Usf @ Administration Bldg,28.0607499,-82.4134114
+5701,Providence Rd @ Purity Lane,27.901467,-82.318647
+4553,Mckinley Dr @ D.O.T. Bldg,28.050861,-82.416281
+4552,Mckinley Dr @ Fowler Av,28.053455,-82.416369
+4543,Malcom McKinley Dr  @ D.O.T. Bldg,28.050524,-82.416144
+4544,Leroy Collins Blvd @ Alumni Dr,28.057706,-82.412974
+4974,30th St @ Pine Dr,28.056123,-82.425899
+4545,Leroy Collins Blvd @ Elm Dr@Library,28.059734,-82.412953
+7241,Gornto Lake Rd @ Causeway Blvd F/S,27.921418,-82.32296
+4546,Leroy Collins Blvd @  Alumni Dr,28.057416,-82.413393
+4547,Magnolia @ Medical Dr Traffic Light,28.061258,-82.419551
+4977,Bruce B Downs Blvd @ 132nd Av,28.0675,-82.42626
+4548,Magnolia Dr @ Moffit Hospital,28.064245,-82.420143
+7240,Gornto Lake Rd @ Causeway Blvd N/S,27.921925,-82.322626
+4085,Nuccio Pkwy @ Palm Av,27.962657,-82.446854
+5718,Us Hwy 41 @ Beach Av  (Twin Oaks),27.840939,-82.381483
+5312,Sheldon Rd @ Bay Plaza,27.998277,-82.583032
+7676,Westshore Blvd @ Laurel St,27.955667,-82.524278
+7576,Northwest Transfer Center,28.028126,-82.584433
+4684,22nd St @ Worthing Square Apts,28.063594,-82.434485
+7677,Westshore Blvd @ Laurel St,27.956211,-82.523995
+4879,Cass St @ N Boulevard,27.950073,-82.467992
+4683,22nd St @ 12401 University  Village,28.061566,-82.434495
+7674,Westshore Blvd @ Spruce St,27.959263,-82.524282
+7675,Westshore Blvd @ Union St,27.957488,-82.52426
+4541,Malcom McKinley Dr @ Busch Blvd,28.033303,-82.416214
+5005,Hanley Rd @ 7948,28.019523,-82.562623
+4475,Yukon St @ Branch Av,28.028948,-82.457834
+4273,University Mall,28.057475,-82.436651
+4987,30th St @ Pocahontas Av,28.00888,-82.42653
+5203,Kennedy Blvd @ Franklin St,27.947639,-82.45813
+7370,Ashley Dr @ Jackson St,27.946153,-82.459102
+5015,Fletcher Av @ Railroad Crossing,28.069298,-82.449124
+5014,Westshore Blvd @ 700 Omni Hotel,27.951446,-82.524315
+0551,Florida Av @ Palm Av,27.962103,-82.459369
+7087,Orient Rd @ King Alfred Dr,27.982571,-82.373234
+5013,Westshore Blvd @ 1300,27.954517,-82.524287
+4329,Mission Bell,28.065758,-82.501659
+4326,113th Av @ Temple Terrace City Hall,28.050772,-82.394396
+4883,Rowlett Park Dr @ Gas Station,28.015855,-82.431559
+4865,Republica De Cuba @ 19th Av,27.968851,-82.444243
+4864,Republica De Cuba @ 20th Av,27.969893,-82.444242
+3270,Cleveland St @ Magnolia Av,27.943181,-82.465631
+0931,Fletcher Av @ 15th St,28.069154,-82.4431
+4869,Cass St @ N Boulevard,27.950236,-82.468043
+2690,Orient Rd @ Chelsea St,27.985342,-82.373161
+0935,Fletcher Av @ 19th St,28.069147,-82.43886
+0937,Fletcher Av @ 22nd St,28.06914,-82.434838
+2691,Orient Rd @ M L King Jr Blvd,27.98172,-82.373235
+0936,Fletcher Av @ 20th St,28.069152,-82.436751
 4487,Fletcher Av @ Cecelia St,28.069165,-82.445602
 4486,Fletcher Av @ 12th St,28.069175,-82.44749
-4621,50th St @ Terrace Palms Apts,28.0572161,-82.4019285
-4620,50th St @ 122nd Av,28.0582965,-82.4019663
-4622,Fowler Av @ 51St St,28.054243,-82.400618
-7615,Fowler Av @ 52nd St,28.054242,-82.397669
-4625,56th St @ Temple Terrace City Hall,28.050537,-82.393849
+0938,Fletcher Av @ Livingston Av East,28.069132,-82.429987
+4284,Westfield Brandon,27.931992,-82.324716
+2688,Orient @ Draper  @ Seminole Complex,27.992359,-82.373193
+4994,Westshore Blvd @ 1311 N,27.95478,-82.523994
+2689,Orient Rd @ Cayuga St @ Fairgrounds,27.987561,-82.3732
+5004,Hanley Rd @ Winging Way Dr,28.023445,-82.562224
+4996,Westshore Blvd @ Main St,27.957334,-82.523976
+5003,Hanley Rd @ 7937,28.01946,-82.562309
+4997,Spruce St @ Westshore Blvd,27.959987,-82.524951
+4289,Republica De Cuba @ Columbus Dr,27.966534,-82.444312
+7535,Super Wal-Mart @ Gibsonton Dr,27.848114,-82.353265
+5168,Us Hwy 41 @ Ohio St,27.822058,-82.382254
+4304,M L King Jr Blvd @ N Boulevard,27.981474,-82.46783
+4598,50th St @ Sun Ridge Condos,28.05849,-82.401762
+4927,Kennedy Blvd @ Parker St,27.94637,-82.461754
+1523,Sligh Av @ 21St St,28.01063,-82.436088
+1522,Sligh Av @ 22nd St,28.010711,-82.433788
+1525,Sligh Av @ 17th St,28.010675,-82.441124
+1524,Sligh Av @ 19th St,28.010648,-82.438601
+6966,Marion Transit Center,27.95515,-82.458671
+6968,Marion Transit Center,27.954848,-82.458102
+6969,Marion Transit Center,27.954333,-82.458423
+1520,Sligh Av @ Rowlett Park Dr,28.01072,-82.429928
+7684,Kennedy Blvd @ Ashley Dr,27.946895,-82.460287
+5946,Town Center Blvd @ Providence Rd,27.925769,-82.317458
+5945,Town Center Blvd @ Providence Rd,27.925995,-82.317195
+1622,Mckinley Dr @ Bougainvillea Av,28.044154,-82.416414
+1526,Sligh Av @ 15th St,28.010684,-82.442826
+7546,Westshore Blvd @ Cypress St,27.952669,-82.523992
+1898,Kennedy Blvd @ Brevard Av,27.944494,-82.466785
+1899,Kennedy Blvd @ Hyde Park Av,27.94531,-82.464164
+1897,Kennedy Blvd @ S Boulevard,27.944512,-82.468031
+1900,Kennedy Blvd @ Parker St,27.945989,-82.462281
+6984,Franklin St @ Whiting St,27.944939,-82.456586
+6981,Dick Greco Plaza,27.941118,-82.45496
+1617,Mckinley Dr @ Linebaugh Av,28.039471,-82.416137
+1616,Mckinley Dr @ Busch Blvd,28.034706,-82.416406
+4597,50th St @ Terrace Palms Apts 11801,28.056281,-82.401743
+1619,Mckinley Dr @ Fowler Av,28.053616,-82.416055
+1618,Mckinley Dr @ Bougainvillea Av,28.044336,-82.416145
+1515,Sligh Av @ 50th St,28.010768,-82.401793
+7101,Winn Dixie Pnr @ Apollo Beach Blvd,27.767959,-82.393938
+4184,Tyler St @ Ashley Dr,27.951505,-82.462171
+0764,15th St @ Columbus Dr,27.966715,-82.442874
+4021,Henderson Av @ Florida Av,27.959575,-82.459303
+4020,Waters Av @ Hanley Rd,28.025699,-82.562551
+0763,15th St @ 15th Av,27.965873,-82.442874
+0766,15th St @ 19th Av,27.968626,-82.442928
+3213,78th St @ Causeway Blvd,27.922383,-82.369465
+7104,Hillsborough Av @ Beaumont Ctr Blvd,27.996275,-82.549156
+0765,15th St @ 17th Av,27.967327,-82.442925
+0767,15th St @ 21St Av,27.970374,-82.442933
+6951,Himes Av @ IVy St,27.969832,-82.501582
+5046,M L King Jr Blvd @ 2125,27.981349,-82.481676
+4579,50th St @  M L King Jr Blvd,27.981969,-82.401218
+2785,Providence Rd @ Providence Ridge Bl,27.907135,-82.318831
+2790,Providence @ Providence Bapt Church,27.897608,-82.318652
+2791,Providence Rd @ Providence Oaks Dr,27.896176,-82.318624
+5565,M L King Jr Blvd @ Fairview Park Dr,27.981305,-82.376759
+5564,M L King Jr Blvd @ Corporex  Dr,27.981325,-82.380031
+4580,56th St @ Commerce Park Blvd,27.986459,-82.394937
+5563,M L King Bl @ I-4 Foxworth Trailers,27.981411,-82.388012
+4581,56th St @ Cone Rd,27.992942,-82.393282
+4582,Hillsborough Av @ 56th St,27.996004,-82.392373
+5699,Providence Rd @ Providence Lake Bl,27.911558,-82.318865
+4015,Tampa St @ Oak Av,27.961133,-82.460989
+2779,Providence Rd @ Providence Lakes Bl,27.910597,-82.318441
+2778,Providence Rd @ Providence Ridge Bl,27.907934,-82.318425
+2775,Providence Rd @ Providence Park,27.895777,-82.318422
+6669,Bruce B Downs Blvd @ 138th Av,28.07316,-82.426234
+7431,Bruce B Downs Bl @ Barnhard (Ntic),28.077303,-82.426335
+4811,Nuccio Pkwy @ 4th Av,27.958201,-82.44663
+6955,Sterling Av @ Euclid Av,27.907937,-82.504144
+4959,Kennedy Blvd @ Ashley Dr,27.946823,-82.459973
 7434,Fletcher Av @ 42nd St Ws,28.069229,-82.414502
+6952,Himes Av @ Aileen St,27.968037,-82.501537
+2914,Us Hwy 41 @ Nundy Av,27.846017,-82.381509
+1570,Sligh Av @ 17th St,28.010512,-82.441377
+1149,M L King Jr Blvd @ Gomez Av,27.981175,-82.491601
+7702,M L King Jr Bvdl @ Himes Av,27.981233,-82.500939
+2918,Us Hwy 41 @ Nundy Av,27.846253,-82.381712
+3580,Brorein St @ Hyde Park Av,27.943178,-82.46364
+7027,Leroy Collins Blvd @ Fowler Av,28.054976,-82.413421
+0890,Fletcher Av @ 12th St,28.06928,-82.446762
+6264,50th St @ 122nd Av,28.057385,-82.401752
+0889,Fletcher Av @ Cecelia St,28.06928,-82.445667
+1245,Hillsborough Av @ Sawyer Rd,27.996639,-82.556358
+3434,Rowlett Park Dr @ 22nd St,28.02234,-82.435156
+0888,Fletcher Av @ 15th St,28.069272,-82.443477
+1663,30th St @ Fern St,28.004625,-82.426424
+3432,Rowlett Park Dr @ Sligh Av,28.011227,-82.430111
+1664,30th St @ Diana St,28.006817,-82.426413
+1665,30th St @ Pocahontas Av,28.008628,-82.426393
+1666,30th St @ Sligh Av,28.01052,-82.426372
+5887,Fletcher Av @ Livingston Av West,28.06913,-82.430708
+0881,Fletcher Av @ Livingston Av,28.069296,-82.427179
+1153,M L King Blvd @ Armenia Av Es,27.981151,-82.484177
+1154,M L King Jr Blvd @ Howard Av,27.981197,-82.483336
+1151,M L King Jr Blvd @ Tampania Av,27.981132,-82.486344
+1152,M L King Jr Blvd @ Armenia Av    Ws,27.981151,-82.484906
+5267,Himes Av @ Leroy St,27.972154,-82.501551
+3578,Brorein St @ Parker St,27.94347,-82.460659
+1150,M L King Jr Blvd @ Habana Av Es,27.981158,-82.488107
+0886,Fletcher Av @ 19th St,28.069272,-82.438499
+6647,Bruce B Downs Blvd @ 138th Av,28.072313,-82.425897
+2905,Us Hwy 41 @ Big Bend Rd,27.792819,-82.384173
+1134,M L King Jr Blvd @ Poplar Av,27.981627,-82.471543
+5881,S Harbor Island Bl @ Westin Hotel,27.938989,-82.454029
+1133,M L King Jr Blvd @ Myrtle Av,27.981619,-82.469571
+1136,M L King Jr Blvd @ 1931,27.981342,-82.479417
+7036,Nuccio Pkwy @ 13th St,27.963415,-82.445814
+2908,Us Hwy 41 @ Ohio St,27.822255,-82.38189
+0698,22nd St @ 131St Av,28.065299,-82.434529
+1135,M L King Jr Blvd @ Riverside Dr,27.981632,-82.473047
+1035,Himes Av @ Columbus Dr,27.967159,-82.501354
+1037,Himes Av @ Leroy St,27.971757,-82.501397
+1036,Himes Av @ IVy St,27.969758,-82.501356
+1039,Himes Av @ Heiter St,27.974918,-82.501374
+3179,Hanley Rd @ Waters Av,28.02464,-82.562205
+1038,Himes Av @ Tampa Bay Blvd,27.973689,-82.501372
+1242,Hillsborough Av @ Beaumont Ctr Blvd,27.996524,-82.548751
+3186,Hanley Rd @ Woodbridge Blvd,28.013171,-82.562548
+3188,Hanley Rd @ Jackson Springs Rd,28.00764,-82.562641
+1040,Himes Av @ Woodlawn Av,27.976126,-82.501372
+3182,Hanley Rd @ Winging Way Dr,28.023508,-82.562548
+3183,Hanley Rd @ Nesting Place Ct,28.022086,-82.562566
+3185,Hanley Rd @ Barry Rd,28.017819,-82.562576
+1557,Sligh Av @ Oregon Av,28.01066,-82.474314
+1140,M L King Jr Blvd @ Tampania Av,27.981384,-82.48629
+6051,56th St @ Commerce Park Blvd,27.986658,-82.395291
+1141,M L King Jr Blvd @ Habana Av,27.981439,-82.488684
+5876,Tampa Convention Center,27.941109,-82.455153
+5877,S Harbour Island Bl @ Westin  Hotel,27.938401,-82.453998
+7029,56th St @ Serena Dr,28.042858,-82.393691
+5276,Orient Rd @ I-4 Fairground Entrance,27.988367,-82.373037
+5277,Orient Rd @ Seminole Complex,27.992486,-82.37298
+5873,Franklin St @ Whiting St,27.944786,-82.456763
+5872,Tampa St @ Jackson St,27.94647,-82.458454
+4707,22nd St @ 12401 University Village,28.061295,-82.4346
+2935,Us Hwy 41 @ 7th Av Nw F/S,27.723716,-82.434018
+5085,Sligh Av @ 21St St,28.010467,-82.436068
+4706,22nd St @ Worthing Square Apts,28.063647,-82.434598
+3903,Marion St @ Whiting St,27.946308,-82.455488
+5084,Sligh Av @ 19th St,28.010485,-82.438722
+3169,Hanley Rd @ Hillsborough Av,27.997273,-82.562748
+1692,30th St @ Diana Ct,28.007161,-82.426531
+5458,Stall Rd @ Orange Grove Dr,28.062001,-82.500704
+5384,Whiting St @ Franklin St,27.945698,-82.456691
+5281,Hillsborough Av @ Walton Way,27.996341,-82.380462
+3173,Hanley Rd @ Jackson Springs Rd,28.00724,-82.562506
+5385,Tampa St @ Brorein St,27.943849,-82.457245
+5280,Hillsborough Av @ 6804,27.99634,-82.377852
+3177,Hanley Rd @ Twelve Oaks Blvd,28.021507,-82.562251
+3176,Hanley Rd @ Barry Rd,28.017332,-82.562326
+3076,131St Av @ 25th St,28.065579,-82.43101
+6904,Fletcher Av @ 20th St,28.069272,-82.43634
+3077,131St Av @ 23Rd St,28.065554,-82.432328
+6903,Fletcher Av @ 22nd St,28.06935,-82.435071
+3075,131St Av @ Bruce B Downs @ Va Hosp,28.065622,-82.427307
+1730,Dale Mabry Hwy @ Obispo St,27.916895,-82.505902
+1156,M L King Jr Blvd @ St Isabel St,27.98118,-82.479012
+2929,Us Hwy 41 @ Big Bend Rd,27.792031,-82.384516
+7014,Morgan St @ Bell St,27.945257,-82.453868
+1158,M L King Jr Blvd @ Myrtle Av,27.981464,-82.469714
+7015,M L King Jr Blvd @ 6605,27.981335,-82.380598
+1157,M L King Jr Blvd @ Poplar Av,27.981482,-82.471791
+1732,Dale Mabry Hwy @ Bay To Bay Blvd,27.91944,-82.505863
+1731,Dale Mabry Hwy @ San Juan St,27.91829,-82.505882
+3473,Yukon St @ Suwanee Av,28.028966,-82.458888
+2921,Us Hwy 41 @ Beach Av (Twin Oaks),27.840428,-82.38182
+3471,Yukon St @ Florida Av,28.029138,-82.459172
+1538,Sligh Av @ Oregon Av,28.010805,-82.474306
+3665,Morgan St @ Eunice Av,27.94402,-82.453364

@@ -16,7 +16,6 @@ Copyright 2010 University of South Florida
 **/
 package io;
 
-import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 import object.Session;

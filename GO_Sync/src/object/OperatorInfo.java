@@ -27,10 +27,13 @@ public class OperatorInfo {
 
     private static List<String> possibleOperatorName = new ArrayList<String>();
     
-    private static String ntdID;
+    private static String ntdID, fullName, abbreviate;
 
-    public OperatorInfo(String fullName, String abbreviate, String id){
-        setNames(fullName, abbreviate);
+    public OperatorInfo(String fName, String abbr, String id){
+        fullName = fName;
+        abbreviate = abbr;
+        addName(fullName);
+        addName(abbreviate);
         ntdID = id;
     }
 
@@ -38,10 +41,17 @@ public class OperatorInfo {
         return ntdID;
     }
 
-    public static void setNames(String fullName, String abbreviate){
+    public static String getFullName(){
+        return fullName;
+    }
+
+    public static String getAbbreviateName(){
+        return abbreviate;
+    }
+
+    public static void addName(String name){
         // generate possible name for operator fields e.g. HART / Hillsborough Area Regional Transit
-        possibleOperatorName.add(fullName.toUpperCase());
-        possibleOperatorName.add(abbreviate.toUpperCase());
+        possibleOperatorName.add(name.toUpperCase());
     }
 
     public static boolean isTheSameOperator(String osmOperator) {

@@ -23,6 +23,7 @@ Copyright 2010 University of South Florida
 
 package gui;
 
+import io.WriteFile;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -38,6 +39,12 @@ import osm.HttpRequest;
  * @author Khoa Tran
  */
 public class ReportForm extends javax.swing.JFrame {
+
+    private static final String FILE_NAME_OUT_UPLOAD_REVISE = "UPLOAD_REVISE.txt";
+    private static final String FILE_NAME_OUT_MODIFY_REVISE = "MODIFY_REVISE.txt";
+    private static final String FILE_NAME_OUT_DELETE_REVISE = "DELETE_REVISE.txt";
+    private static final String FILE_NAME_OUT_NOUPLOAD_REVISE = "NOUPLOAD_REVISE.txt";
+    private static final String FILE_NAME_OUT_REPORT_REVISE = "REPORT_REVISE.txt";
 
     private Hashtable report;
 
@@ -202,9 +209,6 @@ public class ReportForm extends javax.swing.JFrame {
         gtfsDetailsValue.clear();
 
         int count=0;
-        gtfsDetailsKey.add(count, "name");
-        gtfsDetailsValue.add(count, s.getStopName());
-        count++;
         gtfsDetailsKey.add(count, "lat");
         gtfsDetailsValue.add(count, s.getLat());
         count++;
@@ -260,6 +264,7 @@ public class ReportForm extends javax.swing.JFrame {
     }
 
     public void gtfsActivated(){
+        totalStopsLabel.setText(Integer.toString(gtfsIDList.getModel().getSize()));
         String gtfsID = (String)gtfsIDList.getSelectedValue();
         if (gtfsID!=null) {
             updateGtfsDetailsList((Stop)agencyStops.get(gtfsID));
@@ -453,7 +458,7 @@ public class ReportForm extends javax.swing.JFrame {
             }
         });
 
-        osmStopIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24));
+        osmStopIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         osmStopIDLabel.setText("OSM Stop");
 
         newStopIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24));
@@ -614,16 +619,14 @@ public class ReportForm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(removeGtfsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(removeUploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(removeOsmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(removeOsmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(modifyLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(232, 232, 232))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(238, 238, 238)
-                        .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -709,8 +712,58 @@ public class ReportForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_modifyRightButtonMouseClicked
 
+    private void reviseReport(){
+        HashSet<Stop> osmStopDeleted = new HashSet<Stop>();
+        ArrayList<Stop> osmStopNotDeleted = new ArrayList<Stop>();
+
+        ArrayList<Stop> reportKeys = new ArrayList<Stop>();
+        reportKeys.addAll(report.keySet());
+        for(int i=0; i<reportKeys.size(); i++){
+            Stop ts = (Stop)reportKeys.get(i);
+            if(!gtfsIDAll.contains(ts.getStopID())){
+                if(!report.get(ts).equals("none")){
+                    osmStopDeleted.addAll((ArrayList<Stop>)report.get(ts));
+                }
+
+                //remove gtfs stop in associated set
+                String category = ts.getReportCategory();
+                if (category.equals("UPLOAD_CONFLICT") || category.equals("UPLOAD_NO_CONFLICT")) {
+                    upload.remove(ts);
+                } else if (category.equals("MODIFY")) {
+                    modify.remove(ts);
+                }
+
+                //remove stop in the report
+                report.remove(ts);
+            } else {
+                if(!report.get(ts).equals("none")){
+                    osmStopNotDeleted.addAll((ArrayList<Stop>)report.get(ts));
+                }
+            }
+        }
+
+        //check if any osm Stop in revised report is the same with osmStopDeleted stop
+        Iterator it = osmStopNotDeleted.iterator();
+        while(it.hasNext()){
+            Stop s = (Stop)it.next();
+            if(osmStopDeleted.contains(s)){
+                osmStopDeleted.remove(s);
+            }
+        }
+
+        //remove all osmStopDeleted stops from modify set
+        modify.removeAll(osmStopDeleted);
+
+        //write data to file
+        new WriteFile(FILE_NAME_OUT_REPORT_REVISE, report);
+        new WriteFile(FILE_NAME_OUT_UPLOAD_REVISE, upload);
+        new WriteFile(FILE_NAME_OUT_MODIFY_REVISE, modify);
+        new WriteFile(FILE_NAME_OUT_DELETE_REVISE, delete);
+    }
+
     private void uploadButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadButtonMouseClicked
         // TODO add your handling code here:
+        reviseReport();
         osmRequest.checkVersion();
         osmRequest.createChangeSet();
         osmRequest.createChunks(upload, modify, delete, finalRoutes);
@@ -754,11 +807,15 @@ public class ReportForm extends javax.swing.JFrame {
 
     private void removeGtfsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGtfsButtonMouseClicked
         // TODO add your handling code here:
-        if(gtfsIDList.getModel().equals(gtfsIDAll)){
-            
-        } else if(gtfsIDList.getModel().equals(gtfsIDUploadConflict)){
-            System.out.println("gtfsIDUploadConflict");
-        }
+        String s = (String)gtfsIDList.getSelectedValue();
+        int index = gtfsIDList.getSelectedIndex();
+        gtfsIDAll.removeElement(s);
+        gtfsIDUploadConflict.removeElement(s);
+        gtfsIDModify.removeElement(s);
+        gtfsIDNoUpload.removeElement(s);
+        gtfsIDUploadNoConflict.removeElement(s);
+        gtfsIDList.setSelectedIndex(index);
+        gtfsActivated();
     }//GEN-LAST:event_removeGtfsButtonMouseClicked
 
     /**

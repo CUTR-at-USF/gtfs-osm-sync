@@ -304,7 +304,7 @@ public class MainForm extends javax.swing.JFrame {
                 } else {
                     isOp = OperatorInfo.isTheSameOperator(osmOperator);
                     // spell out the operator name
-                    osmOperator = _operatorName;
+                    // osmOperator = _operatorName; //can't do this since it deletes the other operator
                 }
             }
             // osmOperator == null --> isOp is true since we need to get to the for loop

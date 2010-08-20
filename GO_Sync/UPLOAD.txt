@@ -1,23 +1,6 @@
 stop_id,stop_name,stop_lat,stop_lon
-4614,Holly Dr @ Alpha Apts,28.065679,-82.409619
-4613,Holly Dr @ Cresent Parking Garage,28.06567,-82.411312
-4612,N Palm @ Usf Credit Union,28.06715,-82.413326
-4603,Holly Dr @ Delta Apts,28.06577,-82.409958
-4604,North Palm Dr @  Usf Credit Union,28.066453,-82.413144
-3357,Magnolia Dr @ Alumni Dr,28.058278,-82.420029
-4550,Magnolia @ Medical Dr@Traffic Light,28.059392,-82.419992
-6990,Magnolia Dr @ Alumni Dr,28.058713,-82.419822
 6964,Holly Dr @ Pine Dr @ Crosswalk,28.065986,-82.424493
 6497,University Area Transit Center,28.066419,-82.429872
-4217,Holly Dr @ Maple Dr,28.065799,-82.407294
-4219,Holly Dr @ Palm Dr,28.065809,-82.412019
-4213,Holly Dr @ Maple Dr,28.065697,-82.407439
-7026,Magnolia Dr @ Laurel Dr,28.061612,-82.419617
-3110,Holly Dr @ Magnolia Dr,28.066119,-82.420828
-3109,Alumni Dr @ Leroy Collins@ Eng Bldg,28.0578,-82.415793
-3105,Alumni Dr @ Laurel Dr,28.058141,-82.416735
-3104,Alumni Dr @ Leroy Collins @Eng Bldg,28.057316,-82.413653
-3114,Holly Dr @ Magnolia Dr,28.065891,-82.420902
 2637,50th St @ Sligh Av,28.010823,-82.402026
 7612,Fowler Av @ Gillette St,28.05454,-82.377192
 7613,Fowler Av @ Hoyt St,28.054542,-82.381642

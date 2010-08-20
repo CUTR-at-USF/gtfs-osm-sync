@@ -29,12 +29,15 @@ public class OperatorInfo {
     
     private static String ntdID, fullName, abbreviate;
 
-    public OperatorInfo(String fName, String abbr, String id){
+    private static int gtfs_id_digit;
+
+    public OperatorInfo(String fName, String abbr, String id, int digit){
         fullName = fName;
         abbreviate = abbr;
         addName(fullName);
         addName(abbreviate);
         ntdID = id;
+        gtfs_id_digit = digit;
     }
 
     public static String getNTDID(){
@@ -47,6 +50,10 @@ public class OperatorInfo {
 
     public static String getAbbreviateName(){
         return abbreviate;
+    }
+
+    public static int getGtfsIdDigit(){
+        return gtfs_id_digit;
     }
 
     public static void addName(String name){

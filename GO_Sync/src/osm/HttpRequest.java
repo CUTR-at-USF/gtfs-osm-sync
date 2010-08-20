@@ -30,22 +30,20 @@ import javax.xml.parsers.SAXParserFactory;
 import object.Stop;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import object.Route;
 import object.Session;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -63,7 +61,7 @@ public class HttpRequest {
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> existingBusTags = new ArrayList<Hashtable>();
     private ArrayList<Hashtable> existingRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<Hashtable> existingRelationMembers = new ArrayList<Hashtable>();
+    private ArrayList<HashSet<String>> existingRelationMembers = new ArrayList<HashSet<String>>();
 
     private boolean isSupportVersion = false;
 
@@ -180,21 +178,23 @@ public class HttpRequest {
     }
 
     private class RelationParser extends DefaultHandler {
-        Hashtable tempTag, tempMember;
+        private Hashtable tempTag;
+        private HashSet<String> tempMember;
         private ArrayList<AttributesImpl> xmlRelations;
         //xmlTags<String, String> ----------- xmlMembers<String(refID), AttributesImpl>
-        private ArrayList<Hashtable> xmlTags, xmlMembers;
+        private ArrayList<Hashtable> xmlTags;
+        private ArrayList<HashSet<String>> xmlMembers;
         public RelationParser(){
             xmlRelations = new ArrayList<AttributesImpl>();
             xmlTags = new ArrayList<Hashtable>();
-            xmlMembers = new ArrayList<Hashtable>();
+            xmlMembers = new ArrayList<HashSet<String>>();
         }
         @Override public void startElement(String namespaceURI, String localName, String qname, Attributes attributes) throws SAXException {
             if (qname.equals("relation")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
                 xmlRelations.add(attImpl);
                 tempTag = new Hashtable();      // start to collect tags of that relation
-                tempMember = new Hashtable();
+                tempMember = new HashSet<String>();
             }
             if (tempTag!=null && qname.equals("tag")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
@@ -203,7 +203,7 @@ public class HttpRequest {
             if (tempMember!=null && qname.equals("member")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
                 if (attImpl.getValue("type").equals("node")) {                     // only need bus_stop, which is node. [no member way]
-                    tempMember.put(attImpl.getValue("ref"), attImpl);
+                    tempMember.add(attImpl.getValue("ref"));
                 }
             }
         }
@@ -225,7 +225,7 @@ public class HttpRequest {
             return xmlTags;
         }
 
-        public ArrayList<Hashtable> getMembers(){
+        public ArrayList<HashSet<String>> getMembers(){
             return xmlMembers;
         }
     }
@@ -266,7 +266,7 @@ public class HttpRequest {
     }
 
     // this method needs to be invoked after getExistingBusRelations
-    public ArrayList<Hashtable> getExistingBusRelationMembers(){
+    public ArrayList<HashSet<String>> getExistingBusRelationMembers(){
         System.out.println("tags = "+existingRelationMembers.size());
         if (existingRelationMembers.size() !=0 )
             return existingRelationMembers;
@@ -291,33 +291,58 @@ public class HttpRequest {
         return text;
     }
 
-    private String getRequestContents(String changeSetID, HashSet<Stop> addStop, HashSet<Stop> modifyStop, HashSet<Stop> deleteStop) {
+    private String getRequestContents(String changeSetID, HashSet<Stop> addStop, HashSet<Stop> modifyStop, HashSet<Stop> deleteStop, Hashtable r) {
+        Hashtable routes = new Hashtable();
+        routes.putAll(r);
+        ArrayList<String> routeKeys = new ArrayList<String>();
+        routeKeys.addAll(routes.keySet());
         String text = "";
         List<Stop> stops = new ArrayList<Stop>();
         stops.addAll(addStop);
         text += oprinter.osmChangeCreate();
+        int id=0;
         for(int i=0; i<stops.size(); i++){
-            int nodeid = (-1)*(i+1);
-            stops.get(i).removeTag("REPORT");
-            stops.get(i).removeTag("REPORT_CATEGORY");
-            text += oprinter.writeBusStop(changeSetID, Integer.toString(nodeid), stops.get(i));
+            id = (-1)*(i+1);
+            text += oprinter.writeBusStop(changeSetID, Integer.toString(id), stops.get(i));
+        }
+        int k=0;
+        while (k<routeKeys.size()){
+            Route tRoute = (Route)routes.get(routeKeys.get(k));
+            if(tRoute.getStatus().equals("n")){
+                id--;
+                text += oprinter.writeBusRoute(changeSetID, Integer.toString(id), tRoute);
+                routeKeys.remove(k);
+            }
+            else {
+                k++;
+            }
         }
         stops = new ArrayList<Stop>();
         stops.addAll(modifyStop);
         text += oprinter.osmChangeModify();
         for(int i=0; i<stops.size(); i++){
-            String nodeid = stops.get(i).getTag("OSM_NODE_ID");
-            stops.get(i).removeTag("OSM_NODE_ID");
-            stops.get(i).removeTag("REPORT");
-            stops.get(i).removeTag("REPORT_CATEGORY");
+            String nodeid = stops.get(i).getOsmId();
             text += oprinter.writeBusStop(changeSetID, nodeid, stops.get(i));
+        }
+        //all routes should be modified. Thus, k=0 after while loop
+        k=0;
+        while (k<routeKeys.size()){
+            Route tRoute = (Route)routes.get(routeKeys.get(k));
+            if(tRoute.getStatus().equals("m")){
+                String routeid = tRoute.getOsmId();
+                text += oprinter.writeBusRoute(changeSetID, routeid, tRoute);
+                routeKeys.remove(k);
+            }
+            else {
+                k++;
+            }
         }
         stops = new ArrayList<Stop>();
         stops.addAll(deleteStop);
         text += oprinter.osmChangeDelete();
         for(int i=0; i<stops.size(); i++){
-            String nodeid = stops.get(i).getTag("OSM_NODE_ID");
-            String nodeVersion = stops.get(i).getTag("version");
+            String nodeid = stops.get(i).getOsmId();
+            String nodeVersion = stops.get(i).getOsmVersion();
             text += oprinter.writeDeleteNode(nodeid, changeSetID, nodeVersion);
         }
         text += oprinter.osmChangeDeleteClose();
@@ -330,6 +355,7 @@ public class HttpRequest {
         
         String responseMessage = "";
         if (isSupportVersion) {
+            String s = getRequestContents();
             responseMessage = sendRequest(url, "PUT", getRequestContents());
             System.out.println(responseMessage);
             cSetID = responseMessage.substring(0, responseMessage.lastIndexOf("\n"));
@@ -369,7 +395,7 @@ public class HttpRequest {
         }
     }
 
-    public void createChunks(HashSet<Stop> n, HashSet<Stop> m, HashSet<Stop> d) {
+    public void createChunks(HashSet<Stop> n, HashSet<Stop> m, HashSet<Stop> d, Hashtable r) {
         HashSet<Stop> newStops = new HashSet<Stop>();
         HashSet<Stop> modifyStops = new HashSet<Stop>();
         HashSet<Stop> deleteStops = new HashSet<Stop>();
@@ -378,15 +404,18 @@ public class HttpRequest {
         modifyStops.addAll(m);
         deleteStops.addAll(d);
 
+        Hashtable routes = new Hashtable();
+        routes.putAll(r);
+
         String urlSuffix = "changeset/"+cSetID+"/upload";
         String url = SERVER_URL + urlSuffix;
 
         String responseMessage = "";
         if (isSupportVersion) {
             if (!cSetID.equals("")) {
-                String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops);
+                String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);
-                responseMessage = sendRequest(url, "POST", osmChangeText);
+//                responseMessage = sendRequest(url, "POST", osmChangeText);
                 System.out.println(responseMessage);
             }
             else {

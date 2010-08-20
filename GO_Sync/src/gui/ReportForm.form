@@ -30,6 +30,43 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="jScrollPane7" alignment="2" min="-2" pref="84" max="-2" attributes="1"/>
+                  <Component id="removeGtfsButton" alignment="2" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane5" min="-2" pref="89" max="-2" attributes="1"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="jScrollPane10" min="-2" pref="174" max="-2" attributes="1"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="modifyLeftButton" min="-2" pref="75" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="removeUploadButton" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane6" alignment="2" min="-2" pref="95" max="-2" attributes="1"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane9" pref="150" max="32767" attributes="1"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="modifyRightButton" min="-2" pref="75" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane8" min="-2" pref="91" max="-2" attributes="1"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane4" min="-2" pref="162" max="-2" attributes="1"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="removeOsmButton" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="2" min="-2" pref="110" max="-2" attributes="1"/>
+              </Group>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <Component id="totalStopsLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="1164" max="32767" attributes="0"/>
+          </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
               <Component id="gtfsStopIDLabel" pref="126" max="32767" attributes="0"/>
@@ -40,91 +77,72 @@
               <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane7" min="-2" pref="84" max="-2" attributes="1"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane5" min="-2" pref="89" max="-2" attributes="1"/>
-                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane10" min="-2" pref="174" max="-2" attributes="1"/>
-                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Component id="modifyLeftButton" min="-2" pref="75" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane6" min="-2" pref="95" max="-2" attributes="1"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane9" pref="160" max="32767" attributes="1"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="modifyRightButton" min="-2" pref="75" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane8" min="-2" pref="91" max="-2" attributes="1"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" min="-2" pref="162" max="-2" attributes="1"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="110" max="-2" attributes="1"/>
-                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="modifyStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="uploadNoConflictStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="allStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="uploadConflictStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="totalStopsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="noUploadStopsRadioButton" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="70" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jScrollPane3" min="-2" pref="760" max="-2" attributes="1"/>
-                              <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="uploadButton" min="-2" pref="75" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="574" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                  <Component id="modifyStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="uploadNoConflictStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="uploadConflictStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="noUploadStopsRadioButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="allStopsRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="70" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane3" alignment="1" min="-2" pref="760" max="-2" attributes="1"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="uploadButton" min="-2" pref="75" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="360" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace min="-2" pref="177" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="osmStopIDLabel" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="newStopIDLabel" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="gtfsStopIDLabel" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="jScrollPane7" alignment="0" max="32767" attributes="1"/>
-                  <Component id="jScrollPane5" alignment="0" max="32767" attributes="1"/>
-                  <Component id="jScrollPane8" alignment="0" pref="344" max="32767" attributes="1"/>
-                  <Component id="jScrollPane2" alignment="0" pref="344" max="32767" attributes="1"/>
-                  <Component id="jScrollPane4" alignment="0" pref="344" max="32767" attributes="1"/>
-                  <Component id="jScrollPane10" alignment="0" pref="344" max="32767" attributes="1"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
-                      <Component id="modifyLeftButton" min="-2" pref="31" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jScrollPane6" alignment="0" pref="344" max="32767" attributes="1"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
-                      <Component id="modifyRightButton" min="-2" pref="31" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jScrollPane9" alignment="0" pref="344" max="32767" attributes="1"/>
-              </Group>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" min="-2" pref="137" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="1">
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="osmStopIDLabel" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="newStopIDLabel" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="gtfsStopIDLabel" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                       <Component id="totalStopsLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jScrollPane7" alignment="0" max="32767" attributes="1"/>
+                          <Component id="jScrollPane5" alignment="0" max="32767" attributes="1"/>
+                          <Component id="jScrollPane8" alignment="0" pref="344" max="32767" attributes="1"/>
+                          <Component id="jScrollPane2" alignment="0" pref="344" max="32767" attributes="1"/>
+                          <Component id="jScrollPane4" alignment="0" pref="344" max="32767" attributes="1"/>
+                          <Component id="jScrollPane10" alignment="0" pref="344" max="32767" attributes="1"/>
+                          <Component id="jScrollPane6" alignment="0" pref="344" max="32767" attributes="1"/>
+                          <Component id="jScrollPane9" alignment="0" min="-2" pref="344" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="removeGtfsButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="removeUploadButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="removeOsmButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="modifyLeftButton" min="-2" pref="31" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="232" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="238" max="-2" attributes="0"/>
+                      <Component id="modifyRightButton" min="-2" pref="31" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jScrollPane3" alignment="0" min="-2" pref="137" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="1">
                       <Component id="allStopsRadioButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="uploadConflictStopsRadioButton" min="-2" max="-2" attributes="0"/>
@@ -133,7 +151,7 @@
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="uploadButton" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
@@ -144,7 +162,7 @@
                       <Component id="noUploadStopsRadioButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="127" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -540,6 +558,9 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="totalStopsLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="hello"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="totalStopsLabel.setText(agencyData.size()+&quot; stops&quot;);"/>
       </AuxValues>
@@ -567,6 +588,24 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="bGroup.add(noUploadStopsRadioButton);"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="removeGtfsButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remove"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="removeGtfsButtonMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="removeUploadButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remove"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="removeOsmButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remove"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -51,12 +51,13 @@ public class MainForm extends javax.swing.JFrame {
     private ArrayList<Hashtable> OSMTags = new ArrayList<Hashtable>();
     private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<Hashtable> OSMRelationMembers = new ArrayList<Hashtable>();
+    private ArrayList<HashSet<String>> OSMRelationMembers = new ArrayList<HashSet<String>>();
     private Hashtable report = new Hashtable();
     private HashSet<Stop> noUpload = new HashSet<Stop>();
     private HashSet<Stop> upload = new HashSet<Stop>();
     private HashSet<Stop> modify = new HashSet<Stop>();
     private HashSet<Stop> delete = new HashSet<Stop>();
+    private Hashtable routes = new Hashtable();
     private double minLat=0, minLon=0, maxLat=0, maxLon=0;
     private HttpRequest osmRequest = new HttpRequest();
     private Hashtable lastUsers = new Hashtable();
@@ -70,7 +71,8 @@ public class MainForm extends javax.swing.JFrame {
     private final String _operatorNtdId = "4041"; // 4046 for Sarasota
     private final String _username = "ktran9";
     private final String _password = "testingosm";
-    private final String _changesetComment = "Add HART gtfs data with GO_Sync";
+    private final String _changesetComment = "testing connection";
+    private final int _gtfsIdDigit = 4;
     public static final String FILE_NAME_IN_STOPS = "Khoa_transit\\stops.txt";
     public static final String FILE_NAME_IN_TRIPS = "Khoa_transit\\trips.txt";
     public static final String FILE_NAME_IN_STOP_TIMES = "Khoa_transit\\stop_times.txt";
@@ -163,6 +165,19 @@ public class MainForm extends javax.swing.JFrame {
         }
     }
 
+    /* Remove duplicates between upload set and noUpload set
+     * Otherwise, many noUpload nodes will be in upload set
+     * */
+    public void reviseUpload(){
+        Iterator it = noUpload.iterator();
+        while (it.hasNext()) {
+            Stop s = (Stop)it.next();
+            if (upload.contains(s)) {
+                upload.remove(s);
+            }
+        }
+    }
+
     /* Remove duplicates between modify set and noUpload set
      * Otherwise, all modify nodes will be in noUpload set
      * since our algorithm add node into noUpload set everytime a gtfs node matches an OSM node
@@ -204,24 +219,33 @@ public class MainForm extends javax.swing.JFrame {
      * */
     public void compareRouteData() {
         // get all the routes and its associated bus stops
-        Hashtable routes = new Hashtable();
         ArrayList<Stop> reportKeys = new ArrayList<Stop>();
         reportKeys.addAll(report.keySet());
         for (int i=0; i<reportKeys.size(); i++) {
             Stop st = reportKeys.get(i);
-            String category = st.getTag("REPORT_CATEGORY");
+            String category = st.getReportCategory();
             if (category.equals("MODIFY") || category.equals("NOTHING_NEW")) {
                 String routeText = st.getTag(ROUTE_KEY);
-                String[] routeArray = routeText.split(";");
-                for (int j=0; j<routeArray.length; j++) {
-                    Route r = new Route(routeArray[j], OperatorInfo.getFullName());
-                    if(routes.containsKey(routeArray[j])){
-                        Route rt = (Route)routes.get(routeArray[j]);
-                        r.addOsmMembers(rt.getOsmMembers());
-                        String osmNodeId = st.getTag("OSM_NODE_ID");
-                        r.addOsmMember(osmNodeId);
+                String[] routeArray;
+                if (routeText==null){
+                    System.out.println("null route "+st.getStopID());
+                } else {
+                    if(routeText.indexOf(";")!=-1) routeArray = routeText.split(";");
+                    else {
+                        routeArray = new String[1];
+                        routeArray[0]=routeText;
                     }
-                    routes.put(routeArray[j], r);
+                    for (int j=0; j<routeArray.length; j++) {
+                        Route r = new Route(routeArray[j], OperatorInfo.getFullName());
+                        if(routes.containsKey(routeArray[j])){
+                            Route rt = (Route)routes.get(routeArray[j]);
+                            r.addOsmMembers(rt.getOsmMembers());
+                            String osmNodeId = st.getOsmId();
+                            r.addOsmMember(osmNodeId);
+                        }
+                        r.setStatus("n");
+                        routes.put(routeArray[j], r);
+                    }
                 }
             }
         }
@@ -239,12 +263,21 @@ public class MainForm extends javax.swing.JFrame {
             String routeRef = (String)osmtag.get("ref");
             String operator = (String)osmtag.get("operator");
             if(routeKeys.contains(routeRef) && operator!=null && OperatorInfo.isTheSameOperator(operator)) {
-                Route eroute = new Route(routeRef, OperatorInfo.getFullName());
-                eroute.addTags(osmtag);
-                eroute.addTag("version", osmRelation.getValue("version"));
-                eroute.addTag("OSM_RELATION_ID", osmRelation.getValue("id"));
+                HashSet<String> em = OSMRelationMembers.get(osm);
+                Route r = (Route)routes.get(routeRef);
+                if(!r.getOsmMembers().equals(em)){
+                    r.setStatus("m");
+                    r.setOsmVersion(osmRelation.getValue("version"));
+                    r.setOsmId(osmRelation.getValue("id"));
+                    r.addOsmMembers(em);
+                    r.addTags(osmtag);
+                }
+                else {
+                    r.setStatus("e");
+                }
             }
         }
+        System.out.println("There are "+routeKeys.size()+" in total!");
     }
 
     public void compareBusStopData() {
@@ -295,8 +328,8 @@ public class MainForm extends javax.swing.JFrame {
                             if (distance>ERROR_TO_ZERO) {
                                 Stop ns = new Stop(gtfsStop);
                                 ns.addTags(osmtag);
-                                ns.addTag("OSM_NODE_ID", node.getValue("id"));
-                                ns.addTag("version", version);
+                                ns.setOsmId(node.getValue("id"));
+                                ns.setOsmVersion(version);
 
                                 if (modify.contains(ns)) {
                                     modify.remove(ns);
@@ -307,47 +340,47 @@ public class MainForm extends javax.swing.JFrame {
 
                                 Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
                                 es.addTags(osmtag);
-                                es.addTag("OSM_NODE_ID", node.getValue("id"));
+                                es.setOsmId(node.getValue("id"));
                                 // for comparing tag
                                 Hashtable diff = compareStopTags(osmtag, gtfsStop);
                                 if (diff.size()==0) {
-                                    es.addTag("REPORT", "Stop already exists in OSM but with different location." +
+                                    es.setReportText("Stop already exists in OSM but with different location." +
                                             "\n ACTION: Modify OSM stop with new location!");
                                 } else {
-                                    es.addTag("REPORT", "Stop already exists in OSM but with different location.\n" +
+                                    es.setReportText("Stop already exists in OSM but with different location.\n" +
                                             "\t   Some stop TAGs are also different." +
                                             "\n ACTION: Modify OSM stop with new location and stop tags!");
                                 }
 
-                                ns.addTag("REPORT_CATEGORY", "MODIFY");
+                                ns.setReportCategory("MODIFY");
                                 addToReport(ns, es, true);
                             }
                             else {
                                 Stop ns = new Stop(gtfsStop);
-                                ns.addTag("OSM_NODE_ID", node.getValue("id"));
+                                ns.setOsmId(node.getValue("id"));
                                 ns.addTags(osmtag);
                                 // for comparing tag
                                 Hashtable diff = compareStopTags(osmtag, gtfsStop);
                                 Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
                                 es.addTags(osmtag);
-                                es.addTag("OSM_NODE_ID", node.getValue("id"));
+                                es.setOsmId(node.getValue("id"));
                                 if (diff.size()==0) {
-                                    es.addTag("REPORT", "Stop already exists in OSM. Nothing new from last upload.\n" +
+                                    es.setReportText("Stop already exists in OSM. Nothing new from last upload.\n" +
                                         "\t   " + es.printOSMStop() +
                                         "\n ACTION: No upload!");
-                                    ns.addTag("REPORT_CATEGORY", "NOTHING_NEW");
+                                    ns.setReportCategory("NOTHING_NEW");
                                     addToReport(ns, es, true);
                                     noUpload.add(ns);
                                 } else {
-                                    es.addTag("REPORT", "Stop already exists in OSM but some TAGs are different.\n" +
+                                    es.setReportText("Stop already exists in OSM but some TAGs are different.\n" +
                                             "\t   " + es.printOSMStop() + "\n ACTION: Modify OSM stop with new tags!");
-                                    ns.addTag("version", version);
+                                    ns.setOsmVersion(version);
                                     if (modify.contains(ns)) {
                                         modify.remove(ns);
                                     }
                                     modify.add(ns);
                                     lastUsers.put(ns, node.getValue("user"));
-                                    ns.addTag("REPORT_CATEGORY", "MODIFY");
+                                    ns.setReportCategory("MODIFY");
                                     addToReport(ns, es, true);
                                 }
                             }
@@ -361,9 +394,9 @@ public class MainForm extends javax.swing.JFrame {
 
                                 Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
                                 es.addTags(osmtag);
-                                es.addTag("OSM_NODE_ID", node.getValue("id"));
+                                es.setOsmId(node.getValue("id"));
                                 if ((osmStopID == null) || (osmStopID.equals("missing"))) {
-                                    es.addTag("REPORT", "Possible redundant stop. Please check again!");
+                                    es.setReportText("Possible redundant stop. Please check again!");
                                     if ((!fixme) && (!modify.contains(es))) {
                                         Stop osms = new Stop(es);
                                         osms.addTag("FIXME", "This bus stop could be redundant");
@@ -377,7 +410,7 @@ public class MainForm extends javax.swing.JFrame {
                                         if (osmStopID==null) {
                                             osms.addTag("gtfs_id","missing");
                                         }
-                                        osms.addTag("version", version);
+                                        osms.setOsmVersion(version);
 
                                         modify.add(osms);
 
@@ -385,18 +418,18 @@ public class MainForm extends javax.swing.JFrame {
                                     }
                                 }
                                 else {
-                                    es.addTag("REPORT", "Different gtfs_id but in range. Possible redundant stop. Please check again!\n" +
+                                    es.setReportText("Different gtfs_id but in range. Possible redundant stop. Please check again!\n" +
                                         " ACTION: No modified with FIXME!");
                                 }
-                                ns.addTag("REPORT_CATEGORY", "UPLOAD_CONFLICT");
+                                ns.setReportCategory("UPLOAD_CONFLICT");
                                 addToReport(ns, es, false);
                             }
                             // if same lat and lon --> possible same exact stop --> add gtfs_id, operator, stop_name
                             else {
                                 Stop ns = new Stop(gtfsStop);
                                 ns.addTags(osmtag);
-                                ns.addTag("version", version);
-                                ns.addTag("OSM_NODE_ID", node.getValue("id"));
+                                ns.setOsmId(node.getValue("id"));
+                                ns.setOsmVersion(version);
 
                                 modify.add(ns);
 
@@ -405,11 +438,12 @@ public class MainForm extends javax.swing.JFrame {
                                 noUpload.add(ns);
                                 Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
                                 es.addTags(osmtag);
-                                es.addTag("OSM_NODE_ID", node.getValue("id"));
-                                es.addTag("REPORT", "Possible redundant stop with gtfs_id = "+gtfsStop.getStopID() +
+                                es.setOsmId(node.getValue("id"));
+                                es.setOsmVersion(version);
+                                es.setReportText("Possible redundant stop with gtfs_id = "+gtfsStop.getStopID() +
                                         "\n ACTION: Modify OSM stop["+node.getValue("id")+"] with expected gtfs_id and operator!");
 
-                                ns.addTag("REPORT_CATEGORY", "MODIFY");
+                                ns.setReportCategory("MODIFY");
                                 addToReport(ns, es, true);
                             }
                         }
@@ -417,6 +451,7 @@ public class MainForm extends javax.swing.JFrame {
                 }
             }
         }
+        reviseUpload();
         reviseNoUpload();
         // Add everything else without worries
         HashSet<Stop> reportKeys = new HashSet<Stop>(report.size());
@@ -424,8 +459,8 @@ public class MainForm extends javax.swing.JFrame {
         for (int i=0; i<GTFSstops.size(); i++) {
             if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportKeys.contains(GTFSstops.get(i))) ) {
                 Stop n = new Stop(GTFSstops.get(i));
-                n.addTag("REPORT", "New upload with no conflicts");
-                n.addTag("REPORT_CATEGORY", "UPLOAD_NO_CONFLICT");
+                n.setReportText("New upload with no conflicts");
+                n.setReportCategory("UPLOAD_NO_CONFLICT");
                 upload.add(n);
 
                 addToReport(n, null, false);
@@ -461,8 +496,7 @@ public class MainForm extends javax.swing.JFrame {
             OSMRelations.addAll(tempOSMRelations);
             OSMRelationTags.addAll(osmRequest.getExistingBusRelationTags());
             OSMRelationMembers.addAll(osmRequest.getExistingBusRelationMembers());
-            System.out.println(OSMRelations.get(1).getValue("id")+": 1st relation members: "+OSMRelationMembers.get(1).keySet());
-/*            compareRouteData();*/
+            compareRouteData();
         }
         else {
             System.out.println("There's no bus stop in the region "+minLon+", "+minLat+", "+maxLon+", "+maxLat);
@@ -487,8 +521,8 @@ public class MainForm extends javax.swing.JFrame {
             if (osmSource!=null){
                 if (osmSource.equals("GO_Sync") && node.getValue("changeset").equals(csetID) && node.getValue("user").equals("ktran9")) {
                     Stop s = new Stop(node.getValue("id"),"no need","no need","0","0");
-                    s.addTag("version", node.getValue("version"));
-                    s.addTag("OSM_NODE_ID", node.getValue("id"));
+                    s.setOsmId(node.getValue("id"));
+                    s.setOsmVersion(node.getValue("version"));
                     delete.add(s);
                 }
             }
@@ -497,7 +531,7 @@ public class MainForm extends javax.swing.JFrame {
 
         osmRequest.checkVersion();
         osmRequest.createChangeSet();
-        osmRequest.createChunks(upload, modify, delete);
+        osmRequest.createChunks(upload, modify, delete, routes);
         osmRequest.closeChangeSet();
     }
 
@@ -671,7 +705,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void runButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runButtonMouseClicked
         // TODO add your handling code here:
-        new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorNtdId);
+        new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorNtdId, _gtfsIdDigit);
         new Session(_username, _password, _changesetComment);
         GTFSReadIn data = new GTFSReadIn();
         GTFSstops.addAll(data.readBusStop(FILE_NAME_IN_STOPS, _operatorName,FILE_NAME_IN_TRIPS,FILE_NAME_IN_STOP_TIMES));
@@ -694,7 +728,7 @@ public class MainForm extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReportForm(GTFSstops, report, upload, modify, delete).setVisible(true);
+                new ReportForm(GTFSstops, report, upload, modify, delete, routes).setVisible(true);
             }
         });
 /*

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<osm version='0.6' generator='xapi: OSM Extended API 2.0' xmlns:xapi='http://www.informationfreeway.org/xapi/0.6' xapi:uri='/api/0.6/relation[route=bus][bbox=-82.762,27.686,-82.099,28.294]' xapi:planetDate='20100813' xapi:copyright='2010 OpenStreetMap contributors' xapi:license='Creative commons CC-BY-SA 2.0' xapi:bugs='For assistance or to report bugs contact 80n80n@gmail.com' xapi:instance='zappyHyper'>
+<osm version='0.6' generator='xapi: OSM Extended API 2.0' xmlns:xapi='http://www.informationfreeway.org/xapi/0.6' xapi:uri='/api/0.6/relation[route=bus][bbox=-82.73803000000001,27.70168,-82.153672,28.252141]' xapi:planetDate='20100817' xapi:copyright='2010 OpenStreetMap contributors' xapi:license='Creative commons CC-BY-SA 2.0' xapi:bugs='For assistance or to report bugs contact 80n80n@gmail.com' xapi:instance='zappyHyper'>
   <node id='454063919' lat='28.0658059' lon='-82.412027' version='4' changeset='5289177' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-22T17:19:31Z'>
     <tag k='bench' v='yes'/>
     <tag k='gtfs_id' v='4219'/>

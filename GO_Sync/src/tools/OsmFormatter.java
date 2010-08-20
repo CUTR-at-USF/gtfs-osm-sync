@@ -17,6 +17,8 @@ Copyright 2010 University of South Florida
 
 package tools;
 
+import object.OperatorInfo;
+
 /**
  *
  * @author Khoa Tran
@@ -24,7 +26,7 @@ package tools;
 public class OsmFormatter {
     public static String getValidBusStopId(String bsid) {
         String id = bsid;
-        for (int i=0; i<4-bsid.length(); i++){
+        for (int i=0; i<OperatorInfo.getGtfsIdDigit()-bsid.length(); i++){
             id = "0"+id;
         }
         return id;

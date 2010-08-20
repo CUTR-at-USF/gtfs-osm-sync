@@ -18,6 +18,8 @@ package io;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import object.OperatorInfo;
+import object.Route;
 import object.Session;
 import object.Stop;
 
@@ -29,7 +31,7 @@ public class OsmPrinter {
 
     public String header() {
         String s = "<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<osm version='" + DEFAULT_API_VERSION + "generator='"+Session.getUserName()+"'>\n";
+                "<osm version='" + DEFAULT_API_VERSION + "' generator='"+Session.getUserName()+"'>\n";
         return s;
     }
     public String footer() {
@@ -75,11 +77,10 @@ public class OsmPrinter {
         String text="";
         Stop s = new Stop(st);
         // if modify, we need version number
-        if(st.getTag("version")!=null) {
+        if(st.getOsmVersion()!=null) {
             text += "<node changeset='" + changeSetID + "' id='" + nodeID
                     + "' lat='" + st.getLat() + "' lon='" + st.getLon()
-                    + "' version='"+st.getTag("version") + "'>\n";
-            s.removeTag("version");
+                    + "' version='"+st.getOsmVersion() + "'>\n";
         }
         // mainly for create new node
         else {
@@ -97,6 +98,45 @@ public class OsmPrinter {
             }
         }
         text += "</node>\n";
+        return text;
+    }
+
+    public String writeBusRoute(String changeSetID, String routeID, Route r) {
+        String text="";
+        Route route = new Route(r);
+        // if modify, we need version number
+        if(r.getOsmVersion()!=null) {
+            text += "<relation changeset='" + changeSetID + "' id='" + routeID
+                    + "' version='"+route.getOsmVersion() + "'>\n";
+        }
+        // mainly for create new node
+        else {
+            text += "<relation changeset='" + changeSetID + "' id='" + routeID + "'>\n";
+            text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
+        }
+        //add member
+        HashSet<String> members = route.getOsmMembers();
+        Iterator it = members.iterator();
+        while (it.hasNext()){
+            String ref = (String) it.next();
+            text += "<member type='node' ref='"+ref+"' role='stop' />\n";
+        }
+        //add tag
+        route.addTag("name", OperatorInfo.getAbbreviateName()+" route "+route.getRouteRef());
+        route.addTag("operator", OperatorInfo.getFullName());
+        route.addTag("ref", route.getRouteRef());
+        route.addTag("route", "bus");
+        route.addTag("type", "route");
+        HashSet<String> keys = new HashSet<String>(route.keySet().size());
+        keys.addAll(route.keySet());
+        it = keys.iterator();
+        while (it.hasNext()){
+            String k = (String) it.next();
+            if (!route.getTag(k).equals("none")) {
+                text += "<tag k='"+k+"' v='"+route.getTag(k)+"' />\n";
+            }
+        }
+        text += "</relation>\n";
         return text;
     }
 }

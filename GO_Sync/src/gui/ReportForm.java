@@ -65,11 +65,13 @@ public class ReportForm extends javax.swing.JFrame {
 
     private HttpRequest osmRequest = new HttpRequest();
 
+    private Hashtable finalRoutes;
+
     // List of stops from agency data
     private ArrayList<Stop> agencyData;
 
     /** Creates new form ReportForm */
-    public ReportForm(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d) {
+    public ReportForm(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes) {
         agencyData = new ArrayList<Stop>();
         agencyData.addAll(aData);
 
@@ -84,6 +86,9 @@ public class ReportForm extends javax.swing.JFrame {
 
         delete = new HashSet<Stop>();
         delete.addAll(d);
+
+        finalRoutes = new Hashtable();
+        finalRoutes.putAll(routes);
 
         for (int i=0; i<agencyData.size(); i++) {
             Stop st = agencyData.get(i);
@@ -108,21 +113,23 @@ public class ReportForm extends javax.swing.JFrame {
             reportKeys.set(k, temp);
         }
 
+        //add data to correct list (categorizing)
         for (int i=0; i<reportKeys.size(); i++) {
             Stop st = reportKeys.get(i);
             finalStops.put(st.getStopID(), st);
             gtfsIDAll.add(ai, st.getStopID());
             ai++;
-            if (st.getTag("REPORT_CATEGORY").equals("UPLOAD_CONFLICT")) {
+            String category = st.getReportCategory();
+            if (category.equals("UPLOAD_CONFLICT")) {
                 gtfsIDUploadConflict.add(uci, st.getStopID());
                 uci++;
-            } else if (st.getTag("REPORT_CATEGORY").equals("UPLOAD_NO_CONFLICT")) {
+            } else if (category.equals("UPLOAD_NO_CONFLICT")) {
                 gtfsIDUploadNoConflict.add(unci, st.getStopID());
                 unci++;
-            } else if (st.getTag("REPORT_CATEGORY").equals("MODIFY")) {
+            } else if (category.equals("MODIFY")) {
                 gtfsIDModify.add(mi, st.getStopID());
                 mi++;
-            } else if (st.getTag("REPORT_CATEGORY").equals("NOTHING_NEW")) {
+            } else if (category.equals("NOTHING_NEW")) {
                 gtfsIDNoUpload.add(nui, st.getStopID());
                 nui++;
             }
@@ -134,7 +141,7 @@ public class ReportForm extends javax.swing.JFrame {
 
     public void updateReportMessage(Stop s) {
         Stop st = new Stop(s);
-        reportMessage.setText(st.getTag("REPORT"));
+        reportMessage.setText(st.getReportText());
     }
 
     public void updateOsmIDList(Stop fs) {
@@ -150,8 +157,8 @@ public class ReportForm extends javax.swing.JFrame {
                     updateReportMessage(oStop);
                     updateOsmDetailsList(oStop);
                 }       // the first node
-                osmIDs.add(i, oStop.getTag("OSM_NODE_ID"));
-                osmStops.put(oStop.getTag("OSM_NODE_ID"), oStop);
+                osmIDs.add(i, oStop.getOsmId());
+                osmStops.put(oStop.getOsmId(), oStop);
             }
         }
         else {
@@ -166,10 +173,7 @@ public class ReportForm extends javax.swing.JFrame {
         osmDetailsKey.clear();
         osmDetailsValue.clear();
         
-        int count=0;
-        osmDetailsKey.add(count, "OSM ID");
-        osmDetailsValue.add(count, s.getTag("OSM_NODE_ID"));
-        count++;
+        int count=0;       
         osmDetailsKey.add(count, "name");
         osmDetailsValue.add(count, s.getStopName());
         count++;
@@ -180,9 +184,6 @@ public class ReportForm extends javax.swing.JFrame {
         osmDetailsValue.add(count, s.getLon());
         count++;
 
-        s.removeTag("OSM_NODE_ID");
-        s.removeTag("REPORT");
-        s.removeTag("version");
         HashSet<String> keys = s.keySet();
         Iterator it = keys.iterator();
         while (it.hasNext()){
@@ -211,8 +212,6 @@ public class ReportForm extends javax.swing.JFrame {
         gtfsDetailsValue.add(count, s.getLon());
         count++;
 
-        s.removeTag("REPORT");
-        s.removeTag("version");
         HashSet<String> keys = s.keySet();
         Iterator it = keys.iterator();
         while (it.hasNext()){
@@ -231,9 +230,6 @@ public class ReportForm extends javax.swing.JFrame {
         newDetailsValue.clear();
 
         int count=0;
-        newDetailsKey.add(count, "name");
-        newDetailsValue.add(count, s.getStopName());
-        count++;
         newDetailsKey.add(count, "lat");
         newDetailsValue.add(count, s.getLat());
         count++;
@@ -241,8 +237,6 @@ public class ReportForm extends javax.swing.JFrame {
         newDetailsValue.add(count, s.getLon());
         count++;
 
-        s.removeTag("REPORT");
-        s.removeTag("version");
         HashSet<String> keys = s.keySet();
         Iterator it = keys.iterator();
         while (it.hasNext()){
@@ -347,6 +341,9 @@ public class ReportForm extends javax.swing.JFrame {
         bGroup.add(modifyStopsRadioButton);
         noUploadStopsRadioButton = new javax.swing.JRadioButton();
         bGroup.add(noUploadStopsRadioButton);
+        removeGtfsButton = new javax.swing.JButton();
+        removeUploadButton = new javax.swing.JButton();
+        removeOsmButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Report");
@@ -503,6 +500,8 @@ public class ReportForm extends javax.swing.JFrame {
             }
         });
 
+        totalStopsLabel.setText("hello");
+
         modifyStopsRadioButton.setText("No Upload Stops but Modify");
         modifyStopsRadioButton.setName("stopCategory"); // NOI18N
         modifyStopsRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -519,10 +518,53 @@ public class ReportForm extends javax.swing.JFrame {
             }
         });
 
+        removeGtfsButton.setText("Remove");
+        removeGtfsButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeGtfsButtonMouseClicked(evt);
+            }
+        });
+
+        removeUploadButton.setText("Remove");
+
+        removeOsmButton.setText("Remove");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeGtfsButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(modifyLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(removeUploadButton)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(removeOsmButton)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(totalStopsLabel)
+                .addContainerGap(1164, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(135, 135, 135)
                 .addComponent(gtfsStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
@@ -532,77 +574,60 @@ public class ReportForm extends javax.swing.JFrame {
                 .addComponent(osmStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addGap(150, 150, 150))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(modifyLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(modifyStopsRadioButton)
-                            .addComponent(uploadNoConflictStopsRadioButton)
-                            .addComponent(allStopsRadioButton)
-                            .addComponent(uploadConflictStopsRadioButton)
-                            .addComponent(totalStopsLabel)
-                            .addComponent(noUploadStopsRadioButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(214, 214, 214))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(uploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(574, 574, 574))))))
+                    .addComponent(modifyStopsRadioButton)
+                    .addComponent(uploadNoConflictStopsRadioButton)
+                    .addComponent(uploadConflictStopsRadioButton)
+                    .addComponent(noUploadStopsRadioButton)
+                    .addComponent(allStopsRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(uploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(360, 360, 360)))
+                .addGap(177, 177, 177))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(osmStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gtfsStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(modifyLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(131, 131, 131)
-                        .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(osmStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(newStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(gtfsStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(56, 56, 56)
                         .addComponent(totalStopsLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(removeGtfsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeUploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(removeOsmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(modifyLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(232, 232, 232))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(238, 238, 238)
+                        .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(allStopsRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(uploadConflictStopsRadioButton)
@@ -617,7 +642,7 @@ public class ReportForm extends javax.swing.JFrame {
                         .addComponent(modifyStopsRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(noUploadStopsRadioButton)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         uploadButton.getAccessibleContext().setAccessibleName("uploadButton");
@@ -688,7 +713,7 @@ public class ReportForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         osmRequest.checkVersion();
         osmRequest.createChangeSet();
-        osmRequest.createChunks(upload, modify, delete);
+        osmRequest.createChunks(upload, modify, delete, finalRoutes);
         osmRequest.closeChangeSet();
     }//GEN-LAST:event_uploadButtonMouseClicked
 
@@ -726,6 +751,15 @@ public class ReportForm extends javax.swing.JFrame {
         gtfsIDList.setModel(gtfsIDModify);
         updateGtfsIdList("MODIFY");
     }//GEN-LAST:event_modifyStopsRadioButtonMouseClicked
+
+    private void removeGtfsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGtfsButtonMouseClicked
+        // TODO add your handling code here:
+        if(gtfsIDList.getModel().equals(gtfsIDAll)){
+            
+        } else if(gtfsIDList.getModel().equals(gtfsIDUploadConflict)){
+            System.out.println("gtfsIDUploadConflict");
+        }
+    }//GEN-LAST:event_removeGtfsButtonMouseClicked
 
     /**
     * @param args the command line arguments
@@ -766,6 +800,9 @@ public class ReportForm extends javax.swing.JFrame {
     private javax.swing.JList osmDetailsValueList;
     private javax.swing.JList osmIDList;
     private javax.swing.JLabel osmStopIDLabel;
+    private javax.swing.JButton removeGtfsButton;
+    private javax.swing.JButton removeOsmButton;
+    private javax.swing.JButton removeUploadButton;
     private javax.swing.JTextArea reportMessage;
     private javax.swing.JLabel totalStopsLabel;
     private javax.swing.JButton uploadButton;

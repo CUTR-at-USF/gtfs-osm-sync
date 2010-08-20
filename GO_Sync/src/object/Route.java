@@ -19,8 +19,6 @@ package object;
 
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
-import tools.OsmDistance;
 
 /**
  *
@@ -45,6 +43,11 @@ public class Route extends OsmPrimitive implements Comparable{
         this.osmMembers.addAll(r.getOsmMembers());
         this.routeRef = r.getRouteRef();
         this.operatorName = r.getOperatorName();
+        this.setOsmId(r.getOsmId());
+        this.setOsmVersion(r.getOsmVersion());
+        this.setReportCategory(r.getReportCategory());
+        this.setReportText(r.getReportText());
+        this.setStatus(r.getStatus());
     }
 
     public void addOsmMember(String osmNodeId){

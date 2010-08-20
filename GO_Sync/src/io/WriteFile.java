@@ -76,7 +76,7 @@ public class WriteFile {
                     ls.addAll((ArrayList<Stop>)report.get(st));
                     for(int i=0; i<ls.size(); i++){
                         output.write("      "+(i+1)+". "+ls.get(i).printOSMStop()+"\n");
-                        output.write(" REPORT: "+ls.get(i).getTag("REPORT")+"\n\n");
+                        output.write(" REPORT: "+ls.get(i).getReportText()+"\n\n");
                     }
                     output.write("\n\n");
                     count++;
@@ -90,7 +90,7 @@ public class WriteFile {
                 if (report.get(st).equals("none")){
                     output.write(count+". "+st.getStopID()+","+st.getStopName()+","+
                             st.getLat()+","+st.getLon()+"\n");
-                    output.write(" REPORT: "+st.getTag("REPORT")+"\n\n");
+                    output.write(" REPORT: "+st.getReportText()+"\n\n");
                     count++;
                 }
             }

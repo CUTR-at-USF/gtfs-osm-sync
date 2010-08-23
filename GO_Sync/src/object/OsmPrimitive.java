@@ -44,7 +44,7 @@ public class OsmPrimitive {
 
     /*
      * Cannot use osmTags.putAll(h)
-     * since we don't want the new data overwrite the old one.
+     * since we don't want the new data overwrite the old one. Use addAndOverwriteTags instead
      * */
     public void addTags(Hashtable h){
         ArrayList<String> keys = new ArrayList<String>();
@@ -55,6 +55,10 @@ public class OsmPrimitive {
                 osmTags.put(k,h.get(k));
             }
         }
+    }
+
+    public void addAndOverwriteTags(Hashtable h){
+        osmTags.putAll(h);
     }
 
     public String getTag(String k){

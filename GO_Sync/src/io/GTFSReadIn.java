@@ -30,7 +30,7 @@ import tools.OsmFormatter;
 public class GTFSReadIn {
     private List<Stop> stops;
     private final String ROUTE_KEY = "route_ref";
-    private HashSet<String> allRoutes;
+    private static HashSet<String> allRoutes;
 
     public List<Stop> readBusStop(String fName, String agencyName, String trips_fName, String stop_times_fName){
         Hashtable stopIDs = new Hashtable();
@@ -191,7 +191,7 @@ public class GTFSReadIn {
         return text;
     }
 
-    public HashSet<String> getAllRoutesID(){
+    public static HashSet<String> getAllRoutesID(){
         System.out.println(allRoutes);
         return allRoutes;
     }

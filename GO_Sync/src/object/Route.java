@@ -27,11 +27,11 @@ import java.util.Hashtable;
 
 public class Route extends OsmPrimitive implements Comparable{
     private String routeRef, operatorName;
-    private HashSet<String> osmMembers;
+    private HashSet<RelationMember> osmMembers;
 
     public Route(String rref, String op) {
         osmTags = new Hashtable();
-        osmMembers = new HashSet<String>();
+        osmMembers = new HashSet<RelationMember>();
         routeRef = rref;
         operatorName = op;
     }
@@ -39,7 +39,7 @@ public class Route extends OsmPrimitive implements Comparable{
     public Route(Route r) {
         this.osmTags = new Hashtable();
         this.osmTags.putAll(r.osmTags);
-        this.osmMembers = new HashSet<String>();
+        this.osmMembers = new HashSet<RelationMember>();
         this.osmMembers.addAll(r.getOsmMembers());
         this.routeRef = r.getRouteRef();
         this.operatorName = r.getOperatorName();
@@ -50,15 +50,15 @@ public class Route extends OsmPrimitive implements Comparable{
         this.setStatus(r.getStatus());
     }
 
-    public void addOsmMember(String osmNodeId){
+    public void addOsmMember(RelationMember osmNodeId){
         osmMembers.add(osmNodeId);
     }
 
-    public void addOsmMembers(HashSet<String> oMembers){
+    public void addOsmMembers(HashSet<RelationMember> oMembers){
         osmMembers.addAll(oMembers);
     }
 
-    public HashSet<String> getOsmMembers(){
+    public HashSet<RelationMember> getOsmMembers(){
         return osmMembers;
     }
 

@@ -1,86 +1,75 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<osm version='0.6' generator='xapi: OSM Extended API 2.0' xmlns:xapi='http://www.informationfreeway.org/xapi/0.6' xapi:uri='/api/0.6/relation[route=bus][bbox=-82.73803000000001,27.70168,-82.153672,28.252141]' xapi:planetDate='20100817' xapi:copyright='2010 OpenStreetMap contributors' xapi:license='Creative commons CC-BY-SA 2.0' xapi:bugs='For assistance or to report bugs contact 80n80n@gmail.com' xapi:instance='zappyHyper'>
-  <node id='454063919' lat='28.0658059' lon='-82.412027' version='4' changeset='5289177' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-22T17:19:31Z'>
+<osm version='0.6' generator='xapi: OSM Extended API 2.0' xmlns:xapi='http://www.informationfreeway.org/xapi/0.6' xapi:uri='/api/0.6/relation[route=bus][bbox=-82.73803000000001,27.70168,-82.153672,28.252141]' xapi:planetDate='20100820' xapi:copyright='2010 OpenStreetMap contributors' xapi:license='Creative commons CC-BY-SA 2.0' xapi:bugs='For assistance or to report bugs contact 80n80n@gmail.com' xapi:instance='zappyHyper'>
+  <node id='454063919' lat='28.065806' lon='-82.412027' version='5' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:41Z'>
     <tag k='bench' v='yes'/>
     <tag k='gtfs_id' v='4219'/>
     <tag k='gtfs_stop_code' v='4219'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='Sheltered Bull Runner Bus Stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='HART'/>
-    <tag k='route2' v='6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='6'/>
     <tag k='shade' v='trees'/>
     <tag k='shelter' v='yes'/>
   </node>
-  <node id='663479688' lat='28.0658116' lon='-82.4098151' version='4' changeset='5353963' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-30T11:39:52Z'>
+  <node id='663479688' lat='28.0658117' lon='-82.4098151' version='5' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:43Z'>
     <tag k='bench' v='no'/>
     <tag k='gtfs_id' v='4603'/>
     <tag k='gtfs_stop_code' v='4603'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='note' v='metal tag with GTFS ID value is missing from post, value assigned is from the HART import'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='HART'/>
-    <tag k='route' v='A'/>
-    <tag k='route2' v='6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='6;A'/>
     <tag k='shade' v='trees'/>
     <tag k='shelter' v='no'/>
     <tag k='source' v='survey'/>
   </node>
-  <node id='653972360' lat='28.0656168' lon='-82.4094789' version='6' changeset='5353963' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-30T11:39:52Z'>
+  <node id='653972360' lat='28.0656169' lon='-82.4094789' version='7' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:42Z'>
     <tag k='bench' v='no'/>
     <tag k='gtfs_id' v='4614'/>
     <tag k='gtfs_stop_code' v='4614'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='note' v='sign bears gtfs tag of 4613, did not match import, confirmed with HART that this is actually 4614, they will retag at some point'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='HART'/>
-    <tag k='route' v='C:E'/>
-    <tag k='route2' v='6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='6;C;E'/>
     <tag k='shade' v='trees'/>
     <tag k='shelter' v='no'/>
     <tag k='source' v='survey'/>
   </node>
-  <node id='454063920' lat='28.0656079' lon='-82.411248' version='3' changeset='5353963' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-30T11:39:53Z'>
+  <node id='454063920' lat='28.0659931' lon='-82.4097355' version='4' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:44Z'>
     <tag k='gtfs_id' v='4613'/>
     <tag k='gtfs_stop_code' v='4613'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='Bull Runner Bus Stop'/>
     <tag k='note' v='metal tag with GTFS ID is missing, confirmed with HART that this is 4613 and the one east of here is really 4614 but is mistagged, HART will retag at some point'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='HART'/>
-    <tag k='route' v='C:E'/>
-    <tag k='route2' v='6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='6;C;E'/>
   </node>
-  <node id='454063849' lat='28.0656659' lon='-82.4075048' version='6' changeset='5376790' user='caribarchgirl84' uid='323986' visible='true' timestamp='2010-08-02T04:04:42Z'>
+  <node id='454063849' lat='28.065666' lon='-82.4075048' version='7' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:42Z'>
     <tag k='bench' v='no'/>
     <tag k='gtfs_id' v='4213'/>
     <tag k='gtfs_stop_code' v='4213'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='Bull Runner Bus Stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='Hillsborough Area Regional Transit'/>
-    <tag k='route' v='E'/>
-    <tag k='route2' v='6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='6;E'/>
     <tag k='shade' v='no'/>
     <tag k='shelter' v='no'/>
     <tag k='source' v='survey'/>
   </node>
-  <node id='454063847' lat='28.0657949' lon='-82.4074325' version='5' changeset='5294129' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-23T09:46:12Z'>
+  <node id='454063847' lat='28.065795' lon='-82.4074325' version='6' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:42Z'>
     <tag k='bench' v='no'/>
     <tag k='gtfs_id' v='4217'/>
     <tag k='gtfs_stop_code' v='4217'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='Bull Runner Bus Stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='Hillsborough Area Regional Transit'/>
-    <tag k='route' v='A'/>
-    <tag k='route2' v='6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='6;A'/>
     <tag k='shade' v='no'/>
     <tag k='shelter' v='no'/>
   </node>
@@ -92,12 +81,12 @@
     <tag k='operator' v='Hillsborough Area Regional Transit'/>
     <tag k='route_ref' v='6'/>
   </node>
-  <node id='742892524' lat='28.0662122' lon='-82.4017507' version='6' changeset='5282878' user='ktran9' uid='298201' visible='true' timestamp='2010-07-21T22:25:17Z'>
+  <node id='742892524' lat='28.0662123' lon='-82.4017508' version='7' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:35:32Z'>
     <tag k='gtfs_id' v='4601'/>
     <tag k='gtfs_stop_code' v='4601'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='HART'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit'/>
     <tag k='route_ref' v='6'/>
     <tag k='shade' v='trees'/>
     <tag k='shelter' v='no'/>
@@ -250,27 +239,25 @@
     <tag k='route_ref' v='6'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='661059668' lat='28.0671289' lon='-82.4131028' version='4' changeset='5305859' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-24T17:56:28Z'>
+  <node id='661059668' lat='28.0671289' lon='-82.4131028' version='5' changeset='5547725' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:40:26Z'>
     <tag k='bench' v='yes'/>
     <tag k='gtfs_id' v='4604'/>
     <tag k='gtfs_stop_code' v='4604'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='Hillsborough Area Regional Transit'/>
-    <tag k='route2' v='6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='6'/>
     <tag k='shade' v='roof'/>
     <tag k='shelter' v='yes'/>
     <tag k='source' v='survey'/>
   </node>
-  <node id='655288739' lat='28.0678963' lon='-82.4133332' version='4' changeset='5305859' user='EdHillsman' uid='103107' visible='true' timestamp='2010-07-24T17:56:28Z'>
+  <node id='655288739' lat='28.0678964' lon='-82.4133332' version='5' changeset='5547725' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:40:26Z'>
     <tag k='bench' v='yes'/>
     <tag k='gtfs_id' v='4612'/>
     <tag k='gtfs_stop_code' v='4612'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='HART route 6'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
     <tag k='shade' v='roof'/>
     <tag k='shelter' v='yes'/>
     <tag k='source' v='survey'/>
@@ -698,15 +685,13 @@
     <tag k='shelter' v='no'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='798637002' lat='28.06611' lon='-82.4207497' version='2' changeset='5380292' user='EdHillsman' uid='103107' visible='true' timestamp='2010-08-02T12:44:18Z'>
+  <node id='798637002' lat='28.06611' lon='-82.4207497' version='3' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:44Z'>
     <tag k='gtfs_id' v='3110'/>
     <tag k='gtfs_stop_code' v='3110'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='HART'/>
-    <tag k='route' v='B:D'/>
-    <tag k='route2' v='5:18'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='5;18;B;D'/>
     <tag k='source' v='survey'/>
   </node>
   <node id='828179620' lat='28.064336' lon='-82.426242' version='1' changeset='5282878' user='ktran9' uid='298201' visible='true' timestamp='2010-07-21T21:59:51Z'>
@@ -2741,15 +2726,13 @@
   </node>
   <node id='97838186' lat='28.0915250' lon='-82.4323600' version='2' changeset='3091410' user='woodpeck_fixbot' uid='147510' visible='true' timestamp='2009-11-11T16:44:09Z'>
   </node>
-  <node id='798636994' lat='28.0659892' lon='-82.4207524' version='4' changeset='5380292' user='EdHillsman' uid='103107' visible='true' timestamp='2010-08-02T12:44:18Z'>
+  <node id='798636994' lat='28.0659893' lon='-82.4207525' version='5' changeset='5547673' user='ktran9' uid='298201' visible='true' timestamp='2010-08-20T21:34:44Z'>
     <tag k='gtfs_id' v='3114'/>
     <tag k='gtfs_stop_code' v='3114'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='USF Bull Runner'/>
-    <tag k='operator2' v='Hillsborough Area Regional Transit'/>
-    <tag k='route' v='D'/>
-    <tag k='route2' v='5'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit;USF Bull Runner'/>
+    <tag k='route_ref' v='5;D'/>
     <tag k='source' v='survey'/>
   </node>
   <node id='798636991' lat='28.0643028' lon='-82.4200456' version='3' changeset='5290182' user='xybot' uid='70696' visible='true' timestamp='2010-07-22T19:27:55Z'>
@@ -4371,19 +4354,19 @@
     <tag k='oneway' v='yes'/>
     <tag k='ref' v='CR 581'/>
   </way>
-  <relation id='1105415' visible='true' timestamp='2010-08-03T23:20:04Z' version='3' changeset='5394873' user='EdHillsman' uid='103107'>
-    <member type='node' ref='454063919' role=''/>
-    <member type='node' ref='663479688' role=''/>
-    <member type='node' ref='653972360' role=''/>
-    <member type='node' ref='454063920' role=''/>
-    <member type='node' ref='454063849' role=''/>
-    <member type='node' ref='454063847' role=''/>
-    <member type='node' ref='652203688' role=''/>
-    <member type='node' ref='742892524' role=''/>
-    <member type='node' ref='739086092' role=''/>
-    <member type='node' ref='739086091' role=''/>
-    <member type='node' ref='736996851' role=''/>
-    <member type='node' ref='736996853' role=''/>
+  <relation id='1105415' visible='true' timestamp='2010-08-18T21:40:33Z' version='5' changeset='5530945' user='EdHillsman' uid='103107'>
+    <member type='node' ref='454063919' role='stop'/>
+    <member type='node' ref='663479688' role='stop'/>
+    <member type='node' ref='653972360' role='stop'/>
+    <member type='node' ref='454063920' role='stop'/>
+    <member type='node' ref='454063849' role='stop'/>
+    <member type='node' ref='454063847' role='stop'/>
+    <member type='node' ref='652203688' role='stop'/>
+    <member type='node' ref='742892524' role='stop'/>
+    <member type='node' ref='739086092' role='stop'/>
+    <member type='node' ref='739086091' role='stop'/>
+    <member type='node' ref='736996851' role='stop'/>
+    <member type='node' ref='736996853' role='stop'/>
     <member type='node' ref='739086088' role=''/>
     <member type='node' ref='739086089' role=''/>
     <member type='node' ref='736993287' role=''/>
@@ -4393,17 +4376,17 @@
     <member type='node' ref='828186470' role=''/>
     <member type='node' ref='806511956' role=''/>
     <member type='node' ref='828186408' role=''/>
-    <member type='node' ref='661059668' role=''/>
-    <member type='node' ref='655288739' role=''/>
-    <member type='node' ref='828179111' role=''/>
-    <member type='node' ref='828182449' role=''/>
-    <member type='node' ref='828179113' role=''/>
-    <member type='node' ref='828179199' role=''/>
-    <member type='node' ref='828177922' role=''/>
-    <member type='node' ref='828179193' role=''/>
-    <member type='node' ref='828191536' role=''/>
-    <member type='node' ref='743557413' role=''/>
-    <member type='node' ref='743557414' role=''/>
+    <member type='node' ref='661059668' role='stop'/>
+    <member type='node' ref='655288739' role='stop'/>
+    <member type='node' ref='828179111' role='stop'/>
+    <member type='node' ref='828182449' role='stop'/>
+    <member type='node' ref='828179113' role='stop'/>
+    <member type='node' ref='828179199' role='stop'/>
+    <member type='node' ref='828177922' role='stop'/>
+    <member type='node' ref='828179193' role='stop'/>
+    <member type='node' ref='828191536' role='stop'/>
+    <member type='node' ref='743557413' role='stop'/>
+    <member type='node' ref='743557414' role='stop'/>
     <member type='node' ref='828190829' role=''/>
     <member type='node' ref='842901597' role=''/>
     <member type='node' ref='828188523' role=''/>
@@ -4438,19 +4421,19 @@
     <tag k='route' v='bus'/>
     <tag k='type' v='route'/>
   </relation>
-  <relation id='1108864' visible='true' timestamp='2010-08-04T00:03:56Z' version='4' changeset='5394873' user='EdHillsman' uid='103107'>
-    <member type='node' ref='828191536' role=''/>
-    <member type='node' ref='743557413' role=''/>
-    <member type='node' ref='743557414' role=''/>
+  <relation id='1108864' visible='true' timestamp='2010-08-18T21:29:57Z' version='5' changeset='5530945' user='EdHillsman' uid='103107'>
+    <member type='node' ref='828191536' role='stop'/>
+    <member type='node' ref='743557413' role='stop'/>
+    <member type='node' ref='743557414' role='stop'/>
     <member type='node' ref='828188523' role=''/>
-    <member type='node' ref='828179617' role=''/>
-    <member type='node' ref='828179622' role=''/>
-    <member type='node' ref='828194709' role=''/>
-    <member type='node' ref='828194848' role=''/>
-    <member type='node' ref='824795217' role=''/>
-    <member type='node' ref='824795218' role=''/>
+    <member type='node' ref='828179617' role='stop'/>
+    <member type='node' ref='828179622' role='stop'/>
+    <member type='node' ref='828194709' role='stop'/>
+    <member type='node' ref='828194848' role='stop'/>
+    <member type='node' ref='824795217' role='stop'/>
+    <member type='node' ref='824795218' role='stop'/>
     <member type='node' ref='828196551' role=''/>
-    <member type='node' ref='798637002' role=''/>
+    <member type='node' ref='798637002' role='stop'/>
     <member type='node' ref='828179620' role=''/>
     <member type='node' ref='828193672' role=''/>
     <member type='node' ref='828193690' role=''/>
@@ -4681,19 +4664,19 @@
     <tag k='route' v='bus'/>
     <tag k='type' v='route'/>
   </relation>
-  <relation id='1108865' visible='true' timestamp='2010-08-02T12:54:53Z' version='2' changeset='5380292' user='EdHillsman' uid='103107'>
-    <member type='node' ref='828194709' role=''/>
-    <member type='node' ref='828194848' role=''/>
-    <member type='node' ref='824795217' role=''/>
-    <member type='node' ref='824795218' role=''/>
+  <relation id='1108865' visible='true' timestamp='2010-08-19T20:49:29Z' version='4' changeset='5538967' user='ktran9' uid='298201'>
+    <member type='node' ref='828194709' role='stop'/>
+    <member type='node' ref='828194848' role='stop'/>
+    <member type='node' ref='824795217' role='stop'/>
+    <member type='node' ref='824795218' role='stop'/>
     <member type='node' ref='828196551' role=''/>
-    <member type='node' ref='798637002' role=''/>
-    <member type='node' ref='798636994' role=''/>
+    <member type='node' ref='798637002' role='stop'/>
+    <member type='node' ref='798636994' role='stop'/>
     <member type='node' ref='798636991' role=''/>
     <member type='node' ref='616351968' role=''/>
     <member type='node' ref='454063878' role=''/>
-    <member type='node' ref='454063886' role=''/>
-    <member type='node' ref='454063884' role=''/>
+    <member type='node' ref='454063886' role='stop'/>
+    <member type='node' ref='454063884' role='stop'/>
     <member type='node' ref='454063875' role=''/>
     <member type='node' ref='454063872' role=''/>
     <member type='node' ref='808136905' role=''/>
@@ -4718,12 +4701,12 @@
     <tag k='route' v='bus'/>
     <tag k='type' v='route'/>
   </relation>
-  <relation id='1110419' visible='true' timestamp='2010-08-03T23:20:11Z' version='1' changeset='5394873' user='EdHillsman' uid='103107'>
-    <member type='node' ref='828198460' role=''/>
-    <member type='node' ref='828193686' role=''/>
-    <member type='node' ref='828192326' role=''/>
-    <member type='node' ref='828194709' role=''/>
-    <member type='node' ref='828194848' role=''/>
+  <relation id='1110419' visible='true' timestamp='2010-08-18T21:30:05Z' version='2' changeset='5530945' user='EdHillsman' uid='103107'>
+    <member type='node' ref='828198460' role='stop'/>
+    <member type='node' ref='828193686' role='stop'/>
+    <member type='node' ref='828192326' role='stop'/>
+    <member type='node' ref='828194709' role='stop'/>
+    <member type='node' ref='828194848' role='stop'/>
     <tag k='name' v='HART route 57'/>
     <tag k='operator' v='Hillsborough Area Regional Transit'/>
     <tag k='ref' v='57'/>

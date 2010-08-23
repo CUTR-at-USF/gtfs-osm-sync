@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import object.OperatorInfo;
+import object.RelationMember;
 import object.Route;
 import object.Session;
 import object.Stop;
@@ -51,7 +52,7 @@ public class MainForm extends javax.swing.JFrame {
     private ArrayList<Hashtable> OSMTags = new ArrayList<Hashtable>();
     private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<HashSet<String>> OSMRelationMembers = new ArrayList<HashSet<String>>();
+    private ArrayList<HashSet<RelationMember>> OSMRelationMembers = new ArrayList<HashSet<RelationMember>>();
     private Hashtable report = new Hashtable();
     private HashSet<Stop> noUpload = new HashSet<Stop>();
     private HashSet<Stop> upload = new HashSet<Stop>();
@@ -71,7 +72,7 @@ public class MainForm extends javax.swing.JFrame {
     private final String _operatorNtdId = "4041"; // 4046 for Sarasota
     private final String _username = "ktran9";
     private final String _password = "testingosm";
-    private final String _changesetComment = "testing connection";
+    private final String _changesetComment = "Edit HART bus routes";
     private final int _gtfsIdDigit = 4;
     public static final String FILE_NAME_IN_STOPS = "Khoa_transit\\stops.txt";
     public static final String FILE_NAME_IN_TRIPS = "Khoa_transit\\trips.txt";
@@ -196,17 +197,26 @@ public class MainForm extends javax.swing.JFrame {
     */
     public Hashtable compareStopTags(Hashtable osmtag, Stop s2) {
         Hashtable diff = new Hashtable();
+        Hashtable t = new Hashtable();
         Iterator it = s2.keySet().iterator();
         while (it.hasNext()){
             String k = (String)it.next();
             String v = s2.getTag(k);
             if (osmtag.containsKey(k)) {
-                if (!((String)osmtag.get(k)).equals(v)) {
-                    diff.put(k, "modified");
+                String osmValue = (String)osmtag.get(k);
+                if(!osmValue.equals(v)){
+                    if (osmValue.indexOf(v)==-1) {
+                        diff.put(k, v+";"+osmValue);
+                    } else {
+                        t.put(k, osmValue);
+                    }
                 }
             } else {
-                diff.put(k, "new");
+                diff.put(k, v);
             }
+        }
+        if(diff.size()>0 && t.size()>0) {
+            diff.putAll(t);
         }
         return diff;
     }
@@ -221,6 +231,8 @@ public class MainForm extends javax.swing.JFrame {
         // get all the routes and its associated bus stops
         ArrayList<Stop> reportKeys = new ArrayList<Stop>();
         reportKeys.addAll(report.keySet());
+        HashSet<String> gtfsRoutes = new HashSet<String>();
+        gtfsRoutes.addAll(GTFSReadIn.getAllRoutesID());
         for (int i=0; i<reportKeys.size(); i++) {
             Stop st = reportKeys.get(i);
             String category = st.getReportCategory();
@@ -236,23 +248,22 @@ public class MainForm extends javax.swing.JFrame {
                         routeArray[0]=routeText;
                     }
                     for (int j=0; j<routeArray.length; j++) {
-                        Route r = new Route(routeArray[j], OperatorInfo.getFullName());
-                        if(routes.containsKey(routeArray[j])){
-                            Route rt = (Route)routes.get(routeArray[j]);
-                            r.addOsmMembers(rt.getOsmMembers());
-                            String osmNodeId = st.getOsmId();
-                            r.addOsmMember(osmNodeId);
+                        if(gtfsRoutes.contains(routeArray[j])){
+                            Route r = new Route(routeArray[j], OperatorInfo.getFullName());
+                            if(routes.containsKey(routeArray[j])){
+                                Route rt = (Route)routes.get(routeArray[j]);
+                                r.addOsmMembers(rt.getOsmMembers());
+                                String osmNodeId = st.getOsmId();
+                                r.addOsmMember(new RelationMember(osmNodeId,"node","stop"));
+                            }
+                            r.setStatus("n");
+                            routes.put(routeArray[j], r);
                         }
-                        r.setStatus("n");
-                        routes.put(routeArray[j], r);
                     }
                 }
             }
         }
- /*
-        private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
-    private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<Hashtable> OSMRelationMembers = new ArrayList<Hashtable>();*/
+
         //compare with existing OSM relation
         ArrayList<Stop> routeKeys = new ArrayList<Stop>();
         routeKeys.addAll(routes.keySet());
@@ -263,7 +274,7 @@ public class MainForm extends javax.swing.JFrame {
             String routeRef = (String)osmtag.get("ref");
             String operator = (String)osmtag.get("operator");
             if(routeKeys.contains(routeRef) && operator!=null && OperatorInfo.isTheSameOperator(operator)) {
-                HashSet<String> em = OSMRelationMembers.get(osm);
+                HashSet<RelationMember> em = OSMRelationMembers.get(osm);
                 Route r = (Route)routes.get(routeRef);
                 if(!r.getOsmMembers().equals(em)){
                     r.setStatus("m");
@@ -331,14 +342,11 @@ public class MainForm extends javax.swing.JFrame {
                                 ns.setOsmId(node.getValue("id"));
                                 ns.setOsmVersion(version);
 
-                                if (modify.contains(ns)) {
-                                    modify.remove(ns);
-                                }
-                                modify.add(ns);
-
                                 lastUsers.put(ns, node.getValue("user"));
 
                                 Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
+                                ns.setLat(node.getValue("lat"));
+                                ns.setLon(node.getValue("lon"));
                                 es.addTags(osmtag);
                                 es.setOsmId(node.getValue("id"));
                                 // for comparing tag
@@ -347,11 +355,16 @@ public class MainForm extends javax.swing.JFrame {
                                     es.setReportText("Stop already exists in OSM but with different location." +
                                             "\n ACTION: Modify OSM stop with new location!");
                                 } else {
+                                    ns.addAndOverwriteTags(diff);
                                     es.setReportText("Stop already exists in OSM but with different location.\n" +
                                             "\t   Some stop TAGs are also different." +
                                             "\n ACTION: Modify OSM stop with new location and stop tags!");
                                 }
 
+                                if (modify.contains(ns)) {
+                                    modify.remove(ns);
+                                }
+                                modify.add(ns);
                                 ns.setReportCategory("MODIFY");
                                 addToReport(ns, es, true);
                             }
@@ -372,6 +385,7 @@ public class MainForm extends javax.swing.JFrame {
                                     addToReport(ns, es, true);
                                     noUpload.add(ns);
                                 } else {
+                                    ns.addAndOverwriteTags(diff);
                                     es.setReportText("Stop already exists in OSM but some TAGs are different.\n" +
                                             "\t   " + es.printOSMStop() + "\n ACTION: Modify OSM stop with new tags!");
                                     ns.setOsmVersion(version);

@@ -181,9 +181,6 @@ public class ReportForm extends javax.swing.JFrame {
         osmDetailsValue.clear();
         
         int count=0;       
-        osmDetailsKey.add(count, "name");
-        osmDetailsValue.add(count, s.getStopName());
-        count++;
         osmDetailsKey.add(count, "lat");
         osmDetailsValue.add(count, s.getLat());
         count++;

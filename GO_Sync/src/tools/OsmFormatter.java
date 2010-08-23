@@ -17,6 +17,7 @@ Copyright 2010 University of South Florida
 
 package tools;
 
+import java.util.HashMap;
 import object.OperatorInfo;
 
 /**
@@ -24,11 +25,31 @@ import object.OperatorInfo;
  * @author Khoa Tran
  */
 public class OsmFormatter {
+    final private static HashMap<Character, String> specialCharacter = new HashMap<Character, String>();
+    static {
+        specialCharacter.put('>', "&gt;");
+        specialCharacter.put('<', "&lt;");
+        specialCharacter.put('"', "&quot;");
+        specialCharacter.put('\'', "&apos;");
+        specialCharacter.put('&', "&amp;");
+    }
     public static String getValidBusStopId(String bsid) {
         String id = bsid;
         for (int i=0; i<OperatorInfo.getGtfsIdDigit()-bsid.length(); i++){
             id = "0"+id;
         }
         return id;
+    }
+
+    public static String getValidXmlText(String v){
+        String s="";
+        for(int i=0; i<v.length();i++){
+            if(specialCharacter.containsKey(v.charAt(i))){
+                s = s+(String)specialCharacter.get(v.charAt(i));
+            } else {
+                s = s+v.charAt(i);
+            }
+        }
+        return s;
     }
 }

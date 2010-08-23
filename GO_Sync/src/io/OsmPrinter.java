@@ -19,9 +19,11 @@ package io;
 import java.util.HashSet;
 import java.util.Iterator;
 import object.OperatorInfo;
+import object.RelationMember;
 import object.Route;
 import object.Session;
 import object.Stop;
+import tools.OsmFormatter;
 
 public class OsmPrinter {
 
@@ -57,9 +59,10 @@ public class OsmPrinter {
     }
 
     public String writeChangeSet() {
+
         return "<changeset>\n" +
-                "<tag k='created_by' v='"+Session.getUserName()+"'/>\n" +
-                "<tag k='comment' v='"+Session.getChangeSetComment()+"'/>\n" +
+                "<tag k='created_by' v='"+OsmFormatter.getValidXmlText(Session.getUserName())+"'/>\n" +
+                "<tag k='comment' v='"+OsmFormatter.getValidXmlText(Session.getChangeSetComment())+"'/>\n" +
                 "</changeset>\n";
     }
 
@@ -94,7 +97,7 @@ public class OsmPrinter {
         while (it.hasNext()){
             String k = (String) it.next();
             if (!s.getTag(k).equals("none")) {
-                text += "<tag k='"+k+"' v='"+s.getTag(k)+"' />\n";
+                text += "<tag k='"+OsmFormatter.getValidXmlText(k)+"' v='"+OsmFormatter.getValidXmlText(s.getTag(k))+"' />\n";
             }
         }
         text += "</node>\n";
@@ -111,19 +114,23 @@ public class OsmPrinter {
         }
         // mainly for create new node
         else {
-            text += "<relation changeset='" + changeSetID + "' id='" + routeID + "'>\n";
+            text += "<relation changeset='" + changeSetID + "' id='" + routeID
+                    + "' version='"+ routeID +"'>\n";
             text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
         }
         //add member
-        HashSet<String> members = route.getOsmMembers();
+        HashSet<RelationMember> members = route.getOsmMembers();
         Iterator it = members.iterator();
         while (it.hasNext()){
-            String ref = (String) it.next();
-            text += "<member type='node' ref='"+ref+"' role='stop' />\n";
+            RelationMember rm = (RelationMember) it.next();
+            if(rm.getRole()!=null) text += "<member type='"+rm.getType()+"' ref='"+rm.getRef()+
+                    "' role='"+OsmFormatter.getValidXmlText(rm.getRole())+"' />\n";
+            else text += "<member type='"+rm.getType()+"' ref='"+rm.getRef()+"' role='' />\n";
         }
         //add tag
-        route.addTag("name", OperatorInfo.getAbbreviateName()+" route "+route.getRouteRef());
-        route.addTag("operator", OperatorInfo.getFullName());
+        route.addTag("name", OsmFormatter.getValidXmlText(OperatorInfo.getAbbreviateName())+
+                                " route "+OsmFormatter.getValidXmlText(route.getRouteRef()));
+        route.addTag("operator",OsmFormatter.getValidXmlText( OperatorInfo.getFullName()));
         route.addTag("ref", route.getRouteRef());
         route.addTag("route", "bus");
         route.addTag("type", "route");
@@ -133,7 +140,8 @@ public class OsmPrinter {
         while (it.hasNext()){
             String k = (String) it.next();
             if (!route.getTag(k).equals("none")) {
-                text += "<tag k='"+k+"' v='"+route.getTag(k)+"' />\n";
+                text += "<tag k='"+OsmFormatter.getValidXmlText(k)+
+                        "' v='"+OsmFormatter.getValidXmlText(route.getTag(k))+"' />\n";
             }
         }
         text += "</relation>\n";

@@ -33,7 +33,7 @@ public class Stop extends OsmPrimitive implements Comparable{
     private final String GTFS_OPERATOR_KEY = "operator";
     private final String GTFS_NAME_KEY = "name";
     private final String NTD_ID_KEY = "ntd_id";
-    private String stopName, lat, lon;
+    private String lat, lon;
     public Stop(String stopID, String operatorName, String stopName, String lat, String lon) {
         osmTags = new Hashtable();
         if (operatorName == null || operatorName.equals("")) operatorName="none";
@@ -44,7 +44,6 @@ public class Stop extends OsmPrimitive implements Comparable{
         osmTags.put(GTFS_STOP_ID_KEY, stopID);
         osmTags.put(GTFS_OPERATOR_KEY, operatorName);
         osmTags.put(GTFS_NAME_KEY, stopName);
-        this.stopName = stopName;
         this.lat = lat;
         this.lon = lon;
     }
@@ -52,11 +51,10 @@ public class Stop extends OsmPrimitive implements Comparable{
     public Stop(Stop s) {
         this.osmTags = new Hashtable();
         this.osmTags.putAll(s.osmTags);
-        this.stopName = s.getStopName();
         this.osmTags.put("highway", "bus_stop");
         this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
         this.osmTags.put(GTFS_OPERATOR_KEY, s.getOperatorName());
-        osmTags.put(GTFS_NAME_KEY, stopName);
+        osmTags.put(GTFS_NAME_KEY, s.getStopName());
         if (!s.getOperatorName().equals("none")) osmTags.put(NTD_ID_KEY, OperatorInfo.getNTDID());
         this.lat = s.lat;
         this.lon = s.lon;
@@ -65,6 +63,14 @@ public class Stop extends OsmPrimitive implements Comparable{
         this.setReportCategory(s.getReportCategory());
         this.setReportText(s.getReportText());
         this.setStatus(s.getStatus());
+    }
+
+    public void setLat(String v){
+        lat = v;
+    }
+
+    public void setLon(String v){
+        lon = v;
     }
 
     public String getStopID(){
@@ -76,7 +82,7 @@ public class Stop extends OsmPrimitive implements Comparable{
     }
 
     public String getStopName(){
-        return stopName;
+        return (String)osmTags.get(GTFS_NAME_KEY);
     }
 
     public String getLat(){
@@ -140,18 +146,14 @@ public class Stop extends OsmPrimitive implements Comparable{
     public String printOSMStop(){
         String temp="";
         Stop st = new Stop(this);
-        if (st.getTag("OSM_NODE_ID")!=null) {
-            temp = temp+"node_id:"+st.getTag("OSM_NODE_ID")+";name:"+st.getStopName()+";lat:"+
+        if (st.getOsmId()!=null) {
+            temp = temp+"node_id:"+st.getOsmId()+";name:"+st.getStopName()+";lat:"+
                     st.getLat()+";lon:"+st.getLon();
         }
         else {
             temp = temp+"name:"+st.getStopName()+";lat:"+
                     st.getLat()+";lon:"+st.getLon();
         }
-        st.removeTag("OSM_NODE_ID");
-        st.removeTag("REPORT");
-        st.removeTag("version");
-        st.removeTag("REPORT_CATEGORY");
         HashSet<String> keys = st.keySet();
         Iterator it = keys.iterator();
         while (it.hasNext()){

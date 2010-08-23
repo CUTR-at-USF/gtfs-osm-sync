@@ -19,7 +19,6 @@ package osm;
 import io.OsmPrinter;
 import io.WriteFile;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -43,6 +42,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import object.RelationMember;
 import object.Route;
 import object.Session;
 import org.xml.sax.SAXException;
@@ -61,7 +61,7 @@ public class HttpRequest {
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> existingBusTags = new ArrayList<Hashtable>();
     private ArrayList<Hashtable> existingRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<HashSet<String>> existingRelationMembers = new ArrayList<HashSet<String>>();
+    private ArrayList<HashSet<RelationMember>> existingRelationMembers = new ArrayList<HashSet<RelationMember>>();
 
     private boolean isSupportVersion = false;
 
@@ -179,22 +179,22 @@ public class HttpRequest {
 
     private class RelationParser extends DefaultHandler {
         private Hashtable tempTag;
-        private HashSet<String> tempMember;
+        private HashSet<RelationMember> tempMember;
         private ArrayList<AttributesImpl> xmlRelations;
         //xmlTags<String, String> ----------- xmlMembers<String(refID), AttributesImpl>
         private ArrayList<Hashtable> xmlTags;
-        private ArrayList<HashSet<String>> xmlMembers;
+        private ArrayList<HashSet<RelationMember>> xmlMembers;
         public RelationParser(){
             xmlRelations = new ArrayList<AttributesImpl>();
             xmlTags = new ArrayList<Hashtable>();
-            xmlMembers = new ArrayList<HashSet<String>>();
+            xmlMembers = new ArrayList<HashSet<RelationMember>>();
         }
         @Override public void startElement(String namespaceURI, String localName, String qname, Attributes attributes) throws SAXException {
             if (qname.equals("relation")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
                 xmlRelations.add(attImpl);
                 tempTag = new Hashtable();      // start to collect tags of that relation
-                tempMember = new HashSet<String>();
+                tempMember = new HashSet<RelationMember>();
             }
             if (tempTag!=null && qname.equals("tag")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
@@ -202,9 +202,7 @@ public class HttpRequest {
             }
             if (tempMember!=null && qname.equals("member")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
-                if (attImpl.getValue("type").equals("node")) {                     // only need bus_stop, which is node. [no member way]
-                    tempMember.add(attImpl.getValue("ref"));
-                }
+                tempMember.add(new RelationMember(attImpl.getValue("ref"),attImpl.getValue("type"),attImpl.getValue("role")));
             }
         }
 
@@ -225,7 +223,7 @@ public class HttpRequest {
             return xmlTags;
         }
 
-        public ArrayList<HashSet<String>> getMembers(){
+        public ArrayList<HashSet<RelationMember>> getMembers(){
             return xmlMembers;
         }
     }
@@ -266,7 +264,7 @@ public class HttpRequest {
     }
 
     // this method needs to be invoked after getExistingBusRelations
-    public ArrayList<HashSet<String>> getExistingBusRelationMembers(){
+    public ArrayList<HashSet<RelationMember>> getExistingBusRelationMembers(){
         System.out.println("tags = "+existingRelationMembers.size());
         if (existingRelationMembers.size() !=0 )
             return existingRelationMembers;
@@ -293,9 +291,9 @@ public class HttpRequest {
 
     private String getRequestContents(String changeSetID, HashSet<Stop> addStop, HashSet<Stop> modifyStop, HashSet<Stop> deleteStop, Hashtable r) {
         Hashtable routes = new Hashtable();
-        routes.putAll(r);
+        if (r!=null) routes.putAll(r);
         ArrayList<String> routeKeys = new ArrayList<String>();
-        routeKeys.addAll(routes.keySet());
+        if (r!=null) routeKeys.addAll(routes.keySet());
         String text = "";
         List<Stop> stops = new ArrayList<Stop>();
         stops.addAll(addStop);
@@ -317,12 +315,13 @@ public class HttpRequest {
                 k++;
             }
         }
+        text += oprinter.osmChangeModify();
         stops = new ArrayList<Stop>();
         stops.addAll(modifyStop);
-        text += oprinter.osmChangeModify();
         for(int i=0; i<stops.size(); i++){
             String nodeid = stops.get(i).getOsmId();
             text += oprinter.writeBusStop(changeSetID, nodeid, stops.get(i));
+//            System.out.println(stops.get(i).getOsmId()+","+stops.get(i).getStopID()+","+stops.get(i).getOsmVersion());
         }
         //all routes should be modified. Thus, k=0 after while loop
         k=0;
@@ -415,8 +414,9 @@ public class HttpRequest {
             if (!cSetID.equals("")) {
                 String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);
-//                responseMessage = sendRequest(url, "POST", osmChangeText);
-                System.out.println(responseMessage);
+                
+                responseMessage = sendRequest(url, "POST", osmChangeText);
+                System.out.println("Message: "+responseMessage);
             }
             else {
                 System.out.println("Changeset ID is not obtained yet!");
@@ -459,54 +459,39 @@ public class HttpRequest {
 
                 int responseCode = conn.getResponseCode();
                 System.out.println("Response Code: "+responseCode);
+                System.out.println("Response Message: "+conn.getResponseMessage());
 
-                switch(responseCode) {
-                    case HttpURLConnection.HTTP_OK:
-                        BufferedReader response = new BufferedReader(new InputStreamReader (conn.getInputStream()));
-                        String s;
+                BufferedReader response;
+                String s;
+                if(responseCode==HttpURLConnection.HTTP_OK) {
+                    response = new BufferedReader(new InputStreamReader (conn.getInputStream()));
+                    s = response.readLine();
+                    while(s != null) {
+                        responseText.append(s);
+                        responseText.append("\n");
                         s = response.readLine();
-                        while(s != null) {
-                            responseText.append(s);
-                            responseText.append("\n");
-                            s = response.readLine();
-                        }
-                        break;
-                    case HttpURLConnection.HTTP_CONFLICT:
-                        System.out.println("Conflict");
-                        break;
-                    case HttpURLConnection.HTTP_BAD_REQUEST:
-                        System.out.println("Bad request");
-                        break;
-                    case HttpURLConnection.HTTP_BAD_METHOD:
-                        System.out.println("Method not allowed");
-                        break;
-                    case HttpURLConnection.HTTP_NOT_FOUND:
-                        System.out.println("Not found");
-                        break;
-                    case HttpURLConnection.HTTP_PRECON_FAILED:
-                        System.out.println("Pre-condition failed");
-                        break;
-                    case HttpURLConnection.HTTP_GONE:
-                        System.out.println("Element has been deleted");
-                        break;
-                    default:
-                        // get error message
-                        response = new BufferedReader(new InputStreamReader (conn.getErrorStream()));
+                    }
+                    break;
+                } else {
+                    // get error message
+                    response = new BufferedReader(new InputStreamReader (conn.getErrorStream()));
+                    s = response.readLine();
+                    while(s != null) {
+                        responseText.append(s);
+                        responseText.append("\n");
                         s = response.readLine();
-                        while(s != null) {
-                            responseText.append(s);
-                            responseText.append("\n");
-                            s = response.readLine();
-                        }
-
-                        // Look for a detailed error message from the server
-                        if (conn.getHeaderField("Error") != null) {
-                            System.err.println("Error: " + conn.getHeaderField("Error"));
-                        } else if (responseText.length()>0) {
-                            System.err.println("Error: " + responseText);
-                        }
-                        break;
+                    }
+                    
+                    // Look for a detailed error message from the server
+                    String errMess = conn.getHeaderField("Error");
+                    if (errMess != null) {
+                        System.err.println("Error: " + errMess);
+                    } else if (responseText.length()>0) {
+                        System.err.println("Error: " + responseText);
+                    }
+                    break;
                 }
+                
             } catch (ConnectException e) {
                 retry ++;
                 continue;
@@ -524,8 +509,7 @@ public class HttpRequest {
                 conn.disconnect();
                 conn = null;
             }
-            
-            return responseText.toString();
         }
+        return responseText.toString();
     }
 }

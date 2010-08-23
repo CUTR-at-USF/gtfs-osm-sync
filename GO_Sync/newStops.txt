@@ -1566,8 +1566,8 @@ stop_id,stop_name,stop_lat,stop_lon
 3105,Alumni Dr @ Laurel Dr,28.058141,-82.416735
 3109,Alumni Dr @ Leroy Collins@ Eng Bldg,28.0578,-82.415793
 3110,Holly Dr @ Magnolia Dr,28.066119,-82.420828
-3111,Holly Dr @ Cypress Dr,28.0661097,-82.42355
-3113,Holly Dr @ Pine Dr @ Crosswalk,28.0656648,-82.4247329
+3111,Holly Dr @ Cypress Dr,28.066147,-82.423515
+3113,Holly Dr @ Pine Dr @ Crosswalk,28.065757,-82.424618
 3114,Holly Dr @ Magnolia Dr,28.065891,-82.420902
 3126,Temple Heights Rd @ 56th St,28.036207,-82.394311
 3128,Temple Heights Rd @ Overlook Dr,28.036285,-82.396461
@@ -2065,7 +2065,7 @@ stop_id,stop_name,stop_lat,stop_lon
 4254,Britton Plaza,27.906778,-82.504183
 4255,Macdill Air Force Base,27.863302,-82.499519
 4256,South Boulevard @ Deleon St,27.938973,-82.46865
-4258,Usf @ Administration Bldg,28.0607499,-82.4134114
+4258,Usf @ Administration Bldg,28.060649,-82.413439
 4264,21St Av @ 43Rd St,27.970334,-82.410246
 4271,N Boulevard @ Sligh Av,28.011124,-82.467729
 4272,N Boulevard @ Country Club Dr,28.054482,-82.46744
@@ -2166,7 +2166,7 @@ stop_id,stop_name,stop_lat,stop_lon
 4485,Nebraska Av @ 126th Av,28.061212,-82.451019
 4486,Fletcher Av @ 12th St,28.069175,-82.44749
 4487,Fletcher Av @ Cecelia St,28.069165,-82.445602
-4488,Fletcher Av @ Winward Dr,28.0690879,-82.4401345
+4488,Fletcher Av @ Winward Dr,28.069154,-82.440341
 4489,22nd St @ 132nd Av,28.066981,-82.434667
 4490,22nd St @ 131St Av,28.066202,-82.434667
 4491,131St Av @ 23Rd St,28.065432,-82.432457
@@ -2212,7 +2212,7 @@ stop_id,stop_name,stop_lat,stop_lon
 4546,Leroy Collins Blvd @  Alumni Dr,28.057416,-82.413393
 4547,Magnolia @ Medical Dr Traffic Light,28.061258,-82.419551
 4548,Magnolia Dr @ Moffit Hospital,28.064245,-82.420143
-4549,Magnolia Dr @ Moffit Hospital,28.0638191,-82.4203033
+4549,Magnolia Dr @ Moffit Hospital,28.063897,-82.42027
 4550,Magnolia @ Medical Dr@Traffic Light,28.059392,-82.419992
 4551,Alumni Dr @ Laurel Dr,28.058051,-82.417802
 4552,Mckinley Dr @ Fowler Av,28.053455,-82.416369
@@ -2250,9 +2250,9 @@ stop_id,stop_name,stop_lat,stop_lon
 4596,Fowler Av @ 52nd St,28.05457,-82.397453
 4597,50th St @ Terrace Palms Apts 11801,28.056281,-82.401743
 4598,50th St @ Sun Ridge Condos,28.05849,-82.401762
-4599,50th St @ 127th Av,28.0624431,-82.4016819
+4599,50th St @ 127th Av,28.062184,-82.401855
 4600,50th St @ Sycamore Dr,28.063453,-82.401853
-4601,50th St @ Excellence Blvd,28.0662122,-82.4017507
+4601,50th St @ Excellence Blvd,28.066095,-82.401875
 4603,Holly Dr @ Delta Apts,28.06577,-82.409958
 4604,North Palm Dr @  Usf Credit Union,28.066453,-82.413144
 4607,Fletcher Av @ Fmhi @ 31St St,28.068972,-82.423058
@@ -2262,11 +2262,11 @@ stop_id,stop_name,stop_lat,stop_lon
 4613,Holly Dr @ Cresent Parking Garage,28.06567,-82.411312
 4614,Holly Dr @ Alpha Apts,28.065679,-82.409619
 4616,Holly Dr @ 50th St,28.066277,-82.402083
-4617,50th St @ 12850,28.0636523,-82.4019893
-4618,50th St @ 127th Av,28.0624574,-82.4019984
-4619,50th St @ Elm Dr,28.0592668,-82.4019926
-4620,50th St @ 122nd Av,28.0582965,-82.4019663
-4621,50th St @ Terrace Palms Apts,28.0572161,-82.4019285
+4617,50th St @ 12850,28.06347,-82.401973
+4618,50th St @ 127th Av,28.062187,-82.40189
+4619,50th St @ Elm Dr,28.058807,-82.401878
+4620,50th St @ 122nd Av,28.057297,-82.401878
+4621,50th St @ Terrace Palms Apts,28.05603,-82.40185
 4622,Fowler Av @ 51St St,28.054243,-82.400618
 4625,56th St @ Temple Terrace City Hall,28.050537,-82.393849
 4631,56th St @ 8836,28.030488,-82.393637
@@ -3470,11 +3470,11 @@ stop_id,stop_name,stop_lat,stop_lon
 7155,Davis Rd @ Copeland Rd,28.035603,-82.35644
 7156,Davis Rd @ Christi Ct,28.043841,-82.356351
 7157,Davis Rd @ Morris Bridge Rd,28.050668,-82.356436
-7158,Fowler Av @ Morris Bridge Rd,28.0544724,-82.363043
-7159,Fowler Av @ Riverhills Dr,28.0545528,-82.3693164
-7162,Fowler Av @ Raintree Blvd,28.0545931,-82.386008
-7163,Fowler Av @ 60th St,28.0546025,-82.3892937
-7164,Fowler Av @ 56th St,28.054619,-82.3928503
+7158,Fowler Av @ Morris Bridge Rd,28.054416,-82.363019
+7159,Fowler Av @ Riverhills Dr,28.054495,-82.36943
+7162,Fowler Av @ Raintree Blvd,28.054563,-82.386356
+7163,Fowler Av @ 60th St,28.054535,-82.389295
+7164,Fowler Av @ 56th St,28.05456,-82.39289
 7166,Fowler Av @ 62nd St,28.054227,-82.384613
 7167,Fowler Av @ Moffat Place,28.054206,-82.380071
 7168,Fowler Av @ Gillette Av,28.054204,-82.376148

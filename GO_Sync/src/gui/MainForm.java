@@ -254,7 +254,9 @@ public class MainForm extends javax.swing.JFrame {
                                 Route rt = (Route)routes.get(routeArray[j]);
                                 r.addOsmMembers(rt.getOsmMembers());
                                 String osmNodeId = st.getOsmId();
-                                r.addOsmMember(new RelationMember(osmNodeId,"node","stop"));
+                                RelationMember rm = new RelationMember(osmNodeId,"node","stop");
+                                rm.setStatus("gtfs");
+                                r.addOsmMember(rm);
                             }
                             r.setStatus("n");
                             routes.put(routeArray[j], r);
@@ -345,8 +347,6 @@ public class MainForm extends javax.swing.JFrame {
                                 lastUsers.put(ns, node.getValue("user"));
 
                                 Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
-                                ns.setLat(node.getValue("lat"));
-                                ns.setLon(node.getValue("lon"));
                                 es.addTags(osmtag);
                                 es.setOsmId(node.getValue("id"));
                                 // for comparing tag

@@ -1,1 +1,6 @@
 stop_id,stop_name,stop_lat,stop_lon
+6964,Holly Dr @ Pine Dr @ Crosswalk,28.065986,-82.424493
+6497,University Area Transit Center,28.066419,-82.429872
+2637,50th St @ Sligh Av,28.010823,-82.402026
+7612,Fowler Av @ Gillette St,28.05454,-82.377192
+7613,Fowler Av @ Hoyt St,28.054542,-82.381642

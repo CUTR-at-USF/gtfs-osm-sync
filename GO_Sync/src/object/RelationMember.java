@@ -22,7 +22,7 @@ package object;
  * @author Khoa Tran
  */
 public class RelationMember {
-    private String ref, type, role;
+    private String ref, type, role, status;
     public RelationMember(String ref, String type, String role){
         this.ref = ref;
         this.type = type;
@@ -53,6 +53,15 @@ public class RelationMember {
             return 0;
         }
         return 1;
+    }
+
+    // used for reports
+    public void setStatus(String v){
+        status = v;
+    }
+
+    public String getStatus(){
+        return status;
     }
 
     @Override

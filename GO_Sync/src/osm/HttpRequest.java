@@ -145,7 +145,7 @@ public class HttpRequest {
     public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) {
 //        http://www.informationfreeway.org/api/0.6/node[highway=bus_stop][bbox=-82.4269,28.0534,-82.4011,28.0699]
         String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
-        String url = "http://www.informationfreeway.org" + urlSuffix;
+        String url = "http://xapi.openstreetmap.org" + urlSuffix;
         try {
             // get data from server
             String s = sendRequest(url, "GET", "");
@@ -179,7 +179,7 @@ public class HttpRequest {
 
     private class RelationParser extends DefaultHandler {
         private Hashtable tempTag;
-        private HashSet<RelationMember> tempMember;
+        private HashSet<RelationMember> tempMembers;
         private ArrayList<AttributesImpl> xmlRelations;
         //xmlTags<String, String> ----------- xmlMembers<String(refID), AttributesImpl>
         private ArrayList<Hashtable> xmlTags;
@@ -194,24 +194,26 @@ public class HttpRequest {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
                 xmlRelations.add(attImpl);
                 tempTag = new Hashtable();      // start to collect tags of that relation
-                tempMember = new HashSet<RelationMember>();
+                tempMembers = new HashSet<RelationMember>();
             }
             if (tempTag!=null && qname.equals("tag")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
                 tempTag.put(attImpl.getValue("k"), attImpl.getValue("v"));         // insert key and value of that tag into Hashtable
             }
-            if (tempMember!=null && qname.equals("member")) {
+            if (tempMembers!=null && qname.equals("member")) {
                 AttributesImpl attImpl = new AttributesImpl(attributes);
-                tempMember.add(new RelationMember(attImpl.getValue("ref"),attImpl.getValue("type"),attImpl.getValue("role")));
+                RelationMember rm = new RelationMember(attImpl.getValue("ref"),attImpl.getValue("type"),attImpl.getValue("role"));
+                rm.setStatus("osm");
+                tempMembers.add(rm);
             }
         }
 
         @Override public void endElement (String uri, String localName, String qName) throws SAXException {
             if (qName.equals("relation")) {
                 xmlTags.add(tempTag);
-                xmlMembers.add(tempMember);
+                xmlMembers.add(tempMembers);
                 tempTag = null;
-                tempMember = null;
+                tempMembers = null;
             }
         }
 
@@ -230,7 +232,7 @@ public class HttpRequest {
 
     public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) {
         String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String url = "http://www.informationfreeway.org" + urlSuffix;
+        String url = "http://xapi.openstreetmap.org" + urlSuffix;
         try {
             // get data from server
             String s = sendRequest(url, "GET", "");
@@ -461,6 +463,12 @@ public class HttpRequest {
                 System.out.println("Response Code: "+responseCode);
                 System.out.println("Response Message: "+conn.getResponseMessage());
 
+                if (responseCode >= 500) {
+                    System.out.println("response code >=500");
+                    retry++;
+                    continue;
+                }
+
                 BufferedReader response;
                 String s;
                 if(responseCode==HttpURLConnection.HTTP_OK) {
@@ -493,9 +501,11 @@ public class HttpRequest {
                 }
                 
             } catch (ConnectException e) {
+                System.out.println(e.toString());
                 retry ++;
                 continue;
             } catch (SocketTimeoutException e) {
+                System.out.println(e.toString());
                 retry ++;
                 continue;
             } catch (MalformedURLException e) {

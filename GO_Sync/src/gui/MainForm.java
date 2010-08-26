@@ -283,7 +283,7 @@ public class MainForm extends javax.swing.JFrame {
                     r.setOsmVersion(osmRelation.getValue("version"));
                     r.setOsmId(osmRelation.getValue("id"));
                     r.addOsmMembers(em);
-                    r.addTags(osmtag);
+                    r.addAndOverwriteTags(osmtag);
                 }
                 else {
                     r.setStatus("e");

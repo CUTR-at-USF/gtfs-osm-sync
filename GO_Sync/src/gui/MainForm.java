@@ -67,12 +67,12 @@ public class MainForm extends javax.swing.JFrame {
     private final double DELTA = 0.004;   // ~400m in Lat and 400m in Lon       0.00001 ~= 1.108m in Lat and 0.983 in Lon
     private final double RANGE = 400;         // FIX ME bus stop is within 400 meters
     private final String ROUTE_KEY = "route_ref";
-    private final String _operatorName = "Hillsborough Area Regional Transit";
-    private final String _operatorNameAbbreviate = "HART";
-    private final String _operatorNtdId = "4041"; // 4046 for Sarasota
+    private final String _operatorName = "Sarasota County Area Transit";
+    private final String _operatorNameAbbreviate = "SCAT";
+    private final String _operatorNtdId = "4046"; // 4046 for Sarasota
     private final String _username = "ktran9";
     private final String _password = "testingosm";
-    private final String _changesetComment = "Edit HART bus routes";
+    private final String _changesetComment = "Add SCAT bus stops and routes";
     private final int _gtfsIdDigit = 4;
     public static final String FILE_NAME_IN_STOPS = "Khoa_transit\\stops.txt";
     public static final String FILE_NAME_IN_TRIPS = "Khoa_transit\\trips.txt";
@@ -507,9 +507,11 @@ public class MainForm extends javax.swing.JFrame {
             System.out.println("New Nodes = "+GTFSstops.size());
             compareBusStopData();
 
-            OSMRelations.addAll(tempOSMRelations);
-            OSMRelationTags.addAll(osmRequest.getExistingBusRelationTags());
-            OSMRelationMembers.addAll(osmRequest.getExistingBusRelationMembers());
+            if(tempOSMRelations!=null) {
+                OSMRelations.addAll(tempOSMRelations);
+                OSMRelationTags.addAll(osmRequest.getExistingBusRelationTags());
+                OSMRelationMembers.addAll(osmRequest.getExistingBusRelationMembers());
+            }
             compareRouteData();
         }
         else {

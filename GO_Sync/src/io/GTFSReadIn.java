@@ -65,17 +65,27 @@ public class GTFSReadIn {
 //                    System.out.println(stopIdKey+","+stopNameKey+","+stopLatKey+","+stopLonKey);
                 }
                 else {
+                    boolean lastIndexEmpty=false;
+                    thisLine = thisLine.trim();
                     elements = thisLine.split(",");
+                    if(thisLine.charAt(thisLine.length()-1)==',') lastIndexEmpty=true;
                     //add leading 0's to gtfs_id
                     String tempStopId = OsmFormatter.getValidBusStopId(elements[stopIdKey]);
                     Stop s = new Stop(tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey]);
                     HashSet<String> keys = new HashSet<String>();
                     keys.addAll(keysIndex.keySet());
                     Iterator it = keys.iterator();
-                    while(it.hasNext()){
-                        String k = (String)it.next();
-                        String v = elements[(Integer)keysIndex.get(k)];
-                        if ((v!=null) && (!v.equals(""))) s.addTag(k, v);
+                    try {
+                        while(it.hasNext()){
+                            String k = (String)it.next();
+                            String v = null;
+                            if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
+                            if ((v!=null) && (!v.equals(""))) s.addTag(k, v);
+                        }
+                    } catch(Exception e){
+                        System.out.println("Error occurred. Please check your GTFS input files");
+                        System.out.println(e.toString());
+                        System.exit(0);
                     }
                     String r = getRoutesInTextByBusStop((HashSet<String>)stopIDs.get(elements[stopIdKey]));
                     if (!r.isEmpty()) s.addTag(ROUTE_KEY, r);

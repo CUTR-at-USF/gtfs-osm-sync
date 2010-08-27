@@ -108,9 +108,6 @@ public class Stop extends OsmPrimitive implements Comparable{
         Stop s = (Stop) o;
         double distance = OsmDistance.distVincenty(this.getLat(), this.getLon(),
                             s.getLat(), s.getLon());
-/*        boolean t1 = s.getStopID().equals(this.getStopID());
-        boolean t2 = this.compareOperatorName(s);
-        boolean t3 = s.getStopName().equals(this.getStopName());*/
         if (!(this.getStopID().equals("none")) && !(this.getStopID().equals("missing")) 
                 && (!(s.getStopID().equals("none"))) && (!(s.getStopID().equals("missing")))
                 && (!this.getOperatorName().equals("none")) && (!s.getOperatorName().equals("none"))
@@ -120,7 +117,7 @@ public class Stop extends OsmPrimitive implements Comparable{
             }
         }
         else {
-            if ((s.getStopID().equals(this.getStopID())) && (this.compareOperatorName(s)) && (distance < ERROR_TO_ZERO)) {
+            if (distance < ERROR_TO_ZERO) {
                 return 0;
             }
         }

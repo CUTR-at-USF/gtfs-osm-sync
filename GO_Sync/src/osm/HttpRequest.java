@@ -148,10 +148,10 @@ public class HttpRequest {
         String url = "http://xapi.openstreetmap.org" + urlSuffix;
         try {
             // get data from server
-//            String s = sendRequest(url, "GET", "");
-//            InputSource inputSource = new InputSource(new StringReader(s));
+            String s = sendRequest(url, "GET", "");
+            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-            InputSource inputSource = new InputSource("DataFromServer.osm");
+//            InputSource inputSource = new InputSource("DataFromServer.osm");
             NodeParser par = new NodeParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingNodes.addAll(par.getNodes());
@@ -235,10 +235,10 @@ public class HttpRequest {
         String url = "http://xapi.openstreetmap.org" + urlSuffix;
         try {
             // get data from server
-//            String s = sendRequest(url, "GET", "");
-//            InputSource inputSource = new InputSource(new StringReader(s));
+            String s = sendRequest(url, "GET", "");
+            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
+//            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
             RelationParser par = new RelationParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingRelations.addAll(par.getRelations());

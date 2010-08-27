@@ -31,6 +31,7 @@ public class OsmPrimitive {
     public OsmPrimitive(){
         osmTags = new Hashtable();
     }
+
     public void addTag(String k, String v){
         if(!osmTags.containsKey(k)) {
             if (!v.equals("")) {
@@ -54,6 +55,15 @@ public class OsmPrimitive {
             if(!osmTags.containsKey(k)) {
                 osmTags.put(k,h.get(k));
             }
+        }
+    }
+
+    public void addAndOverwriteTag(String k, String v){
+        if (!v.equals("")) {
+            osmTags.put(k, v);
+        }
+        else {
+            osmTags.put(k, "none");
         }
     }
 

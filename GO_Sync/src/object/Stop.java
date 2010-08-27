@@ -37,7 +37,7 @@ public class Stop extends OsmPrimitive implements Comparable{
     public Stop(String stopID, String operatorName, String stopName, String lat, String lon) {
         osmTags = new Hashtable();
         if (operatorName == null || operatorName.equals("")) operatorName="none";
-        else osmTags.put(NTD_ID_KEY, OperatorInfo.getNTDID());
+        else if(!operatorName.equals("missing")) osmTags.put(NTD_ID_KEY, OperatorInfo.getNTDID());
         if (stopID == null || stopID.equals("")) stopID="none";
         if (stopName == null || stopName.equals("")) stopName="none";
         osmTags.put("highway", "bus_stop");
@@ -55,7 +55,7 @@ public class Stop extends OsmPrimitive implements Comparable{
         this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
         this.osmTags.put(GTFS_OPERATOR_KEY, s.getOperatorName());
         osmTags.put(GTFS_NAME_KEY, s.getStopName());
-        if (!s.getOperatorName().equals("none")) osmTags.put(NTD_ID_KEY, OperatorInfo.getNTDID());
+        if (!s.getOperatorName().equals("none") && !s.getOperatorName().equals("missing")) osmTags.put(NTD_ID_KEY, OperatorInfo.getNTDID());
         this.lat = s.lat;
         this.lon = s.lon;
         this.setOsmId(s.getOsmId());

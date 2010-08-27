@@ -414,15 +414,15 @@ public class MainForm extends javax.swing.JFrame {
                                     if ((!fixme) && (!modify.contains(es))) {
                                         Stop osms = new Stop(es);
                                         osms.addTag("FIXME", "This bus stop could be redundant");
-                                        if (osmOperator==null) {
+                                        if (osmOperator==null || osmOperator.equals("missing")) {
                                             osms.addTag("note", "Please add gtfs_id and operator after removing FIXME");
-                                            osms.addTag("operator","missing");
+                                            if (osmOperator==null) osms.addTag("operator","missing");
                                         }
                                         else {
                                             osms.addTag("note", "Please add gtfs_id after removing FIXME");
                                         }
                                         if (osmStopID==null) {
-                                            osms.addTag("gtfs_id","missing");
+                                            osms.addAndOverwriteTag("gtfs_id","missing");
                                         }
                                         osms.setOsmVersion(version);
 

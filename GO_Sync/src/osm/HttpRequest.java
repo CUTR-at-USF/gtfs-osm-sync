@@ -413,7 +413,6 @@ public class HttpRequest {
 
         String responseMessage = "";
         if (isSupportVersion) {
-            cSetID = "a";
             if (!cSetID.equals("")) {
                 String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);

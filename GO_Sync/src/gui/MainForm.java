@@ -72,8 +72,9 @@ public class MainForm extends javax.swing.JFrame {
     private final String _operatorNtdId = "4046"; // 4046 for Sarasota
     private final String _username = "ktran9";
     private final String _password = "testingosm";
-    private final String _changesetComment = "Add SCAT bus stops and routes";
+    private final String _changesetComment = "revert changeset 5604125 [only the modified ones; the rest was previously deleted]";
     private final int _gtfsIdDigit = 4;
+    private final String _revertChangesetId="5604125";
     public static final String FILE_NAME_IN_STOPS = "Khoa_transit\\stops.txt";
     public static final String FILE_NAME_IN_TRIPS = "Khoa_transit\\trips.txt";
     public static final String FILE_NAME_IN_STOP_TIMES = "Khoa_transit\\stop_times.txt";
@@ -565,40 +566,46 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        runButton = new javax.swing.JButton();
-        exitButton = new javax.swing.JButton();
         passwordField = new javax.swing.JPasswordField();
         usernameField = new javax.swing.JTextField();
+        sessionCommentField = new javax.swing.JTextField();
+        sessionCommentLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
-        usernameLabel1 = new javax.swing.JLabel();
-        passwordLabel1 = new javax.swing.JLabel();
-        operatorNameField = new javax.swing.JTextField();
+        exitButton = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        operatorNameLabel = new javax.swing.JLabel();
+        OperatorAbbLabel = new javax.swing.JLabel();
         operatorNameAbbField = new javax.swing.JTextField();
+        compareButton = new javax.swing.JButton();
         usernameLabel2 = new javax.swing.JLabel();
+        operatorNameField = new javax.swing.JTextField();
         OperatorNTDIDField = new javax.swing.JTextField();
-        sessionCommentLabel = new javax.swing.JLabel();
-        sessionCommentField = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        changesetLabel = new javax.swing.JLabel();
+        changesetField = new javax.swing.JTextField();
+        revertButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GO-Sync");
         setName("mainForm"); // NOI18N
         setResizable(false);
 
-        runButton.setFont(new java.awt.Font("Times New Roman", 1, 18));
-        runButton.setText("Run");
-        runButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                runButtonMouseClicked(evt);
-            }
-        });
-        runButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runButtonActionPerformed(evt);
-            }
-        });
+        usernameField.setName("usernameField"); // NOI18N
 
-        exitButton.setFont(new java.awt.Font("Times New Roman", 1, 18));
+        sessionCommentField.setName("usernameField"); // NOI18N
+
+        sessionCommentLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sessionCommentLabel.setText("Session Comment");
+
+        usernameLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        usernameLabel.setText("OSM Username");
+
+        passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        passwordLabel.setText("OSM Password");
+
+        exitButton.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         exitButton.setText("Exit");
         exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -606,78 +613,159 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        usernameField.setName("usernameField"); // NOI18N
+        operatorNameLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        operatorNameLabel.setText("Operator Name");
 
-        usernameLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        usernameLabel.setText("OSM Username");
-
-        passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        passwordLabel.setText("OSM Password");
-
-        usernameLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        usernameLabel1.setText("Operator Name");
-
-        passwordLabel1.setFont(new java.awt.Font("Tahoma", 0, 14));
-        passwordLabel1.setText("Operator Abbreviate");
-
-        operatorNameField.setName("usernameField"); // NOI18N
+        OperatorAbbLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
+        OperatorAbbLabel.setText("Operator Abbreviate");
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
+
+        compareButton.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        compareButton.setText("Run");
+        compareButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                compareButtonMouseClicked(evt);
+            }
+        });
+        compareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareButtonActionPerformed(evt);
+            }
+        });
 
         usernameLabel2.setFont(new java.awt.Font("Tahoma", 0, 14));
         usernameLabel2.setText("Operator NTD ID");
 
+        operatorNameField.setName("usernameField"); // NOI18N
+
         OperatorNTDIDField.setName("usernameField"); // NOI18N
 
-        sessionCommentLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        sessionCommentLabel.setText("Session Comment");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(OperatorAbbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(operatorNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usernameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(OperatorNTDIDField)
+                            .addComponent(operatorNameAbbField)
+                            .addComponent(operatorNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
+                        .addComponent(compareButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(175, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(operatorNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(operatorNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(operatorNameAbbField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(OperatorAbbLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(OperatorNTDIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usernameLabel2))
+                .addGap(18, 18, 18)
+                .addComponent(compareButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79))
+        );
 
-        sessionCommentField.setName("usernameField"); // NOI18N
+        operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
+        operatorNameField.getAccessibleContext().setAccessibleName("operatorNameField");
+        OperatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
+
+        jTabbedPane1.addTab("Compare Data", jPanel1);
+
+        jPanel2.setName(""); // NOI18N
+
+        changesetLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        changesetLabel.setText("Changeset ID");
+
+        changesetField.setName("usernameField"); // NOI18N
+
+        revertButton.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        revertButton.setText("Run");
+        revertButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                revertButtonMouseClicked(evt);
+            }
+        });
+        revertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revertButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(changesetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(changesetField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(211, 211, 211)
+                        .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(165, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(changesetField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changesetLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
+        );
+
+        jTabbedPane1.addTab("Revert Changeset", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passwordField)
-                            .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(runButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85))
             .addGroup(layout.createSequentialGroup()
-                .addGap(145, 145, 145)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sessionCommentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(OperatorNTDIDField)
-                            .addComponent(operatorNameAbbField)
-                            .addComponent(operatorNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sessionCommentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(passwordField)
+                        .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(167, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(219, 219, 219)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(245, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usernameLabel))
@@ -685,41 +773,26 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(operatorNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usernameLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(operatorNameAbbField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(OperatorNTDIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usernameLabel2))
+                    .addComponent(sessionCommentLabel)
+                    .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sessionCommentLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(runButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34))
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
-        exitButton.getAccessibleContext().setAccessibleName("exitButton");
         usernameField.getAccessibleContext().setAccessibleName("usernameField");
         usernameLabel.getAccessibleContext().setAccessibleName("usernameLabel");
         passwordLabel.getAccessibleContext().setAccessibleName("passwordLabel");
-        operatorNameField.getAccessibleContext().setAccessibleName("operatorNameField");
-        operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
-        OperatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
+        exitButton.getAccessibleContext().setAccessibleName("exitButton");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void runButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runButtonMouseClicked
+    private void compareButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compareButtonMouseClicked
         // TODO add your handling code here:
         new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorNtdId, _gtfsIdDigit);
         new Session(_username, _password, _changesetComment);
@@ -728,6 +801,7 @@ public class MainForm extends javax.swing.JFrame {
         new WriteFile(FILE_NAME_OUT_NEW, GTFSstops);
 
         execute();
+//        deleteNodesInChangeSet("5604125");
 
         System.out.println("To be uploaded nodes = "+upload.size());
         System.out.println("To be modified nodes = "+modify.size());
@@ -754,16 +828,34 @@ public class MainForm extends javax.swing.JFrame {
             System.out.println(e);
         }*/
         System.out.println("Done...!!");
-    }//GEN-LAST:event_runButtonMouseClicked
+}//GEN-LAST:event_compareButtonMouseClicked
 
     private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
         // TODO add your handling code here:
         System.exit(0);
 }//GEN-LAST:event_exitButtonMouseClicked
 
-    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
+    private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_runButtonActionPerformed
+}//GEN-LAST:event_compareButtonActionPerformed
+
+    private void revertButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_revertButtonMouseClicked
+        // TODO add your handling code here:
+        new Session(_username, _password, _changesetComment);
+        System.out.println("Initializing...");
+        osmRequest.checkVersion();
+
+        osmRequest.downloadChangeSet(_revertChangesetId);
+        osmRequest.checkVersion();
+        osmRequest.createChangeSet();
+        osmRequest.createChunks(null, osmRequest.getRevertModify(), null, null);
+        //osmRequest.createChunks(osmRequest.getRevertUpload(), osmRequest.getRevertModify(), osmRequest.getRevertDelete(), null);
+        osmRequest.closeChangeSet();
+}//GEN-LAST:event_revertButtonMouseClicked
+
+    private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_revertButtonActionPerformed
 
     /**
     * @param args the command line arguments
@@ -777,19 +869,25 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel OperatorAbbLabel;
     private javax.swing.JTextField OperatorNTDIDField;
+    private javax.swing.JTextField changesetField;
+    private javax.swing.JLabel changesetLabel;
+    private javax.swing.JButton compareButton;
     private javax.swing.JButton exitButton;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField operatorNameAbbField;
     private javax.swing.JTextField operatorNameField;
+    private javax.swing.JLabel operatorNameLabel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JLabel passwordLabel1;
-    private javax.swing.JButton runButton;
+    private javax.swing.JButton revertButton;
     private javax.swing.JTextField sessionCommentField;
     private javax.swing.JLabel sessionCommentLabel;
     private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel;
-    private javax.swing.JLabel usernameLabel1;
     private javax.swing.JLabel usernameLabel2;
     // End of variables declaration//GEN-END:variables
 

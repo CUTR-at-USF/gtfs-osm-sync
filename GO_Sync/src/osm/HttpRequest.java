@@ -42,12 +42,17 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.util.Iterator;
 import object.RelationMember;
 import object.Route;
 import object.Session;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import sun.misc.BASE64Encoder;
+import tools.parser.BusStopParser;
+import tools.parser.ChangesetDownloadParser;
+import tools.parser.OsmVersionParser;
+import tools.parser.RouteParser;
 
 /**
  *
@@ -63,6 +68,10 @@ public class HttpRequest {
     private ArrayList<Hashtable> existingRelationTags = new ArrayList<Hashtable>();
     private ArrayList<HashSet<RelationMember>> existingRelationMembers = new ArrayList<HashSet<RelationMember>>();
 
+    private HashSet<Stop> revertDelete = new HashSet<Stop>();
+    private HashSet<Stop> revertModify = new HashSet<Stop>();
+    private HashSet<Stop> revertUpload = new HashSet<Stop>();
+
     private boolean isSupportVersion = false;
 
     private OsmPrinter oprinter = new OsmPrinter();
@@ -70,20 +79,6 @@ public class HttpRequest {
     private String cSetID="";
 
     public static final String FILE_NAME_OUT_UPLOAD = "OSM_CHANGE_XML.txt";
-    
-    private class ApiVersionParser extends DefaultHandler {
-        @Override public void startElement(String namespaceURI, String localName, String qname, Attributes atts) throws SAXException {
-            if (qname.equals("version")) {
-                AttributesImpl attImpl = new AttributesImpl(atts);
-                double minVersion = Double.parseDouble(attImpl.getValue("minimum"));
-                double maxVersion = Double.parseDouble(attImpl.getValue("maximum"));
-                double currVersion = Double.parseDouble(API_VERSION);
-                if (minVersion<=currVersion && maxVersion>=currVersion) {
-                    isSupportVersion = true;
-                }
-            }
-        }
-    }
 
     public void checkVersion() {
         String url = SERVER_URL + "capabilities/";
@@ -92,7 +87,9 @@ public class HttpRequest {
 
         try {
             InputSource inputSource = new InputSource(new StringReader(s));
-            SAXParserFactory.newInstance().newSAXParser().parse(inputSource, new ApiVersionParser());
+            OsmVersionParser vp = new OsmVersionParser("0.6");
+            SAXParserFactory.newInstance().newSAXParser().parse(inputSource, vp);
+            isSupportVersion = vp.isSupportVersion();
             if (!isSupportVersion) {
                 System.out.println("The current api does not support version " + API_VERSION);
             }
@@ -105,45 +102,7 @@ public class HttpRequest {
         }
     }
 
-    //    ArrayList<AttributeList> existingTags = new ArrayList<AttributeList>();
-    private class NodeParser extends DefaultHandler {
-        Hashtable tempTag;
-        private ArrayList<AttributesImpl> xmlNodes;
-        private ArrayList<Hashtable> xmlTags;
-        public NodeParser(){
-            xmlNodes = new ArrayList<AttributesImpl>();
-            xmlTags = new ArrayList<Hashtable>();
-        }
-        @Override public void startElement(String namespaceURI, String localName, String qname, Attributes attributes) throws SAXException {
-            if (qname.equals("node") || qname.equals("changeset")) {
-                AttributesImpl attImpl = new AttributesImpl(attributes);
-                xmlNodes.add(attImpl);
-                tempTag = new Hashtable();      // start to collect tags of that node
-            }
-            if (qname.equals("tag")) {
-                AttributesImpl attImpl = new AttributesImpl(attributes);
-//                System.out.println(attImpl.getValue("k") + attImpl.getValue("v"));
-                tempTag.put(attImpl.getValue("k"), attImpl.getValue("v"));         // insert key and value of that tag into Hashtable
-            }
-        }
-
-        @Override public void endElement (String uri, String localName, String qName) throws SAXException {
-            if (qName.equals("node")) {
-                xmlTags.add(tempTag);
-            }
-        }
-
-        public ArrayList<AttributesImpl> getNodes(){
-            return xmlNodes;
-        }
-
-        public ArrayList<Hashtable> getTags(){
-            return xmlTags;
-        }
-    }
-
     public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) {
-//        http://www.informationfreeway.org/api/0.6/node[highway=bus_stop][bbox=-82.4269,28.0534,-82.4011,28.0699]
         String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
         String url = "http://xapi.openstreetmap.org" + urlSuffix;
         try {
@@ -152,7 +111,7 @@ public class HttpRequest {
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServer.osm");
-            NodeParser par = new NodeParser();
+            BusStopParser par = new BusStopParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingNodes.addAll(par.getNodes());
             existingBusTags.addAll(par.getTags());
@@ -177,59 +136,6 @@ public class HttpRequest {
         return null;
     }
 
-    private class RelationParser extends DefaultHandler {
-        private Hashtable tempTag;
-        private HashSet<RelationMember> tempMembers;
-        private ArrayList<AttributesImpl> xmlRelations;
-        //xmlTags<String, String> ----------- xmlMembers<String(refID), AttributesImpl>
-        private ArrayList<Hashtable> xmlTags;
-        private ArrayList<HashSet<RelationMember>> xmlMembers;
-        public RelationParser(){
-            xmlRelations = new ArrayList<AttributesImpl>();
-            xmlTags = new ArrayList<Hashtable>();
-            xmlMembers = new ArrayList<HashSet<RelationMember>>();
-        }
-        @Override public void startElement(String namespaceURI, String localName, String qname, Attributes attributes) throws SAXException {
-            if (qname.equals("relation")) {
-                AttributesImpl attImpl = new AttributesImpl(attributes);
-                xmlRelations.add(attImpl);
-                tempTag = new Hashtable();      // start to collect tags of that relation
-                tempMembers = new HashSet<RelationMember>();
-            }
-            if (tempTag!=null && qname.equals("tag")) {
-                AttributesImpl attImpl = new AttributesImpl(attributes);
-                tempTag.put(attImpl.getValue("k"), attImpl.getValue("v"));         // insert key and value of that tag into Hashtable
-            }
-            if (tempMembers!=null && qname.equals("member")) {
-                AttributesImpl attImpl = new AttributesImpl(attributes);
-                RelationMember rm = new RelationMember(attImpl.getValue("ref"),attImpl.getValue("type"),attImpl.getValue("role"));
-                rm.setStatus("osm");
-                tempMembers.add(rm);
-            }
-        }
-
-        @Override public void endElement (String uri, String localName, String qName) throws SAXException {
-            if (qName.equals("relation")) {
-                xmlTags.add(tempTag);
-                xmlMembers.add(tempMembers);
-                tempTag = null;
-                tempMembers = null;
-            }
-        }
-
-        public ArrayList<AttributesImpl> getRelations(){
-            return xmlRelations;
-        }
-
-        public ArrayList<Hashtable> getTags(){
-            return xmlTags;
-        }
-
-        public ArrayList<HashSet<RelationMember>> getMembers(){
-            return xmlMembers;
-        }
-    }
-
     public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) {
         String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
         String url = "http://xapi.openstreetmap.org" + urlSuffix;
@@ -239,7 +145,7 @@ public class HttpRequest {
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
-            RelationParser par = new RelationParser();
+            RouteParser par = new RouteParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingRelations.addAll(par.getRelations());
             existingRelationTags.addAll(par.getTags());
@@ -271,6 +177,93 @@ public class HttpRequest {
         if (existingRelationMembers.size() !=0 )
             return existingRelationMembers;
         return null;
+    }
+
+    public void downloadChangeSet(String cs) {
+        String urlSuffix = "changeset/"+cs+"/download";
+        String url = SERVER_URL + urlSuffix;
+        try {
+            // get data from server
+            String s = sendRequest(url, "GET", "");
+            InputSource inputSource = new InputSource(new StringReader(s));
+            // get data from file - need to remove this for REAL APPLICATION
+//            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
+            ChangesetDownloadParser par = new ChangesetDownloadParser();
+            SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
+
+            revertDelete.addAll(par.getToBeDeletedStop());
+
+            ArrayList<Stop> toBeModified = new ArrayList<Stop>();
+            toBeModified.addAll(par.getToBeModifiedStop());
+            for (int i=0; i<toBeModified.size(); i++) {
+                Stop ts = toBeModified.get(i);
+                Integer versionNumber = (Integer.parseInt(ts.getOsmVersion())-1);
+                Stop ns = getNodeByVersion(ts.getOsmId(), versionNumber.toString(), false);
+                ns.setOsmVersion(ts.getOsmVersion());
+                revertModify.add(ns);
+            }
+
+            ArrayList<Stop> toBeUploaded = new ArrayList<Stop>();
+            toBeUploaded.addAll(par.getToBeUploadedStop());
+            for (int i=0; i<toBeUploaded.size(); i++) {
+                Stop ts = toBeUploaded.get(i);
+                Stop ns = getNodeByVersion(ts.getOsmId(), ts.getOsmVersion(), true);
+                ns.setOsmVersion("-1");
+                revertUpload.add(ns);
+            }
+        } catch(IOException e) {
+            System.out.println(e);
+        } catch(SAXException e) {
+            System.out.println(e);
+        } catch(ParserConfigurationException e) {
+            System.out.println(e);
+        }
+    }
+
+    public HashSet<Stop> getRevertUpload(){
+        return revertUpload;
+    }
+
+    public HashSet<Stop> getRevertModify(){
+        return revertModify;
+    }
+
+    public HashSet<Stop> getRevertDelete(){
+        return revertDelete;
+    }
+
+    private Stop getNodeByVersion(String osmid, String version, boolean isNew){
+        Stop st=null;
+        String urlSuffix = "node/"+osmid+"/"+version;
+        String url = SERVER_URL + urlSuffix;
+        System.out.println("Retrieving node "+osmid+" with version "+version+"...");
+        try {
+            // get data from server
+            String s = sendRequest(url, "GET", "");
+            InputSource inputSource = new InputSource(new StringReader(s));
+            // get data from file - need to remove this for REAL APPLICATION
+//            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
+            BusStopParser par = new BusStopParser();
+            SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
+            AttributesImpl attImplNode = par.getOneNode();
+            Hashtable tags = par.getTagsOneNode();
+            st = new Stop(null,(String)tags.get("operator"),(String)tags.get("name"),
+                    attImplNode.getValue("lat"),attImplNode.getValue("lon"));
+            st.addTags(tags);
+            if (!isNew) {
+                st.setOsmId(attImplNode.getValue("id"));
+            }
+            else {
+                st.setOsmId("-"+attImplNode.getValue("id"));
+            }
+        } catch(IOException e) {
+            System.out.println(e);
+        } catch(SAXException e) {
+            System.out.println(e);
+        } catch(ParserConfigurationException e) {
+            System.out.println(e);
+        }
+        return st;
     }
 
     public static String getApiVersion() {
@@ -401,12 +394,12 @@ public class HttpRequest {
         HashSet<Stop> modifyStops = new HashSet<Stop>();
         HashSet<Stop> deleteStops = new HashSet<Stop>();
 
-        newStops.addAll(n);
-        modifyStops.addAll(m);
-        deleteStops.addAll(d);
+        if(n!=null)newStops.addAll(n);
+        if(m!=null)modifyStops.addAll(m);
+        if(d!=null)deleteStops.addAll(d);
 
         Hashtable routes = new Hashtable();
-        routes.putAll(r);
+        if (r!=null) routes.putAll(r);
 
         String urlSuffix = "changeset/"+cSetID+"/upload";
         String url = SERVER_URL + urlSuffix;

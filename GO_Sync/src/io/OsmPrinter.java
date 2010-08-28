@@ -89,7 +89,9 @@ public class OsmPrinter {
         else {
             text += "<node changeset='" + changeSetID + "' id='" + nodeID
                     + "' lat='" + st.getLat() + "' lon='" + st.getLon() + "'>\n";
-            text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
+            if(st.getTag(APPLICATION_CREATOR_KEY)!=null && !st.getTag(APPLICATION_CREATOR_KEY).equals("none")) {
+                text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
+            }
         }
         HashSet<String> keys = new HashSet<String>(s.keySet().size());
         keys.addAll(s.keySet());

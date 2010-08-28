@@ -2,32 +2,8 @@
 <create>
 </create>
 <modify>
-<node changeset='5612705' id='474598175' lat='27.3869018' lon='-82.5548718' version='3'>
-<tag k='highway' v='bus_stop' />
-<tag k='source' v='FDOT' />
-</node>
-<node changeset='5612705' id='474598172' lat='27.3853136' lon='-82.5591841' version='3'>
-<tag k='highway' v='bus_stop' />
-</node>
-<node changeset='5612705' id='475796505' lat='27.3852937' lon='-82.5590708' version='2'>
-<tag k='highway' v='bus_stop' />
-</node>
-<node changeset='5612705' id='474598173' lat='27.3831307' lon='-82.5591668' version='2'>
-<tag k='highway' v='bus_stop' />
-</node>
-<node changeset='5612705' id='474598174' lat='27.3816269' lon='-82.5589983' version='2'>
-<tag k='highway' v='bus_stop' />
-</node>
-<node changeset='5612705' id='475796501' lat='27.3830527' lon='-82.5590403' version='2'>
-<tag k='highway' v='bus_stop' />
-</node>
-<node changeset='5612705' id='812414927' lat='27.3904584' lon='-82.5070717' version='2'>
-<tag k='highway' v='bus_stop' />
-</node>
-<node changeset='5612705' id='634431493' lat='27.3817401' lon='-82.5591772' version='2'>
-<tag k='highway' v='bus_stop' />
-</node>
 </modify>
 <delete>
+<node id='129870' changeset='5616916' version='1' />
 </delete>
 </osmChange>

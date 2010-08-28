@@ -410,7 +410,7 @@ public class HttpRequest {
                 String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);
                 
-                responseMessage = sendRequest(url, "POST", osmChangeText);
+//                responseMessage = sendRequest(url, "POST", osmChangeText);
                 System.out.println("Message: "+responseMessage);
             }
             else {

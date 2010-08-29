@@ -23,18 +23,22 @@ Copyright 2010 University of South Florida
 
 package gui;
 
+import java.awt.Toolkit;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JOptionPane;
+import javax.swing.ProgressMonitor;
 import object.OperatorInfo;
 import object.Session;
-import osm.CompareData;
-import osm.RevertChangeset;
+import task.CompareData;
+import task.OsmTask;
+import task.RevertChangeset;
 
 /**
  *
  * @author Khoa Tran
  */
-public class MainForm extends javax.swing.JFrame {
-
+public class MainForm extends javax.swing.JFrame implements PropertyChangeListener{
     private String _operatorName;
     private String _operatorNameAbbreviate;
     private String _operatorNtdId;
@@ -42,7 +46,11 @@ public class MainForm extends javax.swing.JFrame {
     private String _password;
     private String _changesetComment;
     private int _gtfsIdDigit;
-    private String _revertChangesetId;    
+    private String _revertChangesetId;
+    private CompareData compareTask;
+    private RevertChangeset revertTask;
+    private ProgressMonitor progressMonitor;
+    private OsmTask task;
 
     /** Creates new form MainForm */
     public MainForm() {
@@ -80,6 +88,8 @@ public class MainForm extends javax.swing.JFrame {
         changesetLabel = new javax.swing.JLabel();
         revertChangesetField = new javax.swing.JTextField();
         revertButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taskOutput = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GO-Sync");
@@ -245,6 +255,10 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Revert Changeset", jPanel2);
 
+        taskOutput.setColumns(20);
+        taskOutput.setRows(5);
+        jScrollPane1.setViewportView(taskOutput);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -262,11 +276,12 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(passwordField)
                         .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(167, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(219, 219, 219)
-                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(245, Short.MAX_VALUE))
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(218, 218, 218)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(246, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,9 +300,11 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addContainerGap())
         );
 
         usernameField.getAccessibleContext().setAccessibleName("usernameField");
@@ -312,7 +329,13 @@ public class MainForm extends javax.swing.JFrame {
 
             new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorNtdId, _gtfsIdDigit);
             new Session(_username, _password, _changesetComment);
-            new CompareData();
+
+            progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data","", 0, 100);
+            progressMonitor.setProgress(0);
+            compareTask = new CompareData(progressMonitor);
+            task = compareTask;
+            task.addPropertyChangeListener(this);
+            compareTask.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Message: "+e.getMessage());
         }
@@ -336,7 +359,12 @@ public class MainForm extends javax.swing.JFrame {
             _revertChangesetId = revertChangesetField.getText();
             
             new Session(_username, _password, _changesetComment);
-            new RevertChangeset(_revertChangesetId);
+            progressMonitor = new ProgressMonitor(MainForm.this, "Reverting Openstreetmap changeset","", 0, 100);
+            progressMonitor.setProgress(0);
+            revertTask = new RevertChangeset(_revertChangesetId, progressMonitor);
+            task = revertTask;
+            task.addPropertyChangeListener(this);
+            revertTask.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Message: "+e.getMessage());
         }
@@ -357,6 +385,26 @@ public class MainForm extends javax.swing.JFrame {
         });
     }
 
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("progress")) {
+            int progress = (Integer) evt.getNewValue();
+            progressMonitor.setProgress(progress);
+            String message = task.getMessage()+"   "+progress+"% \n";
+            progressMonitor.setNote(message);
+            taskOutput.append(message);
+            if (progressMonitor.isCanceled() || task.isDone()) {
+                Toolkit.getDefaultToolkit().beep();
+                if (progressMonitor.isCanceled()) {
+                    task.cancel(true);
+                    taskOutput.append("Task canceled.\n");
+                } else {
+                    taskOutput.append("Task completed.\n");
+                    if (task==compareTask) compareTask.generateReport();
+                }
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel OperatorAbbLabel;
     private javax.swing.JLabel changesetLabel;
@@ -365,6 +413,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField operatorNTDIDField;
     private javax.swing.JTextField operatorNameAbbField;
@@ -376,6 +425,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField revertChangesetField;
     private javax.swing.JTextField sessionCommentField;
     private javax.swing.JLabel sessionCommentLabel;
+    private javax.swing.JTextArea taskOutput;
     private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JLabel usernameLabel2;

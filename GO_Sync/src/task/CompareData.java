@@ -15,16 +15,21 @@ Copyright 2010 University of South Florida
 
 **/
 
-package osm;
+package task;
 
+import osm.*;
 import gui.ReportForm;
 import io.GTFSReadIn;
 import io.WriteFile;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+import javax.swing.ProgressMonitor;
+import javax.swing.SwingWorker;
 import object.OperatorInfo;
 import object.RelationMember;
 import object.Route;
@@ -38,7 +43,7 @@ import tools.OsmFormatter;
  * @author Khoa Tran
  */
 
-public class CompareData {
+public class CompareData extends OsmTask{
     private List<Stop> GTFSstops = new ArrayList<Stop>();
     private ArrayList<AttributesImpl> OSMNodes = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> OSMTags = new ArrayList<Hashtable>();
@@ -74,34 +79,11 @@ public class CompareData {
     public static final String FILE_NAME_OUT_NOUPLOAD = "NOUPLOAD.txt";
     public static final String FILE_NAME_OUT_REPORT = "REPORT.txt";
 
+    private ProgressMonitor progressMonitor;
+    private int progress = 0;
     
-    public CompareData(){
-        GTFSReadIn data = new GTFSReadIn();
-        GTFSstops.addAll(data.readBusStop(FILE_NAME_IN_STOPS, OperatorInfo.getFullName(),FILE_NAME_IN_TRIPS,FILE_NAME_IN_STOP_TIMES));
-        new WriteFile(FILE_NAME_OUT_NEW, GTFSstops);
-        
-        execute();
-        
-        System.out.println("To be uploaded nodes = "+upload.size());
-        System.out.println("To be modified nodes = "+modify.size());
-        
-        new WriteFile(FILE_NAME_OUT_UPLOAD, upload);
-        
-        new WriteFile(FILE_NAME_OUT_NOUPLOAD, noUpload);
-        
-        new WriteFile(FILE_NAME_OUT_MODIFY, modify);
-        
-        new WriteFile(FILE_NAME_OUT_DELETE, delete);
-        
-        new WriteFile(FILE_NAME_OUT_REPORT, report);
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ReportForm(GTFSstops, report, upload, modify, delete, routes).setVisible(true);
-            }
-        });
-        
-        System.out.println("Done...!!");
+    public CompareData(ProgressMonitor pm){
+        progressMonitor = pm;
     }
 
     public List<Stop> convertToStopObject(List<AttributesImpl> eNodes, String agencyName){
@@ -243,6 +225,12 @@ public class CompareData {
      * ALWAYS Invoke this method AFTER compareBusStopData()
      * */
     public void compareRouteData() {
+        //20% of task includes:
+        //10% for reading GTFS routes from modify and nothing_new sets
+        //10% for compare with existing OSM routes
+
+        updateProgress(10);
+        this.setMessage("Reading GTFS routes from modify and noupload sets...");
         // get all the routes and its associated bus stops
         ArrayList<Stop> reportKeys = new ArrayList<Stop>();
         reportKeys.addAll(report.keySet());
@@ -281,6 +269,8 @@ public class CompareData {
             }
         }
 
+        updateProgress(10);
+        this.setMessage("Comparing GTFS routes with OSM routes...");
         //compare with existing OSM relation
         ArrayList<Stop> routeKeys = new ArrayList<Stop>();
         routeKeys.addAll(routes.keySet());
@@ -310,8 +300,24 @@ public class CompareData {
 
     public void compareBusStopData() {
         //Compare the OSM stops with GTFS data
-//        HashSet<Stop> matched = new HashSet<Stop>();
-        for (int osmindex=0; osmindex<OSMNodes.size(); osmindex++){
+
+        //this method takes 50% of this compare task
+        int totalOsmNode = OSMNodes.size();
+        int timeToUpdate, progressToUpdate;
+        if(totalOsmNode>=50) {
+            timeToUpdate = totalOsmNode/50;
+            progressToUpdate = 1;
+        } else {
+            timeToUpdate = 1;
+            progressToUpdate = 50/totalOsmNode;
+        }
+        int currentTotalProgress=0;
+        for (int osmindex=0; osmindex<totalOsmNode; osmindex++){
+            if((osmindex%timeToUpdate)==0) {
+                currentTotalProgress += progressToUpdate;
+                updateProgress(progressToUpdate);
+                this.setMessage("Comparing "+osmindex+"/"+totalOsmNode+" ...");
+            }
             Hashtable osmtag = new Hashtable();
             osmtag.putAll(OSMTags.get(osmindex));
             String osmOperator = (String)osmtag.get("operator");
@@ -480,6 +486,10 @@ public class CompareData {
                 }
             }
         }
+        //make sure is 50% overall
+        int tempProgress=50-currentTotalProgress;
+        updateProgress(Math.max(0, tempProgress));
+        this.setMessage("Finish comparing bus stop data...");
         reviseUpload();
         reviseNoUpload();
         // Add everything else without worries
@@ -505,13 +515,22 @@ public class CompareData {
         System.out.println(OSMUserList.toString());
     }
 
-    public void execute(){
+    public void startCompare(){
+        updateProgress(1);
+        this.setMessage("Getting bounding box...");
         getBoundingBox();
         //Get the existing bus stops from the server
+        updateProgress(1);
+        this.setMessage("Checking API version...");
         System.out.println("Initializing...");
         osmRequest.checkVersion();
+
+        updateProgress(5);
+        this.setMessage("Getting existing bus stops...\nThis might take several minutes");
         ArrayList<AttributesImpl> tempOSMNodes = osmRequest.getExistingBusStops(Double.toString(minLon), Double.toString(minLat),
                 Double.toString(maxLon), Double.toString(maxLat));
+        updateProgress(10);
+        this.setMessage("Getting existing bus routes...\nThis might take several minutes");
         ArrayList<AttributesImpl> tempOSMRelations = osmRequest.getExistingBusRelations(Double.toString(minLon), Double.toString(minLat),
                 Double.toString(maxLon), Double.toString(maxLat));
         if (tempOSMNodes!=null) {
@@ -532,5 +551,56 @@ public class CompareData {
         else {
             System.out.println("There's no bus stop in the region "+minLon+", "+minLat+", "+maxLon+", "+maxLat);
         }
+    }
+
+    @Override
+    public Void doInBackground() {
+        setProgress(0);
+        updateProgress(1);
+        this.setMessage("Reading GTFS files ... ");
+        GTFSReadIn data = new GTFSReadIn();
+        GTFSstops.addAll(data.readBusStop(FILE_NAME_IN_STOPS, OperatorInfo.getFullName(),FILE_NAME_IN_TRIPS,FILE_NAME_IN_STOP_TIMES));
+        new WriteFile(FILE_NAME_OUT_NEW, GTFSstops);
+
+        startCompare();
+
+        System.out.println("To be uploaded nodes = "+upload.size());
+
+        System.out.println("To be modified nodes = "+modify.size());
+
+        updateProgress(4);
+        this.setMessage("Writing upload, noupload, modify, delete stops to file...");
+        new WriteFile(FILE_NAME_OUT_UPLOAD, upload);
+
+        new WriteFile(FILE_NAME_OUT_NOUPLOAD, noUpload);
+
+        new WriteFile(FILE_NAME_OUT_MODIFY, modify);
+
+        new WriteFile(FILE_NAME_OUT_DELETE, delete);
+
+        updateProgress(3);
+        this.setMessage("Writing report to file...");
+        System.out.println("progress: "+progress);
+        new WriteFile(FILE_NAME_OUT_REPORT, report);
+
+        //make sure it's a complete task
+        updateProgress(100);
+        this.setMessage("Done...");
+        System.out.println("Done...!!");
+        return null;
+    }
+
+    @Override
+    public void done() {
+        Toolkit.getDefaultToolkit().beep();
+        progressMonitor.setProgress(0);
+    }
+
+    public void generateReport(){
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ReportForm(GTFSstops, report, upload, modify, delete, routes).setVisible(true);
+            }
+        });
     }
 }

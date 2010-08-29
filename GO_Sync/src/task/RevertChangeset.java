@@ -15,25 +15,63 @@ Copyright 2010 University of South Florida
 
 **/
 
-package osm;
+package task;
+
+import java.awt.Toolkit;
+import osm.*;
+import javax.swing.ProgressMonitor;
 
 /**
  *
  * @author Khoa Tran
  */
-public class RevertChangeset {
+public class RevertChangeset extends OsmTask{
     private HttpRequest osmRequest = new HttpRequest();
 
     private String revertChangesetId="";
+
+    private ProgressMonitor progressMonitor;
     
-    public RevertChangeset(String rcId){
+    public RevertChangeset(String rcId, ProgressMonitor pm){
+        progressMonitor = pm;
         revertChangesetId = rcId;
+    }
+
+    @Override
+    public Void doInBackground() {
+        setProgress(0);
+        
+        updateProgress(2);
+        this.setMessage("Checking API Version...");
         System.out.println("Initializing...");
         osmRequest.checkVersion();
+
+        updateProgress(50);
+        this.setMessage("Downloading changeset "+revertChangesetId+"...\nThis might take several minutes");
         osmRequest.downloadChangeSet(revertChangesetId);
-        osmRequest.checkVersion();
+
+        updateProgress(3);
+        this.setMessage("Creating new changeset...");
         osmRequest.createChangeSet();
+
+        updateProgress(40);
+        this.setMessage("Uploading osmchange...");
         osmRequest.createChunks(osmRequest.getRevertUpload(), osmRequest.getRevertModify(), osmRequest.getRevertDelete(), null);
+
+        updateProgress(2);
+        this.setMessage("Closing changeset...");
         osmRequest.closeChangeSet();
+
+        //make sure it's a complete task
+        updateProgress(100);
+        this.setMessage("Done...");
+        System.out.println("Done...!!");
+        return null;
+    }
+
+    @Override
+    public void done() {
+        Toolkit.getDefaultToolkit().beep();
+        progressMonitor.setProgress(0);
     }
 }

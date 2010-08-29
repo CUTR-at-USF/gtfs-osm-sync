@@ -24,12 +24,14 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import object.OperatorInfo;
 import object.Stop;
 import tools.OsmFormatter;
 
 public class GTFSReadIn {
     private List<Stop> stops;
     private final String ROUTE_KEY = "route_ref";
+    private final String NTD_ID_KEY = "ntd_id";
     private static HashSet<String> allRoutes;
 
     public List<Stop> readBusStop(String fName, String agencyName, String trips_fName, String stop_times_fName){
@@ -82,8 +84,9 @@ public class GTFSReadIn {
                             if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
                             if ((v!=null) && (!v.equals(""))) s.addTag(k, v);
                         }
+                        s.addTag(NTD_ID_KEY, OperatorInfo.getNTDID());
                     } catch(Exception e){
-                        System.out.println("Error occurred. Please check your GTFS input files");
+                        System.out.println("Error occurred! Please check your GTFS input files");
                         System.out.println(e.toString());
                         System.exit(0);
                     }

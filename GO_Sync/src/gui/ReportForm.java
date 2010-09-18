@@ -24,6 +24,8 @@ Copyright 2010 University of South Florida
 package gui;
 
 import io.WriteFile;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -31,16 +33,20 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ButtonGroup;
+import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
+import javax.swing.ProgressMonitor;
 import object.RelationMember;
 import object.Route;
 import object.Stop;
 import osm.HttpRequest;
+import task.UploadData;
 
 /**
  *
  * @author Khoa Tran
  */
-public class ReportForm extends javax.swing.JFrame {
+public class ReportForm extends javax.swing.JFrame implements PropertyChangeListener{
 
     private static final String FILE_NAME_OUT_UPLOAD_REVISE = "UPLOAD_REVISE.txt";
     private static final String FILE_NAME_OUT_MODIFY_REVISE = "MODIFY_REVISE.txt";
@@ -52,20 +58,37 @@ public class ReportForm extends javax.swing.JFrame {
 
     private HashSet<Stop> upload, modify, delete;
 
-    private DefaultListModel gtfsRoutes = new DefaultListModel();
+    private DefaultListModel routeMemberIDs = new DefaultListModel();
+    private DefaultListModel routeMemberMatchIDs = new DefaultListModel();
+    private DefaultListModel routeMemberAll = new DefaultListModel();
+    private DefaultListModel routeMemberBoth = new DefaultListModel();
+    private DefaultListModel routeMemberGtfs = new DefaultListModel();
+    private DefaultListModel routeMemberOsm = new DefaultListModel();
+    private DefaultListModel routeMemberMatchAll = new DefaultListModel();
+    private DefaultListModel routeMemberMatchBoth = new DefaultListModel();
+    private DefaultListModel routeMemberMatchGtfs = new DefaultListModel();
+    private DefaultListModel routeMemberMatchOsm = new DefaultListModel();
+    private ButtonGroup memberGroup = new ButtonGroup();
+
+    private DefaultListModel gtfsRouteIDs = new DefaultListModel();
+    private DefaultListModel gtfsRouteAll = new DefaultListModel();
     private DefaultListModel gtfsRouteNoUpload = new DefaultListModel();
     private DefaultListModel gtfsRouteNew = new DefaultListModel();
     private DefaultListModel gtfsRouteModify = new DefaultListModel();
     private DefaultListModel gtfsTagKey = new DefaultListModel();
     private DefaultListModel gtfsTagValue = new DefaultListModel();
     private DefaultListModel gtfsMemberValue = new DefaultListModel();
+    private DefaultListModel gtfsMatchId = new DefaultListModel();
     private DefaultListModel osmRoutes = new DefaultListModel();
     private DefaultListModel osmTagKey = new DefaultListModel();
     private DefaultListModel osmTagValue = new DefaultListModel();
     private DefaultListModel osmMemberValue = new DefaultListModel();
+    private DefaultListModel osmMatchId = new DefaultListModel();
     private DefaultListModel newTagKey = new DefaultListModel();
     private DefaultListModel newTagValue = new DefaultListModel();
     private DefaultListModel newMemberValue = new DefaultListModel();
+    private DefaultListModel newMatchId = new DefaultListModel();
+    private ButtonGroup routeGroup = new ButtonGroup();
     
     private DefaultListModel gtfsIDs = new DefaultListModel();
     private DefaultListModel gtfsIDAll = new DefaultListModel();
@@ -80,22 +103,30 @@ public class ReportForm extends javax.swing.JFrame {
     private DefaultListModel osmDetailsValue = new DefaultListModel();
     private DefaultListModel newDetailsKey = new DefaultListModel();
     private DefaultListModel newDetailsValue = new DefaultListModel();
-    private ButtonGroup bGroup = new ButtonGroup();
+    private ButtonGroup stopGroup = new ButtonGroup();
 
     // map between gtfs id and gtfs stop
     private Hashtable agencyStops = new Hashtable();
     private Hashtable finalStops = new Hashtable();
     private Hashtable osmStops = new Hashtable();
 
-    private HttpRequest osmRequest = new HttpRequest();
+    private JTextArea taskOutput;
 
-    private Hashtable finalRoutes;
+    private JProgressBar progressBar;
+
+    private HttpRequest osmRequest;
+
+    private Hashtable finalRoutes, agencyRoutes, existingRoutes;
 
     // List of stops from agency data
     private ArrayList<Stop> agencyData;
 
+    private UploadData taskUpload = null;
+
     /** Creates new form ReportForm */
-    public ReportForm(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes) {
+    public ReportForm(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
+        taskOutput = to;
+        osmRequest = new HttpRequest(to);
         agencyData = new ArrayList<Stop>();
         agencyData.addAll(aData);
 
@@ -113,6 +144,12 @@ public class ReportForm extends javax.swing.JFrame {
 
         finalRoutes = new Hashtable();
         finalRoutes.putAll(routes);
+
+        agencyRoutes = new Hashtable();
+        agencyRoutes.putAll(nRoutes);
+
+        existingRoutes = new Hashtable();
+        existingRoutes.putAll(eRoutes);
 
         for (int i=0; i<agencyData.size(); i++) {
             Stop st = agencyData.get(i);
@@ -164,7 +201,7 @@ public class ReportForm extends javax.swing.JFrame {
         int ari=0, newri=0, modifyri=0, nouploadri=0;
         ArrayList<String> routeKeys = new ArrayList<String>();
         //convert to arrayList for ordering
-        routeKeys.addAll(routes.keySet());
+        routeKeys.addAll(agencyRoutes.keySet());
         //ordering by hashcode
         for (int i=0; i<routeKeys.size()-1; i++) {
             int k=i;
@@ -182,7 +219,7 @@ public class ReportForm extends javax.swing.JFrame {
         //int ari=0, newri=0, modifyri=0, nouploadri=0;
         for (int i=0; i<routeKeys.size(); i++) {
             String rk = routeKeys.get(i);
-            gtfsRoutes.add(ari, rk);
+            gtfsRouteAll.add(ari, rk);
             ari++;
             Route rtemp = (Route)finalRoutes.get(rk);
             String status = rtemp.getStatus();
@@ -199,7 +236,28 @@ public class ReportForm extends javax.swing.JFrame {
         }
         
         initComponents();
+        allStopsRadioButton.setSelected(true);
+        allRoutesRadioButton.setSelected(true);
+        if(ai>0) gtfsIDList.setSelectedIndex(0);
+        if(ari>0) gtfsRouteList.setSelectedIndex(0);
+        totalGtfsRoutesLabel.setText(Integer.toString(ari));
+        gtfsRouteActivated();
     }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("progress")) {
+            if(taskUpload!=null){
+                int progress = (Integer) evt.getNewValue();
+                progressBar.setIndeterminate(false);
+                taskOutput.append(taskUpload.getMessage()+"\n");
+                progressBar.setValue(progress);
+                if(taskUpload.getMessage().contains("several minutes")){
+                    progressBar.setIndeterminate(true);
+                }
+            }
+        }
+    }
+
 
     public void updateReportMessage(Stop s) {
         Stop st = new Stop(s);
@@ -305,7 +363,7 @@ public class ReportForm extends javax.swing.JFrame {
         }
     }
 
-    public void clearAllLists(){
+    public void clearAllStopLists(){
         gtfsDetailsKey.clear();
         gtfsDetailsValue.clear();
         newDetailsKey.clear();
@@ -319,11 +377,19 @@ public class ReportForm extends javax.swing.JFrame {
         totalStopsLabel.setText(Integer.toString(gtfsIDList.getModel().getSize()));
         String gtfsID = (String)gtfsIDList.getSelectedValue();
         if (gtfsID!=null) {
+            Stop fStop = (Stop)finalStops.get(gtfsID);
             updateGtfsDetailsList((Stop)agencyStops.get(gtfsID));
-            updateNewDetailsList((Stop)finalStops.get(gtfsID));
-            updateOsmIDList((Stop)finalStops.get(gtfsID));
+            updateNewDetailsList(fStop);
+            updateOsmIDList(fStop);
+            ArrayList<Stop> arrSt = new ArrayList<Stop>();
+            if(!report.get(fStop).equals("none")) arrSt = (ArrayList<Stop>)report.get(fStop);
+
+            if(arrSt.size()>1){
+                matchStopButton.setEnabled(true);
+            }
+            else matchStopButton.setEnabled(false);
         } else {
-            clearAllLists();
+            clearAllStopLists();
             if (gtfsIDs.getSize()==0) reportMessage.setText("There is no GTFS stops");
         }
     }
@@ -334,54 +400,182 @@ public class ReportForm extends javax.swing.JFrame {
         updateReportMessage((Stop)osmStops.get(osmID));
     }
 
-    public void updateGtfsIdList(String criterion) {
-/*        gtfsIDs.clear();
-        HashSet<Stop> reportKeys = new HashSet<Stop>();
-        reportKeys.addAll(report.keySet());
-        Iterator it = reportKeys.iterator();
-        int i=0;
-        while (it.hasNext()){
-            Stop st = new Stop((Stop)it.next());
-            if (criterion.equals("ALL") || st.getTag("REPORT_CATEGORY").equals(criterion)) {
-                gtfsIDs.add(i, st.getStopID());
-                i++;
-            }
-        }*/
+    public void updateGtfsIdList() {
         DefaultListModel tList = (DefaultListModel)gtfsIDList.getModel();
         if (tList.getSize()>0) gtfsIDList.setSelectedIndex(0);
         totalStopsLabel.setText(Integer.toString(tList.getSize()));
         gtfsStopActivated();
     }
 
+    public void updateGtfsRouteIdList() {
+        DefaultListModel tList = (DefaultListModel)gtfsRouteList.getModel();
+        if (tList.getSize()>0) gtfsRouteList.setSelectedIndex(0);
+        totalGtfsRoutesLabel.setText(Integer.toString(tList.getSize()));
+        gtfsRouteActivated();
+    }
+
     public void updateGtfsRouteTagList(Route r){
-//        Route r = (Route)finalRoutes.get((String)gtfsRouteList.getSelectedValue());
-        int count=0;
         HashSet<String> keys = r.keySet();
         Iterator it = keys.iterator();
+        gtfsTagKey.clear();
+        gtfsTagValue.clear();
         while (it.hasNext()){
             String k = (String)it.next();
             String v = r.getTag(k);
-            System.out.println(k+","+v);
             if (!v.equals("none") && !v.equals("")) {
-                gtfsTagKey.add(count, k);
-                gtfsTagValue.add(count, v);
+                gtfsTagKey.addElement(k);
+                gtfsTagValue.addElement(v);
             }
-            updateGtfsRouteMemberList(r);
         }
     }
 
     public void updateGtfsRouteMemberList(Route r){
-//        Route r = (Route)finalRoutes.get((String)gtfsRouteList.getSelectedValue());
-        int count=0;
         HashSet<RelationMember> keys = r.getOsmMembers();
         Iterator it = keys.iterator();
+        gtfsMemberValue.clear();
+        gtfsMatchId.clear();
+        totalGtfsRelationLabel.setText(Integer.toString(keys.size()));
         while (it.hasNext()){
             RelationMember rm = (RelationMember)it.next();
-            String v = rm.getType() + ": " +rm.getRef();
-            System.out.println(v);
-            gtfsMemberValue.add(count, v);
+            gtfsMemberValue.addElement(rm.getRef());
+            String v = rm.getGtfsId();
+            if (v!=null && !v.equals("none") && !v.equals("")) {
+                gtfsMatchId.addElement(v);
+            } else {
+                gtfsMatchId.addElement(rm.getType());
+            }
         }
     }
+
+    public void updateNewRouteTagList(Route r){
+        HashSet<String> keys = r.keySet();
+        Iterator it = keys.iterator();
+        newTagKey.clear();
+        newTagValue.clear();
+        while (it.hasNext()){
+            String k = (String)it.next();
+            String v = r.getTag(k);
+            if (!v.equals("none") && !v.equals("")) {
+                newTagKey.addElement(k);
+                newTagValue.addElement(v);
+            }
+        }
+    }
+
+    public void updateNewRouteMemberList(Route r){
+        // members
+        ArrayList<RelationMember> memberKeys = new ArrayList<RelationMember>();
+        //convert to arrayList for ordering
+        memberKeys.addAll(r.getOsmMembers());
+        //ordering by gtfsId hashcode
+        for (int i=0; i<memberKeys.size()-1; i++) {
+            int k=i;
+            for (int j=i+1; j<memberKeys.size(); j++) {
+                //get gtfs id
+                String vk = memberKeys.get(k).getGtfsId();
+                if (vk!=null && !vk.equals("none") && !vk.equals("")) {
+                } else {
+                    vk = memberKeys.get(k).getType();
+                }
+                String vj = memberKeys.get(j).getGtfsId();
+                if (vj!=null && !vj.equals("none") && !vj.equals("")) {
+                } else {
+                    vj = memberKeys.get(j).getType();
+                }
+
+                //compare
+                if (vk.hashCode() > vj.hashCode()) {
+                    k = j;
+                }
+            }
+            RelationMember temp = new RelationMember(memberKeys.get(i));
+            memberKeys.set(i, memberKeys.get(k));
+            memberKeys.set(k, temp);
+        }
+
+        //clear lists
+        routeMemberMatchBoth.clear();
+        routeMemberBoth.clear();
+        routeMemberMatchAll.clear();
+        routeMemberAll.clear();
+        routeMemberMatchGtfs.clear();
+        routeMemberGtfs.clear();
+        routeMemberMatchOsm.clear();
+        routeMemberOsm.clear();
+
+        //add data to correct list (categorizing)
+        int ami=0, bothmi=0, gtfsmi=0, osmmi=0;
+        for (int i=0; i<memberKeys.size(); i++) {
+            RelationMember rk = memberKeys.get(i);
+            String vm = rk.getGtfsId();
+            if (vm!=null && !vm.equals("none") && !vm.equals("")) {
+            } else {
+                vm = rk.getType();
+            }
+            routeMemberMatchAll.add(ami, vm);
+            routeMemberAll.add(ami, rk.getRef());
+            ami++;
+
+            String status = rk.getStatus();
+            if (status.equals("both GTFS dataset and OSM server")) {
+                routeMemberMatchBoth.add(bothmi, vm);
+                routeMemberBoth.add(bothmi, rk.getRef());
+                bothmi++;
+            } else if (status.equals("GTFS dataset")) {
+                routeMemberMatchGtfs.add(gtfsmi, vm);
+                routeMemberGtfs.add(gtfsmi, rk.getRef());
+                gtfsmi++;
+            } else if (status.equals("OSM server")) {
+                routeMemberMatchOsm.add(osmmi, vm);
+                routeMemberOsm.add(osmmi, rk.getRef());
+                osmmi++;
+            }
+        }
+
+        totalNewRelationLabel.setText(Integer.toString(memberKeys.size()));
+        allMemberRadioButton.setSelected(true);
+        newMemberList.setModel(routeMemberAll);
+        newMatchIdList.setModel(routeMemberMatchAll);
+        if (memberKeys.size()>0){
+            newMemberList.setSelectedIndex(0);
+            newMatchIdList.setSelectedIndex(0);
+            updateRouteMessage();
+        }
+    }
+
+    public void updateOsmRouteTagList(Route r){
+        HashSet<String> keys = r.keySet();
+        Iterator it = keys.iterator();
+        osmTagKey.clear();
+        osmTagValue.clear();
+        while (it.hasNext()){
+            String k = (String)it.next();
+            String v = r.getTag(k);
+            if (v!=null && !v.equals("none") && !v.equals("")) {
+                osmTagKey.addElement(k);
+                osmTagValue.addElement(v);
+            }
+        }
+    }
+
+    public void updateOsmRouteMemberList(Route r){
+        HashSet<RelationMember> keys = r.getOsmMembers();
+        Iterator it = keys.iterator();
+        osmMemberValue.clear();
+        osmMatchId.clear();
+        totalOsmRelationLabel.setText(Integer.toString(keys.size()));
+        while (it.hasNext()){
+            RelationMember rm = (RelationMember)it.next();
+            osmMemberValue.addElement(rm.getRef());
+            String v = rm.getGtfsId();
+            if (v!=null && !v.equals("none") && !v.equals("")) {
+                osmMatchId.addElement(v);
+            } else {
+                osmMatchId.addElement(rm.getType());
+            }
+        }
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -404,11 +598,9 @@ public class ReportForm extends javax.swing.JFrame {
         gtfsDetailsKeyList = new javax.swing.JList(gtfsDetailsKey);
         jScrollPane6 = new javax.swing.JScrollPane();
         newDetailsKeyList = new javax.swing.JList(newDetailsKey);
-        modifyLeftButton = new javax.swing.JButton();
         gtfsStopIDLabel = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         gtfsIDList = new javax.swing.JList(gtfsIDs);
-        modifyRightButton = new javax.swing.JButton();
         osmStopIDLabel = new javax.swing.JLabel();
         newStopIDLabel = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -418,31 +610,30 @@ public class ReportForm extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         gtfsDetailsValueList = new javax.swing.JList(gtfsDetailsValue);
         allStopsRadioButton = new javax.swing.JRadioButton();
-        allStopsRadioButton.setEnabled(true);bGroup.add(allStopsRadioButton);
+        allStopsRadioButton.setEnabled(true);stopGroup.add(allStopsRadioButton);
         uploadConflictStopsRadioButton = new javax.swing.JRadioButton();
-        bGroup.add(uploadConflictStopsRadioButton);
+        stopGroup.add(uploadConflictStopsRadioButton);
         uploadNoConflictStopsRadioButton = new javax.swing.JRadioButton();
-        bGroup.add(uploadNoConflictStopsRadioButton);
+        stopGroup.add(uploadNoConflictStopsRadioButton);
         totalStopsLabel = new javax.swing.JLabel();
         totalStopsLabel.setText(agencyData.size()+" stops");
         modifyStopsRadioButton = new javax.swing.JRadioButton();
-        bGroup.add(modifyStopsRadioButton);
+        stopGroup.add(modifyStopsRadioButton);
         noUploadStopsRadioButton = new javax.swing.JRadioButton();
-        bGroup.add(noUploadStopsRadioButton);
+        stopGroup.add(noUploadStopsRadioButton);
         removeGtfsButton = new javax.swing.JButton();
-        removeUploadButton = new javax.swing.JButton();
-        removeOsmButton = new javax.swing.JButton();
+        doneModifyStopButton = new javax.swing.JButton();
+        matchStopButton = new javax.swing.JButton();
+        dumbOsmChangeTextButton = new javax.swing.JButton();
         routePanel = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
         gtfsTagKeyList = new javax.swing.JList(gtfsTagKey);
-        modifyLeftButton1 = new javax.swing.JButton();
-        totalRoutesLabel = new javax.swing.JLabel();
+        totalGtfsRoutesLabel = new javax.swing.JLabel();
         totalStopsLabel.setText(agencyData.size()+" stops");
         jScrollPane12 = new javax.swing.JScrollPane();
         newTagKeyList = new javax.swing.JList(newTagKey);
-        removeGtfsButton1 = new javax.swing.JButton();
         jScrollPane13 = new javax.swing.JScrollPane();
-        gtfsRouteList = new javax.swing.JList(gtfsRoutes);
+        gtfsRouteList = new javax.swing.JList(gtfsRouteAll);
         jScrollPane14 = new javax.swing.JScrollPane();
         newTagValueList = new javax.swing.JList(newTagValue);
         jScrollPane15 = new javax.swing.JScrollPane();
@@ -450,22 +641,53 @@ public class ReportForm extends javax.swing.JFrame {
         jScrollPane16 = new javax.swing.JScrollPane();
         osmMemberList = new javax.swing.JList(osmMemberValue);
         newRouteIDLabel = new javax.swing.JLabel();
-        removeUploadButton1 = new javax.swing.JButton();
         jScrollPane17 = new javax.swing.JScrollPane();
         osmTagValueList = new javax.swing.JList(osmTagValue);
-        modifyRightButton1 = new javax.swing.JButton();
         jScrollPane18 = new javax.swing.JScrollPane();
         osmTagKeyList = new javax.swing.JList(osmTagKey);
         gtfsRouteIDLabel = new javax.swing.JLabel();
         osmRouteIDLabel = new javax.swing.JLabel();
-        removeOsmButton1 = new javax.swing.JButton();
         jScrollPane20 = new javax.swing.JScrollPane();
         gtfsMemberList = new javax.swing.JList(gtfsMemberValue);
         jScrollPane21 = new javax.swing.JScrollPane();
-        newMemberList = new javax.swing.JList(newMemberValue);
+        newMemberList = new javax.swing.JList(routeMemberAll);
         jScrollPane22 = new javax.swing.JScrollPane();
-        osmRouteList = new javax.swing.JList(osmRoutes);
+        osmMatchIdList = new javax.swing.JList(osmMatchId);
+        jScrollPane23 = new javax.swing.JScrollPane();
+        gtfsMatchIdList = new javax.swing.JList(gtfsMatchId);
+        jScrollPane24 = new javax.swing.JScrollPane();
+        newMatchIdList = new javax.swing.JList(routeMemberMatchAll);
+        totalGtfsRelationLabel = new javax.swing.JLabel();
+        totalStopsLabel.setText(agencyData.size()+" stops");
+        totalNewRelationLabel = new javax.swing.JLabel();
+        totalStopsLabel.setText(agencyData.size()+" stops");
+        jScrollPane19 = new javax.swing.JScrollPane();
+        reportRouteMessage = new javax.swing.JTextArea();
+        totalOsmRelationLabel = new javax.swing.JLabel();
+        totalStopsLabel.setText(agencyData.size()+" stops");
+        allRoutesRadioButton = new javax.swing.JRadioButton();
+        allRoutesRadioButton.setEnabled(true);
+        routeGroup.add(allRoutesRadioButton);
+        newRoutesRadioButton = new javax.swing.JRadioButton();
+        routeGroup.add(newRoutesRadioButton);
+        modifyRoutesRadioButton = new javax.swing.JRadioButton();
+        routeGroup.add(modifyRoutesRadioButton);
+        noUploadRoutesRadioButton = new javax.swing.JRadioButton();
+        routeGroup.add(noUploadRoutesRadioButton);
+        allMemberRadioButton = new javax.swing.JRadioButton();
+        allMemberRadioButton.setEnabled(true);
+        memberGroup.add(allMemberRadioButton);
+        gtfsMemberRadioButton = new javax.swing.JRadioButton();
+        memberGroup.add(gtfsMemberRadioButton);
+        osmMemberRadioButton = new javax.swing.JRadioButton();
+        memberGroup.add(osmMemberRadioButton);
+        bothMemberRadioButton = new javax.swing.JRadioButton();
+        memberGroup.add(bothMemberRadioButton);
         uploadButton = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        exportGtfsMenuItem = new javax.swing.JMenuItem();
+        exportOsmMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Report");
@@ -495,12 +717,22 @@ public class ReportForm extends javax.swing.JFrame {
 
         reportMessage.setColumns(20);
         reportMessage.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        reportMessage.setRows(5);
+        reportMessage.setRows(4);
         jScrollPane3.setViewportView(reportMessage);
         reportMessage.getAccessibleContext().setAccessibleName("reportMessage");
 
         osmDetailsValueList.setBorder(new javax.swing.border.MatteBorder(null));
         osmDetailsValueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        osmDetailsValueList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                osmDetailsValueListMouseClicked(evt);
+            }
+        });
+        osmDetailsValueList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                osmDetailsValueListKeyReleased(evt);
+            }
+        });
         jScrollPane4.setViewportView(osmDetailsValueList);
         osmDetailsValueList.getAccessibleContext().setAccessibleName("osmDetailsValueList");
 
@@ -508,23 +740,34 @@ public class ReportForm extends javax.swing.JFrame {
         gtfsDetailsKeyList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         gtfsDetailsKeyList.setNextFocusableComponent(gtfsIDList);
         gtfsDetailsKeyList.setSelectedIndex(0);
+        gtfsDetailsKeyList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gtfsDetailsKeyListMouseClicked(evt);
+            }
+        });
+        gtfsDetailsKeyList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gtfsDetailsKeyListKeyReleased(evt);
+            }
+        });
         jScrollPane5.setViewportView(gtfsDetailsKeyList);
         gtfsDetailsKeyList.getAccessibleContext().setAccessibleName("gtfsDetailsKeyList");
 
         newDetailsKeyList.setBorder(new javax.swing.border.MatteBorder(null));
         newDetailsKeyList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         newDetailsKeyList.setSelectedIndex(0);
-        jScrollPane6.setViewportView(newDetailsKeyList);
-        newDetailsKeyList.getAccessibleContext().setAccessibleName("newDetailsKeyList");
-
-        modifyLeftButton.setText("Modify");
-        modifyLeftButton.setName("okButton"); // NOI18N
-        modifyLeftButton.setNextFocusableComponent(gtfsDetailsKeyList);
-        modifyLeftButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyLeftButtonActionPerformed(evt);
+        newDetailsKeyList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newDetailsKeyListMouseClicked(evt);
             }
         });
+        newDetailsKeyList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                newDetailsKeyListKeyReleased(evt);
+            }
+        });
+        jScrollPane6.setViewportView(newDetailsKeyList);
+        newDetailsKeyList.getAccessibleContext().setAccessibleName("newDetailsKeyList");
 
         gtfsStopIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24));
         gtfsStopIDLabel.setText("GTFS Stop");
@@ -548,20 +791,6 @@ public class ReportForm extends javax.swing.JFrame {
         jScrollPane7.setViewportView(gtfsIDList);
         gtfsIDList.getAccessibleContext().setAccessibleName("gtfsIDList");
 
-        modifyRightButton.setText("Modify");
-        modifyRightButton.setName("okButton"); // NOI18N
-        modifyRightButton.setNextFocusableComponent(modifyLeftButton);
-        modifyRightButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                modifyRightButtonMouseClicked(evt);
-            }
-        });
-        modifyRightButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyRightButtonActionPerformed(evt);
-            }
-        });
-
         osmStopIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24));
         osmStopIDLabel.setText("OSM Stop");
 
@@ -570,18 +799,47 @@ public class ReportForm extends javax.swing.JFrame {
 
         osmDetailsKeyList.setBorder(new javax.swing.border.MatteBorder(null));
         osmDetailsKeyList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        osmDetailsKeyList.setNextFocusableComponent(modifyRightButton);
         osmDetailsKeyList.setSelectedIndex(0);
+        osmDetailsKeyList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                osmDetailsKeyListMouseClicked(evt);
+            }
+        });
+        osmDetailsKeyList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                osmDetailsKeyListKeyReleased(evt);
+            }
+        });
         jScrollPane8.setViewportView(osmDetailsKeyList);
         osmDetailsKeyList.getAccessibleContext().setAccessibleName("osmDetailsKeyList");
 
         newDetailsValueList.setBorder(new javax.swing.border.MatteBorder(null));
         newDetailsValueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        newDetailsValueList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newDetailsValueListMouseClicked(evt);
+            }
+        });
+        newDetailsValueList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                newDetailsValueListKeyReleased(evt);
+            }
+        });
         jScrollPane9.setViewportView(newDetailsValueList);
         newDetailsValueList.getAccessibleContext().setAccessibleName("newDetailsValueList");
 
         gtfsDetailsValueList.setBorder(new javax.swing.border.MatteBorder(null));
         gtfsDetailsValueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        gtfsDetailsValueList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gtfsDetailsValueListMouseClicked(evt);
+            }
+        });
+        gtfsDetailsValueList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gtfsDetailsValueListKeyReleased(evt);
+            }
+        });
         jScrollPane10.setViewportView(gtfsDetailsValueList);
         gtfsDetailsValueList.getAccessibleContext().setAccessibleName("gtfsDetailsValueList");
 
@@ -628,15 +886,38 @@ public class ReportForm extends javax.swing.JFrame {
         });
 
         removeGtfsButton.setText("Remove");
-        removeGtfsButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                removeGtfsButtonMouseClicked(evt);
+        removeGtfsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeGtfsButtonActionPerformed(evt);
             }
         });
 
-        removeUploadButton.setText("Remove");
+        doneModifyStopButton.setText("Done Modify");
+        doneModifyStopButton.setName("uploadButton"); // NOI18N
+        doneModifyStopButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                doneModifyStopButtonMouseClicked(evt);
+            }
+        });
+        doneModifyStopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doneModifyStopButtonActionPerformed(evt);
+            }
+        });
 
-        removeOsmButton.setText("Remove");
+        matchStopButton.setText("Match");
+        matchStopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                matchStopButtonActionPerformed(evt);
+            }
+        });
+
+        dumbOsmChangeTextButton.setText("Dumb Upload");
+        dumbOsmChangeTextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dumbOsmChangeTextButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout stopPanelLayout = new javax.swing.GroupLayout(stopPanel);
         stopPanel.setLayout(stopPanelLayout);
@@ -650,66 +931,79 @@ public class ReportForm extends javax.swing.JFrame {
                             .addComponent(modifyStopsRadioButton)
                             .addComponent(uploadNoConflictStopsRadioButton)
                             .addComponent(uploadConflictStopsRadioButton)
-                            .addComponent(noUploadStopsRadioButton)
+                            .addComponent(allStopsRadioButton)
+                            .addComponent(noUploadStopsRadioButton))
+                        .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(stopPanelLayout.createSequentialGroup()
-                                .addComponent(allStopsRadioButton)
-                                .addGap(77, 77, 77)))
-                        .addGap(42, 42, 42)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(42, 42, 42)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(stopPanelLayout.createSequentialGroup()
+                                .addGap(382, 382, 382)
+                                .addComponent(doneModifyStopButton)
+                                .addGap(66, 66, 66)
+                                .addComponent(dumbOsmChangeTextButton))))
                     .addGroup(stopPanelLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(removeGtfsButton)))
-                .addContainerGap(261, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(stopPanelLayout.createSequentialGroup()
+                                .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(removeGtfsButton)
+                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(stopPanelLayout.createSequentialGroup()
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(2, 2, 2)
+                                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(83, 83, 83)
+                                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                                        .addGap(87, 87, 87)
+                                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stopPanelLayout.createSequentialGroup()
+                                        .addComponent(matchStopButton)
+                                        .addGap(18, 18, 18))))
+                            .addGroup(stopPanelLayout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(totalStopsLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1201, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
             .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(stopPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(stopPanelLayout.createSequentialGroup()
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(2, 2, 2)
-                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(2, 2, 2)
-                            .addComponent(modifyLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                .addComponent(removeUploadButton)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                .addComponent(removeOsmButton)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(stopPanelLayout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addComponent(totalStopsLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(stopPanelLayout.createSequentialGroup()
-                            .addGap(125, 125, 125)
-                            .addComponent(gtfsStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addGap(267, 267, 267)
-                            .addComponent(newStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addGap(289, 289, 289)
-                            .addComponent(osmStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addGap(116, 116, 116)))
-                    .addContainerGap()))
+                    .addGap(135, 135, 135)
+                    .addComponent(gtfsStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addGap(267, 267, 267)
+                    .addComponent(newStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addGap(289, 289, 289)
+                    .addComponent(osmStopIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addGap(116, 116, 116)))
         );
         stopPanelLayout.setVerticalGroup(
             stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stopPanelLayout.createSequentialGroup()
-                .addContainerGap(472, Short.MAX_VALUE)
-                .addComponent(removeGtfsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(totalStopsLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(matchStopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removeGtfsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(stopPanelLayout.createSequentialGroup()
                         .addComponent(allStopsRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -719,47 +1013,28 @@ public class ReportForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(modifyStopsRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(noUploadStopsRadioButton)))
-                .addGap(19, 19, 19))
+                        .addComponent(noUploadStopsRadioButton))
+                    .addGroup(stopPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(doneModifyStopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dumbOsmChangeTextButton))))
+                .addGap(31, 31, 31))
             .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(stopPanelLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(stopPanelLayout.createSequentialGroup()
-                            .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(osmStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(newStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(gtfsStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(56, 56, 56)
-                            .addComponent(totalStopsLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                                .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                                .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(removeUploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(removeOsmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stopPanelLayout.createSequentialGroup()
-                            .addComponent(modifyLeftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(232, 232, 232))
-                        .addGroup(stopPanelLayout.createSequentialGroup()
-                            .addGap(238, 238, 238)
-                            .addComponent(modifyRightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(166, Short.MAX_VALUE)))
+                    .addGroup(stopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(osmStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(newStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(gtfsStopIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(591, Short.MAX_VALUE)))
         );
 
-        modifyLeftButton.getAccessibleContext().setAccessibleName("modifyLeftButton");
         gtfsStopIDLabel.getAccessibleContext().setAccessibleName("gtfsStopIDLabel");
-        modifyRightButton.getAccessibleContext().setAccessibleName("modifyRightButton");
         osmStopIDLabel.getAccessibleContext().setAccessibleName("osmStopIDLabel");
         newStopIDLabel.getAccessibleContext().setAccessibleName("newStopIDLabel");
+        totalStopsLabel.getAccessibleContext().setAccessibleName("");
 
         jTabbedPane1.addTab("Stop", stopPanel);
 
@@ -767,30 +1042,34 @@ public class ReportForm extends javax.swing.JFrame {
         gtfsTagKeyList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         gtfsTagKeyList.setNextFocusableComponent(gtfsIDList);
         gtfsTagKeyList.setSelectedIndex(0);
-        jScrollPane11.setViewportView(gtfsTagKeyList);
-
-        modifyLeftButton1.setText("Modify");
-        modifyLeftButton1.setName("okButton"); // NOI18N
-        modifyLeftButton1.setNextFocusableComponent(gtfsDetailsKeyList);
-        modifyLeftButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyLeftButton1ActionPerformed(evt);
+        gtfsTagKeyList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gtfsTagKeyListMouseClicked(evt);
             }
         });
+        gtfsTagKeyList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gtfsTagKeyListKeyReleased(evt);
+            }
+        });
+        jScrollPane11.setViewportView(gtfsTagKeyList);
 
-        totalRoutesLabel.setText("hello");
+        totalGtfsRoutesLabel.setText("0");
 
         newTagKeyList.setBorder(new javax.swing.border.MatteBorder(null));
         newTagKeyList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         newTagKeyList.setSelectedIndex(0);
-        jScrollPane12.setViewportView(newTagKeyList);
-
-        removeGtfsButton1.setText("Remove");
-        removeGtfsButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        newTagKeyList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                removeGtfsButton1MouseClicked(evt);
+                newTagKeyListMouseClicked(evt);
             }
         });
+        newTagKeyList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                newTagKeyListKeyReleased(evt);
+            }
+        });
+        jScrollPane12.setViewportView(newTagKeyList);
 
         gtfsRouteList.setBorder(new javax.swing.border.MatteBorder(null));
         gtfsRouteList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -803,44 +1082,72 @@ public class ReportForm extends javax.swing.JFrame {
                 gtfsRouteListMouseClicked(evt);
             }
         });
+        gtfsRouteList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gtfsRouteListKeyReleased(evt);
+            }
+        });
         jScrollPane13.setViewportView(gtfsRouteList);
 
         newTagValueList.setBorder(new javax.swing.border.MatteBorder(null));
         newTagValueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        newTagValueList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newTagValueListMouseClicked(evt);
+            }
+        });
+        newTagValueList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                newTagValueListKeyReleased(evt);
+            }
+        });
         jScrollPane14.setViewportView(newTagValueList);
 
         gtfsTagValueList.setBorder(new javax.swing.border.MatteBorder(null));
         gtfsTagValueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        gtfsTagValueList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gtfsTagValueListMouseClicked(evt);
+            }
+        });
+        gtfsTagValueList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gtfsTagValueListKeyReleased(evt);
+            }
+        });
         jScrollPane15.setViewportView(gtfsTagValueList);
 
         osmMemberList.setBorder(new javax.swing.border.MatteBorder(null));
         osmMemberList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        osmMemberList.setNextFocusableComponent(modifyRightButton);
         osmMemberList.setSelectedIndex(0);
+        osmMemberList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                osmMemberListMouseClicked(evt);
+            }
+        });
+        osmMemberList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                osmMemberListKeyReleased(evt);
+            }
+        });
         jScrollPane16.setViewportView(osmMemberList);
 
-        newRouteIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        newRouteIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24));
         newRouteIDLabel.setText("New Route");
-
-        removeUploadButton1.setText("Remove");
 
         osmTagValueList.setBorder(new javax.swing.border.MatteBorder(null));
         osmTagValueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane17.setViewportView(osmTagValueList);
-
-        modifyRightButton1.setText("Modify");
-        modifyRightButton1.setName("okButton"); // NOI18N
-        modifyRightButton1.setNextFocusableComponent(modifyLeftButton);
-        modifyRightButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        osmTagValueList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                modifyRightButton1MouseClicked(evt);
+                osmTagValueListMouseClicked(evt);
             }
         });
-        modifyRightButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyRightButton1ActionPerformed(evt);
+        osmTagValueList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                osmTagValueListKeyReleased(evt);
             }
         });
+        jScrollPane17.setViewportView(osmTagValueList);
 
         osmTagKeyList.setBorder(new javax.swing.border.MatteBorder(null));
         osmTagKeyList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -858,157 +1165,338 @@ public class ReportForm extends javax.swing.JFrame {
         });
         jScrollPane18.setViewportView(osmTagKeyList);
 
-        gtfsRouteIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        gtfsRouteIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24));
         gtfsRouteIDLabel.setText("GTFS Route");
 
-        osmRouteIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        osmRouteIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24));
         osmRouteIDLabel.setText("OSM Route");
-
-        removeOsmButton1.setText("Remove");
 
         gtfsMemberList.setBorder(new javax.swing.border.MatteBorder(null));
         gtfsMemberList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        gtfsMemberList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gtfsMemberListMouseClicked(evt);
+            }
+        });
+        gtfsMemberList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gtfsMemberListKeyReleased(evt);
+            }
+        });
         jScrollPane20.setViewportView(gtfsMemberList);
 
         newMemberList.setBorder(new javax.swing.border.MatteBorder(null));
         newMemberList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        newMemberList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newMemberListMouseClicked(evt);
+            }
+        });
+        newMemberList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                newMemberListKeyReleased(evt);
+            }
+        });
         jScrollPane21.setViewportView(newMemberList);
 
-        osmRouteList.setBorder(new javax.swing.border.MatteBorder(null));
-        osmRouteList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        osmRouteList.setNextFocusableComponent(osmDetailsKeyList);
-        osmRouteList.setSelectedIndex(0);
-        osmRouteList.addMouseListener(new java.awt.event.MouseAdapter() {
+        osmMatchIdList.setBorder(new javax.swing.border.MatteBorder(null));
+        osmMatchIdList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        osmMatchIdList.setNextFocusableComponent(osmDetailsKeyList);
+        osmMatchIdList.setSelectedIndex(0);
+        osmMatchIdList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                osmRouteListMouseClicked(evt);
+                osmMatchIdListMouseClicked(evt);
             }
         });
-        osmRouteList.addKeyListener(new java.awt.event.KeyAdapter() {
+        osmMatchIdList.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                osmRouteListKeyReleased(evt);
+                osmMatchIdListKeyReleased(evt);
             }
         });
-        jScrollPane22.setViewportView(osmRouteList);
+        jScrollPane22.setViewportView(osmMatchIdList);
+
+        gtfsMatchIdList.setBorder(new javax.swing.border.MatteBorder(null));
+        gtfsMatchIdList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        gtfsMatchIdList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gtfsMatchIdListMouseClicked(evt);
+            }
+        });
+        gtfsMatchIdList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gtfsMatchIdListKeyReleased(evt);
+            }
+        });
+        jScrollPane23.setViewportView(gtfsMatchIdList);
+
+        newMatchIdList.setBorder(new javax.swing.border.MatteBorder(null));
+        newMatchIdList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        newMatchIdList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newMatchIdListMouseClicked(evt);
+            }
+        });
+        newMatchIdList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                newMatchIdListKeyReleased(evt);
+            }
+        });
+        jScrollPane24.setViewportView(newMatchIdList);
+
+        totalGtfsRelationLabel.setText("0");
+
+        totalNewRelationLabel.setText("0");
+
+        reportRouteMessage.setColumns(20);
+        reportRouteMessage.setEditable(false);
+        reportRouteMessage.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        reportRouteMessage.setRows(3);
+        jScrollPane19.setViewportView(reportRouteMessage);
+
+        totalOsmRelationLabel.setText("0");
+
+        allRoutesRadioButton.setText("All Routes");
+        allRoutesRadioButton.setName("routeCategory"); // NOI18N
+        allRoutesRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                allRoutesRadioButtonMouseClicked(evt);
+            }
+        });
+        allRoutesRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allRoutesRadioButtonActionPerformed(evt);
+            }
+        });
+
+        newRoutesRadioButton.setText("New Routes");
+        newRoutesRadioButton.setName("routeCategory"); // NOI18N
+        newRoutesRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newRoutesRadioButtonMouseClicked(evt);
+            }
+        });
+        newRoutesRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newRoutesRadioButtonActionPerformed(evt);
+            }
+        });
+
+        modifyRoutesRadioButton.setText("Modify Routes");
+        modifyRoutesRadioButton.setName("routeCategory"); // NOI18N
+        modifyRoutesRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modifyRoutesRadioButtonMouseClicked(evt);
+            }
+        });
+        modifyRoutesRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyRoutesRadioButtonActionPerformed(evt);
+            }
+        });
+
+        noUploadRoutesRadioButton.setText("No Upload Routes");
+        noUploadRoutesRadioButton.setName("routeCategory"); // NOI18N
+        noUploadRoutesRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                noUploadRoutesRadioButtonMouseClicked(evt);
+            }
+        });
+        noUploadRoutesRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noUploadRoutesRadioButtonActionPerformed(evt);
+            }
+        });
+
+        allMemberRadioButton.setText("All Members");
+        allMemberRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allMemberRadioButtonActionPerformed(evt);
+            }
+        });
+
+        gtfsMemberRadioButton.setText("Members from GTFS only");
+        gtfsMemberRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gtfsMemberRadioButtonActionPerformed(evt);
+            }
+        });
+
+        osmMemberRadioButton.setText("Members from OSM only");
+        osmMemberRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                osmMemberRadioButtonActionPerformed(evt);
+            }
+        });
+
+        bothMemberRadioButton.setText("Members from both dataset");
+        bothMemberRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bothMemberRadioButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout routePanelLayout = new javax.swing.GroupLayout(routePanel);
         routePanel.setLayout(routePanelLayout);
         routePanelLayout.setHorizontalGroup(
             routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(routePanelLayout.createSequentialGroup()
-                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(120, 120, 120)
+                .addComponent(gtfsRouteIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                .addGap(582, 582, 582))
+            .addGroup(routePanelLayout.createSequentialGroup()
+                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(routePanelLayout.createSequentialGroup()
-                        .addGap(195, 195, 195)
-                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane20, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(modifyLeftButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addComponent(totalGtfsRoutesLabel))
                     .addGroup(routePanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(removeGtfsButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(removeUploadButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(modifyRightButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(routePanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
-                        .addComponent(removeOsmButton1))
-                    .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
-            .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(routePanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(routePanelLayout.createSequentialGroup()
-                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(routePanelLayout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addComponent(totalRoutesLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1098, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(routePanelLayout.createSequentialGroup()
-                            .addGap(125, 125, 125)
-                            .addComponent(gtfsRouteIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                            .addGap(267, 267, 267)
-                            .addComponent(newRouteIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                            .addGap(289, 289, 289)
-                            .addComponent(osmRouteIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                            .addGap(116, 116, 116)))
-                    .addContainerGap()))
+                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(routePanelLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jScrollPane20, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, routePanelLayout.createSequentialGroup()
+                                .addGap(342, 342, 342)
+                                .addComponent(newRouteIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))))
+                    .addGroup(routePanelLayout.createSequentialGroup()
+                        .addGap(293, 293, 293)
+                        .addComponent(totalGtfsRelationLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(routePanelLayout.createSequentialGroup()
+                        .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(routePanelLayout.createSequentialGroup()
+                                .addGap(274, 274, 274)
+                                .addComponent(osmRouteIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
+                            .addGroup(routePanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(routePanelLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(totalNewRelationLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
+                        .addComponent(totalOsmRelationLabel)
+                        .addGap(85, 85, 85))))
+            .addGroup(routePanelLayout.createSequentialGroup()
+                .addGap(208, 208, 208)
+                .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(routePanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(allRoutesRadioButton)
+                    .addComponent(modifyRoutesRadioButton)
+                    .addComponent(noUploadRoutesRadioButton)
+                    .addComponent(newRoutesRadioButton))
+                .addGap(516, 516, 516)
+                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bothMemberRadioButton)
+                    .addComponent(osmMemberRadioButton)
+                    .addComponent(gtfsMemberRadioButton)
+                    .addComponent(allMemberRadioButton))
+                .addContainerGap(445, Short.MAX_VALUE))
         );
 
         routePanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane12, jScrollPane14, jScrollPane21});
 
         routePanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane16, jScrollPane17, jScrollPane18, jScrollPane22});
 
-        routePanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane11, jScrollPane13, jScrollPane15, jScrollPane20});
-
         routePanelLayout.setVerticalGroup(
             routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(routePanelLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(totalGtfsRoutesLabel)
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addGap(167, 167, 167))
+            .addGroup(routePanelLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addContainerGap(167, Short.MAX_VALUE))
+            .addGroup(routePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gtfsRouteIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newRouteIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(osmRouteIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(routePanelLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane21, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                            .addComponent(jScrollPane12)
-                            .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                            .addComponent(jScrollPane20)
-                            .addComponent(jScrollPane15)
-                            .addComponent(jScrollPane16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                            .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)))
+                        .addGap(12, 12, 12)
+                        .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(routePanelLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(totalNewRelationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(totalGtfsRelationLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(allMemberRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(gtfsMemberRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(osmMemberRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bothMemberRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(routePanelLayout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(totalOsmRelationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(33, 33, 33)))
+                        .addGap(7, 7, 7)
+                        .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(161, 161, 161))
                     .addGroup(routePanelLayout.createSequentialGroup()
-                        .addGap(241, 241, 241)
-                        .addComponent(modifyLeftButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(routePanelLayout.createSequentialGroup()
-                        .addGap(250, 250, 250)
-                        .addComponent(modifyRightButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(removeOsmButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(removeGtfsButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(removeUploadButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(171, Short.MAX_VALUE))
-            .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(routePanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(osmRouteIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(newRouteIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(gtfsRouteIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(56, 56, 56)
-                    .addComponent(totalRoutesLabel)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(routePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(routePanelLayout.createSequentialGroup()
-                            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
-                            .addGap(259, 259, 259))
-                        .addGroup(routePanelLayout.createSequentialGroup()
-                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap()))))
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                        .addGap(41, 41, 41)
+                        .addComponent(allRoutesRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(newRoutesRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(modifyRoutesRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(noUploadRoutesRadioButton)))
+                .addContainerGap())
         );
 
-        routePanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane12, jScrollPane14, jScrollPane21});
-
-        routePanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane11, jScrollPane13, jScrollPane15, jScrollPane20});
+        routePanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane11, jScrollPane12, jScrollPane13, jScrollPane14, jScrollPane15, jScrollPane16, jScrollPane17, jScrollPane18, jScrollPane20, jScrollPane21, jScrollPane23, jScrollPane24});
 
         jTabbedPane1.addTab("Route", routePanel);
 
@@ -1025,25 +1513,47 @@ public class ReportForm extends javax.swing.JFrame {
             }
         });
 
+        fileMenu.setText("File");
+
+        exportGtfsMenuItem.setText("Export StopsTo GTFS format");
+        exportGtfsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportGtfsMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exportGtfsMenuItem);
+
+        exportOsmMenuItem.setText("Export Stops with OSM data");
+        exportOsmMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportOsmMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exportOsmMenuItem);
+
+        jMenuBar1.add(fileMenu);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1274, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(619, Short.MAX_VALUE)
+                .addContainerGap(600, Short.MAX_VALUE)
                 .addComponent(uploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(590, 590, 590))
+                .addGap(596, 596, 596))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(uploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
 
         uploadButton.getAccessibleContext().setAccessibleName("uploadButton");
@@ -1052,18 +1562,6 @@ public class ReportForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_uploadButtonActionPerformed
-
-    private void modifyLeftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyLeftButtonActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_modifyLeftButtonActionPerformed
-
-    private void modifyRightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyRightButtonActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_modifyRightButtonActionPerformed
 
     private void gtfsIDListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsIDListKeyReleased
         // TODO add your handling code here:
@@ -1090,21 +1588,6 @@ public class ReportForm extends javax.swing.JFrame {
         gtfsStopActivated();
     }//GEN-LAST:event_formWindowOpened
 
-    private void modifyRightButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifyRightButtonMouseClicked
-        // TODO add your handling code here:
-        if (!osmDetailsKeyList.isSelectionEmpty()) {
-            int index = osmDetailsKeyList.getSelectedIndex();
-            String k = (String)osmDetailsKey.get(index);
-            String v = (String)osmDetailsValue.get(index);
-            if (newDetailsKey.contains(k)){
-                newDetailsValue.set(newDetailsKey.indexOf(k), v);
-            } else {
-                newDetailsKey.addElement(k);
-                newDetailsValue.addElement(v);
-            }
-        }
-    }//GEN-LAST:event_modifyRightButtonMouseClicked
-
     private void reviseReport(){
         HashSet<Stop> osmStopDeleted = new HashSet<Stop>();
         ArrayList<Stop> osmStopNotDeleted = new ArrayList<Stop>();
@@ -1128,6 +1611,7 @@ public class ReportForm extends javax.swing.JFrame {
 
                 //remove stop in the report
                 report.remove(ts);
+                finalStops.remove(ts);
             } else {
                 if(!report.get(ts).equals("none")){
                     osmStopNotDeleted.addAll((ArrayList<Stop>)report.get(ts));
@@ -1146,109 +1630,509 @@ public class ReportForm extends javax.swing.JFrame {
 
         //remove all osmStopDeleted stops from modify set
         modify.removeAll(osmStopDeleted);
+    }
 
-        //write data to file
-        new WriteFile(FILE_NAME_OUT_REPORT_REVISE, report);
-        new WriteFile(FILE_NAME_OUT_UPLOAD_REVISE, upload);
-        new WriteFile(FILE_NAME_OUT_MODIFY_REVISE, modify);
-        new WriteFile(FILE_NAME_OUT_DELETE_REVISE, delete);
+    public void newRouteActivated(){
+        Route r = null;
+        if((String)gtfsRouteList.getSelectedValue()!=null) r = (Route)finalRoutes.get((String)gtfsRouteList.getSelectedValue());
+        if(r!=null){
+            updateNewRouteTagList(r);
+            updateNewRouteMemberList(r);
+        }
+    }
+
+    public void osmRouteActivated(){
+        Route r = null;
+        if((String)gtfsRouteList.getSelectedValue()!=null) r = (Route)existingRoutes.get((String)gtfsRouteList.getSelectedValue());
+        if(r!=null) {
+            updateOsmRouteTagList(r);
+            updateOsmRouteMemberList(r);
+        }
+    }
+
+    public void clearAllRouteLists(){
+        gtfsTagKey.clear();
+        gtfsTagValue.clear();
+        gtfsMemberValue.clear();
+        gtfsMatchId.clear();
+        newTagKey.clear();
+        newTagValue.clear();
+        routeMemberAll.clear();
+        newMemberList.setModel(routeMemberAll);
+        newMatchIdList.setModel(routeMemberAll);
+        osmTagKey.clear();
+        osmTagValue.clear();
+        osmMemberValue.clear();
+        osmMatchId.clear();
+    }
+
+    public void gtfsRouteActivated(){
+        clearAllRouteLists();
+        Route r = null;
+        if((String)gtfsRouteList.getSelectedValue()!=null) r = (Route)agencyRoutes.get((String)gtfsRouteList.getSelectedValue());
+        if(r!=null){
+            updateGtfsRouteTagList(r);
+            updateGtfsRouteMemberList(r);
+            newRouteActivated();
+            osmRouteActivated();
+        }
     }
 
     private void uploadButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadButtonMouseClicked
         // TODO add your handling code here:
-        reviseReport();
-        osmRequest.checkVersion();
-        osmRequest.createChangeSet();
-        osmRequest.createChunks(upload, modify, delete, finalRoutes);
-        osmRequest.closeChangeSet();
     }//GEN-LAST:event_uploadButtonMouseClicked
 
     private void allStopsRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allStopsRadioButtonMouseClicked
         // TODO add your handling code here:
         gtfsIDs.clear();
         gtfsIDList.setModel(gtfsIDAll);
-        updateGtfsIdList("ALL");
+        updateGtfsIdList();
     }//GEN-LAST:event_allStopsRadioButtonMouseClicked
 
     private void noUploadStopsRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noUploadStopsRadioButtonMouseClicked
         // TODO add your handling code here:
         gtfsIDs.clear();
         gtfsIDList.setModel(gtfsIDNoUpload);
-        updateGtfsIdList("NOTHING_NEW");
+        updateGtfsIdList();
     }//GEN-LAST:event_noUploadStopsRadioButtonMouseClicked
 
     private void uploadConflictStopsRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadConflictStopsRadioButtonMouseClicked
         // TODO add your handling code here:
         gtfsIDs.clear();
         gtfsIDList.setModel(gtfsIDUploadConflict);
-        updateGtfsIdList("UPLOAD_CONFLICT");
+        updateGtfsIdList();
     }//GEN-LAST:event_uploadConflictStopsRadioButtonMouseClicked
 
     private void uploadNoConflictStopsRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadNoConflictStopsRadioButtonMouseClicked
         // TODO add your handling code here:
         gtfsIDs.clear();
         gtfsIDList.setModel(gtfsIDUploadNoConflict);
-        updateGtfsIdList("UPLOAD_NO_CONFLICT");
+        updateGtfsIdList();
     }//GEN-LAST:event_uploadNoConflictStopsRadioButtonMouseClicked
 
     private void modifyStopsRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifyStopsRadioButtonMouseClicked
         // TODO add your handling code here:
         gtfsIDs.clear();
         gtfsIDList.setModel(gtfsIDModify);
-        updateGtfsIdList("MODIFY");
+        updateGtfsIdList();
     }//GEN-LAST:event_modifyStopsRadioButtonMouseClicked
 
-    private void removeGtfsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGtfsButtonMouseClicked
-        // TODO add your handling code here:
-        String s = (String)gtfsIDList.getSelectedValue();
-        int index = gtfsIDList.getSelectedIndex();
-        gtfsIDAll.removeElement(s);
-        gtfsIDUploadConflict.removeElement(s);
-        gtfsIDModify.removeElement(s);
-        gtfsIDNoUpload.removeElement(s);
-        gtfsIDUploadNoConflict.removeElement(s);
-        gtfsIDList.setSelectedIndex(index);
-        gtfsStopActivated();
-    }//GEN-LAST:event_removeGtfsButtonMouseClicked
-
-    private void modifyLeftButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyLeftButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifyLeftButton1ActionPerformed
-
-    private void removeGtfsButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGtfsButton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_removeGtfsButton1MouseClicked
-
-    private void modifyRightButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifyRightButton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifyRightButton1MouseClicked
-
-    private void modifyRightButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyRightButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifyRightButton1ActionPerformed
+    private void updateRouteMessage(){
+        if((String)gtfsRouteList.getSelectedValue()!=null) {
+            Route r = (Route)finalRoutes.get((String)gtfsRouteList.getSelectedValue());
+            RelationMember rm = r.getOsmMember((String)newMemberList.getSelectedValue());
+            //rm.setStatus is invoked in CompareData and RouteParser
+            if(rm.getStatus()!=null) {
+                reportRouteMessage.setText("This relation member exists in "+rm.getStatus());
+            }
+            else if(rm.getType()!=null) reportRouteMessage.setText("This relation member is a "+rm.getType()+" in OSM");
+        }
+    }
 
     private void osmTagKeyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osmTagKeyListMouseClicked
         // TODO add your handling code here:
+        osmTagValueList.setSelectedIndex(osmTagKeyList.getSelectedIndex());
+        osmTagValueList.ensureIndexIsVisible(osmTagKeyList.getSelectedIndex());
 }//GEN-LAST:event_osmTagKeyListMouseClicked
 
-    private void osmTagKeyListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmTagKeyListKeyReleased
+    private void osmMatchIdListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osmMatchIdListMouseClicked
         // TODO add your handling code here:
-}//GEN-LAST:event_osmTagKeyListKeyReleased
-
-    private void osmRouteListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osmRouteListMouseClicked
-        // TODO add your handling code here:
-}//GEN-LAST:event_osmRouteListMouseClicked
-
-    private void osmRouteListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmRouteListKeyReleased
-        // TODO add your handling code here:
-}//GEN-LAST:event_osmRouteListKeyReleased
+        osmMemberList.setSelectedIndex(osmMatchIdList.getSelectedIndex());
+        osmMemberList.ensureIndexIsVisible(osmMatchIdList.getSelectedIndex());
+}//GEN-LAST:event_osmMatchIdListMouseClicked
 
     private void gtfsRouteListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gtfsRouteListMouseClicked
         // TODO add your handling code here:
-        Route r = (Route)finalRoutes.get((String)gtfsRouteList.getSelectedValue());
-        System.out.println("here "+r.getRouteRef());
-        updateGtfsRouteTagList(r);
+        gtfsRouteActivated();
     }//GEN-LAST:event_gtfsRouteListMouseClicked
+
+    private void gtfsRouteListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsRouteListKeyReleased
+        // TODO add your handling code here:
+        gtfsRouteActivated();
+    }//GEN-LAST:event_gtfsRouteListKeyReleased
+
+    private void gtfsMemberListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gtfsMemberListMouseClicked
+        // TODO add your handling code here:
+        gtfsMatchIdList.setSelectedIndex(gtfsMemberList.getSelectedIndex());
+        gtfsMatchIdList.ensureIndexIsVisible(gtfsMemberList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsMemberListMouseClicked
+
+    private void gtfsMatchIdListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gtfsMatchIdListMouseClicked
+        // TODO add your handling code here:
+        gtfsMemberList.setSelectedIndex(gtfsMatchIdList.getSelectedIndex());
+        gtfsMemberList.ensureIndexIsVisible(gtfsMatchIdList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsMatchIdListMouseClicked
+
+    private void gtfsTagValueListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gtfsTagValueListMouseClicked
+        // TODO add your handling code here:
+        gtfsTagKeyList.setSelectedIndex(gtfsTagValueList.getSelectedIndex());
+        gtfsTagKeyList.ensureIndexIsVisible(gtfsTagValueList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsTagValueListMouseClicked
+
+    private void gtfsTagKeyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gtfsTagKeyListMouseClicked
+        // TODO add your handling code here:
+        gtfsTagValueList.setSelectedIndex(gtfsTagKeyList.getSelectedIndex());
+        gtfsTagValueList.ensureIndexIsVisible(gtfsTagKeyList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsTagKeyListMouseClicked
+
+    private void gtfsDetailsValueListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gtfsDetailsValueListMouseClicked
+        // TODO add your handling code here:
+        gtfsDetailsKeyList.setSelectedIndex(gtfsDetailsValueList.getSelectedIndex());
+        gtfsDetailsKeyList.ensureIndexIsVisible(gtfsDetailsValueList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsDetailsValueListMouseClicked
+
+    private void gtfsDetailsKeyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gtfsDetailsKeyListMouseClicked
+        // TODO add your handling code here:
+        gtfsDetailsValueList.setSelectedIndex(gtfsDetailsKeyList.getSelectedIndex());
+        gtfsDetailsValueList.ensureIndexIsVisible(gtfsDetailsKeyList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsDetailsKeyListMouseClicked
+
+    private void newDetailsValueListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newDetailsValueListMouseClicked
+        // TODO add your handling code here:
+        newDetailsKeyList.setSelectedIndex(newDetailsValueList.getSelectedIndex());
+        newDetailsKeyList.ensureIndexIsVisible(newDetailsValueList.getSelectedIndex());
+    }//GEN-LAST:event_newDetailsValueListMouseClicked
+
+    private void newDetailsKeyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newDetailsKeyListMouseClicked
+        // TODO add your handling code here:
+        newDetailsValueList.setSelectedIndex(newDetailsKeyList.getSelectedIndex());
+        newDetailsValueList.ensureIndexIsVisible(newDetailsKeyList.getSelectedIndex());
+    }//GEN-LAST:event_newDetailsKeyListMouseClicked
+
+    private void osmDetailsValueListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osmDetailsValueListMouseClicked
+        // TODO add your handling code here:
+        osmDetailsKeyList.setSelectedIndex(osmDetailsValueList.getSelectedIndex());
+        osmDetailsKeyList.ensureIndexIsVisible(osmDetailsValueList.getSelectedIndex());
+    }//GEN-LAST:event_osmDetailsValueListMouseClicked
+
+    private void osmDetailsKeyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osmDetailsKeyListMouseClicked
+        // TODO add your handling code here:
+        osmDetailsValueList.setSelectedIndex(osmDetailsKeyList.getSelectedIndex());
+        osmDetailsValueList.ensureIndexIsVisible(osmDetailsKeyList.getSelectedIndex());
+    }//GEN-LAST:event_osmDetailsKeyListMouseClicked
+
+    private void newTagKeyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newTagKeyListMouseClicked
+        // TODO add your handling code here:
+        newTagValueList.setSelectedIndex(newTagKeyList.getSelectedIndex());
+        newTagValueList.ensureIndexIsVisible(newTagKeyList.getSelectedIndex());
+    }//GEN-LAST:event_newTagKeyListMouseClicked
+
+    private void newTagValueListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newTagValueListMouseClicked
+        // TODO add your handling code here:
+        newTagKeyList.setSelectedIndex(newTagValueList.getSelectedIndex());
+        newTagKeyList.ensureIndexIsVisible(newTagValueList.getSelectedIndex());
+    }//GEN-LAST:event_newTagValueListMouseClicked
+
+    private void newMemberListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newMemberListMouseClicked
+        // TODO add your handling code here:
+        newMatchIdList.setSelectedIndex(newMemberList.getSelectedIndex());
+        newMatchIdList.ensureIndexIsVisible(newMemberList.getSelectedIndex());
+        updateRouteMessage();
+    }//GEN-LAST:event_newMemberListMouseClicked
+
+    private void newMatchIdListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newMatchIdListMouseClicked
+        // TODO add your handling code here:
+        newMemberList.setSelectedIndex(newMatchIdList.getSelectedIndex());
+        newMemberList.ensureIndexIsVisible(newMatchIdList.getSelectedIndex());
+        updateRouteMessage();
+    }//GEN-LAST:event_newMatchIdListMouseClicked
+
+    private void osmMemberListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osmMemberListMouseClicked
+        // TODO add your handling code here:
+        osmMatchIdList.setSelectedIndex(osmMemberList.getSelectedIndex());
+        osmMatchIdList.ensureIndexIsVisible(osmMemberList.getSelectedIndex());
+    }//GEN-LAST:event_osmMemberListMouseClicked
+
+    private void osmTagValueListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_osmTagValueListMouseClicked
+        // TODO add your handling code here:
+        osmTagKeyList.setSelectedIndex(osmTagValueList.getSelectedIndex());
+        osmTagKeyList.ensureIndexIsVisible(osmTagValueList.getSelectedIndex());
+    }//GEN-LAST:event_osmTagValueListMouseClicked
+
+    private void gtfsDetailsKeyListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsDetailsKeyListKeyReleased
+        // TODO add your handling code here:
+        gtfsDetailsValueList.setSelectedIndex(gtfsDetailsKeyList.getSelectedIndex());
+        gtfsDetailsValueList.ensureIndexIsVisible(gtfsDetailsKeyList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsDetailsKeyListKeyReleased
+
+    private void gtfsDetailsValueListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsDetailsValueListKeyReleased
+        // TODO add your handling code here:
+        gtfsDetailsKeyList.setSelectedIndex(gtfsDetailsValueList.getSelectedIndex());
+        gtfsDetailsKeyList.ensureIndexIsVisible(gtfsDetailsValueList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsDetailsValueListKeyReleased
+
+    private void newDetailsKeyListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newDetailsKeyListKeyReleased
+        // TODO add your handling code here:
+        newDetailsValueList.setSelectedIndex(newDetailsKeyList.getSelectedIndex());
+        newDetailsValueList.ensureIndexIsVisible(newDetailsKeyList.getSelectedIndex());
+    }//GEN-LAST:event_newDetailsKeyListKeyReleased
+
+    private void newDetailsValueListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newDetailsValueListKeyReleased
+        // TODO add your handling code here:
+        newDetailsKeyList.setSelectedIndex(newDetailsValueList.getSelectedIndex());
+        newDetailsKeyList.ensureIndexIsVisible(newDetailsValueList.getSelectedIndex());
+    }//GEN-LAST:event_newDetailsValueListKeyReleased
+
+    private void osmDetailsKeyListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmDetailsKeyListKeyReleased
+        // TODO add your handling code here:
+        osmDetailsValueList.setSelectedIndex(osmDetailsKeyList.getSelectedIndex());
+        osmDetailsValueList.ensureIndexIsVisible(osmDetailsKeyList.getSelectedIndex());
+    }//GEN-LAST:event_osmDetailsKeyListKeyReleased
+
+    private void osmDetailsValueListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmDetailsValueListKeyReleased
+        // TODO add your handling code here:
+        osmDetailsKeyList.setSelectedIndex(osmDetailsValueList.getSelectedIndex());
+        osmDetailsKeyList.ensureIndexIsVisible(osmDetailsValueList.getSelectedIndex());
+    }//GEN-LAST:event_osmDetailsValueListKeyReleased
+
+    private void gtfsTagKeyListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsTagKeyListKeyReleased
+        // TODO add your handling code here:
+        gtfsTagValueList.setSelectedIndex(gtfsTagKeyList.getSelectedIndex());
+        gtfsTagValueList.ensureIndexIsVisible(gtfsTagKeyList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsTagKeyListKeyReleased
+
+    private void gtfsTagValueListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsTagValueListKeyReleased
+        // TODO add your handling code here:
+        gtfsTagKeyList.setSelectedIndex(gtfsTagValueList.getSelectedIndex());
+        gtfsTagKeyList.ensureIndexIsVisible(gtfsTagValueList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsTagValueListKeyReleased
+
+    private void gtfsMemberListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsMemberListKeyReleased
+        // TODO add your handling code here:
+        gtfsMatchIdList.setSelectedIndex(gtfsMemberList.getSelectedIndex());
+        gtfsMatchIdList.ensureIndexIsVisible(gtfsMemberList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsMemberListKeyReleased
+
+    private void gtfsMatchIdListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gtfsMatchIdListKeyReleased
+        // TODO add your handling code here:
+        gtfsMemberList.setSelectedIndex(gtfsMatchIdList.getSelectedIndex());
+        gtfsMemberList.ensureIndexIsVisible(gtfsMatchIdList.getSelectedIndex());
+    }//GEN-LAST:event_gtfsMatchIdListKeyReleased
+
+    private void newTagKeyListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newTagKeyListKeyReleased
+        // TODO add your handling code here:
+        newTagValueList.setSelectedIndex(newTagKeyList.getSelectedIndex());
+        newTagValueList.ensureIndexIsVisible(newTagKeyList.getSelectedIndex());
+    }//GEN-LAST:event_newTagKeyListKeyReleased
+
+    private void newTagValueListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newTagValueListKeyReleased
+        // TODO add your handling code here:
+        newTagKeyList.setSelectedIndex(newTagValueList.getSelectedIndex());
+        newTagKeyList.ensureIndexIsVisible(newTagValueList.getSelectedIndex());
+    }//GEN-LAST:event_newTagValueListKeyReleased
+
+    private void newMemberListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newMemberListKeyReleased
+        // TODO add your handling code here:
+        newMatchIdList.setSelectedIndex(newMemberList.getSelectedIndex());
+        newMatchIdList.ensureIndexIsVisible(newMemberList.getSelectedIndex());
+        updateRouteMessage();
+    }//GEN-LAST:event_newMemberListKeyReleased
+
+    private void newMatchIdListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_newMatchIdListKeyReleased
+        // TODO add your handling code here:
+        newMemberList.setSelectedIndex(newMatchIdList.getSelectedIndex());
+        newMemberList.ensureIndexIsVisible(newMatchIdList.getSelectedIndex());
+        updateRouteMessage();
+    }//GEN-LAST:event_newMatchIdListKeyReleased
+
+    private void osmMatchIdListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmMatchIdListKeyReleased
+        // TODO add your handling code here:
+        osmMemberList.setSelectedIndex(osmMatchIdList.getSelectedIndex());
+        osmMemberList.ensureIndexIsVisible(osmMatchIdList.getSelectedIndex());
+    }//GEN-LAST:event_osmMatchIdListKeyReleased
+
+    private void osmMemberListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmMemberListKeyReleased
+        // TODO add your handling code here:
+        osmMatchIdList.setSelectedIndex(osmMemberList.getSelectedIndex());
+        osmMatchIdList.ensureIndexIsVisible(osmMemberList.getSelectedIndex());
+    }//GEN-LAST:event_osmMemberListKeyReleased
+
+    private void osmTagValueListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmTagValueListKeyReleased
+        // TODO add your handling code here:
+        osmTagKeyList.setSelectedIndex(osmTagValueList.getSelectedIndex());
+        osmTagKeyList.ensureIndexIsVisible(osmTagValueList.getSelectedIndex());
+    }//GEN-LAST:event_osmTagValueListKeyReleased
+
+    private void osmTagKeyListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_osmTagKeyListKeyReleased
+        // TODO add your handling code here:
+        osmTagValueList.setSelectedIndex(osmTagKeyList.getSelectedIndex());
+        osmTagValueList.ensureIndexIsVisible(osmTagKeyList.getSelectedIndex());
+    }//GEN-LAST:event_osmTagKeyListKeyReleased
+
+    private void exportGtfsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportGtfsMenuItemActionPerformed
+        // TODO add your handling code here:
+        WriteFile.exportStops("GTFSformat.txt", report, true, taskOutput);
+    }//GEN-LAST:event_exportGtfsMenuItemActionPerformed
+
+    private void exportOsmMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportOsmMenuItemActionPerformed
+        // TODO add your handling code here:
+        WriteFile.exportStops("OSMformat.txt", report, false, taskOutput);
+    }//GEN-LAST:event_exportOsmMenuItemActionPerformed
+
+    private void allRoutesRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allRoutesRadioButtonMouseClicked
+        // TODO add your handling code here:
+}//GEN-LAST:event_allRoutesRadioButtonMouseClicked
+
+    private void newRoutesRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newRoutesRadioButtonMouseClicked
+        // TODO add your handling code here:
+}//GEN-LAST:event_newRoutesRadioButtonMouseClicked
+
+    private void modifyRoutesRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifyRoutesRadioButtonMouseClicked
+        // TODO add your handling code here:
+}//GEN-LAST:event_modifyRoutesRadioButtonMouseClicked
+
+    private void noUploadRoutesRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noUploadRoutesRadioButtonMouseClicked
+        // TODO add your handling code here:
+}//GEN-LAST:event_noUploadRoutesRadioButtonMouseClicked
+
+    private void newRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRoutesRadioButtonActionPerformed
+        // TODO add your handling code here:
+        gtfsRouteIDs.clear();
+        gtfsRouteList.setModel(gtfsRouteNew);
+        updateGtfsRouteIdList();
+}//GEN-LAST:event_newRoutesRadioButtonActionPerformed
+
+    private void modifyRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyRoutesRadioButtonActionPerformed
+        // TODO add your handling code here:
+        gtfsRouteIDs.clear();
+        gtfsRouteList.setModel(gtfsRouteModify);
+        updateGtfsRouteIdList();
+}//GEN-LAST:event_modifyRoutesRadioButtonActionPerformed
+
+    private void allRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allRoutesRadioButtonActionPerformed
+        // TODO add your handling code here:
+        gtfsRouteIDs.clear();
+        gtfsRouteList.setModel(gtfsRouteAll);
+        updateGtfsRouteIdList();
+    }//GEN-LAST:event_allRoutesRadioButtonActionPerformed
+
+    private void noUploadRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noUploadRoutesRadioButtonActionPerformed
+        // TODO add your handling code here:
+        gtfsRouteIDs.clear();
+        gtfsRouteList.setModel(gtfsRouteNoUpload);
+        updateGtfsRouteIdList();
+}//GEN-LAST:event_noUploadRoutesRadioButtonActionPerformed
+
+    private void gtfsMemberRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsMemberRadioButtonActionPerformed
+        // TODO add your handling code here:
+        newMemberList.setModel(routeMemberGtfs);
+        newMatchIdList.setModel(routeMemberMatchGtfs);
+        totalNewRelationLabel.setText(Integer.toString(routeMemberGtfs.size()));
+}//GEN-LAST:event_gtfsMemberRadioButtonActionPerformed
+
+    private void allMemberRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allMemberRadioButtonActionPerformed
+        // TODO add your handling code here:
+        newMemberList.setModel(routeMemberAll);
+        newMatchIdList.setModel(routeMemberMatchAll);
+        totalNewRelationLabel.setText(Integer.toString(routeMemberAll.size()));
+}//GEN-LAST:event_allMemberRadioButtonActionPerformed
+
+    private void osmMemberRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_osmMemberRadioButtonActionPerformed
+        // TODO add your handling code here:
+        newMemberList.setModel(routeMemberOsm);
+        newMatchIdList.setModel(routeMemberMatchOsm);
+        totalNewRelationLabel.setText(Integer.toString(routeMemberOsm.size()));
+    }//GEN-LAST:event_osmMemberRadioButtonActionPerformed
+
+    private void bothMemberRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bothMemberRadioButtonActionPerformed
+        // TODO add your handling code here:
+        newMemberList.setModel(routeMemberBoth);
+        newMatchIdList.setModel(routeMemberMatchBoth);
+        totalNewRelationLabel.setText(Integer.toString(routeMemberBoth.size()));
+    }//GEN-LAST:event_bothMemberRadioButtonActionPerformed
+
+    private void doneModifyStopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doneModifyStopButtonMouseClicked
+        // TODO add your handling code here:
+}//GEN-LAST:event_doneModifyStopButtonMouseClicked
+
+    private void doneModifyStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneModifyStopButtonActionPerformed
+        // TODO add your handling code here:
+        //remove deleted stops from report
+        doneModifyStopButton.setEnabled(false);
+        reviseReport();
+        //write data to file
+        new WriteFile(FILE_NAME_OUT_REPORT_REVISE, report);
+        new WriteFile(FILE_NAME_OUT_UPLOAD_REVISE, upload);
+        new WriteFile(FILE_NAME_OUT_MODIFY_REVISE, modify);
+        new WriteFile(FILE_NAME_OUT_DELETE_REVISE, delete);
+    }//GEN-LAST:event_doneModifyStopButtonActionPerformed
+
+    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
+        // TODO add your handling code here:
+        uploadButton.setEnabled(false);
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setValue(0);
+        taskUpload = new UploadData(progressBar, osmRequest, upload, modify, delete, finalRoutes);
+        taskUpload.addPropertyChangeListener(this);
+        taskUpload.execute();
+    }//GEN-LAST:event_uploadButtonActionPerformed
+
+    private void matchStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matchStopButtonActionPerformed
+        // TODO add your handling code here:
+        String gtfsSt = (String)gtfsIDList.getSelectedValue();
+        if(gtfsSt!=null){
+            int index = gtfsIDList.getSelectedIndex();
+            Stop st = (Stop)finalStops.get(gtfsSt);
+            String category = st.getReportCategory();
+            if(category!=null && category.equals("UPLOAD_CONFLICT")){
+                if (!report.get(st).equals("none")){
+                    ArrayList<Stop> arrOsm = (ArrayList<Stop>)report.get(st);
+                    for(int i=0; i<arrOsm.size(); i++){
+                        String gtfsStopOsmId = arrOsm.get(i).getOsmId();
+                        String osmStopOsmId = (String)osmIDList.getSelectedValue();
+                        if(gtfsStopOsmId!=null && osmStopOsmId!=null && gtfsStopOsmId.equals(osmStopOsmId)){
+                            report.remove(st);
+                            finalStops.remove(st);
+                            upload.remove(st);
+                            ArrayList<Stop> newArr = new ArrayList<Stop>();
+                            newArr.add(arrOsm.get(i));
+
+                            Stop newSt = new Stop(st);
+                            newSt.removeTag("FIXME");
+                            newSt.setOsmId(osmStopOsmId);
+                            newSt.setOsmVersion(arrOsm.get(i).getOsmVersion());
+                            newSt.setReportCategory("MODIFY");
+                            newSt.setReportText("User matched stop");
+                            newSt.setStatus("modify");
+                            newSt.addTags(arrOsm.get(i).getTags());
+
+                            report.put(newSt, newArr);
+                            finalStops.put(newSt.getStopID(), newSt);
+                            modify.add(newSt);
+                            break;
+                        }
+                    }
+                }
+
+                gtfsIDUploadConflict.removeElement(gtfsSt);
+                gtfsIDModify.addElement(gtfsSt);
+                gtfsIDList.setSelectedIndex(index);
+                gtfsStopActivated();
+            }
+        }
+        matchStopButton.setEnabled(false);
+    }//GEN-LAST:event_matchStopButtonActionPerformed
+
+    private void removeGtfsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeGtfsButtonActionPerformed
+        // TODO add your handling code here:
+        String s = (String)gtfsIDList.getSelectedValue();
+        if(s!=null){
+            int index = gtfsIDList.getSelectedIndex();
+            gtfsIDAll.removeElement(s);
+            gtfsIDUploadConflict.removeElement(s);
+            gtfsIDModify.removeElement(s);
+            gtfsIDNoUpload.removeElement(s);
+            gtfsIDUploadNoConflict.removeElement(s);
+            gtfsIDList.setSelectedIndex(index);
+            gtfsStopActivated();
+        }
+    }//GEN-LAST:event_removeGtfsButtonActionPerformed
+
+    private void dumbOsmChangeTextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dumbOsmChangeTextButtonActionPerformed
+        // TODO add your handling code here:
+        String osmChangeText = osmRequest.getRequestContents("DUMB", upload, modify, delete, finalRoutes);
+        new WriteFile("DUMB_OSM_CHANGE.txt", osmChangeText);
+}//GEN-LAST:event_dumbOsmChangeTextButtonActionPerformed
 
     /**
     * @param args the command line arguments
@@ -1264,16 +2148,27 @@ public class ReportForm extends javax.swing.JFrame {
     }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton allMemberRadioButton;
+    private javax.swing.JRadioButton allRoutesRadioButton;
     private javax.swing.JRadioButton allStopsRadioButton;
+    private javax.swing.JRadioButton bothMemberRadioButton;
+    private javax.swing.JButton doneModifyStopButton;
+    private javax.swing.JButton dumbOsmChangeTextButton;
+    private javax.swing.JMenuItem exportGtfsMenuItem;
+    private javax.swing.JMenuItem exportOsmMenuItem;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JList gtfsDetailsKeyList;
     private javax.swing.JList gtfsDetailsValueList;
     private javax.swing.JList gtfsIDList;
+    private javax.swing.JList gtfsMatchIdList;
     private javax.swing.JList gtfsMemberList;
+    private javax.swing.JRadioButton gtfsMemberRadioButton;
     private javax.swing.JLabel gtfsRouteIDLabel;
     private javax.swing.JList gtfsRouteList;
     private javax.swing.JLabel gtfsStopIDLabel;
     private javax.swing.JList gtfsTagKeyList;
     private javax.swing.JList gtfsTagValueList;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
@@ -1283,10 +2178,13 @@ public class ReportForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane16;
     private javax.swing.JScrollPane jScrollPane17;
     private javax.swing.JScrollPane jScrollPane18;
+    private javax.swing.JScrollPane jScrollPane19;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane20;
     private javax.swing.JScrollPane jScrollPane21;
     private javax.swing.JScrollPane jScrollPane22;
+    private javax.swing.JScrollPane jScrollPane23;
+    private javax.swing.JScrollPane jScrollPane24;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -1295,38 +2193,39 @@ public class ReportForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JButton modifyLeftButton;
-    private javax.swing.JButton modifyLeftButton1;
-    private javax.swing.JButton modifyRightButton;
-    private javax.swing.JButton modifyRightButton1;
+    private javax.swing.JButton matchStopButton;
+    private javax.swing.JRadioButton modifyRoutesRadioButton;
     private javax.swing.JRadioButton modifyStopsRadioButton;
     private javax.swing.JList newDetailsKeyList;
     private javax.swing.JList newDetailsValueList;
+    private javax.swing.JList newMatchIdList;
     private javax.swing.JList newMemberList;
     private javax.swing.JLabel newRouteIDLabel;
+    private javax.swing.JRadioButton newRoutesRadioButton;
     private javax.swing.JLabel newStopIDLabel;
     private javax.swing.JList newTagKeyList;
     private javax.swing.JList newTagValueList;
+    private javax.swing.JRadioButton noUploadRoutesRadioButton;
     private javax.swing.JRadioButton noUploadStopsRadioButton;
     private javax.swing.JList osmDetailsKeyList;
     private javax.swing.JList osmDetailsValueList;
     private javax.swing.JList osmIDList;
+    private javax.swing.JList osmMatchIdList;
     private javax.swing.JList osmMemberList;
+    private javax.swing.JRadioButton osmMemberRadioButton;
     private javax.swing.JLabel osmRouteIDLabel;
-    private javax.swing.JList osmRouteList;
     private javax.swing.JLabel osmStopIDLabel;
     private javax.swing.JList osmTagKeyList;
     private javax.swing.JList osmTagValueList;
     private javax.swing.JButton removeGtfsButton;
-    private javax.swing.JButton removeGtfsButton1;
-    private javax.swing.JButton removeOsmButton;
-    private javax.swing.JButton removeOsmButton1;
-    private javax.swing.JButton removeUploadButton;
-    private javax.swing.JButton removeUploadButton1;
     private javax.swing.JTextArea reportMessage;
+    private javax.swing.JTextArea reportRouteMessage;
     private javax.swing.JPanel routePanel;
     private javax.swing.JPanel stopPanel;
-    private javax.swing.JLabel totalRoutesLabel;
+    private javax.swing.JLabel totalGtfsRelationLabel;
+    private javax.swing.JLabel totalGtfsRoutesLabel;
+    private javax.swing.JLabel totalNewRelationLabel;
+    private javax.swing.JLabel totalOsmRelationLabel;
     private javax.swing.JLabel totalStopsLabel;
     private javax.swing.JButton uploadButton;
     private javax.swing.JRadioButton uploadConflictStopsRadioButton;

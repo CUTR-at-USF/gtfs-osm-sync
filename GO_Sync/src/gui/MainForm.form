@@ -25,30 +25,34 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="passwordLabel" min="-2" pref="104" max="-2" attributes="0"/>
-                  <Component id="usernameLabel" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                  <Component id="sessionCommentLabel" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="sessionCommentField" alignment="0" min="-2" pref="212" max="-2" attributes="1"/>
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="passwordField" max="32767" attributes="1"/>
-                      <Component id="usernameField" alignment="0" min="-2" pref="225" max="-2" attributes="1"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="usernameLabel" alignment="0" pref="120" max="32767" attributes="1"/>
+                          <Component id="passwordLabel" alignment="0" max="32767" attributes="1"/>
+                          <Component id="sessionCommentLabel" alignment="0" min="-2" pref="134" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="sessionCommentField" alignment="0" min="-2" pref="232" max="-2" attributes="1"/>
+                          <Component id="passwordField" alignment="0" min="-2" pref="182" max="-2" attributes="1"/>
+                          <Component id="usernameField" min="-2" pref="225" max="-2" attributes="1"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" pref="653" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jTabbedPane1" alignment="0" min="-2" pref="663" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="267" max="-2" attributes="0"/>
+                      <Component id="exitButton" min="-2" pref="94" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="167" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jTabbedPane1" alignment="0" pref="558" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
-              <Component id="exitButton" min="-2" pref="94" max="-2" attributes="0"/>
-              <EmptySpace pref="246" max="32767" attributes="0"/>
-          </Group>
-          <Component id="jScrollPane1" alignment="0" pref="558" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -56,13 +60,13 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="usernameField" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
                   <Component id="usernameLabel" alignment="3" min="-2" max="-2" attributes="1"/>
+                  <Component id="usernameField" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="passwordField" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="passwordLabel" alignment="3" pref="28" max="32767" attributes="1"/>
+                  <Component id="passwordField" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -73,9 +77,9 @@
               <Component id="jTabbedPane1" min="-2" pref="271" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="108" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="exitButton" min="-2" pref="44" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -101,7 +105,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Session Comment"/>
+        <Property name="text" type="java.lang.String" value="Session Comment (*)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="usernameLabel">
@@ -109,7 +113,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="OSM Username"/>
+        <Property name="text" type="java.lang.String" value="OSM Username (*)"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="usernameLabel"/>
@@ -120,7 +124,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="OSM Password"/>
+        <Property name="text" type="java.lang.String" value="OSM Password (*)"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="passwordLabel"/>
@@ -159,24 +163,53 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="OperatorAbbLabel" min="-2" pref="135" max="-2" attributes="0"/>
-                          <Component id="operatorNameLabel" min="-2" pref="111" max="-2" attributes="0"/>
                           <Component id="usernameLabel2" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                          <Component id="usernameLabel3" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="fileNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="operatorNameLabel1" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="operatorNameLabel" alignment="0" min="-2" pref="126" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="gtfsIdDigitField" alignment="0" min="-2" pref="53" max="-2" attributes="1"/>
-                          <Component id="operatorNTDIDField" alignment="0" pref="212" max="32767" attributes="1"/>
-                          <Component id="operatorNameAbbField" alignment="0" pref="212" max="32767" attributes="1"/>
-                          <Component id="operatorNameField" alignment="0" min="-2" pref="212" max="-2" attributes="1"/>
+                          <Component id="operatorAliasField" alignment="0" min="-2" pref="212" max="-2" attributes="1"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="fileDirTextField" min="-2" pref="345" max="-2" attributes="1"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="browseButton" min="-2" max="-2" attributes="1"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="operatorNameField" min="-2" pref="212" max="-2" attributes="1"/>
+                                              <EmptySpace pref="31" max="32767" attributes="0"/>
+                                              <Component id="OperatorAbbLabel" min="-2" pref="110" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="operatorNTDIDField" min="-2" pref="85" max="-2" attributes="1"/>
+                                              <EmptySpace pref="180" max="32767" attributes="0"/>
+                                              <Component id="usernameLabel3" min="-2" pref="88" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="operatorNameAbbField" min="-2" pref="67" max="-2" attributes="1"/>
+                                              <EmptySpace pref="6" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Component id="gtfsIdDigitField" pref="73" max="32767" attributes="1"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="177" max="32767" attributes="0"/>
+                      <EmptySpace pref="11" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="216" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="262" max="-2" attributes="0"/>
                       <Component id="compareButton" min="-2" pref="94" max="-2" attributes="0"/>
-                      <EmptySpace pref="243" max="32767" attributes="0"/>
+                      <EmptySpace pref="302" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -185,27 +218,32 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="operatorNameField" linkSize="1" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
                           <Component id="operatorNameLabel" alignment="3" min="-2" max="-2" attributes="1"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="operatorNameAbbField" linkSize="1" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
+                          <Component id="operatorNameField" linkSize="1" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
+                          <Component id="operatorNameAbbField" linkSize="1" alignment="3" min="-2" max="-2" attributes="1"/>
                           <Component id="OperatorAbbLabel" alignment="3" pref="41" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="operatorNameLabel1" alignment="3" min="-2" max="-2" attributes="1"/>
+                          <Component id="operatorAliasField" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace pref="8" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="operatorNTDIDField" linkSize="1" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
                           <Component id="usernameLabel2" alignment="3" min="-2" max="-2" attributes="1"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="gtfsIdDigitField" linkSize="1" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
                           <Component id="usernameLabel3" alignment="3" min="-2" max="-2" attributes="1"/>
+                          <Component id="gtfsIdDigitField" linkSize="1" alignment="3" min="-2" pref="28" max="-2" attributes="1"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="fileNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="fileDirTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="browseButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="compareButton" min="-2" pref="44" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -216,7 +254,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Operator Name"/>
+                <Property name="text" type="java.lang.String" value="Operator Name (*)"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="OperatorAbbLabel">
@@ -224,7 +262,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Operator Abbreviate"/>
+                <Property name="text" type="java.lang.String" value="Abbreviate (*)"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="operatorNameAbbField">
@@ -234,6 +272,9 @@
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="operatorNameAbbField"/>
               </AccessibilityProperties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="operatorNameAbbFieldActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="compareButton">
               <Properties>
@@ -284,6 +325,40 @@
                 <Property name="name" type="java.lang.String" value="usernameField" noResource="true"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="fileNameLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="File name (*)"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="browseButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Browse"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="fileDirTextField">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileDirTextFieldActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="operatorNameLabel1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Operator Alias"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="operatorAliasField">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="usernameField" noResource="true"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -314,7 +389,7 @@
                               <Component id="revertButton" min="-2" pref="94" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="165" max="32767" attributes="0"/>
+                      <EmptySpace pref="270" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

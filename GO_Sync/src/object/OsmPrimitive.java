@@ -77,6 +77,10 @@ public class OsmPrimitive {
         return null;
     }
 
+    public Hashtable getTags(){
+        return osmTags;
+    }
+
     public HashSet<String> keySet(){
         HashSet<String> keys = new HashSet<String>(osmTags.size());
         keys.addAll(osmTags.keySet());
@@ -118,6 +122,13 @@ public class OsmPrimitive {
         return osmid;
     }
 
+    /*
+     * For stop:
+     *      1) MODIFY
+     *      2) NOTHING_NEW
+     *      3) UPLOAD_CONFLICT
+     *      4) UPLOAD_NO_CONFLICT
+     * */
     public void setReportCategory(String v){
         reportCategory = v;
     }

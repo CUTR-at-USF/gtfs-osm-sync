@@ -18,52 +18,54 @@ Copyright 2010 University of South Florida
 package task;
 
 import java.awt.Toolkit;
-import javax.swing.JTextArea;
-import osm.*;
-import javax.swing.ProgressMonitor;
-
+import java.util.HashSet;
+import java.util.Hashtable;
+import javax.swing.JProgressBar;
+import object.Stop;
+import osm.HttpRequest;
 /**
  *
  * @author Khoa Tran
  */
-public class RevertChangeset extends OsmTask{
+public class UploadData extends OsmTask{
+    private JProgressBar progressBar;
     private HttpRequest osmRequest;
+    private HashSet<Stop> upload, modify, delete;
+    private Hashtable finalRoutes;
 
-    private String revertChangesetId="";
+    public UploadData(JProgressBar pb, HttpRequest or, HashSet<Stop> u, HashSet<Stop> m, HashSet<Stop> d, Hashtable fRoutes){        
+        upload = new HashSet<Stop>();
+        upload.addAll(u);
 
-    private ProgressMonitor progressMonitor;
+        modify = new HashSet<Stop>();
+        modify.addAll(u);
 
-    private JTextArea taskOutput;
-    
-    public RevertChangeset(String rcId, ProgressMonitor pm, JTextArea to){
-        progressMonitor = pm;
-        revertChangesetId = rcId;
-        taskOutput = to;
-        osmRequest = new HttpRequest(taskOutput);
+        delete = new HashSet<Stop>();
+        delete.addAll(u);
+
+        finalRoutes = new Hashtable();
+        finalRoutes.putAll(fRoutes);
+
+        osmRequest = or;
+        progressBar = pb;
     }
 
     @Override
     public Void doInBackground() {
         setProgress(0);
-        
-        updateProgress(2);
-        this.setMessage("Checking API Version...");
-        System.out.println("Initializing...");
+        updateProgress(1);
+        this.setMessage("Checking version ... ");
         osmRequest.checkVersion();
 
-        updateProgress(50);
-        this.setMessage("Downloading changeset "+revertChangesetId+"...\nThis might take several minutes");
-        osmRequest.downloadChangeSet(revertChangesetId);
-
-        updateProgress(3);
-        this.setMessage("Creating new changeset...");
+        updateProgress(8);
+        this.setMessage("Creating changeset ... ");
         osmRequest.createChangeSet();
 
-        updateProgress(40);
-        this.setMessage("Uploading osmchange...");
-        osmRequest.createChunks(osmRequest.getRevertUpload(), osmRequest.getRevertModify(), osmRequest.getRevertDelete(), null);
+        updateProgress(70);
+        this.setMessage("Creating and uploading chunks ... \nThis might take several minutes ...");
+        osmRequest.createChunks(upload, modify, delete, finalRoutes);
 
-        updateProgress(2);
+        updateProgress(10);
         this.setMessage("Closing changeset...");
         osmRequest.closeChangeSet();
 
@@ -73,10 +75,9 @@ public class RevertChangeset extends OsmTask{
         System.out.println("Done...!!");
         return null;
     }
-
+    
     @Override
     public void done() {
         Toolkit.getDefaultToolkit().beep();
-        progressMonitor.setProgress(0);
     }
 }

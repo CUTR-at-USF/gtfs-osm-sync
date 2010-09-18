@@ -93,6 +93,7 @@ public class OsmPrinter {
                 text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
             }
         }
+        //add tag
         HashSet<String> keys = new HashSet<String>(s.keySet().size());
         keys.addAll(s.keySet());
         Iterator it = keys.iterator();
@@ -114,7 +115,7 @@ public class OsmPrinter {
             text += "<relation changeset='" + changeSetID + "' id='" + routeID
                     + "' version='"+route.getOsmVersion() + "'>\n";
         }
-        // mainly for create new node
+        // mainly for create new relation
         else {
             text += "<relation changeset='" + changeSetID + "' id='" + routeID
                     + "' version='"+ routeID +"'>\n";
@@ -130,12 +131,6 @@ public class OsmPrinter {
             else text += "<member type='"+rm.getType()+"' ref='"+rm.getRef()+"' role='' />\n";
         }
         //add tag
-        route.addTag("name", OsmFormatter.getValidXmlText(OperatorInfo.getAbbreviateName())+
-                                " route "+OsmFormatter.getValidXmlText(route.getRouteRef()));
-        route.addTag("operator",OsmFormatter.getValidXmlText( OperatorInfo.getFullName()));
-        route.addTag("ref", route.getRouteRef());
-        route.addTag("route", "bus");
-        route.addTag("type", "route");
         HashSet<String> keys = new HashSet<String>(route.keySet().size());
         keys.addAll(route.keySet());
         it = keys.iterator();

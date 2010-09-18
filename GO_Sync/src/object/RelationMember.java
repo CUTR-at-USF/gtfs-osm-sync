@@ -22,7 +22,7 @@ package object;
  * @author Khoa Tran
  */
 public class RelationMember {
-    private String ref, type, role, status;
+    private String ref, type, role, status, gtfsId="";
     public RelationMember(String ref, String type, String role){
         this.ref = ref;
         this.type = type;
@@ -33,6 +33,8 @@ public class RelationMember {
         this.ref = rm.getRef();
         this.type = rm.getType();
         this.role = rm.getRole();
+        this.gtfsId = rm.getGtfsId();
+        this.status = rm.getStatus();
     }
 
     public String getRef(){
@@ -47,6 +49,14 @@ public class RelationMember {
         return role;
     }
 
+    public void setGtfsId(String v){
+        gtfsId = v;
+    }
+
+    public String getGtfsId(){
+        return gtfsId;
+    }
+
     public int compareTo(Object o){
         RelationMember rm = (RelationMember) o;
         if(this.ref.equals(rm.getRef()) && this.type.equals(rm.getType())){
@@ -55,7 +65,12 @@ public class RelationMember {
         return 1;
     }
 
-    // used for reports
+    /* used for reports
+     * 3 types of status:   1) "both GTFS dataset and OSM server"
+     *                      2) "GTFS dataset"
+     *                      3) "OSM server"
+     * */
+
     public void setStatus(String v){
         status = v;
     }

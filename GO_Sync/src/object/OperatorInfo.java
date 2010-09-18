@@ -27,17 +27,34 @@ public class OperatorInfo {
 
     private static List<String> possibleOperatorName = new ArrayList<String>();
     
-    private static String ntdID, fullName, abbreviate;
+    private static String ntdID, fullName, abbreviate, fileDir, aliasName, gtfsFields;
 
     private static int gtfs_id_digit;
 
-    public OperatorInfo(String fName, String abbr, String id, int digit){
+    public OperatorInfo(String fName, String abbr, String aName, String id, int digit, String fDir){
         fullName = fName;
         abbreviate = abbr;
+        aliasName = aName;
         addName(fullName);
         addName(abbreviate);
+        if(aliasName!=null && !aliasName.equals("")){
+            String[] temp;
+            temp = aliasName.split(";");
+            for(int i=0; i<temp.length; i++){
+                addName(temp[i]);
+            }
+        }
         ntdID = id;
         gtfs_id_digit = digit;
+        fileDir = fDir;
+    }
+
+    public static void setGtfsFields(String gf){
+        gtfsFields = gf;
+    }
+
+    public static String getGtfsFields(){
+        return gtfsFields;
     }
 
     public static String getNTDID(){
@@ -56,9 +73,15 @@ public class OperatorInfo {
         return gtfs_id_digit;
     }
 
+    public static String getFileDirectory(){
+        return fileDir;
+    }
+
     public static void addName(String name){
         // generate possible name for operator fields e.g. HART / Hillsborough Area Regional Transit
-        possibleOperatorName.add(name.toUpperCase());
+        if(name!=null && !name.equals("")) {
+            possibleOperatorName.add(name.toUpperCase());
+        }
     }
 
     public static boolean isTheSameOperator(String osmOperator) {

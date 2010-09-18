@@ -21,6 +21,8 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JTextArea;
+import object.OperatorInfo;
 import object.Stop;
 
 /**
@@ -96,6 +98,98 @@ public class WriteFile {
             }
             output.close();
             System.out.println("Your file: "+fname+" has been written");
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    }
+
+    public static void orderingStop(ArrayList<Stop> reportKeys){
+        //ordering by hashcode
+        for (int i=0; i<reportKeys.size()-1; i++) {
+            int k=i;
+            for (int j=i+1; j<reportKeys.size(); j++) {
+                if (reportKeys.get(k).getStopID().hashCode() > reportKeys.get(j).getStopID().hashCode()) {
+                    k = j;
+                }
+            }
+            Stop temp = new Stop(reportKeys.get(i));
+            reportKeys.set(i, reportKeys.get(k));
+            reportKeys.set(k, temp);
+        }
+    }
+
+    public static void exportStops(String fname, Hashtable r, boolean isGtfsFormat, JTextArea taskOutput){
+        Hashtable report = new Hashtable();
+        report.putAll(r);
+
+        ArrayList<Stop> reportKeys = new ArrayList<Stop>();
+        //convert to arrayList for ordering
+        reportKeys.addAll(report.keySet());
+        orderingStop(reportKeys);
+        
+        Writer output = null;
+        File file = new File(fname);
+        try {
+            output = new BufferedWriter(new FileWriter(file));
+            //print key (first line)
+            output.write(OperatorInfo.getGtfsFields());
+            if(!isGtfsFormat) output.write(",OSM_TAGs");
+            output.write("\n");
+
+            // print content
+            for(int i=0; i<reportKeys.size(); i++){
+                Stop st = new Stop(reportKeys.get(i));
+                String[] keys = OperatorInfo.getGtfsFields().split(",");
+                for(int j=0; j<keys.length; j++){
+                    String content="";
+                    if(keys[j].equals("stop_id")) content = st.getStopID();
+                    else if(keys[j].equals("stop_name")) content = st.getStopName();
+                    else if(keys[j].equals("stop_lat")) content = st.getLat();
+                    else if(keys[j].equals("stop_lon")) content = st.getLon();
+                    // gtfs stop_url is mapped to source_ref tag in OSM
+                    else if(keys[j].equals("stop_url")){
+                        content = st.getTag("source_ref");
+                        st.removeTag("source_ref");
+                    }
+                    else {
+                        content = st.getTag("gtfs_"+keys[j]);
+                        st.removeTag("gtfs_"+keys[j]);
+                    }
+                    
+                    if(content!=null && !content.equals("none") && !content.equals("")){
+                        output.write(content);
+                    }
+                    //if not the last key
+                    if(j<keys.length-1){
+                        output.write(",");
+                    } 
+                    //if last key
+                    else {
+                        if(!isGtfsFormat){
+                            st.removeTag("operator");
+                            st.removeTag("name");
+                            st.removeTag("source");
+                            st.removeTag("highway");
+                            st.removeTag("gtfs_id");
+
+                            output.write(",");
+                            ArrayList<String> tagKeys = new ArrayList<String>();
+                            tagKeys.addAll(st.keySet());
+                            for(int t=0; t<tagKeys.size(); t++){
+                                String k = tagKeys.get(t);
+                                if(k!=null && !k.equals("none") && !k.equals("")) {
+                                    if(t!=0) output.write("|"+k+"="+st.getTag(k));
+                                    else output.write(k+"="+st.getTag(k));
+                                }
+                            }
+                        }
+                        output.write("\n");
+                    }
+                }
+            }
+            output.close();
+            System.out.println("Your file: "+fname+" has been written");
+            taskOutput.append("Your file: "+fname+" has been written"+"\n");
         } catch (IOException ioe) {
             System.out.println(ioe);
         }

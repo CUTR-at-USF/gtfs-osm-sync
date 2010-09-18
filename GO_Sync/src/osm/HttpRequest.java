@@ -27,7 +27,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import object.Stop;
-import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -42,12 +41,11 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.util.Iterator;
+import javax.swing.JTextArea;
 import object.RelationMember;
 import object.Route;
 import object.Session;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 import sun.misc.BASE64Encoder;
 import tools.parser.BusStopParser;
 import tools.parser.ChangesetDownloadParser;
@@ -59,6 +57,7 @@ import tools.parser.RouteParser;
  * @author Khoa Tran
  */
 public class HttpRequest {
+    private static final int SLEEP_TIME = 500;
     private static final String API_VERSION ="0.6";
     private static final String SERVER_URL = "http://api.openstreetmap.org/api/0.6/";
     
@@ -79,6 +78,12 @@ public class HttpRequest {
     private String cSetID="";
 
     public static final String FILE_NAME_OUT_UPLOAD = "OSM_CHANGE_XML.txt";
+    
+    private JTextArea taskOutput;
+
+    public HttpRequest(JTextArea to){
+        taskOutput = to;
+    }
 
     public void checkVersion() {
         String url = SERVER_URL + "capabilities/";
@@ -104,7 +109,7 @@ public class HttpRequest {
 
     public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) {
         String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
-        String url = "http://xapi.openstreetmap.org" + urlSuffix;
+        String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
             String s = sendRequest(url, "GET", "");
@@ -138,7 +143,7 @@ public class HttpRequest {
 
     public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) {
         String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String url = "http://xapi.openstreetmap.org" + urlSuffix;
+        String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
             String s = sendRequest(url, "GET", "");
@@ -284,7 +289,8 @@ public class HttpRequest {
         return text;
     }
 
-    private String getRequestContents(String changeSetID, HashSet<Stop> addStop, HashSet<Stop> modifyStop, HashSet<Stop> deleteStop, Hashtable r) {
+    public String getRequestContents(String changeSetID, HashSet<Stop> addStop, HashSet<Stop> modifyStop, HashSet<Stop> deleteStop, Hashtable r) {
+        oprinter = new OsmPrinter();
         Hashtable routes = new Hashtable();
         if (r!=null) routes.putAll(r);
         ArrayList<String> routeKeys = new ArrayList<String>();
@@ -369,6 +375,7 @@ public class HttpRequest {
             }
             else {
                 System.out.println("Changeset ID is not obtained yet!");
+                taskOutput.append("Changeset ID is not obtained yet!"+"\n");
             }
         }
     }
@@ -385,6 +392,7 @@ public class HttpRequest {
             }
             else {
                 System.out.println("Changeset ID is not obtained yet!");
+                taskOutput.append("Changeset ID is not obtained yet!"+"\n");
             }
         }
     }
@@ -410,11 +418,12 @@ public class HttpRequest {
                 String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);
                 
-//                responseMessage = sendRequest(url, "POST", osmChangeText);
+                responseMessage = sendRequest(url, "POST", osmChangeText);
                 System.out.println("Message: "+responseMessage);
             }
             else {
                 System.out.println("Changeset ID is not obtained yet!");
+                taskOutput.append("Changeset ID is not obtained yet!"+"\n");
             }
         }
     }
@@ -427,6 +436,12 @@ public class HttpRequest {
         while (true) {
             try {
                 System.out.println("Connecting "+url+" using method "+method+" "+retry);
+                try {
+                    Thread.sleep(SLEEP_TIME);
+                    taskOutput.append("Connecting "+url+" using method "+method+" "+retry+"\n");
+                } catch (InterruptedException e) {
+                }
+                
                 serverAddress = new URL(url);
                 
                 // set the initial connection
@@ -458,6 +473,7 @@ public class HttpRequest {
 
                 if (responseCode >= 500) {
                     System.out.println("response code >=500");
+                    taskOutput.append("response code >=500"+"\n");
                     retry++;
                     continue;
                 }
@@ -487,18 +503,22 @@ public class HttpRequest {
                     String errMess = conn.getHeaderField("Error");
                     if (errMess != null) {
                         System.err.println("Error: " + errMess);
+                        taskOutput.append("Error: "+ errMess +"\n");
                     } else if (responseText.length()>0) {
                         System.err.println("Error: " + responseText);
+                        taskOutput.append("Error: "+ errMess +"\n");
                     }
                     break;
                 }
                 
             } catch (ConnectException e) {
                 System.out.println(e.toString());
+                taskOutput.append(e.toString()+"\n");
                 retry ++;
                 continue;
             } catch (SocketTimeoutException e) {
                 System.out.println(e.toString());
+                taskOutput.append(e.toString()+"\n");
                 retry ++;
                 continue;
             } catch (MalformedURLException e) {

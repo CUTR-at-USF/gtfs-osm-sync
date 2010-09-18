@@ -56,7 +56,7 @@ public class RouteParser extends DefaultHandler {
         if (tempMembers!=null && qname.equals("member")) {
             AttributesImpl attImpl = new AttributesImpl(attributes);
             RelationMember rm = new RelationMember(attImpl.getValue("ref"),attImpl.getValue("type"),attImpl.getValue("role"));
-            rm.setStatus("osm");
+            rm.setStatus("OSM server");
             tempMembers.add(rm);
         }
     }

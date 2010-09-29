@@ -15,14 +15,14 @@ Copyright 2010 University of South Florida
 
 **/
 
-package task;
+package edu.usf.cutr.go_sync.task;
 
 import java.awt.Toolkit;
 import java.util.HashSet;
 import java.util.Hashtable;
 import javax.swing.JProgressBar;
-import object.Stop;
-import osm.HttpRequest;
+import edu.usf.cutr.go_sync.object.Stop;
+import edu.usf.cutr.go_sync.osm.HttpRequest;
 /**
  *
  * @author Khoa Tran

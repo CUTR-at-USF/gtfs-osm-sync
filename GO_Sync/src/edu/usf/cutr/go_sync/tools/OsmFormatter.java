@@ -15,10 +15,10 @@ Copyright 2010 University of South Florida
 
 **/
 
-package tools;
+package edu.usf.cutr.go_sync.tools;
 
 import java.util.HashMap;
-import object.OperatorInfo;
+import edu.usf.cutr.go_sync.object.OperatorInfo;
 
 /**
  *

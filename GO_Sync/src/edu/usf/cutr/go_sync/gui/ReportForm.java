@@ -21,9 +21,9 @@ Copyright 2010 University of South Florida
  * Created on Jul 20, 2010, 8:18:58 PM
  */
 
-package gui;
+package edu.usf.cutr.go_sync.gui;
 
-import io.WriteFile;
+import edu.usf.cutr.go_sync.io.WriteFile;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -35,12 +35,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.ButtonGroup;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
-import javax.swing.ProgressMonitor;
-import object.RelationMember;
-import object.Route;
-import object.Stop;
-import osm.HttpRequest;
-import task.UploadData;
+import edu.usf.cutr.go_sync.object.RelationMember;
+import edu.usf.cutr.go_sync.object.Route;
+import edu.usf.cutr.go_sync.object.Stop;
+import edu.usf.cutr.go_sync.osm.HttpRequest;
+import edu.usf.cutr.go_sync.task.UploadData;
 
 /**
  *

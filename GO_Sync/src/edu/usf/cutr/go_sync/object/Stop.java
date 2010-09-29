@@ -15,12 +15,12 @@ Copyright 2010 University of South Florida
 
 **/
 
-package object;
+package edu.usf.cutr.go_sync.object;
 
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import tools.OsmDistance;
+import edu.usf.cutr.go_sync.tools.OsmDistance;
 
 /**
  *

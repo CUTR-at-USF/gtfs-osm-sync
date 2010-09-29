@@ -21,7 +21,7 @@ Copyright 2010 University of South Florida
  * Created on Jul 20, 2010, 9:15:56 PM
  */
 
-package gui;
+package edu.usf.cutr.go_sync.gui;
 
 import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
@@ -31,11 +31,11 @@ import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import object.OperatorInfo;
-import object.Session;
-import task.CompareData;
-import task.OsmTask;
-import task.RevertChangeset;
+import edu.usf.cutr.go_sync.object.OperatorInfo;
+import edu.usf.cutr.go_sync.object.Session;
+import edu.usf.cutr.go_sync.task.CompareData;
+import edu.usf.cutr.go_sync.task.OsmTask;
+import edu.usf.cutr.go_sync.task.RevertChangeset;
 
 /**
  *
@@ -110,16 +110,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         sessionCommentField.setName("usernameField"); // NOI18N
 
-        sessionCommentLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        sessionCommentLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         sessionCommentLabel.setText("Session Comment (*)");
 
-        usernameLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        usernameLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         usernameLabel.setText("OSM Username (*)");
 
-        passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         passwordLabel.setText("OSM Password (*)");
 
-        exitButton.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        exitButton.setFont(new java.awt.Font("Times New Roman", 1, 18));
         exitButton.setText("Exit");
         exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -127,10 +127,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
-        operatorNameLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        operatorNameLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         operatorNameLabel.setText("Operator Name (*)");
 
-        OperatorAbbLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        OperatorAbbLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         OperatorAbbLabel.setText("Abbreviate (*)");
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
@@ -140,7 +140,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
-        compareButton.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        compareButton.setFont(new java.awt.Font("Times New Roman", 1, 18));
         compareButton.setText("Run");
         compareButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -160,12 +160,12 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
 
-        usernameLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        usernameLabel3.setFont(new java.awt.Font("Tahoma", 0, 14));
         usernameLabel3.setText("GTFS ID digit");
 
         gtfsIdDigitField.setName("usernameField"); // NOI18N
 
-        fileNameLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        fileNameLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         fileNameLabel.setText("File name (*)");
 
         browseButton.setText("Browse");

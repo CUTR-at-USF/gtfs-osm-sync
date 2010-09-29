@@ -15,7 +15,7 @@ Copyright 2010 University of South Florida
 
 **/
 
-package task;
+package edu.usf.cutr.go_sync.task;
 
 import javax.swing.SwingWorker;
 

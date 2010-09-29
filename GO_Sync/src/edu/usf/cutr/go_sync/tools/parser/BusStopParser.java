@@ -15,7 +15,7 @@ Copyright 2010 University of South Florida
 
 **/
 
-package tools.parser;
+package edu.usf.cutr.go_sync.tools.parser;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

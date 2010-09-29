@@ -15,11 +15,11 @@ Copyright 2010 University of South Florida
 
 **/
 
-package task;
+package edu.usf.cutr.go_sync.task;
 
 import java.awt.Toolkit;
 import javax.swing.JTextArea;
-import osm.*;
+import edu.usf.cutr.go_sync.osm.*;
 import javax.swing.ProgressMonitor;
 
 /**

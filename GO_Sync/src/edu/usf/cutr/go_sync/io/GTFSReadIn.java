@@ -14,7 +14,7 @@ Copyright 2010 University of South Florida
    limitations under the License.
 
 **/
-package io;
+package edu.usf.cutr.go_sync.io;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,10 +25,10 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import object.OperatorInfo;
-import object.Route;
-import object.Stop;
-import tools.OsmFormatter;
+import edu.usf.cutr.go_sync.object.OperatorInfo;
+import edu.usf.cutr.go_sync.object.Route;
+import edu.usf.cutr.go_sync.object.Stop;
+import edu.usf.cutr.go_sync.tools.OsmFormatter;
 
 public class GTFSReadIn {
     private List<Stop> stops;

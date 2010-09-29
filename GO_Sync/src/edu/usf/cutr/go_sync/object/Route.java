@@ -15,7 +15,7 @@ Copyright 2010 University of South Florida
 
 **/
 
-package object;
+package edu.usf.cutr.go_sync.object;
 
 import java.util.HashSet;
 import java.util.Hashtable;

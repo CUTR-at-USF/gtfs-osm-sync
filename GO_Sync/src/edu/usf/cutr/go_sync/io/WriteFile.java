@@ -14,7 +14,8 @@ Copyright 2010 University of South Florida
    limitations under the License.
 
 **/
-package io;
+package edu.usf.cutr.go_sync.io;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,8 +23,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JTextArea;
-import object.OperatorInfo;
-import object.Stop;
+import edu.usf.cutr.go_sync.object.OperatorInfo;
+import edu.usf.cutr.go_sync.object.Stop;
 
 /**
  *

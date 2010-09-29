@@ -14,10 +14,10 @@ Copyright 2010 University of South Florida
    limitations under the License.
 
 **/
-package osm;
+package edu.usf.cutr.go_sync.osm;
 
-import io.OsmPrinter;
-import io.WriteFile;
+import edu.usf.cutr.go_sync.io.OsmPrinter;
+import edu.usf.cutr.go_sync.io.WriteFile;
 import java.util.ArrayList;
 
 import java.util.HashSet;
@@ -26,7 +26,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import object.Stop;
+import edu.usf.cutr.go_sync.object.Stop;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -42,15 +42,15 @@ import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import javax.swing.JTextArea;
-import object.RelationMember;
-import object.Route;
-import object.Session;
+import edu.usf.cutr.go_sync.object.RelationMember;
+import edu.usf.cutr.go_sync.object.Route;
+import edu.usf.cutr.go_sync.object.Session;
 import org.xml.sax.SAXException;
 import sun.misc.BASE64Encoder;
-import tools.parser.BusStopParser;
-import tools.parser.ChangesetDownloadParser;
-import tools.parser.OsmVersionParser;
-import tools.parser.RouteParser;
+import edu.usf.cutr.go_sync.tools.parser.BusStopParser;
+import edu.usf.cutr.go_sync.tools.parser.ChangesetDownloadParser;
+import edu.usf.cutr.go_sync.tools.parser.OsmVersionParser;
+import edu.usf.cutr.go_sync.tools.parser.RouteParser;
 
 /**
  *

@@ -15,12 +15,12 @@ Copyright 2010 University of South Florida
 
 **/
 
-package task;
+package edu.usf.cutr.go_sync.task;
 
-import osm.*;
-import gui.ReportForm;
-import io.GTFSReadIn;
-import io.WriteFile;
+import edu.usf.cutr.go_sync.osm.*;
+import edu.usf.cutr.go_sync.gui.ReportForm;
+import edu.usf.cutr.go_sync.io.GTFSReadIn;
+import edu.usf.cutr.go_sync.io.WriteFile;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,14 +29,14 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JTextArea;
 import javax.swing.ProgressMonitor;
-import object.OperatorInfo;
-import object.OsmPrimitive;
-import object.RelationMember;
-import object.Route;
-import object.Stop;
+import edu.usf.cutr.go_sync.object.OperatorInfo;
+import edu.usf.cutr.go_sync.object.OsmPrimitive;
+import edu.usf.cutr.go_sync.object.RelationMember;
+import edu.usf.cutr.go_sync.object.Route;
+import edu.usf.cutr.go_sync.object.Stop;
 import org.xml.sax.helpers.AttributesImpl;
-import tools.OsmDistance;
-import tools.OsmFormatter;
+import edu.usf.cutr.go_sync.tools.OsmDistance;
+import edu.usf.cutr.go_sync.tools.OsmFormatter;
 
 /**
  *

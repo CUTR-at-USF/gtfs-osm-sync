@@ -15,13 +15,13 @@ Copyright 2010 University of South Florida
 
 **/
 
-package tools.parser;
+package edu.usf.cutr.go_sync.tools.parser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
-import object.RelationMember;
-import object.Stop;
+import edu.usf.cutr.go_sync.object.RelationMember;
+import edu.usf.cutr.go_sync.object.Stop;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

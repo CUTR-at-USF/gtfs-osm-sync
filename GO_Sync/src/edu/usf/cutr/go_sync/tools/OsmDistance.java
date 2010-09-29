@@ -14,7 +14,7 @@ Copyright 2010 University of South Florida
    limitations under the License.
 
 **/
-package tools;
+package edu.usf.cutr.go_sync.tools;
 
 public class OsmDistance {
     /**

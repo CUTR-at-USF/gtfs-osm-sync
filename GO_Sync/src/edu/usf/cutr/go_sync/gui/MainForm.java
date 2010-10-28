@@ -36,6 +36,13 @@ import edu.usf.cutr.go_sync.object.Session;
 import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  *
@@ -381,7 +388,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private void compareButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compareButtonMouseClicked
         // TODO add your handling code here:
         // get data from user input
-        
+
         //optional field
         _operatorNtdId = operatorNTDIDField.getText();
         if(gtfsIdDigitField.getText()!=null && !gtfsIdDigitField.getText().equals("")) {
@@ -400,13 +407,19 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             _username = usernameField.getText();
             _password = new String(passwordField.getPassword());
             _changesetComment = sessionCommentField.getText();
-            _fileDir = fileDirTextField.getText();
+
+            if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
+                _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
+            } else {
+                _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
+                //TODO - validate that a folder was selected and that it does have GTFS files
+            }
 
             if(!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty() &&
                     !_username.isEmpty() && !_password.isEmpty() && !_changesetComment.isEmpty()) {
                 new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorNtdId, _gtfsIdDigit, _fileDir);
                 new Session(_username, _password, _changesetComment);
-                
+
                 progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data","", 0, 100);
                 progressMonitor.setProgress(0);
                 compareButton.setEnabled(false);
@@ -439,7 +452,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             _password = new String(passwordField.getPassword());
             _changesetComment = sessionCommentField.getText();
             _revertChangesetId = revertChangesetField.getText();
-            
+
             new Session(_username, _password, _changesetComment);
             progressMonitor = new ProgressMonitor(MainForm.this, "Reverting Openstreetmap changeset","", 0, 100);
             progressMonitor.setProgress(0);
@@ -461,11 +474,65 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Browse for GTFS file...");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.setMultiSelectionEnabled(true);
         chooser.showOpenDialog(this);
-        if(chooser.getSelectedFile()!=null) fileDirTextField.setText(chooser.getSelectedFile().getAbsolutePath());
+        if (chooser.getSelectedFile() != null) {
+            if (chooser.getSelectedFile().getName().toLowerCase().contains(".zip")) { //if a zip file was selected
+                UnzipGTFS(chooser.getSelectedFile().getAbsoluteFile()); //unzip it to a temporary folder
+            }
+            fileDirTextField.setText(chooser.getSelectedFile().getAbsolutePath());
+        }
     }//GEN-LAST:event_browseButtonActionPerformed
+
+    /*
+     * Unzips a GTFS zip file to a temporary directory called GTFS_Temp, which is created in the current directory
+     */
+    private void UnzipGTFS(File zipFile) {
+        File unzipFolder = new File("GTFS_Temp");
+        String unzipLocation = unzipFolder.getAbsolutePath() + "\\"; //temporary folder to store unzipped files
+        try {
+            unzipFolder.mkdir(); //create the directory if not already created
+        } catch (SecurityException ex) {
+            System.err.println("Unable to create temporary directory to unzip the GTFS data to. \n" + ex.getLocalizedMessage());
+            return;
+        }
+        if (unzipFolder.listFiles().length > 0) { //if the folder has old files in it
+            for (File f : unzipFolder.listFiles()) {
+                f.delete(); //delete all the old files
+            }
+        }
+        System.out.println("Unzipping " + zipFile.getAbsolutePath() + " to " + unzipLocation);
+        try { //try to unzip the file and write the files into the temporary directory
+            OutputStream out = null;
+
+            ZipInputStream zip = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+            ZipEntry next_file;
+
+            while ((next_file = zip.getNextEntry()) != null) {
+
+                System.out.println("Reading the file: " + next_file.getName() + " Size: " + next_file.getSize());
+
+                out = new FileOutputStream(unzipLocation + next_file.getName());
+                byte[] buf = new byte[1024];
+                int len;
+
+                while ((len = zip.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+
+                out.close();
+                //out.flush();
+                //do any processing here if you’d like
+                zip.closeEntry();
+            }
+            zip.close();
+            System.out.println("Files have been written");
+        } catch (Exception e) {
+            System.out.println("Error writing a file: " + e.getLocalizedMessage());
+        }
+        return;
+    }
 
     private void fileDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileDirTextFieldActionPerformed
         // TODO add your handling code here:

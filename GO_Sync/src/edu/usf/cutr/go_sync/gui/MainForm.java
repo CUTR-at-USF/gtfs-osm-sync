@@ -69,6 +69,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     /** Creates new form MainForm */
     public MainForm() {
         initComponents();
+        
+        operatorNameField.requestFocusInWindow();
     }
 
     /** This method is called from within the constructor to
@@ -81,12 +83,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        passwordField = new javax.swing.JPasswordField();
-        usernameField = new javax.swing.JTextField();
-        sessionCommentField = new javax.swing.JTextField();
-        sessionCommentLabel = new javax.swing.JLabel();
-        usernameLabel = new javax.swing.JLabel();
-        passwordLabel = new javax.swing.JLabel();
         exitButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -118,19 +114,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         setTitle("GO-Sync");
         setName("mainForm"); // NOI18N
         setResizable(false);
-
-        usernameField.setName("usernameField"); // NOI18N
-
-        sessionCommentField.setName("usernameField"); // NOI18N
-
-        sessionCommentLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        sessionCommentLabel.setText("Session Comment (*)");
-
-        usernameLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        usernameLabel.setText("OSM Username (*)");
-
-        passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        passwordLabel.setText("OSM Password (*)");
 
         exitButton.setText("Exit");
         exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -330,57 +313,30 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(passwordLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(sessionCommentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE))))
+                        .addGap(279, 279, 279)
+                        .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                        .addGap(280, 280, 280)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(289, 289, 289)
-                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                .addGap(290, 290, 290))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameLabel)
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sessionCommentLabel)
-                    .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
+                .addContainerGap())
         );
 
-        usernameField.getAccessibleContext().setAccessibleName("usernameField");
-        usernameLabel.getAccessibleContext().setAccessibleName("usernameLabel");
-        passwordLabel.getAccessibleContext().setAccessibleName("passwordLabel");
         exitButton.getAccessibleContext().setAccessibleName("exitButton");
 
         pack();
@@ -430,16 +386,22 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             _operatorAlias = operatorAliasField.getText();
             _operatorName = operatorNameField.getText();
             _operatorNameAbbreviate = operatorNameAbbField.getText();
-            _username = usernameField.getText();
-            _password = new String(passwordField.getPassword());
-            _changesetComment = sessionCommentField.getText();
+//            _username = usernameField.getText();
+//            _password = new String(passwordField.getPassword());
+//            _changesetComment = sessionCommentField.getText();
 
-            if(!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty() &&
-                    !_username.isEmpty() && !_password.isEmpty() && !_changesetComment.isEmpty()) {
+            if (!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty()) {
+                    //&& !_username.isEmpty() && !_password.isEmpty() && !_changesetComment.isEmpty()) {
                 new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorNtdId, _gtfsIdDigit, _fileDir);
-                new Session(_username, _password, _changesetComment);
+                //new Session(_username, _password, _changesetComment);
 
-                progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data","", 0, 100);
+                OSMSessionForm osmLogin = new OSMSessionForm();
+                if (!osmLogin.showDialog()) //if user hit cancel and didn't enter OSM credentials
+                {
+                    JOptionPane.showMessageDialog(this, "To revert an OSM changeset, you must log in to OSM.");
+                    return;
+                }
+                progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data", "", 0, 100);
                 progressMonitor.setProgress(0);
                 compareButton.setEnabled(false);
                 compareTask = new CompareData(progressMonitor, taskOutput);
@@ -465,14 +427,19 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 }//GEN-LAST:event_compareButtonActionPerformed
 
     private void revertButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_revertButtonMouseClicked
-        // TODO add your handling code here:
         try {
-            _username = usernameField.getText();
-            _password = new String(passwordField.getPassword());
-            _changesetComment = sessionCommentField.getText();
+//            _username = usernameField.getText();
+//            _password = new String(passwordField.getPassword());
+//            _changesetComment = sessionCommentField.getText();
             _revertChangesetId = revertChangesetField.getText();
 
-            new Session(_username, _password, _changesetComment);
+//            new Session(_username, _password, _changesetComment);
+            OSMSessionForm osmLogin = new OSMSessionForm();
+            if(!osmLogin.showDialog()) //if user hit cancel and didn't enter OSM credentials
+            {
+                JOptionPane.showMessageDialog(this, "To revert an OSM changeset, you must log in to OSM.");
+                return;
+            }
             progressMonitor = new ProgressMonitor(MainForm.this, "Reverting Openstreetmap changeset","", 0, 100);
             progressMonitor.setProgress(0);
             revertTask = new RevertChangeset(_revertChangesetId, progressMonitor, taskOutput);
@@ -663,15 +630,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTextField operatorNameField;
     private javax.swing.JLabel operatorNameLabel;
     private javax.swing.JLabel operatorNameLabel1;
-    private javax.swing.JPasswordField passwordField;
-    private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton revertButton;
     private javax.swing.JTextField revertChangesetField;
-    private javax.swing.JTextField sessionCommentField;
-    private javax.swing.JLabel sessionCommentLabel;
     private javax.swing.JTextArea taskOutput;
-    private javax.swing.JTextField usernameField;
-    private javax.swing.JLabel usernameLabel;
     private javax.swing.JLabel usernameLabel2;
     private javax.swing.JLabel usernameLabel3;
     // End of variables declaration//GEN-END:variables

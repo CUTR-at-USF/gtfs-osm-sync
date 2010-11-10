@@ -41,6 +41,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -78,6 +80,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         passwordField = new javax.swing.JPasswordField();
         usernameField = new javax.swing.JTextField();
         sessionCommentField = new javax.swing.JTextField();
@@ -96,11 +99,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorNTDIDField = new javax.swing.JTextField();
         usernameLabel3 = new javax.swing.JLabel();
         gtfsIdDigitField = new javax.swing.JTextField();
-        fileNameLabel = new javax.swing.JLabel();
-        browseButton = new javax.swing.JButton();
-        fileDirTextField = new javax.swing.JTextField();
         operatorNameLabel1 = new javax.swing.JLabel();
         operatorAliasField = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        fileNameLabel = new javax.swing.JLabel();
+        fileDirTextField = new javax.swing.JTextField();
+        browseButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         changesetLabel = new javax.swing.JLabel();
         revertChangesetField = new javax.swing.JTextField();
@@ -126,7 +132,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         passwordLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         passwordLabel.setText("OSM Password (*)");
 
-        exitButton.setFont(new java.awt.Font("Times New Roman", 1, 18));
         exitButton.setText("Exit");
         exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -134,11 +139,13 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
-        operatorNameLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        operatorNameLabel.setText("Operator Name (*)");
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        OperatorAbbLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        OperatorAbbLabel.setText("Abbreviate (*)");
+        operatorNameLabel.setText("Operator Name (*)");
+        jPanel1.add(operatorNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 126, -1));
+
+        OperatorAbbLabel.setText("Operator Abbreviation (*)");
+        jPanel1.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
         operatorNameAbbField.addActionListener(new java.awt.event.ActionListener() {
@@ -146,8 +153,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 operatorNameAbbFieldActionPerformed(evt);
             }
         });
+        jPanel1.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
+        operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
 
-        compareButton.setFont(new java.awt.Font("Times New Roman", 1, 18));
         compareButton.setText("Run");
         compareButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -159,21 +167,60 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 compareButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(compareButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 209, 74, -1));
 
-        usernameLabel2.setFont(new java.awt.Font("Tahoma", 0, 14));
         usernameLabel2.setText("Operator NTD ID");
+        jPanel1.add(usernameLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
 
         operatorNameField.setName("usernameField"); // NOI18N
+        jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 256, -1));
+        operatorNameField.getAccessibleContext().setAccessibleName("operatorNameField");
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
+        jPanel1.add(operatorNTDIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 50, -1));
+        operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
 
-        usernameLabel3.setFont(new java.awt.Font("Tahoma", 0, 14));
-        usernameLabel3.setText("GTFS ID digit");
+        usernameLabel3.setText("Length of GTFS Stop IDs");
+        jPanel1.add(usernameLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 120, -1));
 
         gtfsIdDigitField.setName("usernameField"); // NOI18N
+        jPanel1.add(gtfsIdDigitField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, 20, -1));
 
-        fileNameLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
-        fileNameLabel.setText("File name (*)");
+        operatorNameLabel1.setText("Operator Alias");
+        jPanel1.add(operatorNameLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 111, -1));
+
+        operatorAliasField.setName("usernameField"); // NOI18N
+        jPanel1.add(operatorAliasField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 180, -1));
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
+        jPanel3.setName("pnlGTFSData"); // NOI18N
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("URL");
+        jRadioButton2.setName("rbURL"); // NOI18N
+        jRadioButton2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jRadioButton2StateChanged(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("Folder or Zip File");
+        jRadioButton1.setName("rbFolderFile"); // NOI18N
+        jRadioButton1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jRadioButton1StateChanged(evt);
+            }
+        });
+
+        fileNameLabel.setText("Folder or Zip File (*)");
+
+        fileDirTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileDirTextFieldActionPerformed(evt);
+            }
+        });
 
         browseButton.setText("Browse");
         browseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -182,105 +229,57 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
-        fileDirTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileDirTextFieldActionPerformed(evt);
-            }
-        });
-
-        operatorNameLabel1.setFont(new java.awt.Font("Tahoma", 0, 14));
-        operatorNameLabel1.setText("Operator Alias");
-
-        operatorAliasField.setName("usernameField"); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(usernameLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fileNameLabel)
-                    .addComponent(operatorNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(operatorNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(operatorAliasField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(fileDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(browseButton))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(operatorNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                                        .addComponent(OperatorAbbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(operatorNTDIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
-                                        .addComponent(usernameLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(operatorNameAbbField, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE))
-                                    .addComponent(gtfsIdDigitField, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))))
-                        .addGap(62, 62, 62)))
-                .addContainerGap(11, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(262, 262, 262)
-                .addComponent(compareButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(302, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(operatorNameLabel)
-                    .addComponent(operatorNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(operatorNameAbbField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(OperatorAbbLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(operatorNameLabel1)
-                    .addComponent(operatorAliasField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(operatorNTDIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usernameLabel2)
-                    .addComponent(usernameLabel3)
-                    .addComponent(gtfsIdDigitField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileNameLabel)
-                    .addComponent(fileDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(compareButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(fileNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(fileDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addComponent(jRadioButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton2)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {gtfsIdDigitField, operatorNTDIDField, operatorNameAbbField, operatorNameField});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jRadioButton1, jRadioButton2});
 
-        operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
-        operatorNameField.getAccessibleContext().setAccessibleName("operatorNameField");
-        operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jRadioButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fileNameLabel)
+                    .addComponent(fileDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browseButton))
+                .addContainerGap())
+        );
+
+        fileNameLabel.getAccessibleContext().setAccessibleParent(jPanel3);
+        fileDirTextField.getAccessibleContext().setAccessibleParent(jPanel3);
+        browseButton.getAccessibleContext().setAccessibleParent(jPanel3);
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 98, 600, -1));
 
         jTabbedPane1.addTab("Compare Data", jPanel1);
 
         jPanel2.setName(""); // NOI18N
 
-        changesetLabel.setFont(new java.awt.Font("Tahoma", 0, 14));
         changesetLabel.setText("Changeset ID");
 
         revertChangesetField.setName("usernameField"); // NOI18N
 
-        revertButton.setFont(new java.awt.Font("Times New Roman", 1, 18));
         revertButton.setText("Run");
         revertButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -305,19 +304,19 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         .addGap(18, 18, 18)
                         .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(218, 218, 218)
-                        .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(270, Short.MAX_VALUE))
+                        .addGap(277, 277, 277)
+                        .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(78, 78, 78)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changesetLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(revertButton)
                 .addContainerGap())
         );
 
@@ -344,14 +343,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                             .addComponent(sessionCommentField, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(267, 267, 267)
-                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(289, 289, 289)
+                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                .addGap(290, 290, 290))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,9 +373,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(16, 16, 16))
         );
 
         usernameField.getAccessibleContext().setAccessibleName("usernameField");
@@ -386,8 +387,26 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     }// </editor-fold>//GEN-END:initComponents
 
     private void compareButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compareButtonMouseClicked
-        // TODO add your handling code here:
         // get data from user input
+
+        if(jRadioButton2.isSelected()) { //if user selected a URL
+            try {
+                UnzipGTFS(null, new URL(fileDirTextField.getText())); //try to unzip from the URL
+            }
+            catch(MalformedURLException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid URL. Please try again with another URL.");
+                System.err.println("Error: " + ex.getLocalizedMessage());
+                return;
+            }
+        }
+
+        if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
+            UnzipGTFS(chooser.getSelectedFile(), null); //unzip it to a temporary folder
+            _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
+        } else {
+            _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
+            //TODO - validate that a folder was selected and that it does have GTFS files
+        }
 
         //optional field
         _operatorNtdId = operatorNTDIDField.getText();
@@ -396,24 +415,18 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 _gtfsIdDigit = Integer.parseInt(gtfsIdDigitField.getText());
             } catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Message: "+e.getMessage());
+                return;
             }
         }
-        _operatorAlias = operatorAliasField.getText();
-
-        //can't left blank
+        
+        //can't leave blank
         try {
+            _operatorAlias = operatorAliasField.getText();
             _operatorName = operatorNameField.getText();
             _operatorNameAbbreviate = operatorNameAbbField.getText();
             _username = usernameField.getText();
             _password = new String(passwordField.getPassword());
             _changesetComment = sessionCommentField.getText();
-
-            if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
-                _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
-            } else {
-                _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
-                //TODO - validate that a folder was selected and that it does have GTFS files
-            }
 
             if(!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty() &&
                     !_username.isEmpty() && !_password.isEmpty() && !_changesetComment.isEmpty()) {
@@ -478,17 +491,15 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         chooser.setMultiSelectionEnabled(true);
         chooser.showOpenDialog(this);
         if (chooser.getSelectedFile() != null) {
-            if (chooser.getSelectedFile().getName().toLowerCase().contains(".zip")) { //if a zip file was selected
-                UnzipGTFS(chooser.getSelectedFile().getAbsoluteFile()); //unzip it to a temporary folder
-            }
             fileDirTextField.setText(chooser.getSelectedFile().getAbsolutePath());
         }
     }//GEN-LAST:event_browseButtonActionPerformed
 
     /*
      * Unzips a GTFS zip file to a temporary directory called GTFS_Temp, which is created in the current directory
+     * Pass either a file or URL and NULL for the other - do not send both
      */
-    private void UnzipGTFS(File zipFile) {
+    private void UnzipGTFS(File zipFile, URL zipURL) {
         File unzipFolder = new File("GTFS_Temp");
         String unzipLocation = unzipFolder.getAbsolutePath() + "\\"; //temporary folder to store unzipped files
         try {
@@ -502,11 +513,20 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 f.delete(); //delete all the old files
             }
         }
-        System.out.println("Unzipping " + zipFile.getAbsolutePath() + " to " + unzipLocation);
+
         try { //try to unzip the file and write the files into the temporary directory
             OutputStream out = null;
+            ZipInputStream zip;
 
-            ZipInputStream zip = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+            if(zipFile == null) {
+                System.out.println("Unzipping " + zipURL.toString() + " to " + unzipLocation);
+                zip = new ZipInputStream(zipURL.openStream());
+            }
+            else {
+                System.out.println("Unzipping " + zipFile.getAbsolutePath() + " to " + unzipLocation);
+                zip = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+            }
+
             ZipEntry next_file;
 
             while ((next_file = zip.getNextEntry()) != null) {
@@ -542,27 +562,41 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         // TODO add your handling code here:
     }//GEN-LAST:event_operatorNameAbbFieldActionPerformed
 
+    private void jRadioButton1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton1StateChanged
+        if(jRadioButton1.isSelected()) {
+            fileNameLabel.setText("Folder or Zip File (*)");
+            browseButton.setVisible(true);
+        }
+    }//GEN-LAST:event_jRadioButton1StateChanged
+
+    private void jRadioButton2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton2StateChanged
+        if (jRadioButton2.isSelected()) {
+            fileNameLabel.setText("URL of Zip File (*)");
+            browseButton.setVisible(false);
+        }
+    }//GEN-LAST:event_jRadioButton2StateChanged
+
     /**
     * @param args the command line arguments
     */
     public static void main(String args[]) {
         try {
-            // Set cross-platform Java L&F (also called "Metal")
-            UIManager.setLookAndFeel(
-                    UIManager.getCrossPlatformLookAndFeelClassName());
+            // Set system navtive Java L&F
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (UnsupportedLookAndFeelException e) {
-            // handle exception
+            System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         }
         catch (ClassNotFoundException e) {
-            // handle exception
+            System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         }
         catch (InstantiationException e) {
-            // handle exception
+            System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         }
         catch (IllegalAccessException e) {
-            // handle exception
+            System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         }
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainForm().setVisible(true);
@@ -594,6 +628,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel OperatorAbbLabel;
     private javax.swing.JButton browseButton;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel changesetLabel;
     private javax.swing.JButton compareButton;
     private javax.swing.JButton exitButton;
@@ -602,6 +637,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField operatorAliasField;

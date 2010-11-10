@@ -389,23 +389,29 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private void compareButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compareButtonMouseClicked
         // get data from user input
 
-        if(jRadioButton2.isSelected()) { //if user selected a URL
+        if (jRadioButton2.isSelected()) { //if user selected a URL
             try {
-                UnzipGTFS(null, new URL(fileDirTextField.getText())); //try to unzip from the URL
-            }
-            catch(MalformedURLException ex) {
+                if(!UnzipGTFS(null, new URL(fileDirTextField.getText()))) { //try to unzip from the URL
+                    JOptionPane.showMessageDialog(this, "Unable to unzip from URL. Please try again with another URL.");
+                    return;
+                }
+            } catch (MalformedURLException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid URL. Please try again with another URL.");
                 System.err.println("Error: " + ex.getLocalizedMessage());
                 return;
             }
-        }
-
-        if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
-            UnzipGTFS(chooser.getSelectedFile(), null); //unzip it to a temporary folder
             _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
-        } else {
-            _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
-            //TODO - validate that a folder was selected and that it does have GTFS files
+        } else if (jRadioButton1.isSelected()) { //else user selected a local file/folder
+            if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
+                if(!UnzipGTFS(chooser.getSelectedFile(), null)) { //unzip it to a temporary folder
+                    JOptionPane.showMessageDialog(this, "Unable to unzip from file. Please try again with another file.");
+                    return;
+                }
+                _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
+            } else {
+                _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
+                //TODO - validate that a folder was selected and that it does have GTFS files
+            }
         }
 
         //optional field
@@ -483,7 +489,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 }//GEN-LAST:event_revertButtonActionPerformed
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-        // TODO add your handling code here:
         chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Browse for GTFS file...");
@@ -498,15 +503,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     /*
      * Unzips a GTFS zip file to a temporary directory called GTFS_Temp, which is created in the current directory
      * Pass either a file or URL and NULL for the other - do not send both
+     * Returns true if it successfully unzipped the file
      */
-    private void UnzipGTFS(File zipFile, URL zipURL) {
+    private boolean UnzipGTFS(File zipFile, URL zipURL) {
         File unzipFolder = new File("GTFS_Temp");
         String unzipLocation = unzipFolder.getAbsolutePath() + "\\"; //temporary folder to store unzipped files
         try {
             unzipFolder.mkdir(); //create the directory if not already created
         } catch (SecurityException ex) {
             System.err.println("Unable to create temporary directory to unzip the GTFS data to. \n" + ex.getLocalizedMessage());
-            return;
+            return false;
         }
         if (unzipFolder.listFiles().length > 0) { //if the folder has old files in it
             for (File f : unzipFolder.listFiles()) {
@@ -518,6 +524,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             OutputStream out = null;
             ZipInputStream zip;
 
+            //TODO test that URL and file are actually ZIP files
+            
             if(zipFile == null) {
                 System.out.println("Unzipping " + zipURL.toString() + " to " + unzipLocation);
                 zip = new ZipInputStream(zipURL.openStream());
@@ -549,9 +557,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             zip.close();
             System.out.println("Files have been written");
         } catch (Exception e) {
-            System.out.println("Error writing a file: " + e.getLocalizedMessage());
+            System.err.println("Error writing a file: " + e.getLocalizedMessage());
+            return false;
         }
-        return;
+        return true;
     }
 
     private void fileDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileDirTextFieldActionPerformed
@@ -563,9 +572,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     }//GEN-LAST:event_operatorNameAbbFieldActionPerformed
 
     private void jRadioButton1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton1StateChanged
-        if(jRadioButton1.isSelected()) {
+        if (jRadioButton1.isSelected()) {
             fileNameLabel.setText("Folder or Zip File (*)");
             browseButton.setVisible(true);
+            if (chooser != null) {
+                fileDirTextField.setText(chooser.getSelectedFile().getAbsolutePath());
+            } else {
+                fileDirTextField.setText("");
+            }
         }
     }//GEN-LAST:event_jRadioButton1StateChanged
 
@@ -573,6 +587,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         if (jRadioButton2.isSelected()) {
             fileNameLabel.setText("URL of Zip File (*)");
             browseButton.setVisible(false);
+            fileDirTextField.setText("");
         }
     }//GEN-LAST:event_jRadioButton2StateChanged
 

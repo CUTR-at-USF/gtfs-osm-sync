@@ -112,12 +112,12 @@ public class Stop extends OsmPrimitive implements Comparable{
         }
         return false;
     }
-    
+
     public int compareTo(Object o){
         Stop s = (Stop) o;
         double distance = OsmDistance.distVincenty(this.getLat(), this.getLon(),
                             s.getLat(), s.getLon());
-        if (!(this.getStopID().equals("none")) && !(this.getStopID().equals("missing")) 
+        if (!(this.getStopID().equals("none")) && !(this.getStopID().equals("missing"))
                 && (!(s.getStopID().equals("none"))) && (!(s.getStopID().equals("missing")))
                 && (!this.getOperatorName().equals("none")) && (!s.getOperatorName().equals("none"))
                 && (!this.getOperatorName().equals("missing")) && (!s.getOperatorName().equals("missing"))) {
@@ -167,5 +167,10 @@ public class Stop extends OsmPrimitive implements Comparable{
             temp = temp+";"+k+":"+st.getTag(k);
         }
         return temp;
+    }
+
+    @Override
+    public String toString(){
+        return this.getStopID();
     }
 }

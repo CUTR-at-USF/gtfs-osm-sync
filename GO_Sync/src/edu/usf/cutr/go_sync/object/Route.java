@@ -105,7 +105,7 @@ public class Route extends OsmPrimitive implements Comparable{
         }
         return false;
     }
-    
+
     public int compareTo(Object o){
         Route r = (Route) o;
         if(this.compareOperatorName(r) && r.getRouteId().equals(this.getRouteId())) {
@@ -129,14 +129,9 @@ public class Route extends OsmPrimitive implements Comparable{
         String id = this.getRouteId();
         return id.hashCode();
     }
-/*
-    public static void main(String args[]){
-        OperatorInfo.addName("Hillsborough Area Regional Transit");
-        Route r1 = new Route("1","1","Hillsborough Area Regional Transit");
-        Route r2 = new Route("1","1","Hillsborough Area Regional Transit");
-        if(r1.equals(r2)){
-            System.out.println("true");
-        }
-         else System.out.println("wrong");
-    }*/
+
+    @Override
+    public String toString(){
+        return this.getRouteId();
+    }
 }

@@ -1,0 +1,51 @@
+Readme - SwingLabs SwingX-WS Project - http://swingx-ws.dev.java.net
+
+SwingX-WS contains a set of JavaBeans for interacting with web services.
+Initial beans include support for several Yahoo and Google webservices such as
+searching news, video, images, and financial data, as well as a generic tile
+based mapping component (as seen in the Aerith demo at JavaOne 2006), The
+SwingX-WS beans have been designed with graphical configuration in mind and work
+very well inside of a JavaBeans aware editor such as NetBeans.
+
+Getting the Latest Source
+=========================
+
+1) Check out the lastest code
+Download the latest release from our CVS repository; full instructions are at
+https://swingx-ws.dev.java.net/servlets/ProjectSource
+
+but you can check out using the generic account "guest", with these settings
+
+cvs -d :pserver:guest@cvs.dev.java.net:/cvs login
+
+followed by
+
+cvs -d :pserver:guest@cvs.dev.java.net:/cvs checkout swingx-ws
+
+
+Building the Source
+===================
+SwingX-WS relies on Ant and Ant build files for controlling compilation, building docs, testing, etc. You can use our Ant build scripts or use your own--some IDEs make this easy to do.
+
+To compile from the command line, you'll need to have Apache Ant installed; see http://ant.apache.org. 
+
+IMPORTANT: our default task in Ant also runs our unit tests, which are written using jUnit. You need to have Ant be aware of jUnit *before* compiling SwingX-WS. We can't help you with 
+this--it's an Ant configuration issue. 
+
+If jUnit is not properly configured, you may get an error like this:
+  BUILD FAILED
+  c:\swingx-ws\nbproject\build-impl.xml:407: Following error occured while executing this line
+  c:\swingx-ws\nbproject\build-impl.xml:127: Could not create task or type of type: junit.
+
+  Ant could not find the task or a class this task relies upon.
+
+Suggestions: 
+- for Ant 1.5.x and previous, make sure optional.jar is in your ANT_HOME\lib directory.
+- for Ant 1.6.x and above, make sure ant-junit.jar is in your ANT_HOME\lib directory, and that jUnit.jar is either in that directory as well OR listed on your CLASSPATH.
+
+You can build SwingX-WS by going to the command line and typing
+ant
+
+That should be it--this will test and build swingx-ws.jar in the dist directory. 
+
+

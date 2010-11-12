@@ -71,7 +71,7 @@ public class OsmDistance {
         double uSq = cosSqAlpha * (a*a - b*b) / (b*b);
         double A = 1 + uSq/16384*(4096+uSq*(-768+uSq*(320-175*uSq)));
         double B = uSq/1024 * (256+uSq*(-128+uSq*(74-47*uSq)));
-        double deltaSigma = B*sinSigma*(cos2SigmaM+B/4*(cosSigma*(-1+2*cos2SigmaM*cos2SigmaM)- 
+        double deltaSigma = B*sinSigma*(cos2SigmaM+B/4*(cosSigma*(-1+2*cos2SigmaM*cos2SigmaM)-
                 B/6*cos2SigmaM*(-3+4*sinSigma*sinSigma)*(-3+4*cos2SigmaM*cos2SigmaM)));
         double s = b*A*(sigma-deltaSigma);
 

@@ -32,7 +32,6 @@ import javax.swing.ProgressMonitor;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
-import edu.usf.cutr.go_sync.object.Session;
 import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
@@ -103,6 +102,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         fileNameLabel = new javax.swing.JLabel();
         fileDirTextField = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         changesetLabel = new javax.swing.JLabel();
         revertChangesetField = new javax.swing.JTextField();
@@ -124,7 +124,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        operatorNameLabel.setText("Operator Name (*)");
+        operatorNameLabel.setText("Operator Full Name (*)");
         jPanel1.add(operatorNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 126, -1));
 
         OperatorAbbLabel.setText("Operator Abbreviation (*)");
@@ -156,7 +156,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         jPanel1.add(usernameLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
 
         operatorNameField.setName("usernameField"); // NOI18N
-        jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 256, -1));
+        jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
         operatorNameField.getAccessibleContext().setAccessibleName("operatorNameField");
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
@@ -230,7 +230,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         .addComponent(jRadioButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton2)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jRadioButton1, jRadioButton2});
@@ -254,6 +254,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         browseButton.getAccessibleContext().setAccessibleParent(jPanel3);
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 98, 600, -1));
+
+        jLabel1.setText("Fields marked with an asterisk(*) are required");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, 30));
 
         jTabbedPane1.addTab("Compare Data", jPanel1);
 
@@ -393,14 +396,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             if (!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty()) {
                     //&& !_username.isEmpty() && !_password.isEmpty() && !_changesetComment.isEmpty()) {
                 new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorNtdId, _gtfsIdDigit, _fileDir);
-                //new Session(_username, _password, _changesetComment);
-
-                OSMSessionForm osmLogin = new OSMSessionForm();
-                if (!osmLogin.showDialog()) //if user hit cancel and didn't enter OSM credentials
-                {
-                    JOptionPane.showMessageDialog(this, "To revert an OSM changeset, you must log in to OSM.");
-                    return;
-                }
+                
                 progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data", "", 0, 100);
                 progressMonitor.setProgress(0);
                 compareButton.setEnabled(false);
@@ -617,6 +613,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTextField fileDirTextField;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField gtfsIdDigitField;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

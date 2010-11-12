@@ -60,7 +60,7 @@ public class HttpRequest {
     private static final int SLEEP_TIME = 500;
     private static final String API_VERSION ="0.6";
     private static final String SERVER_URL = "http://api.openstreetmap.org/api/0.6/";
-    
+
     private ArrayList<AttributesImpl> existingNodes = new ArrayList<AttributesImpl>();
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> existingBusTags = new ArrayList<Hashtable>();
@@ -78,7 +78,7 @@ public class HttpRequest {
     private String cSetID="";
 
     public static final String FILE_NAME_OUT_UPLOAD = "OSM_CHANGE_XML.txt";
-    
+
     private JTextArea taskOutput;
 
     public HttpRequest(JTextArea to){
@@ -128,7 +128,7 @@ public class HttpRequest {
         } catch(ParserConfigurationException e) {
             System.out.println(e);
         }
-        if (existingNodes.size()!=0) return existingNodes;
+        if (!existingNodes.isEmpty()) return existingNodes;
         System.out.println("null nodes");
         return null;
     }
@@ -136,7 +136,7 @@ public class HttpRequest {
     // this method needs to be invoked after getExistingBusStops
     public ArrayList<Hashtable> getExistingBusStopsTags(){
         System.out.println("tags = "+existingBusTags.size());
-        if (existingBusTags.size() !=0 )
+        if (!existingBusTags.isEmpty() )
             return existingBusTags;
         return null;
     }
@@ -163,7 +163,7 @@ public class HttpRequest {
         } catch(ParserConfigurationException e) {
             System.out.println(e);
         }
-        if (existingRelations.size()!=0) return existingRelations;
+        if (!existingRelations.isEmpty()) return existingRelations;
         System.out.println("null relations");
         return null;
     }
@@ -171,7 +171,7 @@ public class HttpRequest {
     // this method needs to be invoked after getExistingBusRelations
     public ArrayList<Hashtable> getExistingBusRelationTags(){
         System.out.println("relation tags = "+existingRelationTags.size());
-        if (existingRelationTags.size() !=0 )
+        if (!existingRelationTags.isEmpty() )
             return existingRelationTags;
         return null;
     }
@@ -179,7 +179,7 @@ public class HttpRequest {
     // this method needs to be invoked after getExistingBusRelations
     public ArrayList<HashSet<RelationMember>> getExistingBusRelationMembers(){
         System.out.println("tags = "+existingRelationMembers.size());
-        if (existingRelationMembers.size() !=0 )
+        if (!existingRelationMembers.isEmpty() )
             return existingRelationMembers;
         return null;
     }
@@ -352,7 +352,7 @@ public class HttpRequest {
     public void createChangeSet() {
         String urlSuffix = "changeset/create";
         String url = SERVER_URL + urlSuffix;
-        
+
         String responseMessage = "";
         if (isSupportVersion) {
             String s = getRequestContents();
@@ -417,7 +417,7 @@ public class HttpRequest {
             if (!cSetID.equals("")) {
                 String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);
-                
+
                 responseMessage = sendRequest(url, "POST", osmChangeText);
                 System.out.println("Message: "+responseMessage);
             }
@@ -441,30 +441,30 @@ public class HttpRequest {
                     taskOutput.append("Connecting "+url+" using method "+method+" "+retry+"\n");
                 } catch (InterruptedException e) {
                 }
-                
+
                 serverAddress = new URL(url);
-                
+
                 // set the initial connection
                 conn = (HttpURLConnection) serverAddress.openConnection();
                 conn.setRequestMethod(method);
                 conn.setConnectTimeout(15000);
-                
+
                 if (method.equals("PUT") || method.equals("POST") || method.equals("DELETE")) {
                     BASE64Encoder enc = new sun.misc.BASE64Encoder();
                     String usernamePassword = Session.getUserName()+":"+Session.getPassword();
                     String encodedAuthorization = enc.encode(usernamePassword.getBytes());
                     conn.setRequestProperty("Authorization", "Basic "+ encodedAuthorization);
-                    
+
                     conn.setRequestProperty("Content-type", "text/xml");
                     conn.setDoOutput(true);
-                    
+
                     if(content!=null) {
                         OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
                         osw.write(content);
                         osw.flush();
                     }
                 }
-                
+
                 conn.connect();
 
                 int responseCode = conn.getResponseCode();
@@ -498,7 +498,7 @@ public class HttpRequest {
                         responseText.append("\n");
                         s = response.readLine();
                     }
-                    
+
                     // Look for a detailed error message from the server
                     String errMess = conn.getHeaderField("Error");
                     if (errMess != null) {
@@ -510,7 +510,7 @@ public class HttpRequest {
                     }
                     break;
                 }
-                
+
             } catch (ConnectException e) {
                 System.out.println(e.toString());
                 taskOutput.append(e.toString()+"\n");

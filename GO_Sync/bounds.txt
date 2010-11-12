@@ -1,3 +1,0 @@
-stop_id,stop_name,stop_lat,stop_lon
--1,UNKNOWN,27.70168,-82.73803000000001
--1,UNKNOWN,28.252141,-82.153672

@@ -17,8 +17,8 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.task;
 
+import edu.usf.cutr.go_sync.gui.ReportViewer;
 import edu.usf.cutr.go_sync.osm.*;
-import edu.usf.cutr.go_sync.gui.ReportForm;
 import edu.usf.cutr.go_sync.io.GTFSReadIn;
 import edu.usf.cutr.go_sync.io.WriteFile;
 import java.awt.Toolkit;
@@ -71,7 +71,7 @@ public class CompareData extends OsmTask{
     private String fileNameInTrips; //= "Khoa_transit\\trips.txt";
     private String fileNameInRoutes;
     private String fileNameInStopTimes; //= "Khoa_transit\\stop_times.txt";
-    public static final String FILE_NAME_OUT_EXISTING = "existingStops.txt";
+/*    public static final String FILE_NAME_OUT_EXISTING = "existingStops.txt";
 //    public static final String FILE_NAME_OUT_EXISTING = "C:\\Users\\Khoa Tran\\Desktop\\Summer REU 2010\\FloridaStops.txt";
     public static final String FILE_NAME_OUT_NEW = "newStops.txt";
     public static final String FILE_NAME_OUT_OVERLAPPED = "overlappedStops.txt";
@@ -81,7 +81,7 @@ public class CompareData extends OsmTask{
     public static final String FILE_NAME_OUT_MODIFY = "MODIFY.txt";
     public static final String FILE_NAME_OUT_DELETE = "DELETE.txt";
     public static final String FILE_NAME_OUT_NOUPLOAD = "NOUPLOAD.txt";
-    public static final String FILE_NAME_OUT_REPORT = "REPORT.txt";
+    public static final String FILE_NAME_OUT_REPORT = "REPORT.txt";*/
 
     private ProgressMonitor progressMonitor;
     private int progress = 0;
@@ -147,7 +147,7 @@ public class CompareData extends OsmTask{
         List<Stop> boundList = new ArrayList<Stop>(2);
         boundList.add(new Stop("-1","Min Lat Min Lon", "UNKNOWN", Double.toString(minLat),Double.toString(minLon)));
         boundList.add(new Stop("-1","Max Lat Max Lon", "UNKNOWN",Double.toString(maxLat),Double.toString(maxLon)));
-        new WriteFile(FILE_NAME_OUT_BOUND, boundList);
+//        new WriteFile(FILE_NAME_OUT_BOUND, boundList);
 
     }
 
@@ -587,7 +587,7 @@ public class CompareData extends OsmTask{
         if (tempOSMNodes!=null) {
             OSMNodes.addAll(tempOSMNodes);
             OSMTags.addAll(osmRequest.getExistingBusStopsTags());
-            new WriteFile(FILE_NAME_OUT_EXISTING, convertToStopObject(OSMNodes, OperatorInfo.getFullName()));
+//            new WriteFile(FILE_NAME_OUT_EXISTING, convertToStopObject(OSMNodes, OperatorInfo.getFullName()));
             System.out.println("Existing Nodes = "+OSMNodes.size());
             System.out.println("New Nodes = "+GTFSstops.size());
             compareBusStopData();
@@ -613,7 +613,7 @@ public class CompareData extends OsmTask{
         List<Stop> st = data.readBusStop(fileNameInStops, OperatorInfo.getFullName(), fileNameInRoutes, fileNameInTrips, fileNameInStopTimes);
         if(st!=null) {
             GTFSstops.addAll(st);
-            new WriteFile(FILE_NAME_OUT_NEW, GTFSstops);
+//            new WriteFile(FILE_NAME_OUT_NEW, GTFSstops);
 
             startCompare();
             
@@ -623,18 +623,18 @@ public class CompareData extends OsmTask{
             
             updateProgress(4);
             this.setMessage("Writing upload, noupload, modify, delete stops to file...");
-            new WriteFile(FILE_NAME_OUT_UPLOAD, upload);
+//            new WriteFile(FILE_NAME_OUT_UPLOAD, upload);
 
-            new WriteFile(FILE_NAME_OUT_NOUPLOAD, noUpload);
+//            new WriteFile(FILE_NAME_OUT_NOUPLOAD, noUpload);
 
-            new WriteFile(FILE_NAME_OUT_MODIFY, modify);
+//            new WriteFile(FILE_NAME_OUT_MODIFY, modify);
 
-            new WriteFile(FILE_NAME_OUT_DELETE, delete);
+//            new WriteFile(FILE_NAME_OUT_DELETE, delete);
 
             updateProgress(3);
             this.setMessage("Writing report to file...");
             System.out.println("progress: "+progress);
-            new WriteFile(FILE_NAME_OUT_REPORT, report);
+//            new WriteFile(FILE_NAME_OUT_REPORT, report);
         }
         else {this.setMessage("No GTFS stops to be processed");}
         //make sure it's a complete task
@@ -653,7 +653,7 @@ public class CompareData extends OsmTask{
     public void generateReport(){
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReportForm(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput).setVisible(true);
+                new ReportViewer(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput).setVisible(true);
             }
         });
     }

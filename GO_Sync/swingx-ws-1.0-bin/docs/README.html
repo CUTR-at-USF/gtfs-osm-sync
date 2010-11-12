@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+  <head>
+    <title>Readme - SwingLabs SwingX Project - http://swingx.dev.java.net</title>
+    <link rel="stylesheet" type="text/css" href="swinglabs.css" />
+  </head>
+  <body>
+    <body>
+        <div id="container">
+            <div id="stitch-hack">
+                <div id="banner">
+                </div>
+                <div id="menu">
+                    <a href="http://swinglabs.org/index.jsp">Home</a>
+                    <a href="http://swinglabs.org/projects.jsp">Projects</a>
+                    <a href="http://swinglabs.org/screenshots.jsp">Screenshots</a>
+                    <a href="http://swinglabs.org/downloads.jsp">Downloads</a>
+                    <a href="http://swinglabs.org/demos.jsp">Demos</a>
+                    <a href="http://swinglabs.org/docs.jsp">Documentation</a>
+                    <a href="http://swinglabs.org/contact.jsp">Contact Us</a>
+                </div>
+                <div id="content">
+                    <div class="section">
+                        <p>SwingX-WS contains a set of JavaBeans for interacting with web services.
+                        Initial beans include support for several Yahoo and Google webservices such as
+                        searching news, video, images, and financial data, as well as a generic tile
+                        based mapping component (as seen in the Aerith demo at JavaOne 2006), The
+                        SwingX-WS beans have been designed with graphical configuration in mind and work
+                        very well inside of a JavaBeans aware editor such as NetBeans. </p>
+
+                        <p>The SwingX-WS project is actively seeking new developer to enhance the
+                        existing beans and build new ones. We would especially like to see beans for
+                        accessing Google's search services, Flickr photos, Microsoft Live, MusicBrainz
+                        metadata, and enhancements to the JXMapViewer for connecting to NASA map
+                        servers.  <b>Please join the SwingLabs <a href="http://forums.java.net/jive/forum.jspa?forumID=73&start=0">forum</a> and
+                        <a href="https://jdnc.dev.java.net/servlets/ProjectMailingListList">mailing list</a></b></p>
+
+                        <p>Currently the SwingX-WS project has the following beans:</p>
+                        <ul>
+
+                        <li>BackgroundWorker: a configurable wrapper around SwingWorker for performing
+                        long running tasks.</li>
+
+                        <li>JXMapViewer: a generic viewer for tile based map servers</li>
+
+                        <li>Yahoo Search: a non-visual bean for calling Yahoo's various search services,
+                        including images and video</li>
+
+                        </ul>
+                        
+                        <p>SwingX-WS is released under the LGPL license and is part of the SwingLabs
+                        umbrella project on Java.net</p>
+                    </div>
+                    <div class="section">
+                        <h2>Getting the Latest Source</h2>
+                        <p>Download the latest release from our CVS repository; full instructions are at
+                        <a href="https://swingx-ws.dev.java.net/servlets/ProjectSource">https://swingx-ws.dev.java.net/servlets/ProjectSource</a>.
+                        But you can check out using the generic account "guest", with these settings
+                        <pre>
+            cvs -d :pserver:guest@cvs.dev.java.net:/cvs login
+                        </pre>
+                        followed by
+                        <pre>
+            cvs -d :pserver:guest@cvs.dev.java.net:/cvs checkout swingx-ws
+                        </pre>
+                        </p>
+                    </div>
+                    <div class="section">
+                        <h2>Building the Source</h2>
+                        <p>SwingX-WS relies on Ant and Ant build files for controlling compilation, building 
+                        docs, testing, etc. You can use our Ant build scripts or use your own--some IDEs 
+                        make this easy to do.</p>
+
+                        <p>To compile from the command line, you'll need to have Apache Ant installed; 
+                        see <a href="http://ant.apache.org">http://ant.apache.org</a>.</p>
+
+                        <p><strong>IMPORTANT</strong>: our default task in Ant also runs our unit tests, which are 
+                        written using jUnit. You need to have Ant be aware of jUnit <b>before</b> compiling 
+                        SwingX-WS. We can't help you with this--it's an Ant configuration issue.</p>
+
+                        <p>If jUnit is not properly configured, you may get an error like this:
+                        <pre>
+            BUILD FAILED
+            c:\swingx-ws\nbproject\build-impl.xml:407: Following error occured while executing this line
+            c:\swingx-ws\nbproject\build-impl.xml:127: Could not create task or type of type: junit.
+
+            Ant could not find the task or a class this task relies upon.
+                        </pre></p>
+
+                        <p>Suggestions:
+                        <ul>
+                            <li>for Ant 1.5.x and previous, make sure optional.jar is in your ANT_HOME\lib directory.</li>
+                            <li>for Ant 1.6.x and above, make sure ant-junit.jar is in your ANT_HOME\lib directory, 
+                                and that jUnit.jar is either in that directory as well OR listed on your CLASSPATH.</li>
+                        </ul>    
+                        You can build SwingX-WS by going to the command line and typing
+                        <pre><code>
+            ant
+                        </code></pre>
+                        That should be it--this will test and build swingx-ws.jar in the dist directory.</p>
+                    </div>
+                </div>
+                <div id="footer" />
+            </div>
+        </div>
+  </body>
+</html>

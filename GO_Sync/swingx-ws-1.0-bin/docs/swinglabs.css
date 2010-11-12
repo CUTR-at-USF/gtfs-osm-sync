@@ -1,0 +1,319 @@
+/* 
+    Document   : swinglabs
+    Created on : October 11, 2005, 10:10 AM
+    Author     : rb156199
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+body {
+  background-color: #F8C04B;
+  background-image: url(./images/background.png);
+  background-repeat: repeat-x;
+  margin: 0px 0px 0px 0px;
+}
+
+a {
+  color: #3470D0;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #F37700;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/*====================================================*/
+/* CONTAINER */
+/*====================================================*/
+
+#container {
+  width: 742px;
+  margin-left: auto;
+  margin-right: auto;
+  background-image: url(./images/shadow.png);
+  background-repeat: repeat-y;
+}
+
+#stitch-hack {
+  background-image: url(./images/stitch.png);
+  background-repeat: no-repeat;
+  background-position: 0px 89px;
+}
+
+/*====================================================*/
+/* HEADER */
+/*====================================================*/
+
+#banner {
+  height: 89px;
+  width: 742px;  
+  background-image: url(./images/banner.png);
+  background-repeat: repeat-x;
+}
+
+/*====================================================*/
+/* MENU */
+/*====================================================*/
+
+#menu {
+  width: 714px;
+  margin-left: 14px;
+  margin-right: 9px;
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 19px;
+  text-align: left;
+  background-image: url(./images/menu-background.png);
+  background-repeat: repeat-x;
+}
+
+#menu a {
+  vertical-align: top;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: small;
+  text-decoration: none;
+  color: white;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-bottom: 4px;
+}
+
+#menu a:hover {
+  text-decoration: none;
+  background-image: url(./images/menu-background-hover.png);
+  background-repeat: repeat-x;
+}
+
+/*====================================================*/
+/* CONTENT */
+/*====================================================*/
+
+#content {
+  color: black;
+  background-color: #FFFFFF;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: small;
+  width: 684px;
+  margin-left: 14px;
+  margin-right: 14px;
+  padding-bottom: 25px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#content p {
+  text-align: justify;
+}
+
+#content h2 {
+  margin-top: 0px;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: large;
+}
+
+#content span.arrow-left {
+  background-image: url(./images/arrow-left.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  padding-right: 50px;
+}
+
+#content span.arrow-right {
+  background-image: url(./images/arrow-right.png);
+  background-repeat: no-repeat;
+  padding-left: 50px;
+}
+
+#content h2.left {
+  text-align: left;
+}
+
+#content h2.right {
+  text-align: right;
+}
+
+div.section {
+  padding-top: 25px;
+  clear: left;
+}
+
+/*====================================================*/
+/* NEWS ITEMS */
+/*====================================================*/
+
+#newsimg {
+  float: left;
+}
+
+#news-title {
+  font-size: small;
+}
+
+/*====================================================*/
+/* CORE PROJECTS */
+/*====================================================*/
+
+.title-row {
+  margin-top: -10px;
+}
+
+.first-col {
+  padding-right: 5px;
+}
+
+.second-col {
+  padding-left: 5px;
+}
+
+.odd-row {
+  background: #E0E0E0;
+  valign: top;
+}
+
+.even-row {
+  valign: top;
+}
+
+/*====================================================*/
+/* BOXES */
+/*====================================================*/
+#box {
+  background-image: url(./images/box-background.png);
+  background-repeat: repeat-y;
+  width: 240px;
+  color: white;
+  float: right;
+  margin-left: 15px;
+  margin-right: -8px;
+}
+
+#box-2 {
+  background-image: url(./images/box-background.png);
+  background-repeat: repeat-y;
+  width: 240px;
+  color: white;
+  float: left;
+  margin-right: 15px;
+  margin-left: -8px;
+}
+
+div.box-top {
+  background-image: url(./images/box-top.png);
+  background-repeat: no-repeat;
+  background-position: top;
+  padding-top: 8px;
+}
+
+div.box-content {
+  background-image: url(./images/box-bottom.png);
+  background-repeat: no-repeat;
+  background-position: bottom;
+  padding-top: 10px;
+  padding-bottom: 18px;
+  padding-left: 16px;
+  padding-right: 8px;
+}
+
+div.title {
+  font-size: large;
+  font-variant: small-caps;
+  font-weight: bold;
+  padding-left: 16px;
+  padding-right: 8px;
+}
+
+div.subtitle {
+  padding-left: 16px;
+  padding-right: 8px;
+  font-weight: bold;
+  font-size: normal;
+}
+
+/*====================================================*/
+/* FOOTER */
+/*====================================================*/
+#footer {
+  background-image: url(./images/footer.png);
+  background-repeat: repeat-x;
+  height: 51px;
+  width: 740px;
+}
+
+/*====================================================*/
+/* MISCELLANEOUS */
+/*====================================================*/
+.code {
+  background-color: #FFFFCC;
+  padding: 10px;
+  border: 1px solid #000000;
+  margin: 10px;
+  font-family: "Courier New", Courier, mono;
+}
+
+/*====================================================*/
+/* SCREENSHOTS */
+/*====================================================*/
+
+.screenshot-caption {
+  clear: left;
+}
+
+/*====================================================*/
+/* STORE */
+/*====================================================*/
+
+span.component-title {
+    font-weight: bold;
+    font-size: normal;
+}
+
+span.description-title {
+    font-size: small;
+}
+
+img.component-icon {
+    float: left;
+    margin-right: 6px;
+}
+
+span.components-links {
+    margin-left: 38px;
+}
+
+p.component {
+    padding-bottom: 12px;
+}
+
+img.component-small-icon {
+    margin-right: 3px;
+    vertical-align: bottom;
+}
+
+#catalog {
+    margin-bottom: 6px;
+}
+
+#selected-components {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    overflow: auto;
+    height: 216px;
+    border: 2px solid #FFFFFF;
+}
+
+#download-buttons {
+    text-align: right;
+    margin-right: 8px;
+}

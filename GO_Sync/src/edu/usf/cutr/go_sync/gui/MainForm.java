@@ -596,7 +596,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                     taskOutput.append("Task canceled.\n");
                 } else {
                     taskOutput.append("Task completed.\n");
-                    if (task==compareTask) compareTask.generateReport();
+//                    if (task==compareTask) compareTask.generateReport();
                 }
             }
         }

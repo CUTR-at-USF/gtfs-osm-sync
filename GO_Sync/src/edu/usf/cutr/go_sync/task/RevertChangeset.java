@@ -36,6 +36,7 @@ public class RevertChangeset extends OsmTask{
     private JTextArea taskOutput;
     
     public RevertChangeset(String rcId, ProgressMonitor pm, JTextArea to){
+        super(pm);
         progressMonitor = pm;
         revertChangesetId = rcId;
         taskOutput = to;

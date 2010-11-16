@@ -17,6 +17,7 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.task;
 
+import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
 
 /**
@@ -28,6 +29,11 @@ public class OsmTask extends SwingWorker<Void, Void>{
 
     private String message;
     private int progress;
+    private ProgressMonitor progressMonitor;
+
+    public OsmTask(ProgressMonitor pm){
+        progressMonitor = pm;
+    }
     
     public Void doInBackground() {
         return null;
@@ -46,6 +52,7 @@ public class OsmTask extends SwingWorker<Void, Void>{
     }
 
     public void updateProgress(int p){
+        if(progressMonitor==null || !progressMonitor.isCanceled()) {
         try {
             Thread.sleep(SLEEP_TIME);
             progress+=p;
@@ -53,6 +60,10 @@ public class OsmTask extends SwingWorker<Void, Void>{
         } catch (InterruptedException e) {
             this.setMessage(e.getMessage());
             setProgress(100);
+        }
+        } else {
+            this.cancel(true);
+//            progressMonitor.close();
         }
     }
 }

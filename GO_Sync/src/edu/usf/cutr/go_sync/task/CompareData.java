@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.ProgressMonitor;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
@@ -88,6 +90,7 @@ public class CompareData extends OsmTask{
     private JTextArea taskOutput;
     
     public CompareData(ProgressMonitor pm, JTextArea to){
+        super(pm);
         taskOutput = to;
         osmRequest = new HttpRequest(taskOutput);
         fileNameInStops = OperatorInfo.getFileDirectory()+"\\stops.txt";
@@ -647,7 +650,10 @@ public class CompareData extends OsmTask{
     @Override
     public void done() {
         Toolkit.getDefaultToolkit().beep();
+        boolean isCanceled = progressMonitor.isCanceled();
         progressMonitor.setProgress(0);
+        progressMonitor.close();
+        if(!isCanceled) generateReport();
     }
 
     public void generateReport(){

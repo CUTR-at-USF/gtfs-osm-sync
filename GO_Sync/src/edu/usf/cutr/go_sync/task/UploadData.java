@@ -33,7 +33,8 @@ public class UploadData extends OsmTask{
     private HashSet<Stop> upload, modify, delete;
     private Hashtable finalRoutes;
 
-    public UploadData(JProgressBar pb, HttpRequest or, HashSet<Stop> u, HashSet<Stop> m, HashSet<Stop> d, Hashtable fRoutes){        
+    public UploadData(JProgressBar pb, HttpRequest or, HashSet<Stop> u, HashSet<Stop> m, HashSet<Stop> d, Hashtable fRoutes){
+        super(null);
         upload = new HashSet<Stop>();
         upload.addAll(u);
 

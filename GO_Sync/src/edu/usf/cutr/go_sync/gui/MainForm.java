@@ -1,29 +1,29 @@
 /**
 Copyright 2010 University of South Florida
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
-**/
+ **/
 
 /*
  * MainForm.java
  *
  * Created on Jul 20, 2010, 9:15:56 PM
  */
-
 package edu.usf.cutr.go_sync.gui;
 
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JFileChooser;
@@ -42,21 +42,25 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import edu.usf.cutr.go_sync.io.DefaultOperatorReader;
+import edu.usf.cutr.go_sync.object.DefaultOperator;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
- * @author Khoa Tran
+ * @author Khoa Tran and Marcy Gordon
  */
-public class MainForm extends javax.swing.JFrame implements PropertyChangeListener{
+public class MainForm extends javax.swing.JFrame implements PropertyChangeListener {
+
     private String _operatorName;
     private String _operatorNameAbbreviate;
     private String _operatorAlias;
-    private String _operatorNtdId="";
-    private String _username;
-    private String _password;
-    private String _changesetComment;
+    private String _operatorNtdId = "";
     private int _gtfsIdDigit;
     private String _revertChangesetId;
     private String _fileDir;
@@ -64,12 +68,64 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private RevertChangeset revertTask;
     private ProgressMonitor progressMonitor;
     private OsmTask task;
+    private List<DefaultOperator> ops;
 
     /** Creates new form MainForm */
     public MainForm() {
         initComponents();
+
+        DefaultOperatorReader reader = new DefaultOperatorReader(); //create a new reader
+        ops = reader.readOperators(new File("operators.csv").getAbsolutePath()); //read a file with operator info for autocompletion
+
+        //TODO Fix textfield with ops is null (operators.csv doesn't exist)
         
-        operatorNameField.requestFocusInWindow();
+        List l = new ArrayList(); //create a new list to store operator names
+        l.add(""); //first entry in the list will be blank
+        if (ops != null) {
+            for (DefaultOperator op : ops) { //for each operator
+                l.add(op.getOperatorName()); //add their name to the list for autocompletion
+            }
+        }
+
+        //create a new textfield with autocomplete for operator names
+        operatorNameField = new usf.edu.cutr.go_sync.gui.object.AutoCompleteTextField(l);
+
+        //add the textfield to the panel
+        jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
+        
+        if (ops != null) {
+            KeyListener listener = new KeyListener() { //create key listener for autocomple text field
+
+                public void keyTyped(KeyEvent e) {
+                    ///System.out.println("Typed!");
+                }
+
+                public void keyPressed(KeyEvent e) {
+                    //System.out.println("Pressed!");
+                }
+
+                public void keyReleased(KeyEvent e) {
+                    //System.out.println("Released!");
+                    for (DefaultOperator op : ops) { //look through all known operators
+                        if (op.getOperatorName().equalsIgnoreCase(operatorNameField.getText())) { //if we have info on the operator
+                            operatorNameAbbField.setText(op.getOperatorAbbreviation()); //automatically fill out the abbreviation
+                            operatorNTDIDField.setText(String.valueOf(op.getNtdID())); //fill in the NTD ID
+                            if (op.getStopDigits() > 0) { //if we know the length of the stop IDs
+                                gtfsIdDigitField.setText(String.valueOf(op.getStopDigits())); //fill in the GTFS stop ID length
+                            }
+                            if (op.getGtfsURL() != null && !op.getGtfsURL().isEmpty()) { //if we know the GTFS URL
+                                rbURL.setSelected(true); //select the URL radio button
+                                fileDirTextField.setText(op.getGtfsURL()); //fill in the GTFS URL
+                            }
+                            break;
+                        }
+                    }
+                }
+            };
+            operatorNameField.addKeyListener(listener); //add the listener to the textfield so that once an operator is recognized, other known values will populate
+        }
+
+        operatorNameField.requestFocusInWindow(); //set the cursor in the operator name autocomplete text field
     }
 
     /** This method is called from within the constructor to
@@ -90,15 +146,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorNameAbbField = new javax.swing.JTextField();
         compareButton = new javax.swing.JButton();
         usernameLabel2 = new javax.swing.JLabel();
-        operatorNameField = new javax.swing.JTextField();
         operatorNTDIDField = new javax.swing.JTextField();
         usernameLabel3 = new javax.swing.JLabel();
         gtfsIdDigitField = new javax.swing.JTextField();
         operatorNameLabel1 = new javax.swing.JLabel();
         operatorAliasField = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        rbURL = new javax.swing.JRadioButton();
+        rbFileFolder = new javax.swing.JRadioButton();
         fileNameLabel = new javax.swing.JLabel();
         fileDirTextField = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
@@ -131,20 +186,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         jPanel1.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
-        operatorNameAbbField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                operatorNameAbbFieldActionPerformed(evt);
-            }
-        });
         jPanel1.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
         operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
 
         compareButton.setText("Run");
-        compareButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                compareButtonMouseClicked(evt);
-            }
-        });
         compareButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 compareButtonActionPerformed(evt);
@@ -154,10 +199,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         usernameLabel2.setText("Operator NTD ID");
         jPanel1.add(usernameLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
-
-        operatorNameField.setName("usernameField"); // NOI18N
-        jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
-        operatorNameField.getAccessibleContext().setAccessibleName("operatorNameField");
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
         jPanel1.add(operatorNTDIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 50, -1));
@@ -178,32 +219,26 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
         jPanel3.setName("pnlGTFSData"); // NOI18N
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("URL");
-        jRadioButton2.setName("rbURL"); // NOI18N
-        jRadioButton2.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton2StateChanged(evt);
+        buttonGroup1.add(rbURL);
+        rbURL.setText("URL");
+        rbURL.setName("rbURL"); // NOI18N
+        rbURL.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbURLItemStateChanged(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Folder or Zip File");
-        jRadioButton1.setName("rbFolderFile"); // NOI18N
-        jRadioButton1.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton1StateChanged(evt);
+        buttonGroup1.add(rbFileFolder);
+        rbFileFolder.setSelected(true);
+        rbFileFolder.setText("Folder or Zip File");
+        rbFileFolder.setName("rbFolderFile"); // NOI18N
+        rbFileFolder.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbFileFolderItemStateChanged(evt);
             }
         });
 
         fileNameLabel.setText("Folder or Zip File (*)");
-
-        fileDirTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileDirTextFieldActionPerformed(evt);
-            }
-        });
 
         browseButton.setText("Browse");
         browseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -227,20 +262,20 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(172, 172, 172)
-                        .addComponent(jRadioButton1)
+                        .addComponent(rbFileFolder)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton2)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(rbURL)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jRadioButton1, jRadioButton2});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {rbFileFolder, rbURL});
 
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton1))
+                    .addComponent(rbURL)
+                    .addComponent(rbFileFolder))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileNameLabel)
@@ -267,11 +302,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         revertChangesetField.setName("usernameField"); // NOI18N
 
         revertButton.setText("Run");
-        revertButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                revertButtonMouseClicked(evt);
-            }
-        });
         revertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 revertButtonActionPerformed(evt);
@@ -345,12 +375,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void compareButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compareButtonMouseClicked
+    private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
+        System.exit(0);
+}//GEN-LAST:event_exitButtonMouseClicked
+
+    private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareButtonActionPerformed
         // get data from user input
 
-        if (jRadioButton2.isSelected()) { //if user selected a URL
+        if (rbURL.isSelected()) { //if user selected a URL
             try {
-                if(!UnzipGTFS(null, new URL(fileDirTextField.getText()))) { //try to unzip from the URL
+                if (!UnzipGTFS(null, new URL(fileDirTextField.getText()))) { //try to unzip from the URL
                     JOptionPane.showMessageDialog(this, "Unable to unzip from URL. Please try again with another URL.");
                     return;
                 }
@@ -360,9 +394,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 return;
             }
             _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
-        } else if (jRadioButton1.isSelected()) { //else user selected a local file/folder
+        } else if (rbFileFolder.isSelected()) { //else user selected a local file/folder
             if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
-                if(!UnzipGTFS(chooser.getSelectedFile(), null)) { //unzip it to a temporary folder
+                if (!UnzipGTFS(chooser.getSelectedFile(), null)) { //unzip it to a temporary folder
                     JOptionPane.showMessageDialog(this, "Unable to unzip from file. Please try again with another file.");
                     return;
                 }
@@ -375,28 +409,24 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         //optional field
         _operatorNtdId = operatorNTDIDField.getText();
-        if(gtfsIdDigitField.getText()!=null && !gtfsIdDigitField.getText().equals("")) {
+        if (gtfsIdDigitField.getText() != null && !gtfsIdDigitField.getText().equals("")) {
             try {
                 _gtfsIdDigit = Integer.parseInt(gtfsIdDigitField.getText());
-            } catch (Exception e){
-                JOptionPane.showMessageDialog(this, "Message: "+e.getMessage());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Message: " + e.getMessage());
                 return;
             }
         }
-        
+
         //can't leave blank
         try {
             _operatorAlias = operatorAliasField.getText();
             _operatorName = operatorNameField.getText();
             _operatorNameAbbreviate = operatorNameAbbField.getText();
-//            _username = usernameField.getText();
-//            _password = new String(passwordField.getPassword());
-//            _changesetComment = sessionCommentField.getText();
 
             if (!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty()) {
-                    //&& !_username.isEmpty() && !_password.isEmpty() && !_changesetComment.isEmpty()) {
                 new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorNtdId, _gtfsIdDigit, _fileDir);
-                
+
                 progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data", "", 0, 100);
                 progressMonitor.setProgress(0);
                 compareButton.setEnabled(false);
@@ -404,51 +434,33 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 task = compareTask;
                 task.addPropertyChangeListener(this);
                 compareTask.execute();
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(this, "Please fill in all the required fields!");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Message: "+e.getMessage());
+            JOptionPane.showMessageDialog(this, "Message: " + e.getMessage());
         }
-}//GEN-LAST:event_compareButtonMouseClicked
-
-    private void exitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-}//GEN-LAST:event_exitButtonMouseClicked
-
-    private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareButtonActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_compareButtonActionPerformed
 
-    private void revertButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_revertButtonMouseClicked
+    private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
         try {
-//            _username = usernameField.getText();
-//            _password = new String(passwordField.getPassword());
-//            _changesetComment = sessionCommentField.getText();
             _revertChangesetId = revertChangesetField.getText();
 
-//            new Session(_username, _password, _changesetComment);
             OSMSessionForm osmLogin = new OSMSessionForm();
-            if(!osmLogin.showDialog()) //if user hit cancel and didn't enter OSM credentials
+            if (!osmLogin.showDialog()) //if user hit cancel and didn't enter OSM credentials
             {
                 JOptionPane.showMessageDialog(this, "To revert an OSM changeset, you must log in to OSM.");
                 return;
             }
-            progressMonitor = new ProgressMonitor(MainForm.this, "Reverting Openstreetmap changeset","", 0, 100);
+            progressMonitor = new ProgressMonitor(MainForm.this, "Reverting Openstreetmap changeset", "", 0, 100);
             progressMonitor.setProgress(0);
             revertTask = new RevertChangeset(_revertChangesetId, progressMonitor, taskOutput);
             task = revertTask;
             task.addPropertyChangeListener(this);
             revertTask.execute();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Message: "+e.getMessage());
+            JOptionPane.showMessageDialog(this, "Message: " + e.getMessage());
         }
-}//GEN-LAST:event_revertButtonMouseClicked
-
-    private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_revertButtonActionPerformed
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
@@ -469,6 +481,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
      * Returns true if it successfully unzipped the file
      */
     private boolean UnzipGTFS(File zipFile, URL zipURL) {
+        //TODO display a progress bar to user so they know a file is being unzipped
+
         File unzipFolder = new File("GTFS_Temp");
         String unzipLocation = unzipFolder.getAbsolutePath() + "\\"; //temporary folder to store unzipped files
         try {
@@ -488,12 +502,11 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             ZipInputStream zip;
 
             //TODO test that URL and file are actually ZIP files
-            
-            if(zipFile == null) {
+
+            if (zipFile == null) {
                 System.out.println("Unzipping " + zipURL.toString() + " to " + unzipLocation);
                 zip = new ZipInputStream(zipURL.openStream());
-            }
-            else {
+            } else {
                 System.out.println("Unzipping " + zipFile.getAbsolutePath() + " to " + unzipLocation);
                 zip = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
             }
@@ -526,16 +539,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         return true;
     }
 
-    private void fileDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileDirTextFieldActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_fileDirTextFieldActionPerformed
-
-    private void operatorNameAbbFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_operatorNameAbbFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_operatorNameAbbFieldActionPerformed
-
-    private void jRadioButton1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton1StateChanged
-        if (jRadioButton1.isSelected()) {
+    private void rbFileFolderItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbFileFolderItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED && rbFileFolder.isSelected()) {
             fileNameLabel.setText("Folder or Zip File (*)");
             browseButton.setVisible(true);
             if (chooser != null) {
@@ -544,38 +549,35 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 fileDirTextField.setText("");
             }
         }
-    }//GEN-LAST:event_jRadioButton1StateChanged
+    }//GEN-LAST:event_rbFileFolderItemStateChanged
 
-    private void jRadioButton2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton2StateChanged
-        if (jRadioButton2.isSelected()) {
+    private void rbURLItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbURLItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED && rbURL.isSelected()) {
             fileNameLabel.setText("URL of Zip File (*)");
             browseButton.setVisible(false);
             fileDirTextField.setText("");
         }
-    }//GEN-LAST:event_jRadioButton2StateChanged
+    }//GEN-LAST:event_rbURLItemStateChanged
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         try {
-            // Set system navtive Java L&F
+            // Set system native Java L&F
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (UnsupportedLookAndFeelException e) {
+        } catch (UnsupportedLookAndFeelException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
-        }
-        catch (InstantiationException e) {
+        } catch (InstantiationException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new MainForm().setVisible(true);
             }
@@ -586,7 +588,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         if (evt.getPropertyName().equals("progress")) {
             int progress = (Integer) evt.getNewValue();
             progressMonitor.setProgress(progress);
-            String message = task.getMessage()+"   "+progress+"% \n";
+            String message = task.getMessage() + "   " + progress + "% \n";
             taskOutput.append(message);
             if (progressMonitor.isCanceled() || task.isDone()) {
                 progressMonitor.close();
@@ -601,7 +603,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         }
     }
-
+    private usf.edu.cutr.go_sync.gui.object.AutoCompleteTextField operatorNameField;
     private javax.swing.JFileChooser chooser;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel OperatorAbbLabel;
@@ -617,21 +619,19 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField operatorAliasField;
     private javax.swing.JTextField operatorNTDIDField;
     private javax.swing.JTextField operatorNameAbbField;
-    private javax.swing.JTextField operatorNameField;
     private javax.swing.JLabel operatorNameLabel;
     private javax.swing.JLabel operatorNameLabel1;
+    private javax.swing.JRadioButton rbFileFolder;
+    private javax.swing.JRadioButton rbURL;
     private javax.swing.JButton revertButton;
     private javax.swing.JTextField revertChangesetField;
     private javax.swing.JTextArea taskOutput;
     private javax.swing.JLabel usernameLabel2;
     private javax.swing.JLabel usernameLabel3;
     // End of variables declaration//GEN-END:variables
-
 }

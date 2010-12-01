@@ -31,11 +31,13 @@ public class OsmTask extends SwingWorker<Void, Void>{
     private int progress;
     private ProgressMonitor progressMonitor;
 
+    public boolean flagIsDone = false;
+
     public OsmTask(ProgressMonitor pm){
         progressMonitor = pm;
     }
     
-    public Void doInBackground() {
+    public Void doInBackground() throws InterruptedException {
         return null;
     }
 
@@ -51,19 +53,24 @@ public class OsmTask extends SwingWorker<Void, Void>{
         return message;
     }
 
-    public void updateProgress(int p){
+    public void updateProgress(int p) throws InterruptedException{
         if(progressMonitor==null || !progressMonitor.isCanceled()) {
         try {
             Thread.sleep(SLEEP_TIME);
             progress+=p;
             setProgress(Math.min(progress, 100));
         } catch (InterruptedException e) {
-            this.setMessage(e.getMessage());
-            setProgress(100);
+            this.cancel(true);
+            throw new InterruptedException();
+//            setProgress(100);
         }
         } else {
             this.cancel(true);
 //            progressMonitor.close();
         }
+    }
+
+    public int getCurrentProgress(){
+        return progress;
     }
 }

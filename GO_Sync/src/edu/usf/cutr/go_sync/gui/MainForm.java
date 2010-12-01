@@ -88,7 +88,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         }
 
         //create a new textfield with autocomplete for operator names
-        operatorNameField = new usf.edu.cutr.go_sync.gui.object.AutoCompleteTextField(l);
+        operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
 
         //add the textfield to the panel
         jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
@@ -106,6 +106,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
                 public void keyReleased(KeyEvent e) {
                     //System.out.println("Released!");
+                    boolean isFound = false;
                     for (DefaultOperator op : ops) { //look through all known operators
                         if (op.getOperatorName().equalsIgnoreCase(operatorNameField.getText())) { //if we have info on the operator
                             operatorNameAbbField.setText(op.getOperatorAbbreviation()); //automatically fill out the abbreviation
@@ -117,8 +118,19 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                                 rbURL.setSelected(true); //select the URL radio button
                                 fileDirTextField.setText(op.getGtfsURL()); //fill in the GTFS URL
                             }
+
+                            isFound = true;
+
                             break;
                         }
+                    }
+                    // clear all fields
+                    if(!isFound){
+                        operatorNameAbbField.setText("");
+                        operatorNTDIDField.setText("");
+                        gtfsIdDigitField.setText("");
+                        rbURL.setSelected(true);
+                        fileDirTextField.setText("");
                     }
                 }
             };
@@ -380,6 +392,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 }//GEN-LAST:event_exitButtonMouseClicked
 
     private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareButtonActionPerformed
+        // clear the text area output
+        taskOutput.setText("");
+        taskOutput.setLineWrap(true);
+
         // get data from user input
 
         if (rbURL.isSelected()) { //if user selected a URL
@@ -593,17 +609,20 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             if (progressMonitor.isCanceled() || task.isDone()) {
                 progressMonitor.close();
                 Toolkit.getDefaultToolkit().beep();
-                if (progressMonitor.isCanceled()) {
+                if (progressMonitor.isCanceled() || progress<100 || task.flagIsDone) {
                     task.cancel(true);
                     taskOutput.append("Task canceled.\n");
+                    compareButton.setEnabled(true);
                 } else {
                     taskOutput.append("Task completed.\n");
 //                    if (task==compareTask) compareTask.generateReport();
+                    this.dispose();
                 }
             }
         }
+        taskOutput.setCaretPosition(taskOutput.getText().length());
     }
-    private usf.edu.cutr.go_sync.gui.object.AutoCompleteTextField operatorNameField;
+    private edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField operatorNameField;
     private javax.swing.JFileChooser chooser;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel OperatorAbbLabel;

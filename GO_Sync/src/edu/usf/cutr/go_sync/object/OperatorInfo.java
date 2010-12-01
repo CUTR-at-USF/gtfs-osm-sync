@@ -86,7 +86,8 @@ public class OperatorInfo {
 
     public static boolean isTheSameOperator(String osmOperator) {
         for (int i=0; i<possibleOperatorName.size(); i++) {
-            if (osmOperator.toUpperCase().contains(possibleOperatorName.get(i))) {
+            if (osmOperator.toUpperCase().contains(possibleOperatorName.get(i)) ||
+                    possibleOperatorName.get(i).contains(osmOperator.toUpperCase())) {
                 return true;
             }
         }

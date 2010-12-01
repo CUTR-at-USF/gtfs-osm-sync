@@ -1,0 +1,954 @@
+<osmChange version='0.6' generator=''>
+<create>
+<node changeset='DUMMY' id='-1' lat='27.975218' lon='-82.31358'>
+<tag k='gtfs_id' v='7717' />
+<tag k='route_ref' v='32' />
+<tag k='highway' v='bus_stop' />
+<tag k='name' v='Broadway Av @ Magnolia Av' />
+<tag k='gtfs_stop_code' v='7717' />
+<tag k='ntd_id' v='4041' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+</node>
+</create>
+<modify>
+<relation changeset='DUMMY' id='1138168' version='3'>
+<member type='node' ref='828180209' role='stop' />
+<member type='node' ref='828180112' role='stop' />
+<member type='node' ref='828180089' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828197581' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828180125' role='stop' />
+<member type='node' ref='828186542' role='stop' />
+<member type='node' ref='828177195' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828180094' role='stop' />
+<member type='node' ref='828180106' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828180228' role='stop' />
+<member type='node' ref='828197517' role='stop' />
+<member type='node' ref='828197636' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828197353' role='stop' />
+<tag k='gtfs_route_id' v='200' />
+<tag k='ref' v='200' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='200' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 200' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='200 Clearwater Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/200x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138306' version='3'>
+<member type='node' ref='828184208' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828184184' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828177912' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828184200' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828178138' role='stop' />
+<tag k='gtfs_route_id' v='28' />
+<tag k='ref' v='28' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='28' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 28' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='East County Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/28x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138307' version='3'>
+<member type='node' ref='828182864' role='stop' />
+<member type='node' ref='828182763' role='stop' />
+<member type='node' ref='828196773' role='stop' />
+<member type='node' ref='828182783' role='stop' />
+<member type='node' ref='828179344' role='stop' />
+<member type='node' ref='828196903' role='stop' />
+<member type='node' ref='828179493' role='stop' />
+<member type='node' ref='828182766' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828179719' role='stop' />
+<member type='node' ref='828180634' role='stop' />
+<member type='node' ref='828182861' role='stop' />
+<member type='node' ref='828196613' role='stop' />
+<member type='node' ref='828191287' role='stop' />
+<member type='node' ref='828179714' role='stop' />
+<member type='node' ref='828182866' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828179328' role='stop' />
+<member type='node' ref='828179491' role='stop' />
+<member type='node' ref='828184051' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828182859' role='stop' />
+<member type='node' ref='828182718' role='stop' />
+<member type='node' ref='828182752' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828196681' role='stop' />
+<member type='node' ref='828182786' role='stop' />
+<member type='node' ref='828182739' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828188471' role='stop' />
+<member type='node' ref='828197647' role='stop' />
+<member type='node' ref='828182759' role='stop' />
+<member type='node' ref='828196795' role='stop' />
+<member type='node' ref='828182745' role='stop' />
+<member type='node' ref='828182669' role='stop' />
+<member type='node' ref='828184063' role='stop' />
+<member type='node' ref='828197338' role='stop' />
+<member type='node' ref='828196782' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828196702' role='stop' />
+<member type='node' ref='828196806' role='stop' />
+<member type='node' ref='828180603' role='stop' />
+<tag k='gtfs_route_id' v='27' />
+<tag k='ref' v='27' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='27' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 27' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Fishhawk- South Brandon Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/27x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138308' version='3'>
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828197780' role='stop' />
+<member type='node' ref='828192529' role='stop' />
+<member type='node' ref='828183492' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828177659' role='stop' />
+<member type='node' ref='828179693' role='stop' />
+<member type='node' ref='828177267' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828177288' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828192895' role='stop' />
+<member type='node' ref='828177337' role='stop' />
+<member type='node' ref='828183493' role='stop' />
+<member type='node' ref='828193834' role='stop' />
+<member type='node' ref='828183437' role='stop' />
+<member type='node' ref='828182995' role='stop' />
+<member type='node' ref='828178148' role='stop' />
+<member type='node' ref='828197212' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828197232' role='stop' />
+<member type='node' ref='828197251' role='stop' />
+<member type='node' ref='828197177' role='stop' />
+<member type='node' ref='828197821' role='stop' />
+<member type='node' ref='828198539' role='stop' />
+<member type='node' ref='828179366' role='stop' />
+<member type='node' ref='828197189' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828183468' role='stop' />
+<member type='node' ref='828184879' role='stop' />
+<member type='node' ref='828177301' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828177551' role='stop' />
+<member type='node' ref='828177349' role='stop' />
+<member type='node' ref='828197667' role='stop' />
+<member type='node' ref='828192810' role='stop' />
+<member type='node' ref='828187862' role='stop' />
+<tag k='gtfs_route_id' v='59' />
+<tag k='ref' v='59' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='59' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 59' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Westchase-Town &apos;N Country Limit' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/59lx.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138313' version='3'>
+<member type='node' ref='828182193' role='stop' />
+<member type='node' ref='828186822' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828197483' role='stop' />
+<member type='node' ref='828179152' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828197686' role='stop' />
+<member type='node' ref='828197682' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828182341' role='stop' />
+<tag k='gtfs_route_id' v='23' />
+<tag k='ref' v='23' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='23' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 23' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Temple Terrace Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/23x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138315' version='3'>
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828197690' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828180039' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828197823' role='stop' />
+<tag k='gtfs_route_id' v='22' />
+<tag k='ref' v='22' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='22' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 22' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Dover - Brandon Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/22x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138316' version='3'>
+<member type='node' ref='828186981' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828186685' role='stop' />
+<member type='node' ref='828196956' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828197777' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828196969' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828196502' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828196490' role='stop' />
+<tag k='gtfs_route_id' v='20' />
+<tag k='ref' v='20' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='20' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 20' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Lutz Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/20x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138317' version='3'>
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828180598' role='stop' />
+<member type='node' ref='828179440' role='stop' />
+<member type='node' ref='828179503' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<tag k='gtfs_route_id' v='51' />
+<tag k='ref' v='51' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='51' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 51' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='New Tampa - Pasco Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/51x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138318' version='3'>
+<member type='node' ref='828197443' role='stop' />
+<member type='node' ref='828195548' role='stop' />
+<member type='node' ref='828184227' role='stop' />
+<member type='node' ref='828190833' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828195678' role='stop' />
+<member type='node' ref='828184228' role='stop' />
+<member type='node' ref='828197439' role='stop' />
+<member type='node' ref='828184027' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828197453' role='stop' />
+<member type='node' ref='828197417' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828198529' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828192657' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<tag k='gtfs_route_id' v='50' />
+<tag k='ref' v='50' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='50' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 50' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Citrus Park-Carrollwood Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/50x.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138325' version='3'>
+<member type='node' ref='828194517' role='stop' />
+<member type='node' ref='828194020' role='stop' />
+<member type='node' ref='828191874' role='stop' />
+<member type='node' ref='828182476' role='stop' />
+<member type='node' ref='828195589' role='stop' />
+<member type='node' ref='828194180' role='stop' />
+<member type='node' ref='828193896' role='stop' />
+<member type='node' ref='828194482' role='stop' />
+<member type='node' ref='828190421' role='stop' />
+<member type='node' ref='828194159' role='stop' />
+<member type='node' ref='828194788' role='stop' />
+<member type='node' ref='828185719' role='stop' />
+<member type='node' ref='828194182' role='stop' />
+<member type='node' ref='828182468' role='stop' />
+<member type='node' ref='828189566' role='stop' />
+<member type='node' ref='828185816' role='stop' />
+<member type='node' ref='828195599' role='stop' />
+<member type='node' ref='828177690' role='stop' />
+<member type='node' ref='828194539' role='stop' />
+<member type='node' ref='828195582' role='stop' />
+<member type='node' ref='828194628' role='stop' />
+<member type='node' ref='828183846' role='stop' />
+<member type='node' ref='828195216' role='stop' />
+<member type='node' ref='828185683' role='stop' />
+<member type='node' ref='828182497' role='stop' />
+<member type='node' ref='828189456' role='stop' />
+<member type='node' ref='828194631' role='stop' />
+<member type='node' ref='828194085' role='stop' />
+<member type='node' ref='828182487' role='stop' />
+<member type='node' ref='828189517' role='stop' />
+<member type='node' ref='828189950' role='stop' />
+<member type='node' ref='828182875' role='stop' />
+<member type='node' ref='828183847' role='stop' />
+<member type='node' ref='828190412' role='stop' />
+<member type='node' ref='828194037' role='stop' />
+<member type='node' ref='828196258' role='stop' />
+<member type='node' ref='828183849' role='stop' />
+<member type='node' ref='828185825' role='stop' />
+<member type='node' ref='828197732' role='stop' />
+<member type='node' ref='828195469' role='stop' />
+<member type='node' ref='828189951' role='stop' />
+<member type='node' ref='828194139' role='stop' />
+<member type='node' ref='828193924' role='stop' />
+<member type='node' ref='828194623' role='stop' />
+<member type='node' ref='828194804' role='stop' />
+<member type='node' ref='828185846' role='stop' />
+<member type='node' ref='828184696' role='stop' />
+<member type='node' ref='828193803' role='stop' />
+<member type='node' ref='828194280' role='stop' />
+<member type='node' ref='828189794' role='stop' />
+<member type='node' ref='828197657' role='stop' />
+<member type='node' ref='828194051' role='stop' />
+<member type='node' ref='828193824' role='stop' />
+<member type='node' ref='828194529' role='stop' />
+<member type='node' ref='828182495' role='stop' />
+<member type='node' ref='828189576' role='stop' />
+<member type='node' ref='828194554' role='stop' />
+<member type='node' ref='828192861' role='stop' />
+<member type='node' ref='828190404' role='stop' />
+<member type='node' ref='828194410' role='stop' />
+<member type='node' ref='828195516' role='stop' />
+<member type='node' ref='828189476' role='stop' />
+<member type='node' ref='828195479' role='stop' />
+<member type='node' ref='828193884' role='stop' />
+<member type='node' ref='828194098' role='stop' />
+<member type='node' ref='828194102' role='stop' />
+<member type='node' ref='828182653' role='stop' />
+<member type='node' ref='828182519' role='stop' />
+<member type='node' ref='828182505' role='stop' />
+<member type='node' ref='828194739' role='stop' />
+<member type='node' ref='828179152' role='stop' />
+<member type='node' ref='828194742' role='stop' />
+<member type='node' ref='828195538' role='stop' />
+<member type='node' ref='828189705' role='stop' />
+<member type='node' ref='828194474' role='stop' />
+<member type='node' ref='828189591' role='stop' />
+<member type='node' ref='828195137' role='stop' />
+<member type='node' ref='828195153' role='stop' />
+<member type='node' ref='828181919' role='stop' />
+<member type='node' ref='828183827' role='stop' />
+<member type='node' ref='828194826' role='stop' />
+<member type='node' ref='828183831' role='stop' />
+<member type='node' ref='828182369' role='stop' />
+<member type='node' ref='828195611' role='stop' />
+<member type='node' ref='828194775' role='stop' />
+<member type='node' ref='828184879' role='stop' />
+<member type='node' ref='828196862' role='stop' />
+<member type='node' ref='828194490' role='stop' />
+<member type='node' ref='828182499' role='stop' />
+<member type='node' ref='828194124' role='stop' />
+<member type='node' ref='828194119' role='stop' />
+<member type='node' ref='828177738' role='stop' />
+<member type='node' ref='828194254' role='stop' />
+<member type='node' ref='828194346' role='stop' />
+<member type='node' ref='828197668' role='stop' />
+<member type='node' ref='828195624' role='stop' />
+<member type='node' ref='828195680' role='stop' />
+<member type='node' ref='828194519' role='stop' />
+<member type='node' ref='828194496' role='stop' />
+<member type='node' ref='828182627' role='stop' />
+<member type='node' ref='828197696' role='stop' />
+<member type='node' ref='828194781' role='stop' />
+<member type='node' ref='828195182' role='stop' />
+<member type='node' ref='828193946' role='stop' />
+<member type='node' ref='828182521' role='stop' />
+<member type='node' ref='828193996' role='stop' />
+<member type='node' ref='828194397' role='stop' />
+<member type='node' ref='828194639' role='stop' />
+<member type='node' ref='828182507' role='stop' />
+<member type='node' ref='828189787' role='stop' />
+<member type='node' ref='828189180' role='stop' />
+<member type='node' ref='828185736' role='stop' />
+<member type='node' ref='828194301' role='stop' />
+<member type='node' ref='828197481' role='stop' />
+<member type='node' ref='828194363' role='stop' />
+<member type='node' ref='828193963' role='stop' />
+<member type='node' ref='828189723' role='stop' />
+<member type='node' ref='828197659' role='stop' />
+<member type='node' ref='828194199' role='stop' />
+<member type='node' ref='828183741' role='stop' />
+<member type='node' ref='828194541' role='stop' />
+<member type='node' ref='828194044' role='stop' />
+<member type='node' ref='828182491' role='stop' />
+<member type='node' ref='828194334' role='stop' />
+<member type='node' ref='828197505' role='stop' />
+<member type='node' ref='828194615' role='stop' />
+<member type='node' ref='828194498' role='stop' />
+<member type='node' ref='828189578' role='stop' />
+<member type='node' ref='828189717' role='stop' />
+<member type='node' ref='828184880' role='stop' />
+<member type='node' ref='828195211' role='stop' />
+<member type='node' ref='828194214' role='stop' />
+<member type='node' ref='828189935' role='stop' />
+<member type='node' ref='828194236' role='stop' />
+<member type='node' ref='828190009' role='stop' />
+<member type='node' ref='828185773' role='stop' />
+<member type='node' ref='828194316' role='stop' />
+<member type='node' ref='828183850' role='stop' />
+<member type='node' ref='828183856' role='stop' />
+<member type='node' ref='828194796' role='stop' />
+<member type='node' ref='828189857' role='stop' />
+<member type='node' ref='828194790' role='stop' />
+<member type='node' ref='828189546' role='stop' />
+<member type='node' ref='828194002' role='stop' />
+<member type='node' ref='828185066' role='stop' />
+<member type='node' ref='828185758' role='stop' />
+<member type='node' ref='828197741' role='stop' />
+<member type='node' ref='828182989' role='stop' />
+<member type='node' ref='828182481' role='stop' />
+<member type='node' ref='828194823' role='stop' />
+<member type='node' ref='828186050' role='stop' />
+<member type='node' ref='828193975' role='stop' />
+<member type='node' ref='828182355' role='stop' />
+<member type='node' ref='828182470' role='stop' />
+<member type='node' ref='828177799' role='stop' />
+<member type='node' ref='828182527' role='stop' />
+<member type='node' ref='828182655' role='stop' />
+<member type='node' ref='828195692' role='stop' />
+<member type='node' ref='828179366' role='stop' />
+<member type='node' ref='828182538' role='stop' />
+<member type='node' ref='828189448' role='stop' />
+<member type='node' ref='828194164' role='stop' />
+<member type='node' ref='828191870' role='stop' />
+<member type='node' ref='828190430' role='stop' />
+<member type='node' ref='828194619' role='stop' />
+<member type='node' ref='828193912' role='stop' />
+<member type='node' ref='828182490' role='stop' />
+<member type='node' ref='828194359' role='stop' />
+<member type='node' ref='828182472' role='stop' />
+<member type='node' ref='828177753' role='stop' />
+<member type='node' ref='828194811' role='stop' />
+<member type='node' ref='828194505' role='stop' />
+<tag k='gtfs_route_id' v='15' />
+<tag k='ref' v='15' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='15' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 15' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Columbus Drive' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/hartline/15.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF6600' />
+</relation>
+<relation changeset='DUMMY' id='1138326' version='3'>
+<member type='node' ref='828178853' role='stop' />
+<member type='node' ref='828179509' role='stop' />
+<member type='node' ref='828178731' role='stop' />
+<member type='node' ref='828189344' role='stop' />
+<member type='node' ref='828189314' role='stop' />
+<member type='node' ref='828179296' role='stop' />
+<member type='node' ref='828189426' role='stop' />
+<member type='node' ref='828185215' role='stop' />
+<member type='node' ref='828189383' role='stop' />
+<member type='node' ref='828189607' role='stop' />
+<member type='node' ref='828196416' role='stop' />
+<member type='node' ref='828179042' role='stop' />
+<member type='node' ref='828180082' role='stop' />
+<member type='node' ref='828189367' role='stop' />
+<member type='node' ref='828178993' role='stop' />
+<member type='node' ref='828192492' role='stop' />
+<member type='node' ref='828189410' role='stop' />
+<member type='node' ref='828178865' role='stop' />
+<member type='node' ref='828195037' role='stop' />
+<member type='node' ref='828178238' role='stop' />
+<member type='node' ref='828189348' role='stop' />
+<member type='node' ref='828189296' role='stop' />
+<member type='node' ref='828178933' role='stop' />
+<member type='node' ref='828178725' role='stop' />
+<member type='node' ref='828183986' role='stop' />
+<tag k='gtfs_route_id' v='47' />
+<tag k='ref' v='47' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='47' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 47' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Southshore Limited Express' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/commuterexpress/47lx.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF0000' />
+</relation>
+<relation changeset='DUMMY' id='1138336' version='3'>
+<member type='node' ref='828178982' role='stop' />
+<member type='node' ref='828196184' role='stop' />
+<member type='node' ref='828179821' role='stop' />
+<member type='node' ref='828191710' role='stop' />
+<member type='node' ref='828183740' role='stop' />
+<member type='node' ref='828190266' role='stop' />
+<member type='node' ref='828180556' role='stop' />
+<member type='node' ref='828189323' role='stop' />
+<member type='node' ref='828183745' role='stop' />
+<member type='node' ref='828191371' role='stop' />
+<member type='node' ref='828184272' role='stop' />
+<member type='node' ref='828191332' role='stop' />
+<member type='node' ref='828184256' role='stop' />
+<member type='node' ref='828184262' role='stop' />
+<member type='node' ref='828184585' role='stop' />
+<member type='node' ref='828178896' role='stop' />
+<member type='node' ref='828184284' role='stop' />
+<member type='node' ref='828184271' role='stop' />
+<member type='node' ref='828184131' role='stop' />
+<member type='node' ref='828191302' role='stop' />
+<member type='node' ref='828191931' role='stop' />
+<member type='node' ref='828196371' role='stop' />
+<member type='node' ref='828184033' role='stop' />
+<member type='node' ref='828196328' role='stop' />
+<member type='node' ref='828191886' role='stop' />
+<member type='node' ref='828182137' role='stop' />
+<member type='node' ref='828189038' role='stop' />
+<member type='node' ref='828184557' role='stop' />
+<member type='node' ref='828181270' role='stop' />
+<member type='node' ref='828196171' role='stop' />
+<member type='node' ref='828179536' role='stop' />
+<member type='node' ref='828191344' role='stop' />
+<member type='node' ref='828196370' role='stop' />
+<member type='node' ref='828184155' role='stop' />
+<member type='node' ref='828184073' role='stop' />
+<member type='node' ref='828191783' role='stop' />
+<member type='node' ref='828191674' role='stop' />
+<member type='node' ref='828182250' role='stop' />
+<member type='node' ref='828179538' role='stop' />
+<member type='node' ref='828196160' role='stop' />
+<member type='node' ref='828196155' role='stop' />
+<member type='node' ref='828196054' role='stop' />
+<member type='node' ref='828179539' role='stop' />
+<member type='node' ref='828179884' role='stop' />
+<member type='node' ref='828179541' role='stop' />
+<member type='node' ref='828181260' role='stop' />
+<member type='node' ref='828184083' role='stop' />
+<member type='node' ref='828197626' role='stop' />
+<member type='node' ref='828184126' role='stop' />
+<member type='node' ref='828191722' role='stop' />
+<member type='node' ref='828191755' role='stop' />
+<member type='node' ref='828182019' role='stop' />
+<member type='node' ref='828190262' role='stop' />
+<member type='node' ref='828196120' role='stop' />
+<member type='node' ref='828196083' role='stop' />
+<member type='node' ref='828182034' role='stop' />
+<member type='node' ref='828184156' role='stop' />
+<member type='node' ref='828178974' role='stop' />
+<member type='node' ref='828184170' role='stop' />
+<member type='node' ref='828179136' role='stop' />
+<member type='node' ref='828196364' role='stop' />
+<member type='node' ref='828192891' role='stop' />
+<member type='node' ref='828184872' role='stop' />
+<member type='node' ref='828194999' role='stop' />
+<member type='node' ref='828196200' role='stop' />
+<member type='node' ref='828184144' role='stop' />
+<member type='node' ref='828179607' role='stop' />
+<member type='node' ref='828191939' role='stop' />
+<member type='node' ref='828195336' role='stop' />
+<member type='node' ref='828197618' role='stop' />
+<member type='node' ref='828184071' role='stop' />
+<member type='node' ref='828188479' role='stop' />
+<member type='node' ref='828190319' role='stop' />
+<member type='node' ref='828184090' role='stop' />
+<member type='node' ref='828184245' role='stop' />
+<member type='node' ref='828191293' role='stop' />
+<member type='node' ref='828191919' role='stop' />
+<member type='node' ref='828196382' role='stop' />
+<member type='node' ref='828194924' role='stop' />
+<member type='node' ref='828178894' role='stop' />
+<member type='node' ref='828191728' role='stop' />
+<member type='node' ref='828184244' role='stop' />
+<member type='node' ref='828184290' role='stop' />
+<member type='node' ref='828194964' role='stop' />
+<member type='node' ref='828196095' role='stop' />
+<member type='node' ref='828179853' role='stop' />
+<member type='node' ref='828179838' role='stop' />
+<member type='node' ref='828196135' role='stop' />
+<member type='node' ref='828184051' role='stop' />
+<member type='node' ref='828184048' role='stop' />
+<member type='node' ref='828191869' role='stop' />
+<member type='node' ref='828191682' role='stop' />
+<member type='node' ref='828197616' role='stop' />
+<member type='node' ref='828182341' role='stop' />
+<member type='node' ref='828191747' role='stop' />
+<member type='node' ref='828178984' role='stop' />
+<member type='node' ref='828196181' role='stop' />
+<member type='node' ref='828184063' role='stop' />
+<member type='node' ref='828184174' role='stop' />
+<member type='node' ref='828179529' role='stop' />
+<member type='node' ref='828184173' role='stop' />
+<member type='node' ref='828195002' role='stop' />
+<member type='node' ref='828196334' role='stop' />
+<member type='node' ref='828184127' role='stop' />
+<member type='node' ref='828189841' role='stop' />
+<member type='node' ref='828195121' role='stop' />
+<member type='node' ref='828181219' role='stop' />
+<member type='node' ref='828184570' role='stop' />
+<member type='node' ref='828184850' role='stop' />
+<member type='node' ref='828191903' role='stop' />
+<member type='node' ref='828183988' role='stop' />
+<member type='node' ref='828182462' role='stop' />
+<member type='node' ref='828178986' role='stop' />
+<member type='node' ref='828191700' role='stop' />
+<member type='node' ref='828191342' role='stop' />
+<member type='node' ref='828191765' role='stop' />
+<member type='node' ref='828182028' role='stop' />
+<member type='node' ref='828191694' role='stop' />
+<member type='node' ref='828196195' role='stop' />
+<member type='node' ref='828197387' role='stop' />
+<member type='node' ref='828177799' role='stop' />
+<member type='node' ref='828180618' role='stop' />
+<member type='node' ref='828179896' role='stop' />
+<member type='node' ref='828179551' role='stop' />
+<member type='node' ref='828196415' role='stop' />
+<member type='node' ref='828179530' role='stop' />
+<member type='node' ref='828196125' role='stop' />
+<member type='node' ref='828191317' role='stop' />
+<member type='node' ref='828196379' role='stop' />
+<member type='node' ref='828184146' role='stop' />
+<member type='node' ref='828178972' role='stop' />
+<tag k='gtfs_route_id' v='37' />
+<tag k='ref' v='37' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='37' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 37' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Brandon - Netpark' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/hartline/37.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='33CCCC' />
+</relation>
+<relation changeset='DUMMY' id='1138337' version='3'>
+<member type='node' ref='828197676' role='stop' />
+<member type='node' ref='828198503' role='stop' />
+<member type='node' ref='828198502' role='stop' />
+<member type='node' ref='828177317' role='stop' />
+<member type='node' ref='828197526' role='stop' />
+<member type='node' ref='828177323' role='stop' />
+<member type='node' ref='828198378' role='stop' />
+<member type='node' ref='828179626' role='stop' />
+<member type='node' ref='828181321' role='stop' />
+<member type='node' ref='828198094' role='stop' />
+<member type='node' ref='828191650' role='stop' />
+<member type='node' ref='828189233' role='stop' />
+<member type='node' ref='828179631' role='stop' />
+<member type='node' ref='828185701' role='stop' />
+<member type='node' ref='828187673' role='stop' />
+<member type='node' ref='828179632' role='stop' />
+<member type='node' ref='828198286' role='stop' />
+<member type='node' ref='828177493' role='stop' />
+<member type='node' ref='828190337' role='stop' />
+<member type='node' ref='828198142' role='stop' />
+<member type='node' ref='828179717' role='stop' />
+<member type='node' ref='828177226' role='stop' />
+<member type='node' ref='828181107' role='stop' />
+<member type='node' ref='828183879' role='stop' />
+<member type='node' ref='828181358' role='stop' />
+<member type='node' ref='828198513' role='stop' />
+<member type='node' ref='828182484' role='stop' />
+<member type='node' ref='828179627' role='stop' />
+<member type='node' ref='828198158' role='stop' />
+<member type='node' ref='828181245' role='stop' />
+<member type='node' ref='828177327' role='stop' />
+<member type='node' ref='828198386' role='stop' />
+<member type='node' ref='828181492' role='stop' />
+<member type='node' ref='828178128' role='stop' />
+<member type='node' ref='828177502' role='stop' />
+<member type='node' ref='828181605' role='stop' />
+<member type='node' ref='828179734' role='stop' />
+<member type='node' ref='828198037' role='stop' />
+<member type='node' ref='828198263' role='stop' />
+<member type='node' ref='828197516' role='stop' />
+<member type='node' ref='828178173' role='stop' />
+<member type='node' ref='828177312' role='stop' />
+<member type='node' ref='828197825' role='stop' />
+<member type='node' ref='828179744' role='stop' />
+<member type='node' ref='828189266' role='stop' />
+<member type='node' ref='828181376' role='stop' />
+<member type='node' ref='828181139' role='stop' />
+<member type='node' ref='828189155' role='stop' />
+<member type='node' ref='828181472' role='stop' />
+<member type='node' ref='828197432' role='stop' />
+<member type='node' ref='828189514' role='stop' />
+<member type='node' ref='828181150' role='stop' />
+<member type='node' ref='828182691' role='stop' />
+<member type='node' ref='828197966' role='stop' />
+<member type='node' ref='828177532' role='stop' />
+<member type='node' ref='828183950' role='stop' />
+<member type='node' ref='828180830' role='stop' />
+<member type='node' ref='828181090' role='stop' />
+<member type='node' ref='828189768' role='stop' />
+<member type='node' ref='828181120' role='stop' />
+<member type='node' ref='828185641' role='stop' />
+<member type='node' ref='828179689' role='stop' />
+<member type='node' ref='828179666' role='stop' />
+<member type='node' ref='828189187' role='stop' />
+<member type='node' ref='828177330' role='stop' />
+<member type='node' ref='828198399' role='stop' />
+<member type='node' ref='828197421' role='stop' />
+<member type='node' ref='828188094' role='stop' />
+<member type='node' ref='828181587' role='stop' />
+<member type='node' ref='828186085' role='stop' />
+<member type='node' ref='828177233' role='stop' />
+<member type='node' ref='828198143' role='stop' />
+<member type='node' ref='828197818' role='stop' />
+<member type='node' ref='828177755' role='stop' />
+<member type='node' ref='828197411' role='stop' />
+<member type='node' ref='828197958' role='stop' />
+<member type='node' ref='828189192' role='stop' />
+<member type='node' ref='828198517' role='stop' />
+<member type='node' ref='828181624' role='stop' />
+<member type='node' ref='828179750' role='stop' />
+<member type='node' ref='828183871' role='stop' />
+<member type='node' ref='828197513' role='stop' />
+<member type='node' ref='828198542' role='stop' />
+<member type='node' ref='828185625' role='stop' />
+<member type='node' ref='828178165' role='stop' />
+<member type='node' ref='828180908' role='stop' />
+<member type='node' ref='828178184' role='stop' />
+<member type='node' ref='828177302' role='stop' />
+<member type='node' ref='828177256' role='stop' />
+<member type='node' ref='828197772' role='stop' />
+<member type='node' ref='828179650' role='stop' />
+<member type='node' ref='828197413' role='stop' />
+<member type='node' ref='828198053' role='stop' />
+<member type='node' ref='828197773' role='stop' />
+<member type='node' ref='828181528' role='stop' />
+<member type='node' ref='828187927' role='stop' />
+<member type='node' ref='828198122' role='stop' />
+<member type='node' ref='828181515' role='stop' />
+<member type='node' ref='828185687' role='stop' />
+<member type='node' ref='828197822' role='stop' />
+<member type='node' ref='828197834' role='stop' />
+<member type='node' ref='828178196' role='stop' />
+<member type='node' ref='828195230' role='stop' />
+<member type='node' ref='828189209' role='stop' />
+<member type='node' ref='828178170' role='stop' />
+<member type='node' ref='828181582' role='stop' />
+<member type='node' ref='828197558' role='stop' />
+<member type='node' ref='828177450' role='stop' />
+<member type='node' ref='828181497' role='stop' />
+<member type='node' ref='828189221' role='stop' />
+<member type='node' ref='828177456' role='stop' />
+<member type='node' ref='828189481' role='stop' />
+<member type='node' ref='828177773' role='stop' />
+<member type='node' ref='828189184' role='stop' />
+<member type='node' ref='828180873' role='stop' />
+<member type='node' ref='828181476' role='stop' />
+<member type='node' ref='828197765' role='stop' />
+<member type='node' ref='828181557' role='stop' />
+<member type='node' ref='828182693' role='stop' />
+<member type='node' ref='828196860' role='stop' />
+<member type='node' ref='828181665' role='stop' />
+<member type='node' ref='828197987' role='stop' />
+<member type='node' ref='828179741' role='stop' />
+<member type='node' ref='828181530' role='stop' />
+<member type='node' ref='828179662' role='stop' />
+<member type='node' ref='828181608' role='stop' />
+<member type='node' ref='828197403' role='stop' />
+<member type='node' ref='828179739' role='stop' />
+<member type='node' ref='828190330' role='stop' />
+<member type='node' ref='828181555' role='stop' />
+<member type='node' ref='828177255' role='stop' />
+<member type='node' ref='828181230' role='stop' />
+<member type='node' ref='828181510' role='stop' />
+<member type='node' ref='828177557' role='stop' />
+<member type='node' ref='828198058' role='stop' />
+<member type='node' ref='828177222' role='stop' />
+<member type='node' ref='828197814' role='stop' />
+<member type='node' ref='828182667' role='stop' />
+<member type='node' ref='828177249' role='stop' />
+<member type='node' ref='828177324' role='stop' />
+<member type='node' ref='828183956' role='stop' />
+<member type='node' ref='828196870' role='stop' />
+<member type='node' ref='828178163' role='stop' />
+<member type='node' ref='828181292' role='stop' />
+<member type='node' ref='828179849' role='stop' />
+<member type='node' ref='828198307' role='stop' />
+<member type='node' ref='828178155' role='stop' />
+<member type='node' ref='828197953' role='stop' />
+<member type='node' ref='828181458' role='stop' />
+<member type='node' ref='828177245' role='stop' />
+<member type='node' ref='828189254' role='stop' />
+<member type='node' ref='828189177' role='stop' />
+<member type='node' ref='828186092' role='stop' />
+<member type='node' ref='828197991' role='stop' />
+<member type='node' ref='828189174' role='stop' />
+<member type='node' ref='828181455' role='stop' />
+<member type='node' ref='828178202' role='stop' />
+<member type='node' ref='828178162' role='stop' />
+<member type='node' ref='828179749' role='stop' />
+<member type='node' ref='828178186' role='stop' />
+<member type='node' ref='828181438' role='stop' />
+<member type='node' ref='828198019' role='stop' />
+<member type='node' ref='828181668' role='stop' />
+<member type='node' ref='828189759' role='stop' />
+<member type='node' ref='828180887' role='stop' />
+<member type='node' ref='828181238' role='stop' />
+<member type='node' ref='828198529' role='stop' />
+<member type='node' ref='828177832' role='stop' />
+<member type='node' ref='828179754' role='stop' />
+<member type='node' ref='828177463' role='stop' />
+<member type='node' ref='828181964' role='stop' />
+<member type='node' ref='828181235' role='stop' />
+<member type='node' ref='828197396' role='stop' />
+<member type='node' ref='828198125' role='stop' />
+<member type='node' ref='828189231' role='stop' />
+<member type='node' ref='828197394' role='stop' />
+<member type='node' ref='828177334' role='stop' />
+<member type='node' ref='828177218' role='stop' />
+<member type='node' ref='828197985' role='stop' />
+<member type='node' ref='828198331' role='stop' />
+<member type='node' ref='828187926' role='stop' />
+<member type='node' ref='828177444' role='stop' />
+<member type='node' ref='828190353' role='stop' />
+<member type='node' ref='828197489' role='stop' />
+<member type='node' ref='828189236' role='stop' />
+<member type='node' ref='828181491' role='stop' />
+<member type='node' ref='828181580' role='stop' />
+<member type='node' ref='828177237' role='stop' />
+<member type='node' ref='828197832' role='stop' />
+<member type='node' ref='828189198' role='stop' />
+<member type='node' ref='828181278' role='stop' />
+<member type='node' ref='828197568' role='stop' />
+<member type='node' ref='828177489' role='stop' />
+<member type='node' ref='828181222' role='stop' />
+<tag k='gtfs_route_id' v='36' />
+<tag k='ref' v='36' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='36' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 36' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='Dale Mabry - Himes Avenue' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/hartline/36.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='FF00FF' />
+</relation>
+<relation changeset='DUMMY' id='1138340' version='3'>
+<member type='node' ref='828182874' role='stop' />
+<member type='node' ref='828197345' role='stop' />
+<member type='node' ref='828188324' role='stop' />
+<member type='node' ref='828190259' role='stop' />
+<member type='node' ref='828182873' role='stop' />
+<member type='node' ref='828195053' role='stop' />
+<member type='node' ref='828185412' role='stop' />
+<member type='node' ref='828188311' role='stop' />
+<member type='node' ref='828197356' role='stop' />
+<member type='node' ref='828182800' role='stop' />
+<member type='node' ref='828197376' role='stop' />
+<member type='node' ref='828190282' role='stop' />
+<member type='node' ref='828190370' role='stop' />
+<member type='node' ref='828188338' role='stop' />
+<member type='node' ref='828188259' role='stop' />
+<member type='node' ref='828192913' role='stop' />
+<member type='node' ref='828188307' role='stop' />
+<member type='node' ref='828184825' role='stop' />
+<member type='node' ref='828190875' role='stop' />
+<member type='node' ref='828197364' role='stop' />
+<member type='node' ref='828197342' role='stop' />
+<member type='node' ref='828185416' role='stop' />
+<tag k='gtfs_route_id' v='97' />
+<tag k='ref' v='97' />
+<tag k='source' v='GO_Sync' />
+<tag k='gtfs_route_short_name' v='97' />
+<tag k='route' v='bus' />
+<tag k='name' v='HART route 97' />
+<tag k='gtfs_route_type' v='3' />
+<tag k='gtfs_route_long_name' v='In-Town Trolley Green Line' />
+<tag k='type' v='route' />
+<tag k='gtfs_route_url' v='http://www.gohart.org/routes/trolley/97.html' />
+<tag k='operator' v='Hillsborough Area Regional Transit' />
+<tag k='gtfs_route_color' v='339933' />
+</relation>
+</modify>
+<delete>
+</delete>
+</osmChange>

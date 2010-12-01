@@ -82,7 +82,9 @@ public class TagReportTableModel extends AbstractTableModel {
         if(col==2 || col==4) {
             String gtfs = (String)data[row][1];
             String osm = (String)data[row][3];
-            if((gtfs==null) || (gtfs.equals("")) || (osm!=null && osm.contains(gtfs))) return false;
+            if((gtfs==null) || (gtfs.equals("")) || (osm!=null && osm.contains(gtfs)))
+                return false;
+            if(osm!=null && osm.equals("")) return false;
 
             return true;
         }

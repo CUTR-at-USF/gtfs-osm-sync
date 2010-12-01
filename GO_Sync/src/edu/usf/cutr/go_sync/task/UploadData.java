@@ -54,26 +54,28 @@ public class UploadData extends OsmTask{
     @Override
     public Void doInBackground() {
         setProgress(0);
-        updateProgress(1);
-        this.setMessage("Checking version ... ");
-        osmRequest.checkVersion();
+        try{
+            updateProgress(1);
+            this.setMessage("Checking version ... ");
+            osmRequest.checkVersion();
 
-        updateProgress(8);
-        this.setMessage("Creating changeset ... ");
-        osmRequest.createChangeSet();
+            updateProgress(8);
+            this.setMessage("Creating changeset ... ");
+            osmRequest.createChangeSet();
 
-        updateProgress(70);
-        this.setMessage("Creating and uploading chunks ... \nThis might take several minutes ...");
-        osmRequest.createChunks(upload, modify, delete, finalRoutes);
+            updateProgress(70);
+            this.setMessage("Creating and uploading chunks ... \nThis might take several minutes ...");
+            osmRequest.createChunks(upload, modify, delete, finalRoutes);
 
-        updateProgress(10);
-        this.setMessage("Closing changeset...");
-        osmRequest.closeChangeSet();
+            updateProgress(10);
+            this.setMessage("Closing changeset...");
+            osmRequest.closeChangeSet();
 
-        //make sure it's a complete task
-        updateProgress(100);
-        this.setMessage("Done...");
-        System.out.println("Done...!!");
+            //make sure it's a complete task
+            updateProgress(100);
+            this.setMessage("Done...");
+            System.out.println("Done...!!");
+        } catch (InterruptedException e){}
         return null;
     }
     

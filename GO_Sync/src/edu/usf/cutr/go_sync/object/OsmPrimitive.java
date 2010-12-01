@@ -27,14 +27,14 @@ import java.util.Hashtable;
  */
 public class OsmPrimitive {
     Hashtable osmTags;
-    private String status, osmVersion, osmid, reportCategory, reportText;
+    private String status, osmVersion, osmid, reportCategory, reportText, lastEditedOsmUser="", lastEditedOsmDate="";
     public OsmPrimitive(){
         osmTags = new Hashtable();
     }
 
     public void addTag(String k, String v){
         if(!osmTags.containsKey(k)) {
-            if (!v.equals("")) {
+            if (v!=null && !v.equals("")) {
                 osmTags.put(k, v);
             }
             else {
@@ -59,7 +59,7 @@ public class OsmPrimitive {
     }
 
     public void addAndOverwriteTag(String k, String v){
-        if (!v.equals("")) {
+        if (v!=null && !v.equals("")) {
             osmTags.put(k, v);
         }
         else {
@@ -143,5 +143,21 @@ public class OsmPrimitive {
 
     public String getReportText(){
         return reportText;
+    }
+
+    public void setLastEditedOsmUser(String v){
+        if(v!=null) lastEditedOsmUser = v;
+    }
+
+    public String getLastEditedOsmUser(){
+        return lastEditedOsmUser;
+    }
+
+    public void setLastEditedOsmDate(String v){
+        if(v!=null) lastEditedOsmDate = v;
+    }
+
+    public String getLastEditedOsmDate(){
+        return lastEditedOsmDate;
     }
 }

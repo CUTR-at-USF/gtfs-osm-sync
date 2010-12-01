@@ -46,30 +46,32 @@ public class RevertChangeset extends OsmTask{
     @Override
     public Void doInBackground() {
         setProgress(0);
-        
-        updateProgress(2);
-        this.setMessage("Checking API Version...");
-        System.out.println("Initializing...");
-        osmRequest.checkVersion();
+        try{
+            updateProgress(2);
+            this.setMessage("Checking API Version...");
+            System.out.println("Initializing...");
+            osmRequest.checkVersion();
 
-        updateProgress(50);
-        this.setMessage("Downloading changeset "+revertChangesetId+"...\nThis might take several minutes");
-        osmRequest.downloadChangeSet(revertChangesetId);
+            updateProgress(50);
+            this.setMessage("Downloading changeset "+revertChangesetId+"...\nThis might take several minutes");
+            osmRequest.downloadChangeSet(revertChangesetId);
 
-        updateProgress(3);
-        this.setMessage("Creating new changeset...");
-        osmRequest.createChangeSet();
+            updateProgress(3);
+            this.setMessage("Creating new changeset...");
+            osmRequest.createChangeSet();
 
-        updateProgress(40);
-        this.setMessage("Uploading osmchange...");
-        osmRequest.createChunks(osmRequest.getRevertUpload(), osmRequest.getRevertModify(), osmRequest.getRevertDelete(), null);
+            updateProgress(40);
+            this.setMessage("Uploading osmchange...");
+            osmRequest.createChunks(osmRequest.getRevertUpload(), osmRequest.getRevertModify(), osmRequest.getRevertDelete(), null);
 
-        updateProgress(2);
-        this.setMessage("Closing changeset...");
-        osmRequest.closeChangeSet();
+            updateProgress(2);
+            this.setMessage("Closing changeset...");
+            osmRequest.closeChangeSet();
 
-        //make sure it's a complete task
-        updateProgress(100);
+            //make sure it's a complete task
+            updateProgress(100);
+        } catch (InterruptedException e){           
+        }
         this.setMessage("Done...");
         System.out.println("Done...!!");
         return null;

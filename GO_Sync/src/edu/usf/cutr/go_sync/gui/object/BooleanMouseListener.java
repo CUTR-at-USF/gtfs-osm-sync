@@ -48,12 +48,12 @@ public class BooleanMouseListener implements MouseListener{
         String dataValue = (String)dataTable.getValueAt(row, column-1);
         if((dataValue!=null) && !(dataValue.equals(""))){
             Boolean otherCheckBox;
-            String otherData, insertData="";
+            String otherData, insertData=dataValue;
             int otherColumn;
             if(column==2) {
                 otherCheckBox = (Boolean)dataTable.getValueAt(row, column+2);
                 otherData = (String)dataTable.getValueAt(row, column+1);
-                insertData = dataValue+";"+otherData;
+                if(otherData!=null && !(otherData.equals(""))) insertData = dataValue+";"+otherData;
                 otherColumn = column+2;
             }
             else {
@@ -61,6 +61,17 @@ public class BooleanMouseListener implements MouseListener{
                 otherData = (String)dataTable.getValueAt(row, column-3);
                 insertData = otherData+";"+dataValue;
                 otherColumn = column-2;
+            }
+
+            if(row==0 || row==1){
+                if((Boolean)currentValue) {
+                    dataTable.setValueAt(dataValue, row, 5);
+                    dataTable.setValueAt(new Boolean(false), row, otherColumn);
+                } else {
+                    dataTable.setValueAt(otherData, row, 5);
+                    dataTable.setValueAt(new Boolean(true), row, otherColumn);
+                }
+                return;
             }
 
             if((Boolean)currentValue) {

@@ -85,11 +85,10 @@ public class HttpRequest {
         taskOutput = to;
     }
 
-    public void checkVersion() {
+    public void checkVersion() throws InterruptedException{
         String url = SERVER_URL + "capabilities/";
-
         String s = sendRequest(url, "GET", "");
-
+        
         try {
             InputSource inputSource = new InputSource(new StringReader(s));
             OsmVersionParser vp = new OsmVersionParser("0.6");
@@ -107,20 +106,19 @@ public class HttpRequest {
         }
     }
 
-    public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) {
+    public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) throws InterruptedException{
         String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
         String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
-//            String s = sendRequest(url, "GET", "");
-//            InputSource inputSource = new InputSource(new StringReader(s));
+            String s = sendRequest(url, "GET", "");
+            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-            InputSource inputSource = new InputSource("DataFromServer.osm");
+//            InputSource inputSource = new InputSource("DataFromServer.osm");
             BusStopParser par = new BusStopParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingNodes.addAll(par.getNodes());
             existingBusTags.addAll(par.getTags());
-
         } catch(IOException e) {
             System.out.println(e);
         } catch(SAXException e) {
@@ -141,15 +139,15 @@ public class HttpRequest {
         return null;
     }
 
-    public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) {
+    public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) throws InterruptedException{
         String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
         String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
-//            String s = sendRequest(url, "GET", "");
-//            InputSource inputSource = new InputSource(new StringReader(s));
+            String s = sendRequest(url, "GET", "");
+            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
+//            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
             RouteParser par = new RouteParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingRelations.addAll(par.getRelations());
@@ -184,7 +182,7 @@ public class HttpRequest {
         return null;
     }
 
-    public void downloadChangeSet(String cs) {
+    public void downloadChangeSet(String cs) throws InterruptedException{
         String urlSuffix = "changeset/"+cs+"/download";
         String url = SERVER_URL + urlSuffix;
         try {
@@ -237,7 +235,7 @@ public class HttpRequest {
         return revertDelete;
     }
 
-    private Stop getNodeByVersion(String osmid, String version, boolean isNew){
+    private Stop getNodeByVersion(String osmid, String version, boolean isNew) throws InterruptedException{
         Stop st=null;
         String urlSuffix = "node/"+osmid+"/"+version;
         String url = SERVER_URL + urlSuffix;
@@ -349,7 +347,7 @@ public class HttpRequest {
         return text;
     }
 
-    public void createChangeSet() {
+    public void createChangeSet() throws InterruptedException{
         String urlSuffix = "changeset/create";
         String url = SERVER_URL + urlSuffix;
 
@@ -363,7 +361,7 @@ public class HttpRequest {
         }
     }
 
-    public void closeChangeSet() {
+    public void closeChangeSet() throws InterruptedException{
         String urlSuffix = "changeset/"+cSetID+"/close";
         String url = SERVER_URL + urlSuffix;
 
@@ -380,7 +378,7 @@ public class HttpRequest {
         }
     }
 
-    public void createSingleBusStop(String lat, String lon) {
+    public void createSingleBusStop(String lat, String lon) throws InterruptedException{
         String urlSuffix = "node/create";
         String url = SERVER_URL + urlSuffix;
 
@@ -397,7 +395,7 @@ public class HttpRequest {
         }
     }
 
-    public void createChunks(HashSet<Stop> n, HashSet<Stop> m, HashSet<Stop> d, Hashtable r) {
+    public void createChunks(HashSet<Stop> n, HashSet<Stop> m, HashSet<Stop> d, Hashtable r) throws InterruptedException{
         HashSet<Stop> newStops = new HashSet<Stop>();
         HashSet<Stop> modifyStops = new HashSet<Stop>();
         HashSet<Stop> deleteStops = new HashSet<Stop>();
@@ -417,9 +415,12 @@ public class HttpRequest {
             if (!cSetID.equals("")) {
                 String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);
-
-                responseMessage = sendRequest(url, "POST", osmChangeText);
-                System.out.println("Message: "+responseMessage);
+                try{
+                    responseMessage = sendRequest(url, "POST", osmChangeText);
+                    System.out.println("Message: "+responseMessage);
+                } catch(InterruptedException e){
+                    throw new InterruptedException();
+                }
             }
             else {
                 System.out.println("Changeset ID is not obtained yet!");
@@ -428,7 +429,7 @@ public class HttpRequest {
         }
     }
 
-    public String sendRequest(String url, String method, String content) {
+    public String sendRequest(String url, String method, String content) throws InterruptedException {
         HttpURLConnection conn = null;
         StringBuffer responseText = new StringBuffer();
         URL serverAddress = null;
@@ -436,11 +437,12 @@ public class HttpRequest {
         while (true) {
             try {
                 System.out.println("Connecting "+url+" using method "+method+" "+retry);
-                try {
+//                try {
                     Thread.sleep(SLEEP_TIME);
                     taskOutput.append("Connecting "+url+" using method "+method+" "+retry+"\n");
-                } catch (InterruptedException e) {
-                }
+//                } catch (InterruptedException e) {
+//                    throw new InterruptedException();
+//                }
 
                 serverAddress = new URL(url);
 
@@ -527,10 +529,14 @@ public class HttpRequest {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (InterruptedException e){
+                throw new InterruptedException();
             } finally {
                 //close the connection, set to null
-                conn.disconnect();
-                conn = null;
+                if(conn!=null) {
+                    conn.disconnect();
+                    conn = null;
+                }
             }
         }
         return responseText.toString();

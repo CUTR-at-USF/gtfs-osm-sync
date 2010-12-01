@@ -657,7 +657,8 @@ public class CompareData extends OsmTask{
     }
 
     @Override
-    public Void doInBackground() throws InterruptedException{
+    public Void doInBackground(){
+        try{
         setProgress(0);
         updateProgress(1);
         this.setMessage("Reading GTFS files ... ");
@@ -669,22 +670,23 @@ public class CompareData extends OsmTask{
         }
         if(st!=null && !this.flagIsDone) {
             GTFSstops.addAll(st);
-
-            startCompare();
+            try {
+                startCompare();
+            } catch(InterruptedException e){
+                this.flagIsDone = true;
+            }
             if(this.flagIsDone) done();
-            
-            System.out.println("To be uploaded nodes = "+upload.size());
-            
-            System.out.println("To be modified nodes = "+modify.size());
-            
         }
         else {
             this.setMessage("No GTFS stops to be processed");
         }
-        //make sure it's a complete task
-        updateProgress(100);
-        this.setMessage("Done...");
-        System.out.println("Done...!!");
+        } finally {
+            //make sure it's a complete task
+            if(this.flagIsDone) firePropertyChange("progress", this.getCurrentProgress(), 100);
+            else updateProgress(100);
+            this.setMessage("Done...");
+            System.out.println("Done...!!");
+        }
         return null;
     }
 
@@ -703,10 +705,13 @@ public class CompareData extends OsmTask{
     public void generateReport(){
         ReportViewer rv = new ReportViewer(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput);
         String info = "Active OSM bus stop mappers:\n"+osmActiveUsers.toString()+"\n\n";
-        info += "There are currently "+OSMNodes.size()+" OSM stops and "+
-                existingRoutes.size()+" OSM routes in the region\n\n";
-        info += "Transit agency GTFS dataset has "+GTFSstops.size()+" stops and "+agencyRoutes.size()+" routes";
-        rv.AddGeneralInformationToTextArea(info);
+        info += "There are currently "+OSMNodes.size()+" OSM stops in the region\n\n";
+        info += "Transit agency GTFS dataset has "+GTFSstops.size()+" stops";
+        rv.SetGeneralInformationToStopTextArea(info);
+
+        info = "There are currently "+existingRoutes.size()+" OSM routes in the region\n\n";
+        info += "Transit agency GTFS dataset has "+agencyRoutes.size()+" routes";
+        rv.SetGeneralInformationToRouteTextArea(info);
         rv.setResizable(false);
         rv.setVisible(true);
     }

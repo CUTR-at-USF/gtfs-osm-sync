@@ -53,7 +53,7 @@ public class OsmTask extends SwingWorker<Void, Void>{
         return message;
     }
 
-    public void updateProgress(int p) throws InterruptedException{
+    public void updateProgress(int p) {
         if(progressMonitor==null || !progressMonitor.isCanceled()) {
         try {
             Thread.sleep(SLEEP_TIME);
@@ -61,7 +61,7 @@ public class OsmTask extends SwingWorker<Void, Void>{
             setProgress(Math.min(progress, 100));
         } catch (InterruptedException e) {
             this.cancel(true);
-            throw new InterruptedException();
+//            throw new InterruptedException();
 //            setProgress(100);
         }
         } else {

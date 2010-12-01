@@ -111,10 +111,10 @@ public class HttpRequest {
         String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
-            InputSource inputSource = new InputSource(new StringReader(s));
+//            String s = sendRequest(url, "GET", "");
+//            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-//            InputSource inputSource = new InputSource("DataFromServer.osm");
+            InputSource inputSource = new InputSource("DataFromServer.osm");
             BusStopParser par = new BusStopParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingNodes.addAll(par.getNodes());
@@ -144,10 +144,10 @@ public class HttpRequest {
         String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
-            InputSource inputSource = new InputSource(new StringReader(s));
+//            String s = sendRequest(url, "GET", "");
+//            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-//            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
+            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
             RouteParser par = new RouteParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingRelations.addAll(par.getRelations());

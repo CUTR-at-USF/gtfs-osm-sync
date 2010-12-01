@@ -449,7 +449,11 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 compareTask = new CompareData(progressMonitor, taskOutput);
                 task = compareTask;
                 task.addPropertyChangeListener(this);
-                compareTask.execute();
+                try{
+                    compareTask.execute();
+                } catch(Exception e){
+                    System.out.println("MainForm: "+e);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Please fill in all the required fields!");
             }

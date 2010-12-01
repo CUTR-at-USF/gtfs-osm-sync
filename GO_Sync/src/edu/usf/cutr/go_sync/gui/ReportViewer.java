@@ -1073,16 +1073,28 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
     }
 
-    public void AddGeneralInformationToTextArea(String s){
-        generalInformationTextArea.append(s);
+    public void AddGeneralInformationToStopTextArea(String s){
+        generalInformationStopTextArea.append(s);
     }
 
-    public String GetGeneralInformationToTextArea(){
-        return generalInformationTextArea.getText();
+    public String GetGeneralInformationToStopTextArea(){
+        return generalInformationStopTextArea.getText();
     }
 
-    public void SetGeneralInformationToTextArea(String s){
-        generalInformationTextArea.setText(s);
+    public void SetGeneralInformationToStopTextArea(String s){
+        generalInformationStopTextArea.setText(s);
+    }
+
+    public void AddGeneralInformationToRouteTextArea(String s){
+        generalInformationRouteTextArea.append(s);
+    }
+
+    public String GetGeneralInformationToRouteTextArea(){
+        return generalInformationRouteTextArea.getText();
+    }
+
+    public void SetGeneralInformationToRouteTextArea(String s){
+        generalInformationRouteTextArea.setText(s);
     }
 
     /** This method is called from within the constructor to
@@ -1164,9 +1176,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         jLabel5 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        generalInformationTextArea = new javax.swing.JTextArea();
-        generalInformationTextArea.setLineWrap(true);
-        generalInformationTextArea.setWrapStyleWord(true);
+        generalInformationStopTextArea = new javax.swing.JTextArea();
+        generalInformationStopTextArea.setLineWrap(true);
+        generalInformationStopTextArea.setWrapStyleWord(true);
         tableStopButton = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -1190,7 +1202,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         existingRoutesRadioButton = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        generalInformationRouteTextArea = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         routeTable = new JTable(){
             public String getToolTipText(MouseEvent e){
@@ -1254,13 +1266,13 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         jTabbedPane1.setName("jTabbedPane1"); // NOI18N
 
-        jPanel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPanel1.setFont(new java.awt.Font("Tahoma", 0, 14));
         jPanel1.setMaximumSize(new java.awt.Dimension(780, 780));
         jPanel1.setName("jPanel1"); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(750, 617));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        donotUploadButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        donotUploadButton.setFont(new java.awt.Font("Tahoma", 0, 12));
         donotUploadButton.setText("Don't Upload");
         donotUploadButton.setName("donotUploadButton"); // NOI18N
         donotUploadButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1291,7 +1303,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         jLabel2.setName("jLabel2"); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, -1, 20));
 
-        gtfsStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        gtfsStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
         gtfsStopsComboBox.setMinimumSize(new java.awt.Dimension(60, 20));
         gtfsStopsComboBox.setName("gtfsStopsComboBox"); // NOI18N
         gtfsStopsComboBox.setPreferredSize(new java.awt.Dimension(60, 20));
@@ -1354,7 +1366,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         jPanel1.add(allStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 217, -1, -1));
 
         stopsButtonGroup.add(newWithMatchStopsRadioButton);
-        newWithMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        newWithMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
         newWithMatchStopsRadioButton.setText("New GTFS stops with"); // NOI18N
         newWithMatchStopsRadioButton.setToolTipText("<html>\nNew GTFS stops to be added to OpenStreetMap.<br>\nHowever, there are some existing stops in OSM within 400 meters that could be this GTFS stop.<br>\nPlease verify if the stop is already in OSM by clicking the Match button.<br>\nOtherwise, these GTFS stops would be uploaded with a FIXME tag.\n</html>"); // NOI18N
         newWithMatchStopsRadioButton.setName("newWithMatchStopsRadioButton"); // NOI18N
@@ -1366,7 +1378,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         jPanel1.add(newWithMatchStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 20));
 
         stopsButtonGroup.add(newNoMatchStopsRadioButton);
-        newNoMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        newNoMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
         newNoMatchStopsRadioButton.setText("New GTFS stops with");
         newNoMatchStopsRadioButton.setToolTipText("New GTFS stops to be added to OpenStreetMap."); // NOI18N
         newNoMatchStopsRadioButton.setName("newNoMatchStopsRadioButton"); // NOI18N
@@ -1378,7 +1390,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         jPanel1.add(newNoMatchStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 183, 20));
 
         stopsButtonGroup.add(updateStopsRadioButton);
-        updateStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        updateStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
         updateStopsRadioButton.setText("Existing stops with Updates");
         updateStopsRadioButton.setToolTipText("<html>\nThese GTFS stops are already there in OpenStreetMap.<br>\nHowever, some tags are different.\n</html>"); // NOI18N
         updateStopsRadioButton.setName("updateStopsRadioButton"); // NOI18N
@@ -1419,12 +1431,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
-        generalInformationTextArea.setColumns(20);
-        generalInformationTextArea.setEditable(false);
-        generalInformationTextArea.setRows(5);
-        generalInformationTextArea.setWrapStyleWord(true);
-        generalInformationTextArea.setName("generalInformationTextArea"); // NOI18N
-        jScrollPane2.setViewportView(generalInformationTextArea);
+        generalInformationStopTextArea.setColumns(20);
+        generalInformationStopTextArea.setEditable(false);
+        generalInformationStopTextArea.setRows(5);
+        generalInformationStopTextArea.setWrapStyleWord(true);
+        generalInformationStopTextArea.setName("generalInformationStopTextArea"); // NOI18N
+        jScrollPane2.setViewportView(generalInformationStopTextArea);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 385, 216, 260));
 
@@ -1588,10 +1600,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         jScrollPane3.setName("jScrollPane3"); // NOI18N
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setName("jTextArea2"); // NOI18N
-        jScrollPane3.setViewportView(jTextArea2);
+        generalInformationRouteTextArea.setColumns(20);
+        generalInformationRouteTextArea.setLineWrap(true);
+        generalInformationRouteTextArea.setRows(5);
+        generalInformationRouteTextArea.setWrapStyleWord(true);
+        generalInformationRouteTextArea.setName("generalInformationRouteTextArea"); // NOI18N
+        jScrollPane3.setViewportView(generalInformationRouteTextArea);
 
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 216, 251));
 
@@ -1699,7 +1713,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         jTabbedPane1.addTab("Bus Route", jPanel2);
 
-        dummyUploadButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        dummyUploadButton.setFont(new java.awt.Font("Tahoma", 0, 14));
         dummyUploadButton.setText("Dummy Upload");
         dummyUploadButton.setName("dummyUploadButton"); // NOI18N
         dummyUploadButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1708,7 +1722,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
         });
 
-        uploadDataButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        uploadDataButton.setFont(new java.awt.Font("Tahoma", 0, 14));
         uploadDataButton.setText("Upload Data To OSM");
         uploadDataButton.setName("uploadDataButton"); // NOI18N
         uploadDataButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2112,7 +2126,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JMenuItem exportOsmValueStopsWithConflictsMenuItem;
     private javax.swing.JMenuItem exportOsmValueWithOsmTagsMenuItem;
     private javax.swing.JProgressBar finishProgressBar;
-    private javax.swing.JTextArea generalInformationTextArea;
+    private javax.swing.JTextArea generalInformationRouteTextArea;
+    private javax.swing.JTextArea generalInformationStopTextArea;
     private javax.swing.JRadioButton gtfsMembersRadioButton;
     private javax.swing.JComboBox gtfsRoutesComboBox;
     private javax.swing.JComboBox gtfsStopsComboBox;
@@ -2148,7 +2163,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel lastEditedLabel;
     private org.jdesktop.swingx.JXMapKit mapJXMapKit;
     private javax.swing.JTable memberTable;

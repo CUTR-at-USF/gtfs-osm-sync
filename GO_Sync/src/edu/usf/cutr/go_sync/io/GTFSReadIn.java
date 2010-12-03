@@ -72,6 +72,17 @@ public class GTFSReadIn {
                 else {
                     boolean lastIndexEmpty=false;
                     thisLine = thisLine.trim();
+
+                    if(thisLine.contains("\"")) {
+                         String[] temp = thisLine.split("\"");
+                         for(int x=0; x<temp.length; x++){
+                             if(x%2==1) temp[x] = temp[x].replace(",", "");
+                         }
+                         thisLine = "";
+                         for(int x=0; x<temp.length; x++){
+                             thisLine = thisLine + temp[x];
+                         }
+                    }
                     elements = thisLine.split(",");
                     if(thisLine.charAt(thisLine.length()-1)==',') lastIndexEmpty=true;
                     //add leading 0's to gtfs_id
@@ -134,6 +145,16 @@ public class GTFSReadIn {
                 else {
                     boolean lastIndexEmpty=false;
                     thisLine = thisLine.trim();
+                    if(thisLine.contains("\"")) {
+                         String[] temp = thisLine.split("\"");
+                         for(int x=0; x<temp.length; x++){
+                             if(x%2==1) temp[x] = temp[x].replace(",", "");
+                         }
+                         thisLine = "";
+                         for(int x=0; x<temp.length; x++){
+                             thisLine = thisLine + temp[x];
+                         }
+                    }
                     elements = thisLine.split(",");
                     if(thisLine.charAt(thisLine.length()-1)==',') lastIndexEmpty=true;
                     String routeName;
@@ -187,6 +208,16 @@ public class GTFSReadIn {
                     }
                 }
                 else {
+                    if(thisLine.contains("\"")) {
+                         String[] temp = thisLine.split("\"");
+                         for(int x=0; x<temp.length; x++){
+                             if(x%2==1) temp[x] = temp[x].replace(",", "");
+                         }
+                         thisLine = "";
+                         for(int x=0; x<temp.length; x++){
+                             thisLine = thisLine + temp[x];
+                         }
+                    }
                     elements = thisLine.split(",");
                     // not sure if tripId is unique in trips.txt, e.g. can 1 trip_id has multiple route_id
                     if (tripIDs.containsKey(elements[tripIdKey])) {
@@ -217,6 +248,16 @@ public class GTFSReadIn {
                     }
                 }
                 else {
+                    if(thisLine.contains("\"")) {
+                         String[] temp = thisLine.split("\"");
+                         for(int x=0; x<temp.length; x++){
+                             if(x%2==1) temp[x] = temp[x].replace(",", "");
+                         }
+                         thisLine = "";
+                         for(int x=0; x<temp.length; x++){
+                             thisLine = thisLine + temp[x];
+                         }
+                    }
                     elements = thisLine.split(",");
                     String trip = elements[tripIdKey];
                     HashSet<Route> routes = new HashSet<Route>();

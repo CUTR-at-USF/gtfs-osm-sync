@@ -1,46 +1,40 @@
-route_id,route_short_name,route_long_name,route_type,route_url,route_color
-1,1,Florida Avenue,3,http://www.gohart.org/routes/hartline/01.html,
-10,10,Cypress Street,3,http://www.gohart.org/routes/hartline/10.html,
-12,12,22nd Street,3,http://www.gohart.org/routes/hartline/12.html,
-14,14,Armenia Avenue,3,http://www.gohart.org/routes/hartline/14.html,
-15,15,Columbus Drive,3,http://www.gohart.org/routes/hartline/15.html,
-16,16,Waters Avenue,3,http://www.gohart.org/routes/hartline/16.html,
-18,18,30th Street,3,http://www.gohart.org/routes/hartline/18.html,
-19,19,Port Tampa,3,http://www.gohart.org/routes/hartline/19.html,
-2,2,Nebraska Avenue,3,http://www.gohart.org/routes/hartline/02.html,
-20,20,Lutz Express,3,http://www.gohart.org/routes/commuterexpress/020x.html,
-200,200,Clearwater Express,3,http://www.gohart.org/routes/commuterexpress/200x.html,
-22,22,Dover - Brandon Express,3,http://www.gohart.org/routes/commuterexpress/022x.html,
-23,23,Temple Terrace Express,3,http://www.gohart.org/routes/commuterexpress/023x.html,
-24,24,Fishhawk-Riverview-MacDill AFB,3,http://www.gohart.org/routes/commuterexpress/024x.html,
-25,25,S Brandon - MacDill AFB Limited,3,http://www.gohart.org/routes/commuterexpress/025x.html,
-27,27,Fishhawk- South Brandon Limited,3,http://www.gohart.org/routes/commuterexpress/027x.html,
-28,28,East County Express,3,http://www.gohart.org/routes/commuterexpress/028x.html,
-30,30,Town 'N Country,3,http://www.gohart.org/routes/hartline/30.html,
-31,31,South Hillsborough County,3,http://www.gohart.org/routes/hartline/31.html,
-32,32,Dr Martin Luther King Jr Blvd,3,http://www.gohart.org/routes/hartline/32.html,
-33,33,Fletcher Avenue,3,http://www.gohart.org/routes/hartline/33.html,
-34,34,Hillsborough Avenue,3,http://www.gohart.org/routes/hartline/34.html,
-35,35,Brandon-Southshore Limited Exp,3,http://www.gohart.org/routes/commuterexpress/035lx.html,
-36,36,Dale Mabry - Himes Avenue,3,http://www.gohart.org/routes/hartline/36.html,
-37,37,Brandon - Netpark,3,http://www.gohart.org/routes/hartline/37.html,
-39,39,Busch Boulevard,3,http://www.gohart.org/routes/hartline/39.html,
-4,4,Palma Ceia -  MacDill,3,http://www.gohart.org/routes/hartline/04.html,
-41,41,Sligh Avenue,3,http://www.gohart.org/routes/hartline/41.html,
-45,45,Uatc - Rome - Westshore Plaza,3,http://www.gohart.org/routes/hartline/45.html,
-46,46,Davis Islands - West Brandon,3,http://www.gohart.org/routes/hartline/46.html,
-47,47,Southshore Limited Express,3,http://www.gohart.org/routes/commuterexpress/047lx.html,
-5,5,40th Street,3,http://www.gohart.org/routes/hartline/05.html,
-50,50,Citrus Park-Carrollwood Express,3,http://www.gohart.org/routes/commuterexpress/050x.html,
-51,51,New Tampa - Pasco Express,3,http://www.gohart.org/routes/commuterexpress/051x.html,
-57,57,Uatc - Temple Terrace - Netpark,3,http://www.gohart.org/routes/hartline/57.html,
-59,59,Westchase-Town 'N Country Limit,3,http://www.gohart.org/routes/commuterexpress/059lx.html,
-6,6,56th Street,3,http://www.gohart.org/routes/hartline/06.html,
-7,7,West Tampa - Citrus Park,3,http://www.gohart.org/routes/hartline/07.html,
-8,8,Progress Village- Brandon,3,http://www.gohart.org/routes/hartline/08.html,
-87,87,Southshore Connector,3,http://www.gohart.org/routes/hartline/87.html,
-88,88,Town 'N Country Connector,3,http://www.gohart.org/routes/hartline/88.html,
-89,89,South Tampa Connector,3,http://www.gohart.org/routes/hartline/89.html,
-9,9,15th Street,3,http://www.gohart.org/routes/hartline/09.html,
-96,96,In-Town Trolley Purple Line,3,http://www.gohart.org/routes/trolley/96.html,
-97,97,In-Town Trolley Green Line,3,http://www.gohart.org/routes/trolley/97.html,
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
+2725,,101,Rainbow,,3,http://www.rtcsnv.com/transit/route/101/101(11-07-10).pdf,000000,FFFFFF
+2726,,102,Jones,,3,http://www.rtcsnv.com/transit/route/102/102(11-07-10).pdf,000000,FFFFFF
+2727,,103,Decatur,,3,http://www.rtcsnv.com/transit/route/103/103(11-07-10).pdf,000000,FFFFFF
+2728,,104,Valley View/Torrey Pines,,3,http://www.rtcsnv.com/transit/route/104/104(11-07-10).pdf,000000,FFFFFF
+2729,,105,Martin L. King,,3,http://www.rtcsnv.com/transit/route/105/105(11-07-10).pdf,000000,FFFFFF
+2730,,106,Rancho/Centennial Hills,,3,http://www.rtcsnv.com/transit/route/106/106(11-07-10).pdf,000000,FFFFFF
+2731,,107,Boulder Hwy,,3,http://www.rtcsnv.com/transit/route/107/107(11-07-10).pdf,000000,FFFFFF
+2732,,108,Paradise/Swenson/Monorail,,3,http://www.rtcsnv.com/transit/route/108/108(11-07-10).pdf,000000,FFFFFF
+2733,,109,Maryland,,3,http://www.rtcsnv.com/transit/route/109/109(11-07-10).pdf,000000,FFFFFF
+2734,,110,Eastern,,3,http://www.rtcsnv.com/transit/route/110/110(11-07-10).pdf,000000,FFFFFF
+2735,,111,Green Valley/Pecos,,3,http://www.rtcsnv.com/transit/route/111/111(11-07-10).pdf,000000,FFFFFF
+2766,,113,Las Vegas Blvd North,,3,http://www.rtcsnv.com/transit/route/113/113(11-07-10).pdf,000000,FFFFFF
+2737,,115,Nellis/Stephanie,,3,http://www.rtcsnv.com/transit/route/115/115(11-07-10).pdf,000000,FFFFFF
+2738,,117,Las Vegas Blvd. South/Silverado,,3,http://www.rtcsnv.com/transit/route/117/117(11-07-10).pdf,000000,FFFFFF
+2739,,119,Simmons/Koval,,3,http://www.rtcsnv.com/transit/route/119/119(11-07-10).pdf,000000,FFFFFF
+2740,,201,Tropicana,,3,http://www.rtcsnv.com/transit/route/201/201(11-07-10).pdf,000000,FFFFFF
+2741,,202,Flamingo,,3,http://www.rtcsnv.com/transit/route/202/202(11-07-10).pdf,000000,FFFFFF
+2742,,203,Spring Mountain/Twain,,3,http://www.rtcsnv.com/transit/route/203/203(11-07-10).pdf,000000,FFFFFF
+2743,,204,Sahara,,3,http://www.rtcsnv.com/transit/route/204/204(11-07-10).pdf,000000,FFFFFF
+2744,,206,Charleston,,3,http://www.rtcsnv.com/transit/route/206/206(11-07-10).pdf,000000,FFFFFF
+2745,,207,Alta/Stewart,,3,http://www.rtcsnv.com/transit/route/207/207(11-07-10).pdf,000000,FFFFFF
+2746,,208,Washington,,3,http://www.rtcsnv.com/transit/route/208/208(11-07-10).pdf,000000,FFFFFF
+2747,,209,Vegas/Owens,,3,http://www.rtcsnv.com/transit/route/209/209(11-07-10).pdf,000000,FFFFFF
+2748,,210,Lake Mead,,3,http://www.rtcsnv.com/transit/route/210/210(11-07-10).pdf,000000,FFFFFF
+2749,,211,Smoke Ranch/Carey,,3,http://www.rtcsnv.com/transit/route/211/211(11-07-10).pdf,000000,FFFFFF
+2750,,212,Sunset,,3,http://www.rtcsnv.com/transit/route/212/212(11-07-10).pdf,000000,FFFFFF
+2751,,213,Desert Inn/Lamb,,3,http://www.rtcsnv.com/transit/route/213/213(11-07-10).pdf,000000,FFFFFF
+2752,,214,H Street/D Street,,3,http://www.rtcsnv.com/transit/route/214/214(11-07-10).pdf,000000,FFFFFF
+2753,,215,Bonanza,,3,http://www.rtcsnv.com/transit/route/215/215(11-07-10).pdf,000000,FFFFFF
+2754,,217,Warm Springs/Downtown Henderson,,3,http://www.rtcsnv.com/transit/route/217/217(11-07-10).pdf,000000,FFFFFF
+2755,,218,Cheyenne,,3,http://www.rtcsnv.com/transit/route/218/218(11-07-10).pdf,000000,FFFFFF
+2756,,219,Craig Rd,,3,http://www.rtcsnv.com/transit/route/219/219(11-07-10).pdf,000000,FFFFFF
+2757,,Deuce,The Deuce/Strip,,3,http://www.rtcsnv.com/transit/route/deuce/deuce(11-07-10).pdf,000000,FFFFFF
+2806,,402,Henderson Connector/Boulder City,,3,http://www.rtcsnv.com/transit/route/402/402(11-07-10).pdf,000000,FFFFFF
+2759,,408,Southwest Business Loop,,3,http://www.rtcsnv.com/transit/route/408/408(11-07-10).pdf,000000,FFFFFF
+2761,,501,MAX/LVB North,,3,http://www.rtcsnv.com/transit/route/max/max(11-07-10).pdf,000000,FFFFFF
+2762,,SDX,Strip & Downtown Express,,3,http://www.rtcsnv.com/transit/route/stripdowntown/stripdowntown(11-07-10).pdf,000000,FFFFFF
+2763,,CX,Centennial Express,,3,http://www.rtcsnv.com/transit/route/centennial/centennial(11-07-10).pdf,000000,FFFFFF
+2764,,WAX,Westcliff Airport Express,,3,http://www.rtcsnv.com/transit/route/westcliff/westcliff(11-07-10).pdf,000000,FFFFFF

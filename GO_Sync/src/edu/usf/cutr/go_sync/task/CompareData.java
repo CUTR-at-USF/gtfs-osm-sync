@@ -107,8 +107,16 @@ public class CompareData extends OsmTask{
                 maxLon = Double.parseDouble(tempStop.getLon());
             }
             else {
-                double currLat = Double.parseDouble(tempStop.getLat());
-                double currLon = Double.parseDouble(tempStop.getLon());
+                double currLat=0, currLon=0;
+                try{
+                    currLat = Double.parseDouble(tempStop.getLat());
+                    currLon = Double.parseDouble(tempStop.getLon());
+                } catch(Exception e){
+                    this.flagIsDone = true;
+                    setMessage("GTFS latitude and longitude have errors. Please check!");
+                    updateProgress(this.getCurrentProgress()+1);
+                    break;
+                }
                 if(currLat < minLat){
                     minLat = currLat;
                 } else if(currLat > maxLat) {
@@ -609,47 +617,47 @@ public class CompareData extends OsmTask{
         this.setMessage("Getting bounding box...");
         getBoundingBox();
         try{
-        if(this.flagIsDone) return;
-        //Get the existing bus stops from the server
-        updateProgress(1);
-        this.setMessage("Checking API version...");
-        System.out.println("Initializing...");
-        osmRequest.checkVersion();
-        if(this.flagIsDone) return;
-
-        updateProgress(5);
-        this.setMessage("Getting existing bus stops...");
-        progressMonitor.setNote("This might take several minutes...");
-        ArrayList<AttributesImpl> tempOSMNodes = osmRequest.getExistingBusStops(Double.toString(minLon), Double.toString(minLat),
-                Double.toString(maxLon), Double.toString(maxLat));
-        if(this.flagIsDone) return;
-        progressMonitor.setNote("");
-        updateProgress(10);
-        this.setMessage("Getting existing bus routes...");
-        progressMonitor.setNote("This might take several minutes...");
-        ArrayList<AttributesImpl> tempOSMRelations = osmRequest.getExistingBusRelations(Double.toString(minLon), Double.toString(minLat),
-                Double.toString(maxLon), Double.toString(maxLat));
-        if(this.flagIsDone) return;
-        progressMonitor.setNote("");
-        if (tempOSMNodes!=null) {
-            OSMNodes.addAll(tempOSMNodes);
-            OSMTags.addAll(osmRequest.getExistingBusStopsTags());
-            System.out.println("Existing Nodes = "+OSMNodes.size());
-            System.out.println("New Nodes = "+GTFSstops.size());
-            compareBusStopData();
+            if(this.flagIsDone) return;
+            //Get the existing bus stops from the server
+            updateProgress(1);
+            this.setMessage("Checking API version...");
+            System.out.println("Initializing...");
+            osmRequest.checkVersion();
             if(this.flagIsDone) return;
 
-            if(tempOSMRelations!=null) {
-                OSMRelations.addAll(tempOSMRelations);
-                OSMRelationTags.addAll(osmRequest.getExistingBusRelationTags());
-                OSMRelationMembers.addAll(osmRequest.getExistingBusRelationMembers());
+            updateProgress(5);
+            this.setMessage("Getting existing bus stops...");
+            progressMonitor.setNote("This might take several minutes...");
+            ArrayList<AttributesImpl> tempOSMNodes = osmRequest.getExistingBusStops(Double.toString(minLon), Double.toString(minLat),
+                    Double.toString(maxLon), Double.toString(maxLat));
+            if(this.flagIsDone) return;
+            progressMonitor.setNote("");
+            updateProgress(10);
+            this.setMessage("Getting existing bus routes...");
+            progressMonitor.setNote("This might take several minutes...");
+            ArrayList<AttributesImpl> tempOSMRelations = osmRequest.getExistingBusRelations(Double.toString(minLon), Double.toString(minLat),
+                    Double.toString(maxLon), Double.toString(maxLat));
+            if(this.flagIsDone) return;
+                progressMonitor.setNote("");
+            if (tempOSMNodes!=null) {
+                OSMNodes.addAll(tempOSMNodes);
+                OSMTags.addAll(osmRequest.getExistingBusStopsTags());
+                System.out.println("Existing Nodes = "+OSMNodes.size());
+                System.out.println("New Nodes = "+GTFSstops.size());
+                compareBusStopData();
+                if(this.flagIsDone) return;
+
+                if(tempOSMRelations!=null) {
+                    OSMRelations.addAll(tempOSMRelations);
+                    OSMRelationTags.addAll(osmRequest.getExistingBusRelationTags());
+                    OSMRelationMembers.addAll(osmRequest.getExistingBusRelationMembers());
+                }
+                compareRouteData();
+                if(this.flagIsDone) return;
             }
-            compareRouteData();
-            if(this.flagIsDone) return;
-        }
-        else {
-            System.out.println("There's no bus stop in the region "+minLon+", "+minLat+", "+maxLon+", "+maxLat);
-        }
+            else {
+                System.out.println("There's no bus stop in the region "+minLon+", "+minLat+", "+maxLon+", "+maxLat);
+            }
         } catch (InterruptedException e){
             this.flagIsDone = true;
             return;

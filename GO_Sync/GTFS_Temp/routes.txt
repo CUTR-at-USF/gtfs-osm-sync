@@ -1,40 +1,79 @@
-route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
-2725,,101,Rainbow,,3,http://www.rtcsnv.com/transit/route/101/101(11-07-10).pdf,000000,FFFFFF
-2726,,102,Jones,,3,http://www.rtcsnv.com/transit/route/102/102(11-07-10).pdf,000000,FFFFFF
-2727,,103,Decatur,,3,http://www.rtcsnv.com/transit/route/103/103(11-07-10).pdf,000000,FFFFFF
-2728,,104,Valley View/Torrey Pines,,3,http://www.rtcsnv.com/transit/route/104/104(11-07-10).pdf,000000,FFFFFF
-2729,,105,Martin L. King,,3,http://www.rtcsnv.com/transit/route/105/105(11-07-10).pdf,000000,FFFFFF
-2730,,106,Rancho/Centennial Hills,,3,http://www.rtcsnv.com/transit/route/106/106(11-07-10).pdf,000000,FFFFFF
-2731,,107,Boulder Hwy,,3,http://www.rtcsnv.com/transit/route/107/107(11-07-10).pdf,000000,FFFFFF
-2732,,108,Paradise/Swenson/Monorail,,3,http://www.rtcsnv.com/transit/route/108/108(11-07-10).pdf,000000,FFFFFF
-2733,,109,Maryland,,3,http://www.rtcsnv.com/transit/route/109/109(11-07-10).pdf,000000,FFFFFF
-2734,,110,Eastern,,3,http://www.rtcsnv.com/transit/route/110/110(11-07-10).pdf,000000,FFFFFF
-2735,,111,Green Valley/Pecos,,3,http://www.rtcsnv.com/transit/route/111/111(11-07-10).pdf,000000,FFFFFF
-2766,,113,Las Vegas Blvd North,,3,http://www.rtcsnv.com/transit/route/113/113(11-07-10).pdf,000000,FFFFFF
-2737,,115,Nellis/Stephanie,,3,http://www.rtcsnv.com/transit/route/115/115(11-07-10).pdf,000000,FFFFFF
-2738,,117,Las Vegas Blvd. South/Silverado,,3,http://www.rtcsnv.com/transit/route/117/117(11-07-10).pdf,000000,FFFFFF
-2739,,119,Simmons/Koval,,3,http://www.rtcsnv.com/transit/route/119/119(11-07-10).pdf,000000,FFFFFF
-2740,,201,Tropicana,,3,http://www.rtcsnv.com/transit/route/201/201(11-07-10).pdf,000000,FFFFFF
-2741,,202,Flamingo,,3,http://www.rtcsnv.com/transit/route/202/202(11-07-10).pdf,000000,FFFFFF
-2742,,203,Spring Mountain/Twain,,3,http://www.rtcsnv.com/transit/route/203/203(11-07-10).pdf,000000,FFFFFF
-2743,,204,Sahara,,3,http://www.rtcsnv.com/transit/route/204/204(11-07-10).pdf,000000,FFFFFF
-2744,,206,Charleston,,3,http://www.rtcsnv.com/transit/route/206/206(11-07-10).pdf,000000,FFFFFF
-2745,,207,Alta/Stewart,,3,http://www.rtcsnv.com/transit/route/207/207(11-07-10).pdf,000000,FFFFFF
-2746,,208,Washington,,3,http://www.rtcsnv.com/transit/route/208/208(11-07-10).pdf,000000,FFFFFF
-2747,,209,Vegas/Owens,,3,http://www.rtcsnv.com/transit/route/209/209(11-07-10).pdf,000000,FFFFFF
-2748,,210,Lake Mead,,3,http://www.rtcsnv.com/transit/route/210/210(11-07-10).pdf,000000,FFFFFF
-2749,,211,Smoke Ranch/Carey,,3,http://www.rtcsnv.com/transit/route/211/211(11-07-10).pdf,000000,FFFFFF
-2750,,212,Sunset,,3,http://www.rtcsnv.com/transit/route/212/212(11-07-10).pdf,000000,FFFFFF
-2751,,213,Desert Inn/Lamb,,3,http://www.rtcsnv.com/transit/route/213/213(11-07-10).pdf,000000,FFFFFF
-2752,,214,H Street/D Street,,3,http://www.rtcsnv.com/transit/route/214/214(11-07-10).pdf,000000,FFFFFF
-2753,,215,Bonanza,,3,http://www.rtcsnv.com/transit/route/215/215(11-07-10).pdf,000000,FFFFFF
-2754,,217,Warm Springs/Downtown Henderson,,3,http://www.rtcsnv.com/transit/route/217/217(11-07-10).pdf,000000,FFFFFF
-2755,,218,Cheyenne,,3,http://www.rtcsnv.com/transit/route/218/218(11-07-10).pdf,000000,FFFFFF
-2756,,219,Craig Rd,,3,http://www.rtcsnv.com/transit/route/219/219(11-07-10).pdf,000000,FFFFFF
-2757,,Deuce,The Deuce/Strip,,3,http://www.rtcsnv.com/transit/route/deuce/deuce(11-07-10).pdf,000000,FFFFFF
-2806,,402,Henderson Connector/Boulder City,,3,http://www.rtcsnv.com/transit/route/402/402(11-07-10).pdf,000000,FFFFFF
-2759,,408,Southwest Business Loop,,3,http://www.rtcsnv.com/transit/route/408/408(11-07-10).pdf,000000,FFFFFF
-2761,,501,MAX/LVB North,,3,http://www.rtcsnv.com/transit/route/max/max(11-07-10).pdf,000000,FFFFFF
-2762,,SDX,Strip & Downtown Express,,3,http://www.rtcsnv.com/transit/route/stripdowntown/stripdowntown(11-07-10).pdf,000000,FFFFFF
-2763,,CX,Centennial Express,,3,http://www.rtcsnv.com/transit/route/centennial/centennial(11-07-10).pdf,000000,FFFFFF
-2764,,WAX,Westcliff Airport Express,,3,http://www.rtcsnv.com/transit/route/westcliff/westcliff(11-07-10).pdf,000000,FFFFFF
+"route_id","route_short_name","route_long_name","route_desc","route_type","route_url","route_color","route_text_color"
+"1","1","(Głębokie -) Zajezdnia Pogodno - Potulicka",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"2","2","Dworzec Niebuszewo - Basen Górniczy",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"3","3","Las Arkoński - Pomorzany",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"4","4","Potulicka - Pomorzany",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"5","5","Krzekowo - Stocznia Szczecińska",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"6","6","Gocław - Pomorzany",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"6_Z","6","Gocław - Pomorzany (przez ul. Matejki)",,0,"http://www.zditm.szczecin.pl/rozklady/index.html","FFD000",
+"7","7","Krzekowo - Basen Górniczy",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"8","8","Gumieńce - Basen Górniczy",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"8BIS","8BIS","Gumieńce - Dworcowa",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"9","9","Głębokie - Potulicka",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"11","11","Ludowa - Pomorzany",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"12","12","Dworzec Niebuszewo - Pomorzany",,0,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"51","51","Kołłątaja - Osów",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"52","52","Tkacka - Wyspa Pucka",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"53","53","Pomorzany Dobrzyńska - Stocznia Szczecińska (- Ludowa)",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"54","54","Basen Górniczy - Kijewo (- Zakłady Mięsne)",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"55","55","Basen Górniczy - Autostrada",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"55BIS","55BIS","Podjuchy Pętla - Smocza-Falskiego",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"56","56","Basen Górniczy - Dąbie Osiedle",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"57","57","Kołłątaja - Warszewo",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"58","58","Gocław - Stocznia Szczecińska",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"59","59","Plac Rodła - Wiszesława",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"60","60","Stocznia Szczecińska - Cukrowa",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"61","61","Dworzec Główny - Podjuchy Pętla",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"61BIS","61BIS","(Wyszyńskiego -) Plac Zwycięstwa - Ustowo Auchan",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"63","63","Kołłątaja - Skolwin",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"64","64","Dąbie Osiedle - Klucz Pętla",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"65","65","Basen Górniczy - Osiedle Bukowe",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"66","66","Żydowce - Osiedle Bukowe",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"67","67","Karola Miarki - Stocznia Szczecińska (- Ludowa)",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"68","68","Kormoranów - Plac Rodła",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"69","69","Kołłątaja - Rugiańska (- Ludowa)",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"70","70","Dworzec Główny - Urząd Miejski",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"71","71","Basen Górniczy - Osiedle Słoneczne",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"73D","73D","Basen Górniczy - Dąbie - Zdunowo - Zdroje - Basen Górniczy",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"73Z","73Z","Basen Górniczy - Zdroje - Zdunowo - Dąbie - Basen Górniczy",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"74","74","Bezrzecze - Zakłady Piekarnicze (- Łukasińskiego Ogrody)",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"75","75","Krzekowo - Dworzec Główny",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"76","76","Tkacka - (Heyki -) Nabrzeże ""Ewa"" / Logistyczna",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"77","77","Osiedle Bukowe - Osiedle Kasztanowe",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"78","78","Kołłątaja - Osiedle Arkońskie",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"79","79","Basen Górniczy - Jezierzyce",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"80","80","Zakłady Piekarnicze - Osiedle Arkońskie",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"81","81","Dworzec Główny - Przecław (- Kołbaskowo)",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"82","82","Kołłątaja - Krucza-Dom Kombatanta",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"83","83","Plac Kościuszki - Będargowo Szkoła",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"84","84","Basen Górniczy - Kijewo",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"87","87","Kołłątaja - Warszewo / Podbórz",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"101","101","Police Jasienica Pętla - Plac Rodła",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"102","102","Gocław - Police Tanowska Szkoła",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"103","103","(Police Zakłady Chemiczne -) Police Rynek - Głębokie",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"106","106","Police Rynek - Głębokie",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"107","107","Plac Rodła - Police Osiedle Chemik",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"109","109","Police Rynek - Police Tanowska Szkoła",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"110","110","Police Rynek - Siedlice Pętla",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"111","111","Police Zajezdnia - Police Jasienica Pętla",,3,"http://www.zditm.szczecin.pl/rozklady/index.html",,
+"A","A","Osiedle Bukowe - Studzienna","Linia pospieszna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","FFFFFF","FF0000"
+"B","B","Osiedle Słoneczne - Osiedle Arkońskie","Linia pospieszna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","FFFFFF","FF0000"
+"C","C","Plac Rodła - Osiedle Kasztanowe","Linia pospieszna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","FFFFFF","FF0000"
+"D","D","Osiedle Słoneczne - Plac Rodła","Linia pospieszna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","FFFFFF","FF0000"
+"E","E","Osiedle Bukowe - Plac Szarych Szeregów","Linia pospieszna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","FFFFFF","FF0000"
+"F","F","Plac Rodła - Police Osiedle Chemik","Linia pospieszna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","FFFFFF","FF0000"
+"G","G","Wielgowo Borsucza - Plac Rodła","Linia pospieszna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","FFFFFF","FF0000"
+"521","521","Krzekowo - Dworzec Główny","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"522","522","(Warszewo -) Kormoranów - Dąbie Osiedle (- Osiedle Kasztanowe)","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"523","523","Wiszesława - Cukrowa (- Przecław)","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"524","524","(Police Jasienica Pętla -) Police Zajezdnia - Pomorzany Dobrzyńska","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"525","525","Krzekowo - Wiszesława","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"526","526","Police Zajezdnia - Dworzec Główny","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"527","527","(Bezrzecze -) Krzekowo - Dworzec Główny","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"528","528","Pomorzany Dobrzyńska - Gumieńce","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"529","529","Plac Rodła - Krzekowo (- Głębokie Jaworowa)","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"530","530","Plac Rodła - Podbórz","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"531","531","Krzekowo - Osiedle Bukowe","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"532","532","(Osów -) Osiedle Arkońskie - Osiedle Bukowe","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"533","533","Klucz Pętla - Dąbie Dworzec","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"
+"534","534","Osiedle Bukowe - Wielgowo Bryczkowskiego - Śmierdnica","Linia nocna",3,"http://www.zditm.szczecin.pl/rozklady/index.html","000000","FFFFFF"

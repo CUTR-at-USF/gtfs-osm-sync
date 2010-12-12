@@ -161,7 +161,12 @@ public class CompareData extends OsmTask{
                 gtfsStop.setLat(osmStop.getLat());
                 gtfsStop.setLon(osmStop.getLon());
                 gtfsStop.addAndOverwriteTags(osmStop.getTags());
+                // some stops id are accidentally overwritten. We need to keep the original stop_id
+                gtfsStop.addAndOverwriteTag("gtfs_id", gtfs.toString());
             }
+            if(gtfsStop.toString().equals("none") || gtfsStop.getStopID().equals("") || gtfsStop.getTag("gtfs_id").equals("none")){
+            System.out.println();
+        }
             report.put(gtfsStop, arr);
         }
         // successfully added
@@ -441,7 +446,11 @@ public class CompareData extends OsmTask{
                                 }
                                 modify.add(ns);
                                 ns.setReportCategory("MODIFY");
+                                if(ns.toString().equals("none")){
+                                    System.out.println("ds");
+                                }
                                 addToReport(ns, es, true);
+                                break;
                             }
                             else {
                                 Stop ns = new Stop(gtfsStop);
@@ -457,6 +466,10 @@ public class CompareData extends OsmTask{
                                 es.setLastEditedOsmUser(node.getValue("user"));
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
 
+                                if(ns.toString().equals("none")){
+                                    System.out.println("ds");
+                                }
+                                
                                 // for comparing tag
                                 Hashtable diff = compareOsmTags(osmtag, gtfsStop);
                                 if (diff.isEmpty()) {
@@ -480,6 +493,7 @@ public class CompareData extends OsmTask{
                                     ns.setReportCategory("MODIFY");
                                     addToReport(ns, es, true);
                                 }
+                                break;
                             }
                         }
                         // stop_id == null OR OSMnode does NOT have same stop id
@@ -524,6 +538,9 @@ public class CompareData extends OsmTask{
                                         " ACTION: No modified with FIXME!");
                                 }
                                 ns.setReportCategory("UPLOAD_CONFLICT");
+                                if(ns.toString().equals("none")){
+                                    System.out.println("ds");
+                                }
                                 addToReport(ns, es, false);
                             }
                             // if same lat and lon --> possible same exact stop --> add gtfs_id, operator, stop_name
@@ -549,7 +566,11 @@ public class CompareData extends OsmTask{
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
 
                                 ns.setReportCategory("MODIFY");
+                                if(ns.toString().equals("none")){
+                                    System.out.println("ds");
+                                }
                                 addToReport(ns, es, true);
+                                break;
                             }
                         }
                     }
@@ -593,16 +614,20 @@ public class CompareData extends OsmTask{
             if(category.equals("MODIFY")){
                 ArrayList<Stop> arr = new ArrayList<Stop>((ArrayList<Stop>)report.get(s));
                 if(arr.size()==1) {
+                    String tempStopId=null;
                     report.remove(s);
                     // empty all the value of the tags
                     Hashtable<String, String> newTags = s.getTags();
                     ArrayList<String> newTagKeys = new ArrayList<String>(newTags.keySet());
                     for(int j=0; j<newTagKeys.size(); j++){
+                        if(newTagKeys.get(j).equals("gtfs_id")) tempStopId=newTags.get("gtfs_id");
+                        
                         newTags.put(newTagKeys.get(j), "");
                     }
                     s.addAndOverwriteTags(newTags);
                     // add Osm tags, the rest remains empty
                     s.addAndOverwriteTags(arr.get(0).getTags());
+                    if(tempStopId!=null) s.addAndOverwriteTag("gtfs_id", tempStopId);
                     report.put(s, arr);
                 }
             }

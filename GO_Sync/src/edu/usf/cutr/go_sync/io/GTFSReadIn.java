@@ -52,6 +52,7 @@ public class GTFSReadIn {
                 if (isFirstLine) {
                     isFirstLine = false;
                     OperatorInfo.setGtfsFields(thisLine);
+                    thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
                         if(keys[i].equals("stop_id")) stopIdKey = i;
@@ -131,6 +132,7 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
                         if(keys[i].equals("route_id")) routeIdKey = i;
@@ -201,6 +203,7 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
                         if(keys[i].equals("route_id")) routeIdKey = i;
@@ -241,6 +244,7 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
                         if(keys[i].equals("stop_id")) stopIdKey = i;

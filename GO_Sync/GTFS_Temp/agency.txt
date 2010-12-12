@@ -1,2 +1,2 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-,Regional Transportation Commission of Southern Nevada,http://www.rtcsnv.com,America/Los_Angeles,en,702-676-1500
+﻿agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+ZDiTM Szczecin,http://www.zditm.szczecin.pl,Europe/Warsaw,pl,91 480 04 03

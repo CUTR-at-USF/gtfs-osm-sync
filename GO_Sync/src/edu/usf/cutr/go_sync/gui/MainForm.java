@@ -409,14 +409,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 System.err.println("Error: " + ex.getLocalizedMessage());
                 return;
             }
-            _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
+            _fileDir = new File("GTFS_Temp").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
         } else if (rbFileFolder.isSelected()) { //else user selected a local file/folder
             if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
                 if (!UnzipGTFS(chooser.getSelectedFile(), null)) { //unzip it to a temporary folder
                     JOptionPane.showMessageDialog(this, "Unable to unzip from file. Please try again with another file.");
                     return;
                 }
-                _fileDir = new File("GTFS_Temp").getAbsolutePath() + "\\"; //set the actual location to the GTFS_Temp folder
+                _fileDir = new File("GTFS_Temp").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
             } else {
                 _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
                 //TODO - validate that a folder was selected and that it does have GTFS files
@@ -504,7 +504,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         //TODO display a progress bar to user so they know a file is being unzipped
 
         File unzipFolder = new File("GTFS_Temp");
-        String unzipLocation = unzipFolder.getAbsolutePath() + "\\"; //temporary folder to store unzipped files
+        String unzipLocation = unzipFolder.getAbsolutePath() + System.getProperty("file.separator"); //"\\"; //temporary folder to store unzipped files
         try {
             unzipFolder.mkdir(); //create the directory if not already created
         } catch (SecurityException ex) {

@@ -684,6 +684,15 @@ public class CompareData extends OsmTask{
             }
             else {
                 System.out.println("There's no bus stop in the region "+minLon+", "+minLat+", "+maxLon+", "+maxLat);
+                // add all gtfs stops to report as new stops
+                for (int i=0; i<GTFSstops.size(); i++) {
+                    if(this.flagIsDone) return;
+                    Stop n = new Stop(GTFSstops.get(i));
+                    n.setReportText("New upload with no conflicts");
+                    n.setReportCategory("UPLOAD_NO_CONFLICT");
+                    upload.add(n);
+                    addToReport(n, null, false);
+                }
             }
         } catch (InterruptedException e){
             this.flagIsDone = true;
@@ -730,7 +739,8 @@ public class CompareData extends OsmTask{
         Toolkit.getDefaultToolkit().beep();
         boolean isCanceled = progressMonitor.isCanceled();
         progressMonitor.close();
-        if(!isCanceled && !report.isEmpty() && this.getCurrentProgress()>=100) generateReport();
+        if(!isCanceled && !report.isEmpty() && this.getCurrentProgress()>=100)
+            generateReport();
         else {
             this.flagIsDone = true;
             return;

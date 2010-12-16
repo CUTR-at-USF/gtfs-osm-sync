@@ -446,9 +446,6 @@ public class CompareData extends OsmTask{
                                 }
                                 modify.add(ns);
                                 ns.setReportCategory("MODIFY");
-                                if(ns.toString().equals("none")){
-                                    System.out.println("ds");
-                                }
                                 addToReport(ns, es, true);
                                 break;
                             }
@@ -465,10 +462,6 @@ public class CompareData extends OsmTask{
                                 es.setOsmId(node.getValue("id"));
                                 es.setLastEditedOsmUser(node.getValue("user"));
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
-
-                                if(ns.toString().equals("none")){
-                                    System.out.println("ds");
-                                }
                                 
                                 // for comparing tag
                                 Hashtable diff = compareOsmTags(osmtag, gtfsStop);
@@ -510,11 +503,12 @@ public class CompareData extends OsmTask{
                                 es.setOsmId(node.getValue("id"));
                                 es.setLastEditedOsmUser(node.getValue("user"));
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
+                                es.setOsmVersion(version);
 
                                 if ((osmStopID == null) || (osmStopID.equals("missing"))) {
                                     es.setReportText("Possible redundant stop. Please check again!");
                                     if ((!fixme) && (!modify.contains(es))) {
-                                        Stop osms = new Stop(es);
+/*                                        Stop osms = new Stop(es);
                                         osms.addTag("FIXME", "This bus stop could be redundant");
                                         if (osmOperator==null || osmOperator.equals("missing")) {
                                             osms.addTag("note", "Please add gtfs_id and operator after removing FIXME");
@@ -528,7 +522,21 @@ public class CompareData extends OsmTask{
                                         }
                                         osms.setOsmVersion(version);
 
-                                        modify.add(osms);
+                                        modify.add(osms);*/
+
+                                        es.addTag("FIXME", "This bus stop could be redundant");
+                                        if (osmOperator==null || osmOperator.equals("missing")) {
+                                            es.addTag("note", "Please add gtfs_id and operator after removing FIXME");
+                                            if (osmOperator==null) es.addTag("operator","missing");
+                                        }
+                                        else {
+                                            es.addTag("note", "Please add gtfs_id after removing FIXME");
+                                        }
+                                        if (osmStopID==null) {
+                                            es.addAndOverwriteTag("gtfs_id","missing");
+                                        }
+
+                                        modify.add(es);
 
                                         osmActiveUsers.add(node.getValue("user"));
                                     }
@@ -538,9 +546,6 @@ public class CompareData extends OsmTask{
                                         " ACTION: No modified with FIXME!");
                                 }
                                 ns.setReportCategory("UPLOAD_CONFLICT");
-                                if(ns.toString().equals("none")){
-                                    System.out.println("ds");
-                                }
                                 addToReport(ns, es, false);
                             }
                             // if same lat and lon --> possible same exact stop --> add gtfs_id, operator, stop_name
@@ -566,9 +571,6 @@ public class CompareData extends OsmTask{
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
 
                                 ns.setReportCategory("MODIFY");
-                                if(ns.toString().equals("none")){
-                                    System.out.println("ds");
-                                }
                                 addToReport(ns, es, true);
                                 break;
                             }

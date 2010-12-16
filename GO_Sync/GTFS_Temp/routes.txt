@@ -1,46 +1,98 @@
-route_id,route_short_name,route_long_name,route_type,route_url,route_color
-1,1,Florida Avenue,3,http://www.gohart.org/routes/hartline/01.html,
-10,10,Cypress Street,3,http://www.gohart.org/routes/hartline/10.html,
-12,12,22nd Street,3,http://www.gohart.org/routes/hartline/12.html,
-14,14,Armenia Avenue,3,http://www.gohart.org/routes/hartline/14.html,
-15,15,Columbus Drive,3,http://www.gohart.org/routes/hartline/15.html,
-16,16,Waters Avenue,3,http://www.gohart.org/routes/hartline/16.html,
-18,18,30th Street,3,http://www.gohart.org/routes/hartline/18.html,
-19,19,Port Tampa,3,http://www.gohart.org/routes/hartline/19.html,
-2,2,Nebraska Avenue,3,http://www.gohart.org/routes/hartline/02.html,
-20,20,Lutz Express,3,http://www.gohart.org/routes/commuterexpress/020x.html,
-200,200,Clearwater Express,3,http://www.gohart.org/routes/commuterexpress/200x.html,
-22,22,Dover - Brandon Express,3,http://www.gohart.org/routes/commuterexpress/022x.html,
-23,23,Temple Terrace Express,3,http://www.gohart.org/routes/commuterexpress/023x.html,
-24,24,Fishhawk-Riverview-MacDill AFB,3,http://www.gohart.org/routes/commuterexpress/024x.html,
-25,25,S Brandon - MacDill AFB Limited,3,http://www.gohart.org/routes/commuterexpress/025x.html,
-27,27,Fishhawk- South Brandon Limited,3,http://www.gohart.org/routes/commuterexpress/027x.html,
-28,28,East County Express,3,http://www.gohart.org/routes/commuterexpress/028x.html,
-30,30,Town 'N Country,3,http://www.gohart.org/routes/hartline/30.html,
-31,31,South Hillsborough County,3,http://www.gohart.org/routes/hartline/31.html,
-32,32,Dr Martin Luther King Jr Blvd,3,http://www.gohart.org/routes/hartline/32.html,
-33,33,Fletcher Avenue,3,http://www.gohart.org/routes/hartline/33.html,
-34,34,Hillsborough Avenue,3,http://www.gohart.org/routes/hartline/34.html,
-35,35,Brandon-Southshore Limited Exp,3,http://www.gohart.org/routes/commuterexpress/035lx.html,
-36,36,Dale Mabry - Himes Avenue,3,http://www.gohart.org/routes/hartline/36.html,
-37,37,Brandon - Netpark,3,http://www.gohart.org/routes/hartline/37.html,
-39,39,Busch Boulevard,3,http://www.gohart.org/routes/hartline/39.html,
-4,4,Palma Ceia -  MacDill,3,http://www.gohart.org/routes/hartline/04.html,
-41,41,Sligh Avenue,3,http://www.gohart.org/routes/hartline/41.html,
-45,45,Uatc - Rome - Westshore Plaza,3,http://www.gohart.org/routes/hartline/45.html,
-46,46,Davis Islands - West Brandon,3,http://www.gohart.org/routes/hartline/46.html,
-47,47,Southshore Limited Express,3,http://www.gohart.org/routes/commuterexpress/047lx.html,
-5,5,40th Street,3,http://www.gohart.org/routes/hartline/05.html,
-50,50,Citrus Park-Carrollwood Express,3,http://www.gohart.org/routes/commuterexpress/050x.html,
-51,51,New Tampa - Pasco Express,3,http://www.gohart.org/routes/commuterexpress/051x.html,
-57,57,Uatc - Temple Terrace - Netpark,3,http://www.gohart.org/routes/hartline/57.html,
-59,59,Westchase-Town 'N Country Limit,3,http://www.gohart.org/routes/commuterexpress/059lx.html,
-6,6,56th Street,3,http://www.gohart.org/routes/hartline/06.html,
-7,7,West Tampa - Citrus Park,3,http://www.gohart.org/routes/hartline/07.html,
-8,8,Progress Village- Brandon,3,http://www.gohart.org/routes/hartline/08.html,
-87,87,Southshore Connector,3,http://www.gohart.org/routes/hartline/87.html,
-88,88,Town 'N Country Connector,3,http://www.gohart.org/routes/hartline/88.html,
-89,89,South Tampa Connector,3,http://www.gohart.org/routes/hartline/89.html,
-9,9,15th Street,3,http://www.gohart.org/routes/hartline/09.html,
-96,96,In-Town Trolley Purple Line,3,http://www.gohart.org/routes/trolley/96.html,
-97,97,In-Town Trolley Green Line,3,http://www.gohart.org/routes/trolley/97.html,
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
+10182,,  1,SO.MIAMI HTS-PERRINE VIA SOUTHLAND,,3,,FF00FF,FFFFFF
+10183,,  2,CBD TO 163ST SH. CTR VIA NW 2AVE,,3,,008000,FFFFFF
+10184,,  3,AVENTURA MALL-CBD VIA BISC.BLVD.,,3,,800080,FFFFFF
+10185,,  6,CENT.PLAZA-ROUND TOWERS VIA CBD,,3,,808000,FFFFFF
+10186,,  7,CBD-DOLPHIN MALL VIA NW 7 ST,,3,,00FFFF,FFFFFF
+10187,,  8,CBD-107AV/WESTCHESTER VIA SW 8ST,,3,,800000,FFFFFF
+10188,,  9,AVENTURA - CBD VIA NE 6 & 2 AVE,,3,,00FF00,FFFFFF
+10189,, 10,SKYLAKE - OMNI - VIA NE12 & 2AVE,,3,,800080,FFFFFF
+10190,, 11,FIU-CBD via Flagler Street,,3,,00FFFF,FFFFFF
+10191,, 12,NORTHSIDE - MERCY HOSP.,,3,,FF00FF,FFFFFF
+10192,, 16,163ST-OMNI VIA NE16AV & BISC.BLVD,,3,,808040,FFFFFF
+10193,, 17,NORWOOD - VIZCAYA VIA NW-SW17AVE,,3,,008040,FFFFFF
+10194,, 19,163 ST MALL-MDC NORTH,,3,,000000,FFFFFF
+10195,, 21,NORTHSIDE - CBD,,3,,00FFFF,FFFFFF
+10196,, 22,163ST.SH.CTR-COCOGROVE VIA 22AVE,,3,,800080,FFFFFF
+10197,, 24,WEST DADE TO CBD - VIA CORAL WAY,,3,,00FF00,FFFFFF
+10198,, 27,COCOGROVE-CALDER VIA NW 27 AVE,,3,,FF0000,FFFFFF
+10199,, 29,Hialeah Triangle-Miami Lakes,,3,,400040,FFFFFF
+10200,, 31,BUSWAY LOCAL CUTLER BAY-DADELAND SO,,3,,FF8080,FFFFFF
+10201,, 32,MIAMI GRDNS-OMNI VIA NW 32 AVE-20ST,,3,,FF8000,FFFFFF
+10202,, 33,HIA GRDNS-BISC BLVD VIA 49/103 ST,,3,,000000,FFFFFF
+10203,, 34,Busway Flyer-Fla City-Dadeland So,,3,,000000,FFFFFF
+10204,, 35,MDC KENDALL-FLA.CITY VIA CUTLER BAY,,3,,FF00FF,FFFFFF
+10205,, 36,DOLPHIN-DORAL-MIA.SPGS-VIA NW 36 ST,,3,,FF8040,FFFFFF
+10206,, 37,HIALEAH-SO.MIAMI VIA PALM/37 AVE,,3,,004000,FFFFFF
+10207,, 38,BUSWAY MAX:FLA CITY-DADELAND SO.,,3,,804040,FFFFFF
+10208,, 40,BIRD RD/152 AVE--DOUGLAS RD STAT,,3,,FF00FF,FFFFFF
+10209,, 42,DGLS RD-MIA SPRGS/OPALOCKA TRI-RAIL,,3,,808080,FFFFFF
+10210,, 46,LIBERTY CITY CONNECTION,,3,,000000,FFFFFF
+10211,, 48,BRICKELL-UNIV. STA. VIA S. BAYSHORE,,3,,FF00FF,FFFFFF
+10212,, 49,CAROL CITY-GOLDEN GLADES,,3,,008000,FFFFFF
+10213,, 51,FLAGLER MAX: WEST DADE-CBD,,3,,008000,FFFFFF
+10214,, 52,GOULDS - DADELAND NORTH STATION,,3,,800000,FFFFFF
+10215,, 54,HIALEAH GRDNS-BISC BLVD VIA 54 ST,,3,,000000,FFFFFF
+10216,, 56,CHLD HOSP-MDC KEND/162 AV-VIA 56 ST,,3,,004000,FFFFFF
+10217,, 57,AIRPORT-SW 152 ST VIA 57 AVE,,3,,808000,FFFFFF
+10218,, 62,HIALEAH-BISC BLVD VIA 62 ST,,3,,FF8040,FFFFFF
+10219,, 70,CUTLER BAY-FLA CITY VIA HMSTD. BASE,,3,,FF0000,FFFFFF
+10220,, 71,DOLPHIN MALL-MDC KEND.VIA 107/112AV,,3,,800080,FFFFFF
+10221,, 72,SO. MIAMI-BENT TREE/157AV-VIA 72 ST,,3,,808000,FFFFFF
+10222,, 73,NW DADE-DADELAND SO. VIA 67/72 AVE,,3,,00FFFF,FFFFFF
+10223,, 75,MIAMI LAKES-163ST MALL-FIU BISC BAY,,3,,808000,FFFFFF
+10224,, 77,NORWOOD - CBD VIA NW 7 AVE,,3,,000080,FFFFFF
+10225,, 79,79_ST MAX: MIA BCH-NORTHSIDE,,3,,008000,FFFFFF
+10226,, 87,PALMETTO/DORAL-DADELAND VIA 87 AV,,3,,008080,FFFFFF
+10227,, 88,KENDALE LKS-DADELAND NO. VIA 88 ST,,3,,000000,FFFFFF
+10228,, 93,BISCAYNE MAX: CBD-AVENTURA,,3,,000000,FFFFFF
+10229,, 95,I-95 GOLDEN GLADES EXPRESS,,3,,000000,FFFFFF
+10230,, 97,27 AVE MAX: CALDER-ML KING STA,,3,,A0A0A4,FFFFFF
+10231,, 99,NW DADE-AVENTURA MALL,,3,,000000,FFFFFF
+10232,,101,A-LINCOLN RD VIA VENETIAN CAUSEWAY,,3,,0000FF,FFFFFF
+10233,,102,B-BRICKELL STATION-KEY BISCAYNE,,3,,FF0000,FFFFFF
+10234,,103,C-MT SINAI HOSP-CBD VIA WASH AVE,,3,,00FF00,FFFFFF
+10235,,104,HAMMOCKS-MDC-DADELAND NO.VIA 104 ST,,3,,000000,FFFFFF
+10236,,105,E-GOLDEN GLDS.-AVENTURA/HALLANDALE,,3,,0000FF,FFFFFF
+10237,,107,G-BUNCHE PK-LINCOLN RD VIA 125 ST.,,3,,FF00FF,FFFFFF
+10238,,108,H-N.MIA BEACH-72 ST & COLLINS AVE,,3,,00FFFF,FFFFFF
+10239,,110,J-MIAMI BCH-MIA VIA 36 ST,,3,,FF00FF,FFFFFF
+10240,,112,L-HIALEAH-MIA BCH/LINC RD VIA 79 ST,,3,,008000,FFFFFF
+10241,,113,M-CIVIC CENTER-MIAMI BEACH,,3,,808000,FFFFFF
+10242,,115,MID-NORTH-BEACH CONNECTION CW,,3,,800000,FFFFFF
+10243,,117,MID-NORTH-BEACH CONNECTION CCW,,3,,FF00FF,FFFFFF
+10244,,119,S-AVENTURA-CBD VIA COLLINS & ALTON,,3,,800080,FFFFFF
+10245,,120,BEACH MAX: CBD-AVENTURA MALL,,3,,008080,FFFFFF
+10246,,123,SOUTH BEACH LOCAL,,3,,FF0000,FFFFFF
+10247,,132,HIA.TRI-RAIL STA-DORAL VIA 36ST,,3,,000000,FFFFFF
+10287,,133,MIA TRI-RAIL STA-AIRPORT TERM.,,3,,000000,FFFFFF
+10249,,135,135_STREET CROSSTOWN,,3,,000000,FFFFFF
+10250,,136,DOUGLAS RD-OLD CUTLER-136ST-KENDALL,,3,,000000,FFFFFF
+10251,,137,WEST DADE CONNECTION,,3,,A0A0A4,FFFFFF
+10252,,150,AIRPORT FLYER,,3,,FF00FF,FFFFFF
+10253,,183,NW 87 AV/186 ST- AVENTURA,,3,,000000,FFFFFF
+10254,,195,I-95 DADE-BROWARD EXPRESS,,3,,000000,FFFFFF
+10255,,202,LITTLE HAITI CONNECTION,,3,,000000,FFFFFF
+10256,,204,KILLIAN KAT,,3,,FF0000,FFFFFF
+10257,,207,LITTLE HAVANA CONNECTION,,3,,000000,FFFFFF
+10258,,208,LITTLE HAVANA CONNECTION,,3,,000000,FFFFFF
+10259,,211,OVERTOWN CIRCULATOR,,3,,FF00FF,FFFFFF
+10260,,212,SWEETWATER CIRCULATOR,,3,,000000,FFFFFF
+10261,,238,EAST-WEST CONNECTION,,3,,000000,FFFFFF
+10262,,243,SEAPORT CONNECTION,,3,,800000,FFFFFF
+10263,,246,NIGHT OWL,,3,,008080,FFFFFF
+10264,,248,BRICKELL KEY SHUTTLE,,3,,000000,FFFFFF
+10265,,249,COCONUT GROVE CIRCULATOR,,3,,00FFFF,FFFFFF
+10266,,252,CORAL REEF MAX,,3,,00FF00,FFFFFF
+10267,,254,BROWNSVILLE CIRCULATOR,,3,,0000FF,FFFFFF
+10268,,272,SUNSET KAT,,3,,0000FF,FFFFFF
+10269,,277,7 AVE MAX: GOLD GLAD-GVCT,,3,,000000,FFFFFF
+10270,,286,NORTH POINTE CIRCULATOR,,3,,FF00FF,FFFFFF
+10271,,287,SAGA BAY MAX,,3,,FF00FF,FFFFFF
+10272,,288,KENDALL CRUISER,,3,,00FFFF,FFFFFF
+10273,,301,DADE/MONROE EXPRESS,,3,,000000,FFFFFF
+10274,,302,CARD SOUND EXPRESS,,3,,008000,FFFFFF
+10275,,344,MDC Homestead-Fla City,,3,,FF8000,FFFFFF
+10276,,500,MIDNIGHT OWL,,3,,FF0000,FFFFFF
+10277,,908,METROMOVER OMNI/BRICKELL OUTER LOOP,,3,,008000,FFFFFF
+10278,,909,METROMOVER INNER LOOP,,3,,808000,FFFFFF

@@ -1,0 +1,40 @@
+<osmChange version='0.6' generator='ktran9'>
+<create>
+</create>
+<modify>
+<node changeset='6678905' id='1039645341' lat='25.773099' lon='-80.187323' version='2'>
+<tag k='gtfs_id' v='832' />
+<tag k='route_ref' v='  3; 93;103;119;909;909' />
+<tag k='highway' v='bus_stop' />
+<tag k='ntd_id' v='4034' />
+<tag k='operator' v='Miami-Dade Transit ' />
+<tag k='name' v='Bayfront Park Station' />
+</node>
+<node changeset='6678905' id='1039705273' lat='25.941685' lon='-80.228787' version='2'>
+<tag k='gtfs_id' v='9445' />
+<tag k='route_ref' v='183; 17' />
+<tag k='highway' v='bus_stop' />
+<tag k='ntd_id' v='4034' />
+<tag k='operator' v='Miami-Dade Transit ' />
+<tag k='name' v='NW 183 ST@NW 17 AV' />
+</node>
+<node changeset='6678905' id='1039650524' lat='25.782476' lon='-80.190643' version='2'>
+<tag k='gtfs_id' v='827' />
+<tag k='route_ref' v='  9;908' />
+<tag k='highway' v='bus_stop' />
+<tag k='ntd_id' v='4034' />
+<tag k='operator' v='Miami-Dade Transit ' />
+<tag k='name' v='Park West Station' />
+</node>
+<node changeset='6678905' id='1039680462' lat='25.941685' lon='-80.228787' version='2'>
+<tag k='gtfs_id' v='6518' />
+<tag k='route_ref' v=' 17;183' />
+<tag k='highway' v='bus_stop' />
+<tag k='ntd_id' v='4034' />
+<tag k='operator' v='Miami-Dade Transit ' />
+<tag k='name' v='NW 183 ST@NW 17 AV' />
+</node>
+</modify>
+<delete>
+</delete>
+</osmChange>

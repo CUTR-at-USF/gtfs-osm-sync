@@ -22,6 +22,7 @@ import edu.usf.cutr.go_sync.osm.HttpRequest;
 import edu.usf.cutr.go_sync.task.UploadData;
 import edu.usf.cutr.go_sync.tools.OsmDistance;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -129,6 +130,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JTextArea taskOutput;
 
     private JProgressBar progressBar;
+
+    private boolean generateStopsToUploadFlag = false;
 
     /** Creates new form ReportViewer */
     public ReportViewer(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
@@ -418,6 +421,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         addMapListener(mainMap);
 
         if(gtfsRoutes.length!=0) updateRouteCategory(gtfsRouteAll);
+
+        // for upload Task
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setValue(0);
+        progressBar.setStringPainted(true);
     }
 
     private void updateStopTable(Stop selectedNewStop, Stop selectedOsmStop){
@@ -1024,18 +1032,22 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("progress")) {
             if(taskUpload!=null){
+                progressBar.setVisible(true);
                 int progress = (Integer) evt.getNewValue();
-                progressBar.setIndeterminate(false);
-                taskOutput.append(taskUpload.getMessage()+"\n");
                 progressBar.setValue(progress);
+                generalInformationStopTextArea.append(taskUpload.getMessage()+"\n");
+                /*
                 if(taskUpload.getMessage().contains("several minutes")){
                     progressBar.setIndeterminate(true);
-                }
+                }*/
             }
         }
     }
 
     private void generateStopsToUpload(Hashtable<String, Stop> stops){
+        if(generateStopsToUploadFlag) return;
+        generateStopsToUploadFlag = true;
+        
         if(stops == null){
             JOptionPane.showMessageDialog(this, "There's no stops to upload");
             return;
@@ -1889,10 +1901,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         
         generateStopsToUpload(finalStops);
 
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        
         uploadDataButton.setEnabled(false);
-        progressBar = new JProgressBar(0, 100);
-        progressBar.setValue(0);
-        taskUpload = new UploadData(progressBar, osmRequest, upload, modify, delete, finalRoutes);
+//        progressBar.setVisible(true);
+//        progressBar.setIndeterminate(false);
+        taskUpload = new UploadData(osmRequest, upload, modify, delete, finalRoutes);
         taskUpload.addPropertyChangeListener(this);
         taskUpload.execute();
 }//GEN-LAST:event_uploadDataButtonActionPerformed
@@ -2080,7 +2094,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // TODO add your handling code here:
         generateStopsToUpload(finalStops);
         String osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, finalRoutes);
-        new WriteFile("DUMMY_OSM_CHANGE.osm", osmChangeText);
+        new WriteFile("DUMMY_OSM_CHANGE.txt", osmChangeText);
         JOptionPane.showMessageDialog(this, "DUMMY_OSM_CHANGE.txt has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_dummyUploadButtonActionPerformed
 

@@ -1,2 +1,2 @@
-agency_name,agency_url,agency_timezone,agency_lang,agency_phone
-Hillsborough Area Regional Transit,http://www.gohart.org,America/New_York,en,813-254-4278
+agency_id,agency_name,agency_url,agency_timezone,agency_lang
+MDT,Miami Dade Transit,http://www.miamidade.gov/transit,America/New_York,en

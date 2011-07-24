@@ -18,11 +18,11 @@ public class StopTableModel extends AbstractTableModel {
     "Route",
     "Stop Location (GTFS --> OSM)",
     "Location displacement", "Tags not in GTFS"};
-    private Object[][] data;
+    private String[][] data;
 
     public StopTableModel(int maxRow){
         if(maxRow >=0) {
-            data = new Object[maxRow][columnNames.length];
+            data = new String[maxRow][columnNames.length];
         }
         else System.out.println("Invalid number of row!");
     }
@@ -43,15 +43,11 @@ public class StopTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
         return data[row][col];
     }
-
-    /*
-     * JTable uses this method to determine the default renderer/
-     * editor for each cell.  If we didn't implement this method,
-     * then the last column would contain text ("true"/"false"),
-     * rather than a check box.
-     */
+    
     @Override
     public Class getColumnClass(int c) {
+//        String t = new String();
+//        if (getValueAt(0,c).getClass().equals(Double.class)) return Integer.class;
         return getValueAt(0, c).getClass();
     }
 
@@ -65,7 +61,7 @@ public class StopTableModel extends AbstractTableModel {
                 + " (an instance of "
                 + value.getClass() + ")");
 */
-        data[row][col] = value;
+        data[row][col] = (String)value;
         fireTableCellUpdated(row, col);
 /*
         System.out.println("New value of data:");
@@ -75,7 +71,8 @@ public class StopTableModel extends AbstractTableModel {
 
     public void setRowValueAt(Object[] value, int row){
         for(int col=0; col<value.length; col++){
-            setValueAt(value[col], row, col);
+            String v = (String)value[col];
+            setValueAt(v, row, col);
         }
     }
 

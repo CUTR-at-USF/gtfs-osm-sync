@@ -131,17 +131,18 @@ public class StatisticsDisplay extends javax.swing.JFrame {
             output = new BufferedWriter(new FileWriter(file));
             output.write("Count,GTFS_Stop_ID,Route,Gtfs_Lat,Gtfs_Lon,Osm_Lat,Osm_Lon,Location_Displacement,Tags_not_in_GTFS,Version_History\n");
             for(int i=0; i<reportKeys.size(); i++){
+                try{
                 Stop st = reportKeys.get(i);
                 String gtfsid = st.getStopID();
                 String category = st.getReportCategory();
                 String routeText = st.getTag("route_ref");
                 if (category.equals("UPLOAD_CONFLICT") || category.equals("UPLOAD_NO_CONFLICT")) {
                     count++;
-                    editedStopTableModel.setRowValueAt(new Object[] {count, gtfsid, "N/A", "deleted", "N/A","Unknown"}, count-1);
+                    editedStopTableModel.setRowValueAt(new String[] {Integer.toString(count), gtfsid, "N/A", "deleted", "N/A","Unknown"}, count-1);
                     output.write(count+","+gtfsid+","+routeText+","+st.getLat()+","+st.getLon()+",N/A"+",N/A,N/A,N/A"+",N/A"+ "\n");
                 } else if (category.equals("MODIFY") || category.equals("NOTHING_NEW")) {
                     Stop osmst = ((ArrayList<Stop>)report.get(st)).get(0);
-                    String location = "("+st.getLat()+";"+st.getLon()+")-->"+"("+osmst.getLat()+";"+osmst.getLon()+")";
+                    String location = "("+st.getLat()+" ; "+st.getLon()+")--> "+"("+osmst.getLat()+" ; "+osmst.getLon()+" )";
                     double displacement = OsmDistance.distVincenty(st.getLat(), st.getLon(), osmst.getLat(), osmst.getLon());
                     if(displacement>ERROR_TO_ZERO) {
                         allStopDisplacement.add((Double)displacement);
@@ -163,10 +164,13 @@ public class StatisticsDisplay extends javax.swing.JFrame {
 
                     if(displacement>ERROR_TO_ZERO || diffText.equals("")) {
                         count++;
-                        editedStopTableModel.setRowValueAt(new Object[] {count, gtfsid, routeText, location, displacement, diffText}, count-1);
+                        editedStopTableModel.setRowValueAt(new String[] {Integer.toString(count), gtfsid, routeText, location, Double.toString(displacement), diffText}, count-1);
                         String userHistory = osmRequest.getAllUsersOfNode(osmst.getOsmId());
                         output.write(count+","+gtfsid+","+routeText+","+st.getLat()+","+st.getLon()+","+osmst.getLat()+","+osmst.getLon()+","+displacement+","+diffText+","+userHistory+"\n");
                     }
+                }
+                } catch (Exception ex){
+                    System.out.println(ex.getMessage());
                 }
             }
 
@@ -180,6 +184,14 @@ public class StatisticsDisplay extends javax.swing.JFrame {
             output.close();
             System.out.println("Your file: "+fname+" has been written");
             System.out.println("Contributors = "+contributors);
+
+            // exit program immediately
+            System.out.println("Program exit immediately after writing editedStops.txt file \n"
+                    + "No UI appeared because of error java.lang.IllegalArgumentException: Cannot format given Object as a Number\n"
+                    + "at java.text.DecimalFormat.format(DecimalFormat.java:487) \n"
+                    + "at java.text.Format.format(Format.java:140)\n"
+                    + "at javax.swing.JTable$DoubleRenderer.setValue(JTable.java:5352)");
+            System.exit(0);
         } catch (IOException ioe) {
             System.out.println(ioe);
         }

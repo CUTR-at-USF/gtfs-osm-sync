@@ -1,5 +1,5 @@
 <?xml version='1.0' standalone='no'?>
-<osm version='0.6' generator='xapi: OSM Extended API 2.0' attribution='http://wiki.openstreetmap.org/wiki/Attribution' xmlns:xapi='http://www.informationfreeway.org/xapi/0.6' xapi:uri='/api/0.6/node[highway=bus_stop][bbox=-82.73803000000001,27.70168,-82.153672,28.252141]' xapi:planetDate='20110120' xapi:copyright='2011 OpenStreetMap contributors' xapi:license='Creative commons CC-BY-SA 2.0' xapi:bugs='For assistance or to report bugs contact 80n80n@gmail.com' xapi:instance='zappyOsm'>
+<osm version='0.6' generator='xapi: OSM Extended API 2.0' attribution='http://wiki.openstreetmap.org/wiki/Attribution' xmlns:xapi='http://www.informationfreeway.org/xapi/0.6' xapi:uri='/api/0.6/node[highway=bus_stop][bbox=-82.73803000000001,27.70168,-82.153672,28.252141]' xapi:planetDate='20110331' xapi:copyright='2011 OpenStreetMap contributors' xapi:license='Creative commons CC-BY-SA 2.0' xapi:bugs='For assistance or to report bugs contact 80n80n@gmail.com' xapi:instance='zappyOsm'>
   <node id='828179503' lat='28.248141' lon='-82.355116' user='ktran9' timestamp='2010-08-22T05:46:56Z' uid='298201' version='2' changeset='5557830'>
     <tag k='gtfs_id' v='7533'/>
     <tag k='gtfs_stop_code' v='7533'/>
@@ -3095,7 +3095,7 @@
     <tag k='route_ref' v='39'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828197443' lat='28.076127' lon='-82.570107' user='ktran9' timestamp='2010-08-22T05:55:51Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828197443' lat='28.076116' lon='-82.5703105' user='rw__' timestamp='2011-02-10T20:17:10Z' uid='19492' version='3' changeset='7248907'>
     <tag k='gtfs_id' v='4370'/>
     <tag k='gtfs_stop_code' v='4370'/>
     <tag k='highway' v='bus_stop'/>
@@ -3305,7 +3305,7 @@
     <tag k='route_ref' v='39'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828195795' lat='28.061895' lon='-82.543221' user='ktran9' timestamp='2010-08-22T05:54:52Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828195795' lat='28.061863' lon='-82.5432488' user='Firefishy' timestamp='2011-02-10T05:02:27Z' uid='3560' version='3' changeset='7242462'>
     <tag k='gtfs_id' v='4406'/>
     <tag k='gtfs_stop_code' v='4406'/>
     <tag k='highway' v='bus_stop'/>
@@ -3655,7 +3655,7 @@
     <tag k='route_ref' v='7'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828197786' lat='28.040119' lon='-82.542616' user='ktran9' timestamp='2010-08-22T05:56:17Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828197786' lat='28.0401007' lon='-82.5428265' user='Firefishy' timestamp='2011-02-10T23:11:23Z' uid='3560' version='3' changeset='7250786'>
     <tag k='gtfs_id' v='6548'/>
     <tag k='gtfs_stop_code' v='6548'/>
     <tag k='highway' v='bus_stop'/>
@@ -8143,10 +8143,14 @@
     <tag k='shelter' v='no'/>
     <tag k='source' v='survey'/>
   </node>
-  <node id='454063893' lat='28.0650164' lon='-82.4188763' user='EdHillsman' timestamp='2010-12-23T02:14:50Z' uid='103107' version='7' changeset='6741880'>
+  <node id='454063893' lat='28.0651757' lon='-82.4188922' user='EdHillsman' timestamp='2011-03-23T17:07:13Z' uid='103107' version='9' changeset='7648129'>
+    <tag k='bench' v='no'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='operator' v='USF Bull Runner'/>
     <tag k='route_ref' v='E'/>
+    <tag k='shade' v='no'/>
+    <tag k='shelter' v='no'/>
+    <tag k='source' v='survey'/>
   </node>
   <node id='454063895' lat='28.0660137' lon='-82.4191236' user='EdHillsman' timestamp='2010-12-22T00:51:55Z' uid='103107' version='8' changeset='6731522'>
     <tag k='bench' v='no'/>
@@ -8635,20 +8639,22 @@
     <tag k='shade' v='no'/>
     <tag k='shelter' v='no'/>
   </node>
-  <node id='1055102500' lat='28.0638645' lon='-82.418921' user='EdHillsman' timestamp='2010-12-23T02:14:51Z' uid='103107' version='3' changeset='6741880'>
+  <node id='1055102500' lat='28.0636657' lon='-82.4189217' user='EdHillsman' timestamp='2011-03-23T17:07:13Z' uid='103107' version='4' changeset='7648129'>
     <tag k='bench' v='no'/>
     <tag k='highway' v='bus_stop'/>
+    <tag k='note' v='bus may actually stop in breezeway just to the north, but the sign for the stop is here'/>
     <tag k='operator' v='USF Bull Runner'/>
     <tag k='route_ref' v='E'/>
-    <tag k='shade' v='portico'/>
+    <tag k='shade' v='no'/>
     <tag k='shelter' v='no'/>
   </node>
-  <node id='1055102515' lat='28.0638645' lon='-82.4189853' user='EdHillsman' timestamp='2010-12-22T13:26:54Z' uid='103107' version='2' changeset='6735619'>
+  <node id='1055102515' lat='28.0637414' lon='-82.4189781' user='EdHillsman' timestamp='2011-03-23T17:07:14Z' uid='103107' version='3' changeset='7648129'>
     <tag k='bench' v='no'/>
     <tag k='highway' v='bus_stop'/>
+    <tag k='note' v='bus may actually stop in breezeway just to the north, but the sign for the stop is here'/>
     <tag k='operator' v='USF Bull Runner'/>
     <tag k='route_ref' v='A'/>
-    <tag k='shade' v='portico'/>
+    <tag k='shade' v='no'/>
     <tag k='shelter' v='no'/>
   </node>
   <node id='454063837' lat='28.0598216' lon='-82.4048794' user='EdHillsman' timestamp='2010-12-22T13:26:58Z' uid='103107' version='4' changeset='6735619'>
@@ -10423,16 +10429,6 @@
     <tag k='route_ref' v='16;34'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828177482' lat='28.019991' lon='-82.583282' user='ktran9' timestamp='2010-08-22T05:45:23Z' uid='298201' version='2' changeset='5557830'>
-    <tag k='gtfs_id' v='5338'/>
-    <tag k='gtfs_stop_code' v='5338'/>
-    <tag k='highway' v='bus_stop'/>
-    <tag k='name' v='Sheldon Rd @ Crown Blvd'/>
-    <tag k='ntd_id' v='4041'/>
-    <tag k='operator' v='Hillsborough Area Regional Transit'/>
-    <tag k='route_ref' v='16;34'/>
-    <tag k='source' v='GO_Sync'/>
-  </node>
   <node id='828177831' lat='28.0166' lon='-82.582965' user='ktran9' timestamp='2010-08-22T05:45:32Z' uid='298201' version='2' changeset='5557830'>
     <tag k='gtfs_id' v='5320'/>
     <tag k='gtfs_stop_code' v='5320'/>
@@ -10491,6 +10487,16 @@
     <tag k='ntd_id' v='4041'/>
     <tag k='operator' v='Hillsborough Area Regional Transit'/>
     <tag k='route_ref' v='88'/>
+    <tag k='source' v='GO_Sync'/>
+  </node>
+  <node id='1149901989' lat='28.0199758' lon='-82.5833092' user='Firefishy' timestamp='2011-02-12T23:42:53Z' uid='3560' version='1' changeset='7270839'>
+    <tag k='gtfs_id' v='5338'/>
+    <tag k='gtfs_stop_code' v='5338'/>
+    <tag k='highway' v='bus_stop'/>
+    <tag k='name' v='Sheldon Rd @ Crown Blvd'/>
+    <tag k='ntd_id' v='4041'/>
+    <tag k='operator' v='Hillsborough Area Regional Transit'/>
+    <tag k='route_ref' v='16;34'/>
     <tag k='source' v='GO_Sync'/>
   </node>
   <node id='828182758' lat='28.034506' lon='-82.541181' user='ktran9' timestamp='2010-08-22T05:48:47Z' uid='298201' version='2' changeset='5557830'>
@@ -19253,7 +19259,7 @@
     <tag k='route_ref' v='15'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828185066' lat='27.962767' lon='-82.517985' user='ktran9' timestamp='2010-08-22T05:50:24Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828185066' lat='27.9626808' lon='-82.5180124' user='Firefishy' timestamp='2011-02-10T03:22:06Z' uid='3560' version='3' changeset='7242257'>
     <tag k='gtfs_id' v='6970'/>
     <tag k='gtfs_stop_code' v='6970'/>
     <tag k='highway' v='bus_stop'/>
@@ -19263,7 +19269,7 @@
     <tag k='route_ref' v='15'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828192861' lat='27.963437' lon='-82.515942' user='ktran9' timestamp='2010-08-22T05:53:30Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828192861' lat='27.9634299' lon='-82.5159928' user='Firefishy' timestamp='2011-02-10T03:22:07Z' uid='3560' version='3' changeset='7242257'>
     <tag k='gtfs_id' v='7137'/>
     <tag k='gtfs_stop_code' v='7137'/>
     <tag k='highway' v='bus_stop'/>
@@ -22442,23 +22448,27 @@
     <tag k='route_ref' v='96'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828197370' lat='27.955473' lon='-82.458517' user='ktran9' timestamp='2010-08-22T05:55:46Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828197370' lat='27.9554738' lon='-82.4583521' user='EdHillsman' timestamp='2011-03-27T13:55:45Z' uid='103107' version='3' changeset='7686384'>
     <tag k='gtfs_id' v='7601'/>
     <tag k='gtfs_stop_code' v='7601'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='Marion Transit Center'/>
+    <tag k='note' v='cannot confirm GTFS ID, bag over bus_stop sign, may be closed'/>
     <tag k='ntd_id' v='4041'/>
     <tag k='operator' v='Hillsborough Area Regional Transit'/>
     <tag k='route_ref' v='31'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='916907258' lat='27.955488' lon='-82.458527' user='ktran9' timestamp='2010-09-18T15:32:21Z' uid='298201' version='1' changeset='5812427'>
+  <node id='916907258' lat='27.9554786' lon='-82.4585372' user='EdHillsman' timestamp='2011-03-27T13:55:46Z' uid='103107' version='2' changeset='7686384'>
+    <tag k='bench' v='yes'/>
     <tag k='gtfs_id' v='6620'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='&quot;MARION TRANSIT PARKING LOT&quot;'/>
     <tag k='ntd_id' v='4027'/>
     <tag k='operator' v='Pinellas Suncoast Transit Authority'/>
     <tag k='route_ref' v='100X;300X'/>
+    <tag k='shade' v='roof'/>
+    <tag k='shelter' v='yes'/>
   </node>
   <node id='828177232' lat='27.959949' lon='-82.446539' user='ktran9' timestamp='2010-08-22T05:45:05Z' uid='298201' version='2' changeset='5557830'>
     <tag k='gtfs_id' v='2954'/>
@@ -22820,7 +22830,7 @@
     <tag k='route_ref' v='2;4;7;8;10;12;14;19;20;22;23;27;28;30;31;47;50;51;59;96;200'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828189410' lat='27.951651' lon='-82.457858' user='ktran9' timestamp='2010-08-22T05:52:15Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828189410' lat='27.9516641' lon='-82.4578264' user='EdHillsman' timestamp='2011-03-27T13:55:45Z' uid='103107' version='3' changeset='7686384'>
     <tag k='gtfs_id' v='4241'/>
     <tag k='gtfs_stop_code' v='4241'/>
     <tag k='highway' v='bus_stop'/>
@@ -22884,7 +22894,7 @@
     <tag k='operator' v='Pinellas Suncoast Transit Authority'/>
     <tag k='route_ref' v='100X;300X'/>
   </node>
-  <node id='916910659' lat='27.952583' lon='-82.458084' user='ktran9' timestamp='2010-09-18T15:34:24Z' uid='298201' version='1' changeset='5812427'>
+  <node id='916910659' lat='27.9525502' lon='-82.4580437' user='EdHillsman' timestamp='2011-03-27T13:55:45Z' uid='103107' version='2' changeset='7686384'>
     <tag k='gtfs_id' v='4385'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='&quot;MARION ST N &amp; TYLER ST E&quot;'/>
@@ -22892,7 +22902,7 @@
     <tag k='operator' v='Pinellas Suncoast Transit Authority'/>
     <tag k='route_ref' v='100X;300X'/>
   </node>
-  <node id='916910759' lat='27.952133' lon='-82.457878' user='ktran9' timestamp='2010-09-18T15:34:28Z' uid='298201' version='1' changeset='5812427'>
+  <node id='916910759' lat='27.9522753' lon='-82.4579257' user='EdHillsman' timestamp='2011-03-27T13:55:45Z' uid='103107' version='2' changeset='7686384'>
     <tag k='gtfs_id' v='4379'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='&quot;MARION ST N &amp; CASS ST E&quot;'/>
@@ -22900,7 +22910,7 @@
     <tag k='operator' v='Pinellas Suncoast Transit Authority'/>
     <tag k='route_ref' v='100X;300X'/>
   </node>
-  <node id='916911031' lat='27.95188' lon='-82.457932' user='ktran9' timestamp='2010-09-18T15:34:39Z' uid='298201' version='1' changeset='5812427'>
+  <node id='916911031' lat='27.9517138' lon='-82.4578425' user='EdHillsman' timestamp='2011-03-27T13:55:45Z' uid='103107' version='2' changeset='7686384'>
     <tag k='gtfs_id' v='4333'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='&quot;MARION ST N &amp; CASS ST E&quot;'/>
@@ -22908,7 +22918,7 @@
     <tag k='operator' v='Pinellas Suncoast Transit Authority'/>
     <tag k='route_ref' v='100X'/>
   </node>
-  <node id='916911059' lat='27.951332' lon='-82.457695' user='ktran9' timestamp='2010-09-18T15:34:40Z' uid='298201' version='1' changeset='5812427'>
+  <node id='916911059' lat='27.9514887' lon='-82.4577299' user='EdHillsman' timestamp='2011-03-27T13:55:43Z' uid='103107' version='2' changeset='7686384'>
     <tag k='gtfs_id' v='4330'/>
     <tag k='highway' v='bus_stop'/>
     <tag k='name' v='&quot;MARION ST N &amp; POLK ST E&quot;'/>
@@ -24425,7 +24435,7 @@
     <tag k='route_ref' v='57'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828186572' lat='28.03248' lon='-82.361126' user='ktran9' timestamp='2010-08-22T05:50:54Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828186572' lat='28.0325139' lon='-82.3611141' user='EdHillsman' timestamp='2011-02-05T23:57:03Z' uid='103107' version='3' changeset='7198910'>
     <tag k='gtfs_id' v='6930'/>
     <tag k='gtfs_stop_code' v='6930'/>
     <tag k='highway' v='bus_stop'/>
@@ -29322,7 +29332,7 @@
     <tag k='route_ref' v='8'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828193865' lat='27.962295' lon='-82.438135' user='ktran9' timestamp='2010-08-22T05:53:49Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828193865' lat='27.9623425' lon='-82.4381366' user='EdHillsman' timestamp='2011-01-23T00:25:38Z' uid='103107' version='3' changeset='7057008'>
     <tag k='gtfs_id' v='2749'/>
     <tag k='gtfs_stop_code' v='2749'/>
     <tag k='highway' v='bus_stop'/>
@@ -47421,7 +47431,7 @@
     <tag k='route_ref' v='46'/>
     <tag k='source' v='GO_Sync'/>
   </node>
-  <node id='828180496' lat='27.947639' lon='-82.45813' user='ktran9' timestamp='2010-08-22T05:47:34Z' uid='298201' version='2' changeset='5557830'>
+  <node id='828180496' lat='27.9477134' lon='-82.4582494' user='EdHillsman' timestamp='2011-03-26T23:29:01Z' uid='103107' version='3' changeset='7681190'>
     <tag k='gtfs_id' v='5203'/>
     <tag k='gtfs_stop_code' v='5203'/>
     <tag k='highway' v='bus_stop'/>
@@ -64376,7 +64386,7 @@
   </relation>
   <relation id='1108865' user='EdHillsman' uid='103107' timestamp='2010-12-23T02:15:17Z' version='42' changeset='6741880'>
   </relation>
-  <relation id='1110419' user='EdHillsman' uid='103107' timestamp='2011-01-08T14:44:22Z' version='14' changeset='6903786'>
+  <relation id='1110419' user='EdHillsman' uid='103107' timestamp='2011-03-18T12:20:07Z' version='17' changeset='7594803'>
   </relation>
   <relation id='1138168' user='EdHillsman' uid='103107' timestamp='2010-12-09T13:37:16Z' version='5' changeset='6595176'>
   </relation>
@@ -64412,13 +64422,13 @@
   </relation>
   <relation id='1138321' user='EdHillsman' uid='103107' timestamp='2011-01-08T01:15:35Z' version='12' changeset='6899373'>
   </relation>
-  <relation id='1138322' user='EdHillsman' uid='103107' timestamp='2011-01-08T01:58:46Z' version='6' changeset='6899552'>
+  <relation id='1138322' user='SK53' uid='84681' timestamp='2011-02-09T22:00:05Z' version='7' changeset='7240202'>
   </relation>
-  <relation id='1138323' user='ktran9' uid='298201' timestamp='2010-09-18T19:01:02Z' version='3' changeset='5814111'>
+  <relation id='1138323' user='Firefishy' uid='3560' timestamp='2011-02-12T23:43:13Z' version='4' changeset='7270839'>
   </relation>
   <relation id='1138324' user='EdHillsman' uid='103107' timestamp='2011-01-08T02:25:43Z' version='13' changeset='6899552'>
   </relation>
-  <relation id='1138325' user='EdHillsman' uid='103107' timestamp='2011-01-08T13:54:48Z' version='5' changeset='6903786'>
+  <relation id='1138325' user='Firefishy' uid='3560' timestamp='2011-02-12T01:28:11Z' version='7' changeset='7260899'>
   </relation>
   <relation id='1138326' user='EdHillsman' uid='103107' timestamp='2010-12-09T13:36:33Z' version='5' changeset='6595176'>
   </relation>
@@ -64434,11 +64444,11 @@
   </relation>
   <relation id='1138332' user='EdHillsman' uid='103107' timestamp='2010-12-21T19:05:35Z' version='23' changeset='6728025'>
   </relation>
-  <relation id='1138333' user='EdHillsman' uid='103107' timestamp='2010-12-04T03:59:35Z' version='11' changeset='6534066'>
+  <relation id='1138333' user='Milliams' uid='3422' timestamp='2011-02-09T18:33:04Z' version='12' changeset='7238731'>
   </relation>
   <relation id='1138334' user='ktran9' uid='298201' timestamp='2010-09-18T19:01:33Z' version='3' changeset='5814111'>
   </relation>
-  <relation id='1138335' user='EdHillsman' uid='103107' timestamp='2011-01-07T13:21:54Z' version='16' changeset='6892599'>
+  <relation id='1138335' user='Firefishy' uid='3560' timestamp='2011-02-13T00:42:31Z' version='23' changeset='7271148'>
   </relation>
   <relation id='1138336' user='EdHillsman' uid='103107' timestamp='2011-01-08T14:44:25Z' version='6' changeset='6903786'>
   </relation>
@@ -64446,11 +64456,11 @@
   </relation>
   <relation id='1138338' user='ktran9' uid='298201' timestamp='2010-09-18T19:01:47Z' version='3' changeset='5814111'>
   </relation>
-  <relation id='1138339' user='EdHillsman' uid='103107' timestamp='2011-01-08T13:54:44Z' version='4' changeset='6903786'>
+  <relation id='1138339' user='Firefishy' uid='3560' timestamp='2011-02-12T23:43:23Z' version='5' changeset='7270839'>
   </relation>
   <relation id='1138340' user='ktran9' uid='298201' timestamp='2010-09-18T19:01:54Z' version='3' changeset='5814111'>
   </relation>
-  <relation id='1138341' user='EdHillsman' uid='103107' timestamp='2011-01-07T13:49:57Z' version='11' changeset='6892873'>
+  <relation id='1138341' user='OSMF Data Revert' uid='108295' timestamp='2011-02-08T23:03:56Z' version='12' changeset='7231693'>
   </relation>
   <relation id='1138342' user='EdHillsman' uid='103107' timestamp='2010-12-09T13:36:38Z' version='5' changeset='6595176'>
   </relation>
@@ -64532,7 +64542,7 @@
   </relation>
   <relation id='1182603' user='ktran9' uid='298201' timestamp='2010-09-18T18:45:45Z' version='1' changeset='5813980'>
   </relation>
-  <relation id='1334825' user='EdHillsman' uid='103107' timestamp='2011-01-14T18:49:29Z' version='13' changeset='6970018'>
+  <relation id='1334825' user='EdHillsman' uid='103107' timestamp='2011-03-17T01:01:53Z' version='14' changeset='7581371'>
   </relation>
   <relation id='1335391' user='EdHillsman' uid='103107' timestamp='2010-12-23T02:38:38Z' version='5' changeset='6741880'>
   </relation>

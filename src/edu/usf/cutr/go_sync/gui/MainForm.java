@@ -412,7 +412,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             _password = new String(passwordField.getPassword());
             _changesetComment = sessionCommentField.getText();
             _fileDir = fileDirTextField.getText();
-
+hill
             if(!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty() &&
                     !_username.isEmpty() && !_password.isEmpty() && !_changesetComment.isEmpty()) {
                 new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorNtdId, _gtfsIdDigit, _fileDir);

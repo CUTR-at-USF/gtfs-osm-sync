@@ -47,6 +47,7 @@ import javax.swing.JTextArea;
 import edu.usf.cutr.go_sync.object.RelationMember;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Session;
+import edu.usf.cutr.go_sync.task.DataEvaluation;
 import org.xml.sax.SAXException;
 import sun.misc.BASE64Encoder;
 import edu.usf.cutr.go_sync.tools.parser.BusStopParser;
@@ -121,10 +122,10 @@ public class HttpRequest {
         String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
-            InputSource inputSource = new InputSource(new StringReader(s));
+//            String s = sendRequest(url, "GET", "");
+//            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-//            InputSource inputSource = new InputSource("DataFromServer.osm");
+            InputSource inputSource = new InputSource("DataFromServer.osm");
             BusStopParser par = new BusStopParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingNodes.addAll(par.getNodes());
@@ -155,10 +156,10 @@ public class HttpRequest {
         String url = "http://www.informationfreeway.org" + urlSuffix;
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
-            InputSource inputSource = new InputSource(new StringReader(s));
+//            String s = sendRequest(url, "GET", "");
+//            InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
-//            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
+            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
             RouteParser par = new RouteParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             existingRelations.addAll(par.getRelations());
@@ -350,7 +351,8 @@ public class HttpRequest {
             OsmPrimitiveHistoryParser par = new OsmPrimitiveHistoryParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             history = par.getAllUsers();
-            StatisticsDisplay.contributors.addAll(par.getUsersInSet());
+//            StatisticsDisplay.contributors.addAll(par.getUsersInSet());
+            DataEvaluation.contributors.addAll(par.getUsersInSet());
         } catch(IOException e) {
             System.out.println(e);
         } catch(SAXException e) {

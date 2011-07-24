@@ -628,12 +628,15 @@ public class CompareData extends OsmTask{
     }
 
     public void generateReport(){
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StatisticsDisplay(report).setVisible(true);
-                //new ReportForm(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput).setVisible(true);
-            }
-        });
+
+        DataEvaluation eval = new DataEvaluation(report);
+        System.out.println("Done Evaluating!");
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new StatisticsDisplay(report).setVisible(true);
+//                //new ReportForm(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput).setVisible(true);
+//            }
+//        });
         
     }
 }

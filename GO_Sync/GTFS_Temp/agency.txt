@@ -1,2 +1,2 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_phone,agency_fare_url,agency_lang
-71,"Space Coast Area Transit","http://www.ridescat.com/","America/New_York","(321) 633-1878","http://www.ridescat.com/maps/fares.php","en"
+agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+Hillsborough Area Regional Transit,http://www.gohart.org,America/New_York,en,813-254-4278

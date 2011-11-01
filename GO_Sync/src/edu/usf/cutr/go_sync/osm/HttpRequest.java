@@ -59,7 +59,7 @@ import edu.usf.cutr.go_sync.tools.parser.RouteParser;
 public class HttpRequest {
     private static final int SLEEP_TIME = 500;
     private static final String API_VERSION ="0.6";
-    private static final String SERVER_URL = "http://api.openstreetmap.org/api/0.6/";
+    private static final String OSM_HOST = "http://api.openstreetmap.org/api/0.6/";
 
     private ArrayList<AttributesImpl> existingNodes = new ArrayList<AttributesImpl>();
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
@@ -86,9 +86,8 @@ public class HttpRequest {
     }
 
     public void checkVersion() throws InterruptedException{
-        String url = SERVER_URL + "capabilities/";
-        String s = sendRequest(url, "GET", "");
-        
+        String[] hosts = {OSM_HOST};
+        String s = sendRequest(hosts, "capabilities/", "GET", "");
         try {
             InputSource inputSource = new InputSource(new StringReader(s));
             OsmVersionParser vp = new OsmVersionParser("0.6");
@@ -107,11 +106,13 @@ public class HttpRequest {
     }
 
     public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) throws InterruptedException{
+        //http://open.mapquestapi.com/xapi/
+        //"http://www.informationfreeway.org"
         String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
-        String url = "http://www.informationfreeway.org" + urlSuffix;
+        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
+            String s = sendRequest(hosts, urlSuffix, "GET", "");
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServer.osm");
@@ -141,10 +142,10 @@ public class HttpRequest {
 
     public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) throws InterruptedException{
         String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String url = "http://www.informationfreeway.org" + urlSuffix;
+        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
+            String s = sendRequest(hosts, urlSuffix, "GET", "");
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
@@ -183,11 +184,11 @@ public class HttpRequest {
     }
 
     public void downloadChangeSet(String cs) throws InterruptedException{
+        String[] hosts = {OSM_HOST};
         String urlSuffix = "changeset/"+cs+"/download";
-        String url = SERVER_URL + urlSuffix;
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
+            String s = sendRequest(hosts, urlSuffix, "GET", "");
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
@@ -238,11 +239,11 @@ public class HttpRequest {
     private Stop getNodeByVersion(String osmid, String version, boolean isNew) throws InterruptedException{
         Stop st=null;
         String urlSuffix = "node/"+osmid+"/"+version;
-        String url = SERVER_URL + urlSuffix;
+        String[] hosts = {OSM_HOST};
         System.out.println("Retrieving node "+osmid+" with version "+version+"...");
         try {
             // get data from server
-            String s = sendRequest(url, "GET", "");
+            String s = sendRequest(hosts, urlSuffix, "GET", "");
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
@@ -349,12 +350,12 @@ public class HttpRequest {
 
     public void createChangeSet() throws InterruptedException{
         String urlSuffix = "changeset/create";
-        String url = SERVER_URL + urlSuffix;
+        String[] hosts = {OSM_HOST};
 
         String responseMessage = "";
         if (isSupportVersion) {
             String s = getRequestContents();
-            responseMessage = sendRequest(url, "PUT", getRequestContents());
+            responseMessage = sendRequest(hosts, urlSuffix, "PUT", getRequestContents());
             System.out.println(responseMessage);
             cSetID = responseMessage.substring(0, responseMessage.lastIndexOf("\n"));
             System.out.println("ChangeSet ID = "+cSetID);
@@ -363,12 +364,12 @@ public class HttpRequest {
 
     public void closeChangeSet() throws InterruptedException{
         String urlSuffix = "changeset/"+cSetID+"/close";
-        String url = SERVER_URL + urlSuffix;
+        String[] hosts = {OSM_HOST};
 
         String responseMessage = "";
         if (isSupportVersion) {
             if (!cSetID.equals("")) {
-                responseMessage = sendRequest(url, "PUT", getRequestContents());
+                responseMessage = sendRequest(hosts, urlSuffix, "PUT", getRequestContents());
                 System.out.println(responseMessage);
             }
             else {
@@ -380,12 +381,12 @@ public class HttpRequest {
 
     public void createSingleBusStop(String lat, String lon) throws InterruptedException{
         String urlSuffix = "node/create";
-        String url = SERVER_URL + urlSuffix;
+        String[] hosts = {OSM_HOST};
 
         String responseMessage = "";
         if (isSupportVersion) {
             if (!cSetID.equals("")) {
-                responseMessage = sendRequest(url, "PUT", getRequestContents(cSetID, lat, lon));
+                responseMessage = sendRequest(hosts, urlSuffix, "PUT", getRequestContents(cSetID, lat, lon));
                 System.out.println(responseMessage);
             }
             else {
@@ -408,7 +409,7 @@ public class HttpRequest {
         if (r!=null) routes.putAll(r);
 
         String urlSuffix = "changeset/"+cSetID+"/upload";
-        String url = SERVER_URL + urlSuffix;
+        String[] hosts = {OSM_HOST};
 
         String responseMessage = "";
         if (isSupportVersion) {
@@ -416,7 +417,7 @@ public class HttpRequest {
                 String osmChangeText = getRequestContents(cSetID, newStops, modifyStops, deleteStops, routes);
                 new WriteFile(FILE_NAME_OUT_UPLOAD, osmChangeText);
                 try{
-                    responseMessage = sendRequest(url, "POST", osmChangeText);
+                    responseMessage = sendRequest(hosts, urlSuffix, "POST", osmChangeText);
                     System.out.println("Message: "+responseMessage);
                 } catch(InterruptedException e){
                     throw new InterruptedException();
@@ -429,12 +430,27 @@ public class HttpRequest {
         }
     }
 
-    public String sendRequest(String url, String method, String content) throws InterruptedException {
+    public String sendRequest(String[] hosts, String urlSuffix, String method, String content) throws InterruptedException {
         HttpURLConnection conn = null;
         StringBuffer responseText = new StringBuffer();
         URL serverAddress = null;
         int retry = 1;
+        int maxRetryPerHost = 5;
+        int hostIndex=0;
         while (true) {
+            if(retry>maxRetryPerHost) {
+                hostIndex ++;
+                retry = 1;
+                if(hostIndex==hosts.length) {
+                    if(conn!=null) {
+                        conn.disconnect();
+                        conn = null;
+                    }
+                    taskOutput.append("All hosts are busy, check 'http://wiki.openstreetmap.org/wiki/Xapi#Servers' for more status information\n");
+                    break;
+                }
+            }
+            String url = hosts[hostIndex]+urlSuffix;
             try {
                 System.out.println("Connecting "+url+" using method "+method+" "+retry);
 //                try {
@@ -484,12 +500,15 @@ public class HttpRequest {
                 String s;
                 if(responseCode==HttpURLConnection.HTTP_OK) {
                     response = new BufferedReader(new InputStreamReader (conn.getInputStream()));
+                    char[] cbuf = new char[]{};
+                    response.read(cbuf);
                     s = response.readLine();
                     while(s != null) {
                         responseText.append(s);
                         responseText.append("\n");
                         s = response.readLine();
                     }
+                    System.out.println("End response");
                     break;
                 } else {
                     // get error message

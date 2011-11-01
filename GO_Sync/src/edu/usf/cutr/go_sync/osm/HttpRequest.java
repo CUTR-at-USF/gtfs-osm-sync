@@ -437,6 +437,7 @@ public class HttpRequest {
         int retry = 1;
         int maxRetryPerHost = 5;
         int hostIndex=0;
+        if(hosts==null) return "";
         while (true) {
             if(retry>maxRetryPerHost) {
                 hostIndex ++;

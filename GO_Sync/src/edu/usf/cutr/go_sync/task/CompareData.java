@@ -77,10 +77,11 @@ public class CompareData extends OsmTask{
         super(pm);
         taskOutput = to;
         osmRequest = new HttpRequest(taskOutput);
-        fileNameInStops = OperatorInfo.getFileDirectory()+"\\stops.txt";
-        fileNameInTrips = OperatorInfo.getFileDirectory()+"\\trips.txt";
-        fileNameInRoutes = OperatorInfo.getFileDirectory()+"\\routes.txt";
-        fileNameInStopTimes = OperatorInfo.getFileDirectory()+"\\stop_times.txt";
+        String fileSeparator = System.getProperty("file.separator");
+        fileNameInStops = OperatorInfo.getFileDirectory()+ fileSeparator + "stops.txt";
+        fileNameInTrips = OperatorInfo.getFileDirectory()+ fileSeparator + "trips.txt";
+        fileNameInRoutes = OperatorInfo.getFileDirectory()+ fileSeparator + "routes.txt";
+        fileNameInStopTimes = OperatorInfo.getFileDirectory()+ fileSeparator + "stop_times.txt";
         progressMonitor = pm;
     }
 

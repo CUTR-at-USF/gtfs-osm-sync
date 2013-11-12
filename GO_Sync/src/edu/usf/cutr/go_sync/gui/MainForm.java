@@ -157,11 +157,11 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         OperatorAbbLabel = new javax.swing.JLabel();
         operatorNameAbbField = new javax.swing.JTextField();
         compareButton = new javax.swing.JButton();
-        usernameLabel2 = new javax.swing.JLabel();
+        operatorNTDIDLabel = new javax.swing.JLabel();
         operatorNTDIDField = new javax.swing.JTextField();
-        usernameLabel3 = new javax.swing.JLabel();
+        gtfsIdDigitLabel = new javax.swing.JLabel();
         gtfsIdDigitField = new javax.swing.JTextField();
-        operatorNameLabel1 = new javax.swing.JLabel();
+        operatorAliasLabel = new javax.swing.JLabel();
         operatorAliasField = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         rbURL = new javax.swing.JRadioButton();
@@ -209,21 +209,21 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         });
         jPanel1.add(compareButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 209, 74, -1));
 
-        usernameLabel2.setText("Operator NTD ID");
-        jPanel1.add(usernameLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
+        operatorNTDIDLabel.setText("Operator NTD ID");
+        jPanel1.add(operatorNTDIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
         jPanel1.add(operatorNTDIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 50, -1));
         operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
 
-        usernameLabel3.setText("Length of GTFS Stop IDs");
-        jPanel1.add(usernameLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 120, -1));
+        gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
+        jPanel1.add(gtfsIdDigitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 120, -1));
 
         gtfsIdDigitField.setName("usernameField"); // NOI18N
         jPanel1.add(gtfsIdDigitField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, 20, -1));
 
-        operatorNameLabel1.setText("Operator Alias");
-        jPanel1.add(operatorNameLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 111, -1));
+        operatorAliasLabel.setText("Operator Alias");
+        jPanel1.add(operatorAliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 111, -1));
 
         operatorAliasField.setName("usernameField"); // NOI18N
         jPanel1.add(operatorAliasField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 180, -1));
@@ -648,13 +648,13 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTextField operatorNTDIDField;
     private javax.swing.JTextField operatorNameAbbField;
     private javax.swing.JLabel operatorNameLabel;
-    private javax.swing.JLabel operatorNameLabel1;
+    private javax.swing.JLabel operatorAliasLabel;
     private javax.swing.JRadioButton rbFileFolder;
     private javax.swing.JRadioButton rbURL;
     private javax.swing.JButton revertButton;
     private javax.swing.JTextField revertChangesetField;
     private javax.swing.JTextArea taskOutput;
-    private javax.swing.JLabel usernameLabel2;
-    private javax.swing.JLabel usernameLabel3;
+    private javax.swing.JLabel operatorNTDIDLabel;
+    private javax.swing.JLabel gtfsIdDigitLabel;
     // End of variables declaration//GEN-END:variables
 }

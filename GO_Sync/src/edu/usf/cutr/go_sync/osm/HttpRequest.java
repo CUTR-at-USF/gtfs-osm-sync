@@ -108,8 +108,10 @@ public class HttpRequest {
     public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) throws InterruptedException{
         //http://open.mapquestapi.com/xapi/
         //"http://www.informationfreeway.org"
-        String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
-        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
+//        String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
+//        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
+    	String urlSuffix = "?node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
+        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};    	
         try {
             // get data from server
             String s = sendRequest(hosts, urlSuffix, "GET", "");
@@ -141,8 +143,10 @@ public class HttpRequest {
     }
 
     public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) throws InterruptedException{
-        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
+//        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
+//        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
+    	String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
+        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};    	        
         try {
             // get data from server
             String s = sendRequest(hosts, urlSuffix, "GET", "");

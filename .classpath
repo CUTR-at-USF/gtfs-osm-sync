@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="GO_Sync/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="GO_Sync/swingx-ws-1.0-bin/swingx-ws-1.0.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/swingx.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/AbsoluteLayout.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

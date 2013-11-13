@@ -87,9 +87,11 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         }
 
+        fileDirTextField.setText("/home/reuben/development/eclipse-workspace/go-sync/GTFS_Temp");
+        
         //create a new textfield with autocomplete for operator names
         operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
-
+        operatorNameField.setText("Translink SEQ");
         //add the textfield to the panel
         jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
         
@@ -180,7 +182,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GO-Sync");
         setName("mainForm"); // NOI18N
-        setResizable(false);
+        setResizable(true); //false);
 
         exitButton.setText("Exit");
         exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -198,6 +200,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         jPanel1.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
+        operatorNameAbbField.setText("Translink");
         jPanel1.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
         operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
 
@@ -438,6 +441,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         try {
             _operatorAlias = operatorAliasField.getText();
             _operatorName = operatorNameField.getText();
+            
             _operatorNameAbbreviate = operatorNameAbbField.getText();
 
             if (!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty()) {

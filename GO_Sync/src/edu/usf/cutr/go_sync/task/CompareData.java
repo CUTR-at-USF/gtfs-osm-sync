@@ -270,6 +270,7 @@ public class CompareData extends OsmTask{
                             r.addTag("name", OperatorInfo.getAbbreviateName()+
                                     " route "+ r.getRouteRef());
                             r.addTag("operator",OperatorInfo.getFullName());
+//                            r.addTag("network",OperatorInfo.getFullName());
                             r.addTag("ref", r.getRouteRef());
                             r.addTag("route", "bus");
                             r.addTag("type", "route");
@@ -529,6 +530,7 @@ public class CompareData extends OsmTask{
                                         if (osmOperator==null || osmOperator.equals("missing")) {
                                             es.addTag("note", "Please add gtfs_id and operator after removing FIXME");
                                             if (osmOperator==null) es.addTag("operator","missing");
+//                                            if (osmOperator==null) es.addTag("network","missing");
                                         }
                                         else {
                                             es.addTag("note", "Please add gtfs_id after removing FIXME");

@@ -136,6 +136,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     /** Creates new form ReportViewer */
     public ReportViewer(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
+        
 
         // set tooltip time for 10 seconds
         javax.swing.ToolTipManager.sharedInstance().setDismissDelay(10000);
@@ -987,7 +988,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         } else {
             donotUploadButton.setVisible(true);
         }
-    }
+/*      doesn't work 
+ * 		 if (gtfsStopsComboBox.getSelectedIndex() < gtfsStopsComboBox.getItemCount())
+        {
+        gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+        }
+*/    }
 
 
     public void tableChanged(TableModelEvent e){
@@ -1118,6 +1124,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+    	
+    	setResizable(true); //false);
         stopsButtonGroup = new javax.swing.ButtonGroup();
         routesButtonGroup = new javax.swing.ButtonGroup();
         membersButtonGroup = new javax.swing.ButtonGroup();

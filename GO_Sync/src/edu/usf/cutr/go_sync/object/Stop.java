@@ -30,7 +30,7 @@ import edu.usf.cutr.go_sync.tools.OsmDistance;
 public class Stop extends OsmPrimitive implements Comparable{
     private final double ERROR_TO_ZERO = 0.5;
     private final String GTFS_STOP_ID_KEY = "gtfs_id";
-    private final String GTFS_OPERATOR_KEY = "operator";
+    private final String GTFS_OPERATOR_KEY = "network";
     private final String GTFS_NAME_KEY = "name";
     private String lat, lon;
     private HashSet<Route> routes;
@@ -40,8 +40,15 @@ public class Stop extends OsmPrimitive implements Comparable{
         if (stopID == null || stopID.equals("")) stopID="none";
         if (stopName == null || stopName.equals("")) stopName="none";
         osmTags.put("highway", "bus_stop");
+        osmTags.put("bus", "yes");
+        osmTags.put("public_transport", "plaform");
         osmTags.put(GTFS_STOP_ID_KEY, stopID);
+        osmTags.put("url", "http://translink.com.au/stop/"+stopID);
+        
+        
         osmTags.put(GTFS_OPERATOR_KEY, operatorName);
+ //       osmTags.put("network", getOperatorName());
+//        osmTags.put(GTFS_OPERATOR_KEY, "");
         osmTags.put(GTFS_NAME_KEY, stopName);
         this.lat = lat;
         this.lon = lon;
@@ -52,9 +59,16 @@ public class Stop extends OsmPrimitive implements Comparable{
         this.osmTags = new Hashtable();
         this.osmTags.putAll(s.osmTags);
         this.osmTags.put("highway", "bus_stop");
+        this.osmTags.put("bus", "yes");
+        this.osmTags.put("public_transport", "platform");
         this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
+        this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID());
+        
+
         this.osmTags.put(GTFS_OPERATOR_KEY, s.getOperatorName());
-        osmTags.put(GTFS_NAME_KEY, s.getStopName());
+//        this.osmTags.put("network", s.getOperatorName());
+//        this.osmTags.put(GTFS_OPERATOR_KEY, "");
+        this.osmTags.put(GTFS_NAME_KEY, s.getStopName());
         this.lat = s.lat;
         this.lon = s.lon;
         this.setOsmId(s.getOsmId());

@@ -99,7 +99,13 @@ public class GTFSReadIn {
                             if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
                             if ((v!=null) && (!v.equals(""))) s.addTag(k, v);
                         }
-                        s.addTag(NTD_ID_KEY, OperatorInfo.getNTDID());
+//                        s.addTag(NTD_ID_KEY, OperatorInfo.getNTDID());
+//                        s.addTag("url", s.getTag("stop_url"));
+                        s.addTag("bus", "yes");
+                        s.addTag("public_transport", "platform");
+                        s.addTag("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
+//                        if (!tempStopId.contains("place")) s.addTag("url", "http://translink.com.au/stop/"+tempStopId);
+                        
                     } catch(Exception e){
                         System.out.println("Error occurred! Please check your GTFS input files");
                         System.out.println(e.toString());

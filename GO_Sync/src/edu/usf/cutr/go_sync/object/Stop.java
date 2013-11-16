@@ -21,17 +21,17 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import edu.usf.cutr.go_sync.tools.OsmDistance;
-
+import edu.usf.cutr.go_sync.tag_defs;
 /**
  *
  * @author Khoa Tran
  */
 
 public class Stop extends OsmPrimitive implements Comparable{
-    private final double ERROR_TO_ZERO = 0.5;
-    private final String GTFS_STOP_ID_KEY = "gtfs_id";
-    private final String GTFS_OPERATOR_KEY = "network";
-    private final String GTFS_NAME_KEY = "name";
+	private final double ERROR_TO_ZERO = 0.5;	
+	private final String GTFS_STOP_ID_KEY	= tag_defs.GTFS_STOP_ID_KEY;
+    private final String GTFS_OPERATOR_KEY	= tag_defs.GTFS_OPERATOR_KEY;
+    private final String GTFS_NAME_KEY		= tag_defs.GTFS_NAME_KEY;
     private String lat, lon;
     private HashSet<Route> routes;
     public Stop(String stopID, String operatorName, String stopName, String lat, String lon) {
@@ -40,16 +40,19 @@ public class Stop extends OsmPrimitive implements Comparable{
         if (stopID == null || stopID.equals("")) stopID="none";
         if (stopName == null || stopName.equals("")) stopName="none";
         osmTags.put("highway", "bus_stop");
-        osmTags.put("bus", "yes");
-        osmTags.put("public_transport", "plaform");
         osmTags.put(GTFS_STOP_ID_KEY, stopID);
-        osmTags.put("url", "http://translink.com.au/stop/"+stopID);
-        osmTags.put("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
-        
         osmTags.put(GTFS_OPERATOR_KEY, operatorName);
- //       osmTags.put("network", getOperatorName());
-//        osmTags.put(GTFS_OPERATOR_KEY, "");
         osmTags.put(GTFS_NAME_KEY, stopName);
+
+        //        osmTags.put("bus", "yes");
+//        osmTags.put("public_transport", "plaform");
+
+//        if (!stopID.contains("place")) osmTags.put("url", "http://translink.com.au/stop/"+stopID);
+//        osmTags.put("url", "http://translink.com.au/stop/"+stopID);
+//        osmTags.put("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
+        
+//       osmTags.put("network", getOperatorName());
+//      osmTags.put(GTFS_OPERATOR_KEY, "");
         this.lat = lat;
         this.lon = lon;
         routes = new HashSet<Route>();
@@ -59,17 +62,20 @@ public class Stop extends OsmPrimitive implements Comparable{
         this.osmTags = new Hashtable();
         this.osmTags.putAll(s.osmTags);
         this.osmTags.put("highway", "bus_stop");
-        this.osmTags.put("bus", "yes");
-        this.osmTags.put("public_transport", "platform");
-        this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
-        this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID());
-        //this.osmTags.put("url", s.getTag("source_ref"));
-        this.osmTags.put("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
 
+        this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
         this.osmTags.put(GTFS_OPERATOR_KEY, s.getOperatorName());
+        this.osmTags.put(GTFS_NAME_KEY, s.getStopName());
+        
+//        this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID());
+//        if (!s.getStopID().contains("place")) this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID()); 
+//        this.osmTags.put("url", s.getTag("source_ref"));
+//        System.out.println(s.getTag("source_ref"));
+//        this.osmTags.put("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
+
+        
 //        this.osmTags.put("network", s.getOperatorName());
 //        this.osmTags.put(GTFS_OPERATOR_KEY, "");
-        this.osmTags.put(GTFS_NAME_KEY, s.getStopName());
         this.lat = s.lat;
         this.lon = s.lon;
         this.setOsmId(s.getOsmId());

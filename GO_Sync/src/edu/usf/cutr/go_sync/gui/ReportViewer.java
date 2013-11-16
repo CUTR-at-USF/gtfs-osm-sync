@@ -988,12 +988,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         } else {
             donotUploadButton.setVisible(true);
         }
-/*      doesn't work 
- * 		 if (gtfsStopsComboBox.getSelectedIndex() < gtfsStopsComboBox.getItemCount())
-        {
-        gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
-        }
-*/    }
+    }
 
 
     public void tableChanged(TableModelEvent e){
@@ -2024,16 +2019,21 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
-        if(tableStopButtonText.contains("Accept")){
+        if(tableStopButtonText.contains("Accept"))
+        {
             // stops to finish
-            if(stopsToFinish.contains(selectedGtfsStop.toString())){
+            if(stopsToFinish.contains(selectedGtfsStop.toString()))
+            {
+            	
                 stopsToFinish.remove(selectedGtfsStop.toString());
                 int visited = totalNumberOfStopsToFinish - stopsToFinish.size();
                 finishProgressBar.setString(Integer.toString(visited)
                                                 +"/"+totalNumberOfStopsToFinish+" stops");
-                if(!stopsToFinish.isEmpty()){
+                if(!stopsToFinish.isEmpty())
+                {
                     int progressValue = finishProgressBar.getValue();
-                    if((100/totalNumberOfStopsToFinish)<=0){
+                    if((100/totalNumberOfStopsToFinish)<=0)
+                    {
                         progressValue = (visited*100)/totalNumberOfStopsToFinish;
                     } else {
                         progressValue += 100/totalNumberOfStopsToFinish;
@@ -2045,6 +2045,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
 
             if(!tableStopButtonText.contains("Save Change")) JOptionPane.showMessageDialog(this,"Stop is accepted!");
+            
+            
+    		// 14thchanges the OSM COMbo box but not the gtfs one
+    		// 16-10 only seems to work if tags not changed!?
+     		if (gtfsStopsComboBox.getSelectedIndex() < gtfsStopsComboBox.getItemCount())
+            {
+             
+             gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+            // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
+            }
         }
 
         if(tableStopButtonText.equals("Accept & Save Change")) {

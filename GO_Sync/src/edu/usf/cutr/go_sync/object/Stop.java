@@ -44,7 +44,7 @@ public class Stop extends OsmPrimitive implements Comparable{
         osmTags.put("public_transport", "plaform");
         osmTags.put(GTFS_STOP_ID_KEY, stopID);
         osmTags.put("url", "http://translink.com.au/stop/"+stopID);
-        
+        osmTags.put("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
         
         osmTags.put(GTFS_OPERATOR_KEY, operatorName);
  //       osmTags.put("network", getOperatorName());
@@ -63,7 +63,8 @@ public class Stop extends OsmPrimitive implements Comparable{
         this.osmTags.put("public_transport", "platform");
         this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
         this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID());
-        
+        //this.osmTags.put("url", s.getTag("source_ref"));
+        this.osmTags.put("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
 
         this.osmTags.put(GTFS_OPERATOR_KEY, s.getOperatorName());
 //        this.osmTags.put("network", s.getOperatorName());

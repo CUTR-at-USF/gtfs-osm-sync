@@ -1858,7 +1858,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         return arrayStops;
     }
 
-    private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donotUploadButtonActionPerformed
+    private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    {//GEN-FIRST:event_donotUploadButtonActionPerformed
         // TODO add your handling code here:
         Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
 
@@ -1868,22 +1869,51 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         String sid = s.getStopID();
         String category = s.getReportCategory();
+ //       System.err.print(category);
+        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount() + "b"); //FIXME combo box count is broken before uopdate
+        gtfsAll = removeOneStopFromArray(gtfsAll, s);
         if(category.equals("UPLOAD_CONFLICT")){
             gtfsUploadConflict = removeOneStopFromArray(gtfsUploadConflict, s);
+//            if index > gtfsUploadConflict.length //FIXME case where index > array after removal
+            if (allStopsRadioButton.isSelected())
+            	updateStopCategory(gtfsAll, index);
+            else
             updateStopCategory(gtfsUploadConflict, index);
         } else if(category.equals("UPLOAD_NO_CONFLICT")) {
+
             gtfsUploadNoConflict = removeOneStopFromArray(gtfsUploadNoConflict, s);
+        	if (allStopsRadioButton.isSelected())
+            	updateStopCategory(gtfsAll, 0);
+            else
             updateStopCategory(gtfsUploadNoConflict, index);
         } else if(category.equals("MODIFY")){
             gtfsModify = removeOneStopFromArray(gtfsModify, s);
+        	if (allStopsRadioButton.isSelected())
+            	updateStopCategory(gtfsAll, 0);
+            else
             updateStopCategory(gtfsModify, index);
         }
-        gtfsAll = removeOneStopFromArray(gtfsAll, s);
+        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount() + "x"); //FIXME combo box count is broken before uopdate
+
+        
 
         finalStops.remove(sid);
         osmDefaultFinalStops.remove(sid);
         osmDefaultOnlyChangedFinalStops.remove(sid);
         finalCheckboxes.remove(sid);
+    //    System.err.println(allMembersRadioButton.isSelected() + " "+ newWithMatchStopsRadioButton.isSelected());
+        if (allStopsRadioButton.isSelected())
+        	updateStopCategory(gtfsAll, 0);
+
+        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount());
+ 		if (index < gtfsStopsComboBox.getItemCount() -1)
+        {
+         
+         gtfsStopsComboBox.setSelectedIndex(index);
+        // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
+        }
+ 		else
+ 			 gtfsStopsComboBox.setSelectedIndex(index-2);
 }//GEN-LAST:event_donotUploadButtonActionPerformed
 
     private void gtfsStopsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsStopsComboBoxActionPerformed

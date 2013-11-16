@@ -63,6 +63,9 @@ public class GTFSReadIn {
                         else if(keys[i].equals("stop_url")){
                             keysIndex.put("source_ref", i);
                         }
+                        else if(keys[i].equals("zone_id")){
+                            keysIndex.put("transport:zone", i);
+                        }
                         else {
                             String t = "gtfs_"+keys[i];
                             keysIndex.put(t, i);

@@ -36,6 +36,7 @@ import edu.usf.cutr.go_sync.object.Stop;
 import org.xml.sax.helpers.AttributesImpl;
 import edu.usf.cutr.go_sync.tools.OsmDistance;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
+import edu.usf.cutr.go_sync.tag_defs;
 
 /**
  *
@@ -269,7 +270,7 @@ public class CompareData extends OsmTask{
                             //add tag
                             r.addTag("name", OperatorInfo.getAbbreviateName()+
                                     " route "+ r.getRouteRef());
-                            r.addTag("operator",OperatorInfo.getFullName());
+                            r.addTag(tag_defs.GTFS_OPERATOR_KEY,OperatorInfo.getFullName());
 //                            r.addTag("network",OperatorInfo.getFullName());
                             r.addTag("ref", r.getRouteRef());
                             r.addTag("route", "bus");
@@ -308,7 +309,7 @@ public class CompareData extends OsmTask{
             osmtag.putAll(OSMRelationTags.get(osm));
             String routeName = (String)osmtag.get("ref");
             String routeId = (String)osmtag.get("gtfs_route_id");
-            String operator = (String)osmtag.get("operator");
+            String operator = (String)osmtag.get(tag_defs.GTFS_OPERATOR_KEY);
             if(routeKeys.contains(routeId) && operator!=null && OperatorInfo.isTheSameOperator(operator)) {
                 HashSet<RelationMember> em = OSMRelationMembers.get(osm);
                 Route r = new Route((Route)routes.get(routeId));
@@ -376,7 +377,7 @@ public class CompareData extends OsmTask{
             }
             Hashtable osmtag = new Hashtable();
             osmtag.putAll(OSMTags.get(osmindex));
-            String osmOperator = (String)osmtag.get("operator");
+            String osmOperator = (String)osmtag.get(tag_defs.GTFS_OPERATOR_KEY);
             String osmStopID = (String)osmtag.get("gtfs_id");
             //add leading 0's
             if(osmStopID!=null) {
@@ -514,7 +515,7 @@ public class CompareData extends OsmTask{
                                         osms.addTag("FIXME", "This bus stop could be redundant");
                                         if (osmOperator==null || osmOperator.equals("missing")) {
                                             osms.addTag("note", "Please add gtfs_id and operator after removing FIXME");
-                                            if (osmOperator==null) osms.addTag("operator","missing");
+                                            if (osmOperator==null) osms.addTag(tag_defs.GTFS_OPERATOR_KEY,"missing");
                                         }
                                         else {
                                             osms.addTag("note", "Please add gtfs_id after removing FIXME");
@@ -529,7 +530,7 @@ public class CompareData extends OsmTask{
                                         es.addTag("FIXME", "This bus stop could be redundant");
                                         if (osmOperator==null || osmOperator.equals("missing")) {
                                             es.addTag("note", "Please add gtfs_id and operator after removing FIXME");
-                                            if (osmOperator==null) es.addTag("operator","missing");
+                                            if (osmOperator==null) es.addTag(tag_defs.GTFS_OPERATOR_KEY,"missing");
 //                                            if (osmOperator==null) es.addTag("network","missing");
                                         }
                                         else {

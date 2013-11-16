@@ -61,7 +61,7 @@ import org.jdesktop.swingx.mapviewer.WaypointPainter;
 import org.jdesktop.swingx.mapviewer.WaypointRenderer;
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.Painter;
-
+import edu.usf.cutr.go_sync.tag_defs;
 /**
  *
  * @author Khoa Tran
@@ -303,7 +303,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 Hashtable<String, String> osmTags = osmStop.getTags();
                 ArrayList<String> osmTagKeys = new ArrayList<String>();
                 osmTagKeys.addAll(osmStop.keySet());
-                osmTagKeys.remove("operator");
+                osmTagKeys.remove(tag_defs.GTFS_OPERATOR_KEY);
 //                osmTagKeys.remove("highway");
                 osmTagKeys.remove("source");
                 boolean isDiff = false;

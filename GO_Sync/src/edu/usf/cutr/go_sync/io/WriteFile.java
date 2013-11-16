@@ -25,7 +25,7 @@ import java.util.List;
 import javax.swing.JTextArea;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Stop;
-
+import edu.usf.cutr.go_sync.tag_defs;
 /**
  *
  * @author Khoa Tran
@@ -182,7 +182,7 @@ public class WriteFile {
                     //if last key
                     else {
                         if(!isGtfsFormat){
-                            st.removeTag("operator");
+                            st.removeTag(tag_defs.GTFS_OPERATOR_KEY);
                             st.removeTag("name");
                             st.removeTag("source");
                             st.removeTag("highway");
@@ -259,7 +259,7 @@ public class WriteFile {
                     //if last key
                     else {
                         if(!isGtfsFormat){
-                            st.removeTag("operator");
+                            st.removeTag(tag_defs.GTFS_OPERATOR_KEY);
                             st.removeTag("name");
                             st.removeTag("source");
                             st.removeTag("highway");

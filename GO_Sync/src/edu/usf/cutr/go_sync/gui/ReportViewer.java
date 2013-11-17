@@ -532,7 +532,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gtfsStops = selectedCategory;
         gtfsStopsComboBox.setModel(new DefaultComboBoxModel(gtfsStops));
         totalGtfsStopsLabel.setText(Integer.toString(gtfsStops.length));
-        if(gtfsStops.length!=0) updateBusStop(gtfsStops[index]);
+        if(gtfsStops.length!=0 && index < gtfsStops.length) updateBusStop(gtfsStops[index]);
         else updateBusStop(null);
     }
 
@@ -1913,7 +1913,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
         }
  		else
- 			 gtfsStopsComboBox.setSelectedIndex(index-2);
+ 			 gtfsStopsComboBox.setSelectedIndex(index-1);
 }//GEN-LAST:event_donotUploadButtonActionPerformed
 
     private void gtfsStopsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsStopsComboBoxActionPerformed

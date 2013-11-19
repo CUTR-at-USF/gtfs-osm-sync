@@ -136,7 +136,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     /** Creates new form ReportViewer */
     public ReportViewer(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
-        
+        super.setResizable(true); //false);
 
         // set tooltip time for 10 seconds
         javax.swing.ToolTipManager.sharedInstance().setDismissDelay(10000);
@@ -1125,7 +1125,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         routesButtonGroup = new javax.swing.ButtonGroup();
         membersButtonGroup = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        busStopPanel = new javax.swing.JPanel();
         donotUploadButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         dataTable = new JTable(){
@@ -1160,8 +1160,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         };
         dataTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());
         dataTable.addMouseListener(new BooleanMouseListener(dataTable));
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        gtfsStopsComboBoxLabel = new javax.swing.JLabel();
+        osmStopsComboBoxLabel = new javax.swing.JLabel();
         gtfsStopsComboBox = new javax.swing.JComboBox(gtfsStops);
         osmStopsComboBox = new javax.swing.JComboBox(osmStops);
         mapJXMapKit = new org.jdesktop.swingx.JXMapKit();
@@ -1205,7 +1205,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         finishProgressBar = new javax.swing.JProgressBar();
         jLabel19 = new javax.swing.JLabel();
         lastEditedLabel = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        busRoutePanel = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         gtfsRoutesComboBox = new javax.swing.JComboBox(gtfsStops);
         jLabel8 = new javax.swing.JLabel();
@@ -1281,11 +1281,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         jTabbedPane1.setName("jTabbedPane1"); // NOI18N
 
-        jPanel1.setFont(new java.awt.Font("Tahoma", 0, 14));
-        jPanel1.setMaximumSize(new java.awt.Dimension(780, 780));
-        jPanel1.setName("jPanel1"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(750, 617));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        busStopPanel.setFont(new java.awt.Font("Tahoma", 0, 14));
+        busStopPanel.setMaximumSize(new java.awt.Dimension(780, 780));
+        busStopPanel.setName("jPanel1"); // NOI18N
+        busStopPanel.setPreferredSize(new java.awt.Dimension(750, 617));
+        busStopPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         donotUploadButton.setFont(new java.awt.Font("Tahoma", 0, 12));
         donotUploadButton.setText("Don't Upload");
@@ -1295,7 +1295,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 donotUploadButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(donotUploadButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, 110, -1));
+        busStopPanel.add(donotUploadButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, 110, -1));
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -1306,17 +1306,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         dataTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(dataTable);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(232, 111, 486, 172));
+        busStopPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(232, 111, 486, 172));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18));
-        jLabel1.setText("GTFS Stops");
-        jLabel1.setName("jLabel1"); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, 20));
+        gtfsStopsComboBoxLabel.setFont(new java.awt.Font("Times New Roman", 1, 18));
+        gtfsStopsComboBoxLabel.setText("GTFS Stops");
+        gtfsStopsComboBoxLabel.setName("jLabel1"); // NOI18N
+        busStopPanel.add(gtfsStopsComboBoxLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, 20));
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18));
-        jLabel2.setText("OSM Stops");
-        jLabel2.setName("jLabel2"); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, -1, 20));
+        osmStopsComboBoxLabel.setFont(new java.awt.Font("Times New Roman", 1, 18));
+        osmStopsComboBoxLabel.setText("OSM Stops");
+        osmStopsComboBoxLabel.setName("jLabel2"); // NOI18N
+        busStopPanel.add(osmStopsComboBoxLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, -1, 20));
 
         gtfsStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
         gtfsStopsComboBox.setMinimumSize(new java.awt.Dimension(60, 20));
@@ -1327,7 +1327,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gtfsStopsComboBoxActionPerformed(evt);
             }
         });
-        jPanel1.add(gtfsStopsComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(336, 49, -1, 23));
+        busStopPanel.add(gtfsStopsComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(336, 49, -1, 23));
 
         osmStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
         osmStopsComboBox.setMinimumSize(new java.awt.Dimension(60, 20));
@@ -1338,34 +1338,34 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 osmStopsComboBoxActionPerformed(evt);
             }
         });
-        jPanel1.add(osmStopsComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, 23));
+        busStopPanel.add(osmStopsComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, 23));
 
         mapJXMapKit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         mapJXMapKit.setDefaultProvider(org.jdesktop.swingx.JXMapKit.DefaultProviders.Custom);
         mapJXMapKit.setFont(new java.awt.Font("Tahoma", 0, 14));
         mapJXMapKit.setName("mapJXMapKit"); // NOI18N
         mapJXMapKit.setScrollableTracksViewportWidth(false);
-        jPanel1.add(mapJXMapKit, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 385, 488, 260));
+        busStopPanel.add(mapJXMapKit, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 385, 488, 260));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel3.setText("Display on Map:");
         jLabel3.setName("jLabel3"); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 350, -1, -1));
+        busStopPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 350, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel7.setText("Total Stops:");
         jLabel7.setName("jLabel7"); // NOI18N
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 78, -1, -1));
+        busStopPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 78, -1, -1));
 
         totalGtfsStopsLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
         totalGtfsStopsLabel.setText("N/A"); // NOI18N
         totalGtfsStopsLabel.setName("totalGtfsStopsLabel"); // NOI18N
-        jPanel1.add(totalGtfsStopsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 82, -1, -1));
+        busStopPanel.add(totalGtfsStopsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 82, -1, -1));
 
         totalOsmStopsLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
         totalOsmStopsLabel.setText("N/A");
         totalOsmStopsLabel.setName("totalOsmStopsLabel"); // NOI18N
-        jPanel1.add(totalOsmStopsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, -1));
+        busStopPanel.add(totalOsmStopsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, -1));
 
         stopsButtonGroup.add(allStopsRadioButton);
         allStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1378,7 +1378,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 allStopsRadioButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(allStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 217, -1, -1));
+        busStopPanel.add(allStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 217, -1, -1));
 
         stopsButtonGroup.add(newWithMatchStopsRadioButton);
         newWithMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1390,7 +1390,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 newWithMatchStopsRadioButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(newWithMatchStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 20));
+        busStopPanel.add(newWithMatchStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 20));
 
         stopsButtonGroup.add(newNoMatchStopsRadioButton);
         newNoMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1402,7 +1402,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 newNoMatchStopsRadioButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(newNoMatchStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 183, 20));
+        busStopPanel.add(newNoMatchStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 183, 20));
 
         stopsButtonGroup.add(updateStopsRadioButton);
         updateStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1414,12 +1414,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 updateStopsRadioButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(updateStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        busStopPanel.add(updateStopsRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel4.setText("Stops to view:");
         jLabel4.setName("jLabel4"); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 54, -1, -1));
+        busStopPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 54, -1, -1));
 
         stopsButtonGroup.add(existingStopRadioButton);
         existingStopRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1431,18 +1431,18 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 existingStopRadioButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(existingStopRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        busStopPanel.add(existingStopRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel5.setText("General Information");
         jLabel5.setName("jLabel5"); // NOI18N
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
+        busStopPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14));
         jLabel13.setText("No OSM Matches");
         jLabel13.setToolTipText("New GTFS stops to be added to OpenStreetMap."); // NOI18N
         jLabel13.setName("jLabel13"); // NOI18N
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+        busStopPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
@@ -1453,7 +1453,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         generalInformationStopTextArea.setName("generalInformationStopTextArea"); // NOI18N
         jScrollPane2.setViewportView(generalInformationStopTextArea);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 385, 216, 260));
+        busStopPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 385, 216, 260));
 
         tableStopButton.setFont(new java.awt.Font("Tahoma", 0, 12));
         tableStopButton.setText("setTextByCode");
@@ -1463,36 +1463,36 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 tableStopButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(tableStopButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 180, -1));
+        busStopPanel.add(tableStopButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 180, -1));
 
         jLabel14.setFont(new java.awt.Font("Times New Roman", 0, 14));
         jLabel14.setText("Potential Matches in OSM");
         jLabel14.setToolTipText("<html>\nNew GTFS stops to be added to OpenStreetMap.<br>\nHowever, there are some existing stops in OSM within 400 meters that could be this GTFS stop.<br>\nPlease verify if the stop is already in OSM by clicking the Match button.<br>\nOtherwise, these GTFS stops would be uploaded with a FIXME tag.\n</html>"); // NOI18N
         jLabel14.setName("jLabel14"); // NOI18N
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        busStopPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/yellow.png"))); // NOI18N
         jLabel15.setText("Potential Match Stops");
         jLabel15.setName("jLabel15"); // NOI18N
         jLabel15.setOpaque(true);
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, -1, 30));
+        busStopPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, -1, 30));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/green.png"))); // NOI18N
         jLabel16.setText("Selected Osm Stop");
         jLabel16.setName("jLabel16"); // NOI18N
         jLabel16.setOpaque(true);
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 360, -1, -1));
+        busStopPanel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 360, -1, -1));
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/blue.png"))); // NOI18N
         jLabel17.setText("Selected Gtfs Stop");
         jLabel17.setName("jLabel17"); // NOI18N
         jLabel17.setOpaque(true);
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 360, -1, -1));
+        busStopPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 360, -1, -1));
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png"))); // NOI18N
         jLabel18.setText("New Stop");
         jLabel18.setName("jLabel18"); // NOI18N
-        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 330, 70, 30));
+        busStopPanel.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 330, 70, 30));
 
         searchButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
         searchButton.setText("Search");
@@ -1504,38 +1504,38 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 searchButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(searchButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, -1, -1));
+        busStopPanel.add(searchButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, -1, -1));
 
         searchTextField.setToolTipText("Input stop name or stop id to search for stop");
         searchTextField.setName("searchTextField"); // NOI18N
-        jPanel1.add(searchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 50, 90, 20));
+        busStopPanel.add(searchTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 50, 90, 20));
 
         finishProgressBar.setToolTipText("<html>\nStops that you should visit before uploading into OSM<br>\nThese stops are either new stops that GO_Sync can't find a match for in OSM or existing stops in OSM that have new data to be inserted.\n</html>"); // NOI18N
         finishProgressBar.setName("finishProgressBar"); // NOI18N
         finishProgressBar.setString("0"); // NOI18N
         finishProgressBar.setStringPainted(true);
-        jPanel1.add(finishProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, 20));
+        busStopPanel.add(finishProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, 20));
 
         jLabel19.setFont(new java.awt.Font("Times New Roman", 0, 14));
         jLabel19.setText("Finish");
         jLabel19.setName("jLabel19"); // NOI18N
-        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        busStopPanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         lastEditedLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
         lastEditedLabel.setText("N/A");
         lastEditedLabel.setName("lastEditedLabel"); // NOI18N
-        jPanel1.add(lastEditedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 330, -1));
+        busStopPanel.add(lastEditedLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 330, -1));
 
-        jTabbedPane1.addTab("Bus Stop", jPanel1);
+        jTabbedPane1.addTab("Bus Stop", busStopPanel);
 
-        jPanel2.setFont(new java.awt.Font("Tahoma", 0, 14));
-        jPanel2.setName("jPanel2"); // NOI18N
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        busRoutePanel.setFont(new java.awt.Font("Tahoma", 0, 14));
+        busRoutePanel.setName("jPanel2"); // NOI18N
+        busRoutePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel6.setText("GTFS Routes");
         jLabel6.setName("jLabel6"); // NOI18N
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 23, -1, 14));
+        busRoutePanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(318, 23, -1, 14));
 
         gtfsRoutesComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
         gtfsRoutesComboBox.setMinimumSize(new java.awt.Dimension(60, 20));
@@ -1546,22 +1546,22 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gtfsRoutesComboBoxActionPerformed(evt);
             }
         });
-        jPanel2.add(gtfsRoutesComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 47, -1, 23));
+        busRoutePanel.add(gtfsRoutesComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 47, -1, 23));
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel8.setText("Total Stops:");
         jLabel8.setName("jLabel8"); // NOI18N
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 19, -1, -1));
+        busRoutePanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 19, -1, -1));
 
         totalGtfsRoutesLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
         totalGtfsRoutesLabel.setText("N/A"); // NOI18N
         totalGtfsRoutesLabel.setName("totalGtfsRoutesLabel"); // NOI18N
-        jPanel2.add(totalGtfsRoutesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(469, 50, -1, -1));
+        busRoutePanel.add(totalGtfsRoutesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(469, 50, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel9.setText("Routes to view:");
         jLabel9.setName("jLabel9"); // NOI18N
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 48, -1, -1));
+        busRoutePanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 48, -1, -1));
 
         routesButtonGroup.add(allRoutesRadioButton);
         allRoutesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1573,7 +1573,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 allRoutesRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(allRoutesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
+        busRoutePanel.add(allRoutesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
         routesButtonGroup.add(newRoutesRadioButton);
         newRoutesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1584,7 +1584,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 newRoutesRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(newRoutesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 187, -1));
+        busRoutePanel.add(newRoutesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 187, -1));
 
         routesButtonGroup.add(existingRoutesWithUpdatesRadioButton);
         existingRoutesWithUpdatesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1595,7 +1595,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 existingRoutesWithUpdatesRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(existingRoutesWithUpdatesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+        busRoutePanel.add(existingRoutesWithUpdatesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         routesButtonGroup.add(existingRoutesRadioButton);
         existingRoutesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1606,12 +1606,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 existingRoutesRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(existingRoutesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        busRoutePanel.add(existingRoutesRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel10.setText("General Information");
         jLabel10.setName("jLabel10"); // NOI18N
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
+        busRoutePanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
 
         jScrollPane3.setName("jScrollPane3"); // NOI18N
 
@@ -1622,7 +1622,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         generalInformationRouteTextArea.setName("generalInformationRouteTextArea"); // NOI18N
         jScrollPane3.setViewportView(generalInformationRouteTextArea);
 
-        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 216, 251));
+        busRoutePanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 216, 251));
 
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
@@ -1633,7 +1633,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         routeTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(routeTable);
 
-        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 82, 486, 173));
+        busRoutePanel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 82, 486, 173));
 
         jScrollPane5.setName("jScrollPane5"); // NOI18N
 
@@ -1644,12 +1644,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         memberTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(memberTable);
 
-        jPanel2.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, 486, 223));
+        busRoutePanel.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, 486, 223));
 
         jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel11.setText("Members to view:");
         jLabel11.setName("jLabel11"); // NOI18N
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 340, -1, -1));
+        busRoutePanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 340, -1, -1));
 
         membersButtonGroup.add(allMembersRadioButton);
         allMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1661,7 +1661,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 allMembersRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(allMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
+        busRoutePanel.add(allMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
 
         membersButtonGroup.add(osmMembersRadioButton);
         osmMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1672,7 +1672,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 osmMembersRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(osmMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 350, 160, -1));
+        busRoutePanel.add(osmMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 350, 160, -1));
 
         membersButtonGroup.add(gtfsMembersRadioButton);
         gtfsMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1683,7 +1683,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gtfsMembersRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(gtfsMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 320, -1, -1));
+        busRoutePanel.add(gtfsMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 320, -1, -1));
 
         membersButtonGroup.add(bothMembersRadioButton);
         bothMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -1694,27 +1694,27 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 bothMembersRadioButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(bothMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 350, -1, -1));
+        busRoutePanel.add(bothMembersRadioButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 350, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18));
         jLabel12.setText("Total:");
         jLabel12.setName("jLabel12"); // NOI18N
-        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 620, -1, -1));
+        busRoutePanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 620, -1, -1));
 
         totalGtfsMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
         totalGtfsMembersLabel.setText("N/A"); // NOI18N
         totalGtfsMembersLabel.setName("totalGtfsMembersLabel"); // NOI18N
-        jPanel2.add(totalGtfsMembersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 620, -1, 20));
+        busRoutePanel.add(totalGtfsMembersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 620, -1, 20));
 
         totalOsmMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
         totalOsmMembersLabel.setText("N/A"); // NOI18N
         totalOsmMembersLabel.setName("totalOsmMembersLabel"); // NOI18N
-        jPanel2.add(totalOsmMembersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 620, -1, 20));
+        busRoutePanel.add(totalOsmMembersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 620, -1, 20));
 
         totalNewMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
         totalNewMembersLabel.setText("N/A"); // NOI18N
         totalNewMembersLabel.setName("totalNewMembersLabel"); // NOI18N
-        jPanel2.add(totalNewMembersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 620, -1, -1));
+        busRoutePanel.add(totalNewMembersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 620, -1, -1));
 
         saveChangeRouteButton.setText("Save Change");
         saveChangeRouteButton.setEnabled(false);
@@ -1724,9 +1724,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 saveChangeRouteButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(saveChangeRouteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(437, 261, -1, -1));
+        busRoutePanel.add(saveChangeRouteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(437, 261, -1, -1));
 
-        jTabbedPane1.addTab("Bus Route", jPanel2);
+        jTabbedPane1.addTab("Bus Route", busRoutePanel);
 
         dummyUploadButton.setFont(new java.awt.Font("Tahoma", 0, 14));
         dummyUploadButton.setText("Dummy Upload");
@@ -2193,7 +2193,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JRadioButton gtfsMembersRadioButton;
     private javax.swing.JComboBox gtfsRoutesComboBox;
     private javax.swing.JComboBox gtfsStopsComboBox;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel gtfsStopsComboBoxLabel;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2204,7 +2204,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel osmStopsComboBoxLabel;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2217,8 +2217,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel busStopPanel;
+    private javax.swing.JPanel busRoutePanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

@@ -93,7 +93,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
         operatorNameField.setText("Translink SEQ");
         //add the textfield to the panel
-        jPanel1.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
+        compareDataPanel.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
         
         if (ops != null) {
             KeyListener listener = new KeyListener() { //create key listener for autocomple text field
@@ -154,7 +154,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         buttonGroup1 = new javax.swing.ButtonGroup();
         exitButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        compareDataPanel = new javax.swing.JPanel();
         operatorNameLabel = new javax.swing.JLabel();
         OperatorAbbLabel = new javax.swing.JLabel();
         operatorNameAbbField = new javax.swing.JTextField();
@@ -165,7 +165,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gtfsIdDigitField = new javax.swing.JTextField();
         operatorAliasLabel = new javax.swing.JLabel();
         operatorAliasField = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
+        gtfsDataPanel = new javax.swing.JPanel();
         rbURL = new javax.swing.JRadioButton();
         rbFileFolder = new javax.swing.JRadioButton();
         fileNameLabel = new javax.swing.JLabel();
@@ -191,17 +191,17 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        compareDataPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         operatorNameLabel.setText("Operator Full Name (*)");
-        jPanel1.add(operatorNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 126, -1));
+        compareDataPanel.add(operatorNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 126, -1));
 
         OperatorAbbLabel.setText("Operator Abbreviation (*)");
-        jPanel1.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
+        compareDataPanel.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
         operatorNameAbbField.setText("Translink");
-        jPanel1.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
+        compareDataPanel.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
         operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
 
         compareButton.setText("Run");
@@ -210,29 +210,29 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 compareButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(compareButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 209, 74, -1));
+        compareDataPanel.add(compareButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 209, 74, -1));
 
         operatorNTDIDLabel.setText("Operator NTD ID");
-        jPanel1.add(operatorNTDIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
+        compareDataPanel.add(operatorNTDIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
-        jPanel1.add(operatorNTDIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 50, -1));
+        compareDataPanel.add(operatorNTDIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 50, -1));
         operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
 
         gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
-        jPanel1.add(gtfsIdDigitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 120, -1));
+        compareDataPanel.add(gtfsIdDigitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 120, -1));
 
         gtfsIdDigitField.setName("usernameField"); // NOI18N
-        jPanel1.add(gtfsIdDigitField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, 20, -1));
+        compareDataPanel.add(gtfsIdDigitField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, 20, -1));
 
         operatorAliasLabel.setText("Operator Alias");
-        jPanel1.add(operatorAliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 111, -1));
+        compareDataPanel.add(operatorAliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 111, -1));
 
         operatorAliasField.setName("usernameField"); // NOI18N
-        jPanel1.add(operatorAliasField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 180, -1));
+        compareDataPanel.add(operatorAliasField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 180, -1));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
-        jPanel3.setName("pnlGTFSData"); // NOI18N
+        gtfsDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
+        gtfsDataPanel.setName("pnlGTFSData"); // NOI18N
 
         buttonGroup1.add(rbURL);
         rbURL.setText("URL");
@@ -262,8 +262,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(gtfsDataPanel);
+        gtfsDataPanel.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -299,16 +299,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 .addContainerGap())
         );
 
-        fileNameLabel.getAccessibleContext().setAccessibleParent(jPanel3);
-        fileDirTextField.getAccessibleContext().setAccessibleParent(jPanel3);
-        browseButton.getAccessibleContext().setAccessibleParent(jPanel3);
+        fileNameLabel.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
+        fileDirTextField.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
+        browseButton.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 98, 600, -1));
+        compareDataPanel.add(gtfsDataPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 98, 600, -1));
 
         jLabel1.setText("Fields marked with an asterisk(*) are required");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, 30));
+        compareDataPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, 30));
 
-        jTabbedPane1.addTab("Compare Data", jPanel1);
+        jTabbedPane1.addTab("Compare Data", compareDataPanel);
 
         jPanel2.setName(""); // NOI18N
 
@@ -643,9 +643,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel compareDataPanel;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel gtfsDataPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField operatorAliasField;

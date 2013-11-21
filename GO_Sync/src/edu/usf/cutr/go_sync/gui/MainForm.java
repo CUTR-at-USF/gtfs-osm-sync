@@ -50,6 +50,13 @@ import edu.usf.cutr.go_sync.io.DefaultOperatorReader;
 import edu.usf.cutr.go_sync.object.DefaultOperator;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyListener;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
 
 /**
  *
@@ -93,7 +100,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
         operatorNameField.setText("Translink SEQ");
         //add the textfield to the panel
-        compareDataPanel.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
+        compareDataPanel.add(operatorNameField, "4, 2, 5, 1, fill, top");
         
         if (ops != null) {
             KeyListener listener = new KeyListener() { //create key listener for autocomple text field
@@ -190,18 +197,40 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 exitButtonMouseClicked(evt);
             }
         });
-
-        compareDataPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        compareDataPanel.setLayout(new FormLayout(new ColumnSpec[] {
+        		FormFactory.RELATED_GAP_COLSPEC,
+        		ColumnSpec.decode("121px"),
+        		FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+        		ColumnSpec.decode("10px"),
+        		ColumnSpec.decode("131px"),
+        		ColumnSpec.decode("3px"),
+        		FormFactory.UNRELATED_GAP_COLSPEC,
+        		ColumnSpec.decode("76px"),
+        		FormFactory.UNRELATED_GAP_COLSPEC,
+        		ColumnSpec.decode("50px"),
+        		FormFactory.RELATED_GAP_COLSPEC,
+        		ColumnSpec.decode("120px"),
+        		FormFactory.RELATED_GAP_COLSPEC,
+        		ColumnSpec.decode("30px"),},
+        	new RowSpec[] {
+        		FormFactory.PARAGRAPH_GAP_ROWSPEC,
+        		RowSpec.decode("19px"),
+        		RowSpec.decode("21px"),
+        		RowSpec.decode("19px"),
+        		FormFactory.PARAGRAPH_GAP_ROWSPEC,
+        		RowSpec.decode("95px"),
+        		FormFactory.PARAGRAPH_GAP_ROWSPEC,
+        		RowSpec.decode("25px"),}));
 
         operatorNameLabel.setText("Operator Full Name (*)");
-        compareDataPanel.add(operatorNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 126, -1));
+        compareDataPanel.add(operatorNameLabel, "2, 2, 3, 1, fill, top");
 
         OperatorAbbLabel.setText("Operator Abbreviation (*)");
-        compareDataPanel.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
+        compareDataPanel.add(OperatorAbbLabel, "10, 2, 3, 1, right, bottom");
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
         operatorNameAbbField.setText("Translink");
-        compareDataPanel.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
+        compareDataPanel.add(operatorNameAbbField, "12, 2, 3, 1, center, top");
         operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
 
         compareButton.setText("Run");
@@ -210,26 +239,26 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 compareButtonActionPerformed(evt);
             }
         });
-        compareDataPanel.add(compareButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 209, 74, -1));
+        compareDataPanel.add(compareButton, "6, 8, 3, 1, left, top");
 
         operatorNTDIDLabel.setText("Operator NTD ID");
-        compareDataPanel.add(operatorNTDIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
+        compareDataPanel.add(operatorNTDIDLabel, "8, 4, 3, 1, left, top");
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
-        compareDataPanel.add(operatorNTDIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 50, -1));
+        compareDataPanel.add(operatorNTDIDField, "10, 4, fill, top");
         operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
 
         gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
-        compareDataPanel.add(gtfsIdDigitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 120, -1));
+        compareDataPanel.add(gtfsIdDigitLabel, "12, 4, fill, top");
 
         gtfsIdDigitField.setName("usernameField"); // NOI18N
-        compareDataPanel.add(gtfsIdDigitField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, 20, -1));
+        compareDataPanel.add(gtfsIdDigitField, "14, 4, fill, top");
 
         operatorAliasLabel.setText("Operator Alias");
-        compareDataPanel.add(operatorAliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 111, -1));
+        compareDataPanel.add(operatorAliasLabel, "2, 4, right, top");
 
         operatorAliasField.setName("usernameField"); // NOI18N
-        compareDataPanel.add(operatorAliasField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 180, -1));
+        compareDataPanel.add(operatorAliasField, "2, 4, 5, 1, fill, top");
 
         gtfsDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
         gtfsDataPanel.setName("pnlGTFSData"); // NOI18N
@@ -303,10 +332,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         fileDirTextField.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
         browseButton.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
 
-        compareDataPanel.add(gtfsDataPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 98, 600, -1));
+        compareDataPanel.add(gtfsDataPanel, "2, 6, 13, 1, fill, top");
 
         jLabel1.setText("Fields marked with an asterisk(*) are required");
-        compareDataPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, 30));
+        compareDataPanel.add(jLabel1, "2, 6, 7, 3, center, bottom");
 
         jTabbedPane1.addTab("Compare Data", compareDataPanel);
 
@@ -358,32 +387,34 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         jScrollPane1.setViewportView(taskOutput);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(279, 279, 279)
-                        .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                        .addGap(280, 280, 280)))
-                .addContainerGap())
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        						.addComponent(jTabbedPane1, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+        						.addComponent(jScrollPane1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE))
+        					.addGap(12))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(279)
+        					.addComponent(exitButton, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+        					.addGap(280)))
+        			.addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(exitButton)
+        			.addContainerGap())
         );
+        getContentPane().setLayout(layout);
 
         exitButton.getAccessibleContext().setAccessibleName("exitButton");
 

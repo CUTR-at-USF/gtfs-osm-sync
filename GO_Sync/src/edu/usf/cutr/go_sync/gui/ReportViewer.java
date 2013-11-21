@@ -65,6 +65,9 @@ import edu.usf.cutr.go_sync.tag_defs;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
 /**
  *
  * @author Khoa Tran
@@ -1169,7 +1172,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         osmStopsComboBox = new javax.swing.JComboBox(osmStops);
         mapJXMapKit = new org.jdesktop.swingx.JXMapKit();
         final int osmMaxZoom = 19;
- //comment out to use gui designer   
+
+        
       TileFactoryInfo osmInfo = new TileFactoryInfo(1,osmMaxZoom-2,osmMaxZoom,
             256, true, true, // tile size is 256 and x/y orientation is normal
             "http://tile.openstreetmap.org",//5/15/10.png",
@@ -1180,7 +1184,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 return url;
             }
         };
-        osmTf = new DefaultTileFactory(osmInfo);
+        osmTf = new DefaultTileFactory(osmInfo);  //comment out to use gui designer
         mapJXMapKit.setTileFactory(osmTf);
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -1953,27 +1957,27 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(226, Short.MAX_VALUE)
-                .addComponent(dummyUploadButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(uploadDataButton)
-                .addGap(218, 218, 218))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap(226, Short.MAX_VALUE)
+        			.addComponent(dummyUploadButton)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(uploadDataButton)
+        			.addGap(218))
+        		.addComponent(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 771, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(uploadDataButton)
-                    .addComponent(dummyUploadButton))
-                .addContainerGap())
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addComponent(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(uploadDataButton)
+        				.addComponent(dummyUploadButton))
+        			.addContainerGap())
         );
+        getContentPane().setLayout(layout);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

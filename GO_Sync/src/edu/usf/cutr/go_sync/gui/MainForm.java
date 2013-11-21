@@ -53,10 +53,6 @@ import java.awt.event.KeyListener;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
 
 /**
  *
@@ -100,7 +96,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
         operatorNameField.setText("Translink SEQ");
         //add the textfield to the panel
-        compareDataPanel.add(operatorNameField, "4, 2, 5, 1, fill, top");
+        compareDataPanel.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
         
         if (ops != null) {
             KeyListener listener = new KeyListener() { //create key listener for autocomple text field
@@ -197,40 +193,18 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 exitButtonMouseClicked(evt);
             }
         });
-        compareDataPanel.setLayout(new FormLayout(new ColumnSpec[] {
-        		FormFactory.RELATED_GAP_COLSPEC,
-        		ColumnSpec.decode("121px"),
-        		FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-        		ColumnSpec.decode("10px"),
-        		ColumnSpec.decode("131px"),
-        		ColumnSpec.decode("3px"),
-        		FormFactory.UNRELATED_GAP_COLSPEC,
-        		ColumnSpec.decode("76px"),
-        		FormFactory.UNRELATED_GAP_COLSPEC,
-        		ColumnSpec.decode("50px"),
-        		FormFactory.RELATED_GAP_COLSPEC,
-        		ColumnSpec.decode("120px"),
-        		FormFactory.RELATED_GAP_COLSPEC,
-        		ColumnSpec.decode("30px"),},
-        	new RowSpec[] {
-        		FormFactory.PARAGRAPH_GAP_ROWSPEC,
-        		RowSpec.decode("19px"),
-        		RowSpec.decode("21px"),
-        		RowSpec.decode("19px"),
-        		FormFactory.PARAGRAPH_GAP_ROWSPEC,
-        		RowSpec.decode("95px"),
-        		FormFactory.PARAGRAPH_GAP_ROWSPEC,
-        		RowSpec.decode("25px"),}));
+
+        compareDataPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         operatorNameLabel.setText("Operator Full Name (*)");
-        compareDataPanel.add(operatorNameLabel, "2, 2, 3, 1, fill, top");
+        compareDataPanel.add(operatorNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 126, -1));
 
         OperatorAbbLabel.setText("Operator Abbreviation (*)");
-        compareDataPanel.add(OperatorAbbLabel, "10, 2, 3, 1, right, bottom");
+        compareDataPanel.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
         operatorNameAbbField.setText("Translink");
-        compareDataPanel.add(operatorNameAbbField, "12, 2, 3, 1, center, top");
+        compareDataPanel.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
         operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
 
         compareButton.setText("Run");
@@ -239,26 +213,26 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 compareButtonActionPerformed(evt);
             }
         });
-        compareDataPanel.add(compareButton, "6, 8, 3, 1, left, top");
+        compareDataPanel.add(compareButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 209, 74, -1));
 
         operatorNTDIDLabel.setText("Operator NTD ID");
-        compareDataPanel.add(operatorNTDIDLabel, "8, 4, 3, 1, left, top");
+        compareDataPanel.add(operatorNTDIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 111, -1));
 
         operatorNTDIDField.setName("usernameField"); // NOI18N
-        compareDataPanel.add(operatorNTDIDField, "10, 4, fill, top");
+        compareDataPanel.add(operatorNTDIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 50, -1));
         operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
 
         gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
-        compareDataPanel.add(gtfsIdDigitLabel, "12, 4, fill, top");
+        compareDataPanel.add(gtfsIdDigitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 120, -1));
 
         gtfsIdDigitField.setName("usernameField"); // NOI18N
-        compareDataPanel.add(gtfsIdDigitField, "14, 4, fill, top");
+        compareDataPanel.add(gtfsIdDigitField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, 20, -1));
 
         operatorAliasLabel.setText("Operator Alias");
-        compareDataPanel.add(operatorAliasLabel, "2, 4, right, top");
+        compareDataPanel.add(operatorAliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 111, -1));
 
         operatorAliasField.setName("usernameField"); // NOI18N
-        compareDataPanel.add(operatorAliasField, "2, 4, 5, 1, fill, top");
+        compareDataPanel.add(operatorAliasField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 180, -1));
 
         gtfsDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
         gtfsDataPanel.setName("pnlGTFSData"); // NOI18N
@@ -332,10 +306,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         fileDirTextField.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
         browseButton.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
 
-        compareDataPanel.add(gtfsDataPanel, "2, 6, 13, 1, fill, top");
+        compareDataPanel.add(gtfsDataPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 98, 600, -1));
 
         jLabel1.setText("Fields marked with an asterisk(*) are required");
-        compareDataPanel.add(jLabel1, "2, 6, 7, 3, center, bottom");
+        compareDataPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, 30));
 
         jTabbedPane1.addTab("Compare Data", compareDataPanel);
 

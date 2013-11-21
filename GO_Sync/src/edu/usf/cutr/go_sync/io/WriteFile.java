@@ -244,6 +244,10 @@ public class WriteFile {
                         content = st.getTag("source_ref");
                         st.removeTag("source_ref");
                     }
+                    else if(keys[j].equals("transport:zone")){
+                    	content = st.getTag("transport:zone");
+                    	st.removeTag("transport:zone");
+                    }
                     else {
                         content = st.getTag("gtfs_"+keys[j]);
                         st.removeTag("gtfs_"+keys[j]);

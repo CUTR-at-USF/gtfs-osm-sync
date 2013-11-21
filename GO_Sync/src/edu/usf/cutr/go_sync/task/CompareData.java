@@ -761,7 +761,7 @@ public class CompareData extends OsmTask{
         info = "There are currently "+existingRoutes.size()+" OSM routes in the region\n\n";
         info += "Transit agency GTFS dataset has "+agencyRoutes.size()+" routes";
         rv.SetGeneralInformationToRouteTextArea(info);
-        rv.setResizable(false);
+        rv.setResizable(true);
         rv.setVisible(true);
     }
 }

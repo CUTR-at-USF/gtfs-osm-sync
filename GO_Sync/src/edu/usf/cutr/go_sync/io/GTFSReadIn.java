@@ -116,11 +116,11 @@ public class GTFSReadIn {
                     }
                     String r = getRoutesInTextByBusStop((HashSet<Route>)stopIDs.get(tempStopId));
                     
-/*              disable route tagging for now      
+//             disable route tagging for now      
                     if (!r.isEmpty()) s.addTag(ROUTE_KEY, r);
                     HashSet<Route> asdf = (HashSet<Route>)stopIDs.get(tempStopId);
                     if(asdf!=null)s.addRoutes((HashSet<Route>)stopIDs.get(tempStopId));
-*/                    
+                    
                     stops.add(s);
                     
                     

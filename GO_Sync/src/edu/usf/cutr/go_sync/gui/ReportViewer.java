@@ -70,6 +70,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 /**
  *
  * @author Khoa Tran
@@ -1246,7 +1247,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         finishProgressBar.setString("0"); // NOI18N
                                         finishProgressBar.setStringPainted(true);
                                         GridBagConstraints gbc_finishProgressBar = new GridBagConstraints();
-                                        gbc_finishProgressBar.anchor = GridBagConstraints.NORTHWEST;
+                                        gbc_finishProgressBar.fill = GridBagConstraints.HORIZONTAL;
+                                        gbc_finishProgressBar.anchor = GridBagConstraints.NORTH;
                                         gbc_finishProgressBar.insets = new Insets(0, 0, 5, 5);
                                         gbc_finishProgressBar.gridx = 2;
                                         gbc_finishProgressBar.gridy = 0;
@@ -1308,6 +1310,19 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                         gtfsStopsComboBoxActionPerformed(evt);
                                                     }
                                                 });
+                                                
+                                                dontuploadAllBtn = new JButton("Don't Up All");
+                                                dontuploadAllBtn.addActionListener(new java.awt.event.ActionListener() {
+                                                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        donotUploadAllButtonActionPerformed(evt);
+                                                    }
+                                                });
+                                                GridBagConstraints gbc_dontuploadAllBtn = new GridBagConstraints();
+                                                gbc_dontuploadAllBtn.gridwidth = 2;
+                                                gbc_dontuploadAllBtn.insets = new Insets(0, 0, 5, 5);
+                                                gbc_dontuploadAllBtn.gridx = 3;
+                                                gbc_dontuploadAllBtn.gridy = 1;
+                                                busStopPanel.add(dontuploadAllBtn, gbc_dontuploadAllBtn);
                                                 GridBagConstraints gbc_gtfsStopsComboBox = new GridBagConstraints();
                                                 gbc_gtfsStopsComboBox.anchor = GridBagConstraints.NORTHEAST;
                                                 gbc_gtfsStopsComboBox.insets = new Insets(0, 0, 5, 5);
@@ -1353,10 +1368,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 
                                 panel = new JPanel();
                                 GridBagConstraints gbc_panel = new GridBagConstraints();
-                                gbc_panel.anchor = GridBagConstraints.WEST;
                                 gbc_panel.gridheight = 2;
                                 gbc_panel.insets = new Insets(0, 0, 5, 5);
-                                gbc_panel.fill = GridBagConstraints.VERTICAL;
+                                gbc_panel.fill = GridBagConstraints.BOTH;
                                 gbc_panel.gridx = 2;
                                 gbc_panel.gridy = 2;
                                 busStopPanel.add(panel, gbc_panel);
@@ -2163,6 +2177,34 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         return arrayStops;
     }
 
+    private void donotUploadAllButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    {
+/*        private void updateStopCategory(Stop[] selectedCategory, int index){
+            gtfsStops = selectedCategory;
+            gtfsStopsComboBox.setModel(new DefaultComboBoxModel(gtfsStops));
+            totalGtfsStopsLabel.setText(Integer.toString(gtfsStops.length));
+            if(gtfsStops.length!=0 && index < gtfsStops.length) updateBusStop(gtfsStops[index]);
+            else updateBusStop(null);
+        }*/
+/*    	Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
+        String category = s.getReportCategory();
+        Stop[] stoplist;
+
+		if(category.equals("UPLOAD_CONFLICT"))
+			stoplist = gtfsUploadConflict;
+		else if(category.equals("UPLOAD_NO_CONFLICT")) 
+			stoplist = gtfsUploadNoConflict;
+		else if(category.equals("MODIFY"))
+	         stoplist = gtfsModify;
+		else
+			 stoplist = gtfsModify;*/
+		
+//	    while (stoplist.length > 0)
+    	// FIXME only works properly when none in cat have been accepted
+	    while (gtfsStopsComboBox.getItemCount() > 1) //works with >1 but not >0
+	    	donotUploadButtonActionPerformed(evt);
+    }
+    
     private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt) 
     {//GEN-FIRST:event_donotUploadButtonActionPerformed
         // TODO add your handling code here:
@@ -2555,6 +2597,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JRadioButton updateStopsRadioButton;
     private javax.swing.JButton uploadDataButton;
     private JPanel panel;
+    private JButton dontuploadAllBtn;
     // End of variables declaration//GEN-END:variables
 
 }

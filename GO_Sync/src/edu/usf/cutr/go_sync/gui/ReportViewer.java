@@ -1253,6 +1253,19 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_finishProgressBar.gridx = 2;
                                         gbc_finishProgressBar.gridy = 0;
                                         busStopPanel.add(finishProgressBar, gbc_finishProgressBar);
+                                
+                                dontupremainButton = new JButton("Don't Up Remain");
+                                GridBagConstraints gbc_dontupremainButton = new GridBagConstraints();
+                                gbc_dontupremainButton.gridwidth = 2;
+                                gbc_dontupremainButton.insets = new Insets(0, 0, 5, 5);
+                                gbc_dontupremainButton.gridx = 3;
+                                gbc_dontupremainButton.gridy = 0;
+                                busStopPanel.add(dontupremainButton, gbc_dontupremainButton);
+                                dontupremainButton.addActionListener(new java.awt.event.ActionListener() {
+                                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                        donotUploadRemainingButtonActionPerformed(evt);
+                                    }
+                                });
                                 gtfsStopsComboBoxLabel = new javax.swing.JLabel();
                                 
                                         gtfsStopsComboBoxLabel.setFont(new java.awt.Font("Times New Roman", 1, 18));
@@ -1652,7 +1665,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_mapJXMapKit.gridx = 4;
                 gbc_mapJXMapKit.gridy = 8;
                 busStopPanel.add(mapJXMapKit, gbc_mapJXMapKit);
-                       mapJXMapKit.setTileFactory(osmTf);//comment out to use gui designer
+				mapJXMapKit.setTileFactory(osmTf);//comment out to use gui designer
 
 
         jTabbedPane1.addTab("Bus Stop", busStopPanel);
@@ -2205,6 +2218,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 	    	donotUploadButtonActionPerformed(evt);
     }
     
+    private void donotUploadRemainingButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    {
+    	int currentitem = gtfsStopsComboBox.getSelectedIndex();
+    	gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getItemCount()-1);
+	    while (gtfsStopsComboBox.getItemCount() > (currentitem+1)) 
+	    	donotUploadButtonActionPerformed(evt);
+	    
+    	//FIXME broken when some already do not uploads?
+    }
+    
     private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt) 
     {//GEN-FIRST:event_donotUploadButtonActionPerformed
         // TODO add your handling code here:
@@ -2217,7 +2240,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         String sid = s.getStopID();
         String category = s.getReportCategory();
  //       System.err.print(category);
-        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount() + "b"); //FIXME combo box count is broken before uopdate
+//        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount() + "b"); 
         gtfsAll = removeOneStopFromArray(gtfsAll, s);
         if(category.equals("UPLOAD_CONFLICT")){
             gtfsUploadConflict = removeOneStopFromArray(gtfsUploadConflict, s);
@@ -2598,6 +2621,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JButton uploadDataButton;
     private JPanel panel;
     private JButton dontuploadAllBtn;
+    private JButton dontupremainButton;
     // End of variables declaration//GEN-END:variables
 
 }

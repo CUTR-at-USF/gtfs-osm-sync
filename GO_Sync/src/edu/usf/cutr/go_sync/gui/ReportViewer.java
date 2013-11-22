@@ -1174,7 +1174,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gbl_busStopPanel.columnWidths = new int[]{44, 0, 133, 15, 75, 64, 6, 20, 40, 59, 110, 70, 0};
         gbl_busStopPanel.rowHeights = new int[]{30, 28, 22, 17, 17, 25, 10, 20, 260, 0};
         gbl_busStopPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        gbl_busStopPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gbl_busStopPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         busStopPanel.setLayout(gbl_busStopPanel);
         tableStopButton = new javax.swing.JButton();
         
@@ -1259,7 +1259,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         GridBagConstraints gbc_gtfsStopsComboBoxLabel = new GridBagConstraints();
                                         gbc_gtfsStopsComboBoxLabel.anchor = GridBagConstraints.SOUTH;
                                         gbc_gtfsStopsComboBoxLabel.insets = new Insets(0, 0, 5, 5);
-                                        gbc_gtfsStopsComboBoxLabel.gridwidth = 3;
+                                        gbc_gtfsStopsComboBoxLabel.gridwidth = 2;
                                         gbc_gtfsStopsComboBoxLabel.gridx = 5;
                                         gbc_gtfsStopsComboBoxLabel.gridy = 0;
                                         busStopPanel.add(gtfsStopsComboBoxLabel, gbc_gtfsStopsComboBoxLabel);
@@ -1300,9 +1300,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gtfsStopsComboBox = new javax.swing.JComboBox(gtfsStops);
                                         
                                                 gtfsStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
-                                                gtfsStopsComboBox.setMinimumSize(new java.awt.Dimension(60, 20));
+                                                gtfsStopsComboBox.setMinimumSize(new Dimension(100, 20));
                                                 gtfsStopsComboBox.setName("gtfsStopsComboBox"); // NOI18N
-                                                gtfsStopsComboBox.setPreferredSize(new java.awt.Dimension(60, 20));
+                                                gtfsStopsComboBox.setPreferredSize(new Dimension(100, 20));
                                                 gtfsStopsComboBox.addActionListener(new java.awt.event.ActionListener() {
                                                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                         gtfsStopsComboBoxActionPerformed(evt);

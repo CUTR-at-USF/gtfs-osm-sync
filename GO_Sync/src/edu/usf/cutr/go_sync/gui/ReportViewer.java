@@ -1343,6 +1343,19 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                 gbc_gtfsStopsComboBox.gridx = 5;
                                                 gbc_gtfsStopsComboBox.gridy = 1;
                                                 busStopPanel.add(gtfsStopsComboBox, gbc_gtfsStopsComboBox);
+                                        
+                                        nextButton = new JButton("→");
+                                        nextButton.addActionListener(new java.awt.event.ActionListener() {
+                                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                        
+                                            	gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+                                            }
+                                        });
+                                        GridBagConstraints gbc_nextButton = new GridBagConstraints();
+                                        gbc_nextButton.insets = new Insets(0, 0, 5, 5);
+                                        gbc_nextButton.gridx = 7;
+                                        gbc_nextButton.gridy = 1;
+                                        busStopPanel.add(nextButton, gbc_nextButton);
                                         GridBagConstraints gbc_osmStopsComboBox = new GridBagConstraints();
                                         gbc_osmStopsComboBox.insets = new Insets(0, 0, 5, 5);
                                         gbc_osmStopsComboBox.gridwidth = 2;
@@ -2216,6 +2229,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     	// FIXME only works properly when none in cat have been accepted
 	    while (gtfsStopsComboBox.getItemCount() > 1) //works with >1 but not >0
 	    	donotUploadButtonActionPerformed(evt);
+	    
+/*	    	int currentitem = 0;
+	    	gtfsStopsComboBox.setSelectedIndex(0);
+		    while (gtfsStopsComboBox.getItemCount() > 1) 
+		    	donotUploadButtonActionPerformed(evt);*/
+		    
+	    	//FIXME broken when some already do not uploads?
+	    
+	    
     }
     
     private void donotUploadRemainingButtonActionPerformed(java.awt.event.ActionEvent evt) 
@@ -2622,6 +2644,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JPanel panel;
     private JButton dontuploadAllBtn;
     private JButton dontupremainButton;
+    private JButton nextButton;
     // End of variables declaration//GEN-END:variables
 
 }

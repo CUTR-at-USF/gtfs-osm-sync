@@ -39,7 +39,7 @@ public class Stop extends OsmPrimitive implements Comparable{
         if (operatorName == null || operatorName.equals("")) operatorName="none";
         if (stopID == null || stopID.equals("")) stopID="none";
         if (stopName == null || stopName.equals("")) stopName="none";
-        osmTags.put("highway", "bus_stop");
+//        osmTags.put("highway", "bus_stop");
         osmTags.put(GTFS_STOP_ID_KEY, stopID);
         osmTags.put(GTFS_OPERATOR_KEY, operatorName);
         osmTags.put(GTFS_NAME_KEY, stopName);
@@ -61,7 +61,7 @@ public class Stop extends OsmPrimitive implements Comparable{
     public Stop(Stop s) {
         this.osmTags = new Hashtable();
         this.osmTags.putAll(s.osmTags);
-        this.osmTags.put("highway", "bus_stop");
+//        this.osmTags.put("highway", "bus_stop");
 
         this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
         this.osmTags.put(GTFS_OPERATOR_KEY, s.getOperatorName());

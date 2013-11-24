@@ -110,11 +110,31 @@ public class HttpRequest {
         //"http://www.informationfreeway.org"
 //        String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
 //        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
-    	String urlSuffix = "?node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
-        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};    	
+//    	String urlSuffix = "?node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
+//        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};
+    	
+    	String content = "<union>"+
+  "<query type=\"node\">" +
+    "<has-kv k=\"highway\" v=\"bus_stop\"/>"+
+    "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
+    " </query>"+
+  "<query type=\"node\">" +
+  	" <has-kv k=\"public_transport\" v=\"platform\"/>"+
+    "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
+   "</query>"+
+   "<query type=\"node\">" +
+ 	" <has-kv k=\"public_transport\" v=\"station\"/>"+
+   "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
+  "</query>"+    
+"</union>"+
+"<print mode=\"meta\"/>";
+      String[] hosts = {"http://api.openstreetmap.fr/oapi/interpreter","http://overpass.osm.rambler.ru/cgi/"}; 
+      
+  	
         try {
             // get data from server
-            String s = sendRequest(hosts, urlSuffix, "GET", "");
+            //String s = sendRequest(hosts, urlSuffix, "GET", "");
+        	String s = sendRequest(hosts, "", "POST", content);
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServer.osm");

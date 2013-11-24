@@ -25,6 +25,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import edu.usf.cutr.go_sync.tag_defs;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Stop;
@@ -104,8 +106,15 @@ public class GTFSReadIn {
                         }
 //                        s.addTag(NTD_ID_KEY, OperatorInfo.getNTDID());
 //                        s.addTag("url", s.getTag("stop_url"));
-                        s.addTag("bus", "yes");
-                        s.addTag("public_transport", "platform");
+                        if (!(s.getTag(tag_defs.GTFS_NAME_KEY).contains("platform") || s.getTag(tag_defs.GTFS_STOP_ID_KEY).contains("place")))
+                        		{
+                        	s.addTag("highway", "bus_stop");
+                        	s.addTag("bus", "yes");
+                        		}
+                        if (s.getTag(tag_defs.GTFS_STOP_ID_KEY).contains("place"))
+                        	s.addTag("public_transport", "station");
+                        else
+                        	s.addTag("public_transport", "platform");
                         s.addTag("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
 //                        if (!tempStopId.contains("place")) s.addTag("url", "http://translink.com.au/stop/"+tempStopId);
                         

@@ -496,12 +496,13 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
 
         //set the column width with checkbox to minimum size
-        dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//        dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
         TableColumn col = dataTable.getColumnModel().getColumn(2);
         int width = 15;
-        col.setPreferredWidth(width);
+        col.setPreferredWidth(width);col.setMaxWidth(width);
         col = dataTable.getColumnModel().getColumn(4);
-        col.setPreferredWidth(width);
+        col.setPreferredWidth(width);;col.setMaxWidth(width);
         col = dataTable.getColumnModel().getColumn(0);
         col.setPreferredWidth(100);
         col = dataTable.getColumnModel().getColumn(1);
@@ -2203,8 +2204,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         return arrayStops;
     }
 
+    
+    
     private void donotUploadAllButtonActionPerformed(java.awt.event.ActionEvent evt) 
     {
+    	
+    	System.out.println(newWithMatchStopsRadioButton.isSelected());
+    	// TODO: use HashSets insteaf of list
+    	
 /*        private void updateStopCategory(Stop[] selectedCategory, int index){
             gtfsStops = selectedCategory;
             gtfsStopsComboBox.setModel(new DefaultComboBoxModel(gtfsStops));
@@ -2226,9 +2233,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 			 stoplist = gtfsModify;*/
 		
 //	    while (stoplist.length > 0)
+  
     	// FIXME only works properly when none in cat have been accepted
-	    while (gtfsStopsComboBox.getItemCount() > 1) //works with >1 but not >0
-	    	donotUploadButtonActionPerformed(evt);
+//	    while (gtfsStopsComboBox.getItemCount() > 1) //works with >1 but not >0
+//	    	donotUploadButtonActionPerformed(evt);
 	    
 /*	    	int currentitem = 0;
 	    	gtfsStopsComboBox.setSelectedIndex(0);
@@ -2285,7 +2293,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             else
             updateStopCategory(gtfsModify, index);
         }
-        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount() + "x"); //FIXME combo box count is broken before uopdate
+        System.err.println(index + "\t gtfsStopsComboBox.getItemCount():\t" + gtfsStopsComboBox.getItemCount() + "x"); //FIXME combo box count is broken before uopdate
 
         
 

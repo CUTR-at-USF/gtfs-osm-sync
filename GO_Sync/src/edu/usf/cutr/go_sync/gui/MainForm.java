@@ -90,7 +90,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         }
 
-        fileDirTextField.setText("/home/reuben/downloads/SEQ_GTFS");
+        fileDirTextField.setText("/tmp/bowen/");
+        fileDirTextField.setText("/tmp/SEQ/");
         
         //create a new textfield with autocomplete for operator names
         operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);

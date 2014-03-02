@@ -1322,6 +1322,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                 gtfsStopsComboBox.addActionListener(new java.awt.event.ActionListener() {
                                                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                         gtfsStopsComboBoxActionPerformed(evt);
+                                                        totalGtfsStopsLabel.setText(gtfsStopsComboBox.getSelectedIndex()+1 + "/" + gtfsStopsComboBox.getItemCount());
                                                     }
                                                 });
                                                 
@@ -1349,7 +1350,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         nextButton.addActionListener(new java.awt.event.ActionListener() {
                                             public void actionPerformed(java.awt.event.ActionEvent evt) {
                                         
+                                         		if (gtfsStopsComboBox.getSelectedIndex()+1 < gtfsStopsComboBox.getItemCount())
+                                                {
                                             	gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+                                            	
+                                                }
                                             }
                                         });
                                         GridBagConstraints gbc_nextButton = new GridBagConstraints();
@@ -2479,10 +2484,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             
     		// 14thchanges the OSM COMbo box but not the gtfs one
     		// 16-10 only seems to work if tags not changed!?
-     		if (gtfsStopsComboBox.getSelectedIndex() < gtfsStopsComboBox.getItemCount())
+     		if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())
             {
              
              gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+         	
+
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
         }

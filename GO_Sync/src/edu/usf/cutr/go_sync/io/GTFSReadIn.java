@@ -115,7 +115,7 @@ public class GTFSReadIn {
                         	s.addTag("public_transport", "station");
                         else
                         	s.addTag("public_transport", "platform");
-                        s.addTag("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
+// disable source tag                        s.addTag("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
 //                        if (!tempStopId.contains("place")) s.addTag("url", "http://translink.com.au/stop/"+tempStopId);
                         
                     } catch(Exception e){

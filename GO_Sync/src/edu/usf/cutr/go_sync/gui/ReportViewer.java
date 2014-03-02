@@ -36,9 +36,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -2193,7 +2195,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }// </editor-fold>//GEN-END:initComponents
 
     private Stop[] removeOneStopFromArray(Stop[] arrayStops, Stop s){
-        Stop[] gtfsTemp = new Stop[arrayStops.length-1];
+    	
+    	/*
+        
+		Stop[] gtfsTemp = new Stop[arrayStops.length-1];
+           
         int i = 0;
         while(!arrayStops[i].equals(s)){
             gtfsTemp[i] = arrayStops[i];
@@ -2204,9 +2210,23 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             i++;
         }
         // set the temporary array to its original reference
-        arrayStops = new Stop[gtfsTemp.length];
+      //  arrayStops = new Stop[gtfsTemp.length];
+        arrayStops = Arrays.copyOf(gtfsTemp, gtfsTemp.length);
         for(i=0; i<gtfsTemp.length; i++) arrayStops[i] = gtfsTemp[i];
         return arrayStops;
+        */
+        
+        
+    	LinkedList<Stop> stopList = new LinkedList<Stop>(Arrays.asList(arrayStops));  
+        System.out.print(stopList.size());
+    	stopList.remove(s);
+    	
+//        arrayStops = stopList.toArray(arrayStops);
+    	arrayStops =  Arrays.copyOf(stopList.toArray(arrayStops), stopList.size());
+        System.out.println("\t" + stopList.size() + "\t" + arrayStops.length); 
+        return arrayStops;
+        
+       
     }
 
     
@@ -2215,6 +2235,21 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     {
     	
     	System.out.println(newWithMatchStopsRadioButton.isSelected());
+    	
+    	
+    	
+//    	GtfsArrayList.remove(o)
+    	Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
+    	String category = s.getReportCategory();
+    	ArrayList<Stop> GtfsAllArrayList = new ArrayList<Stop>() ;
+    	
+//    	GtfsAlGtfsAll
+    	if(category.equals("UPLOAD_CONFLICT")){
+//        	ArrayList<Stop> GtfsArrayList = new ArrayList<Stop>(Gt) ;
+
+    		
+    		
+    	}
     	// TODO: use HashSets insteaf of list
     	
 /*        private void updateStopCategory(Stop[] selectedCategory, int index){

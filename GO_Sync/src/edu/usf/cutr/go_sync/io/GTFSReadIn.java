@@ -50,7 +50,8 @@ public class GTFSReadIn {
             BufferedReader br = new BufferedReader(new FileReader(fName));
             boolean isFirstLine = true;
             Hashtable keysIndex = new Hashtable();
-            while ((thisLine = br.readLine()) != null) { 
+            while ((thisLine = br.readLine()) != null) 
+            { 
                 if (isFirstLine) {
                     isFirstLine = false;
                     OperatorInfo.setGtfsFields(thisLine);
@@ -61,9 +62,9 @@ public class GTFSReadIn {
                         else if(keys[i].equals("stop_name")) stopNameKey = i;
                         else if(keys[i].equals("stop_lat")) stopLatKey = i;
                         else if(keys[i].equals("stop_lon")) stopLonKey = i;
-                        // gtfs stop_url is mapped to source_ref tag in OSM
+                        // gtfs stop_url is mapped to url tag in OSM
                         else if(keys[i].equals("stop_url")){
-                            keysIndex.put("source_ref", i);
+                            keysIndex.put("url", i);
                         }
                         else if(keys[i].equals("zone_id")){
                             keysIndex.put("transport:zone", i);
@@ -73,6 +74,7 @@ public class GTFSReadIn {
                             keysIndex.put(t, i);
                         }
                     }
+                    System.out.println(keysIndex.toString());
 //                    System.out.println(stopIdKey+","+stopNameKey+","+stopLatKey+","+stopLonKey);
                 }
                 else {
@@ -90,6 +92,8 @@ public class GTFSReadIn {
                          }
                     }
                     elements = thisLine.split(",");
+                    //System.out.println(elements.length);
+                   // for (int zxc = 0; zxc< elements.length-1; zxc++) {System.out.print(elements[zxc]+ ",");}System.out.print(elements[elements.length] );
                     if(thisLine.charAt(thisLine.length()-1)==',') lastIndexEmpty=true;
                     //add leading 0's to gtfs_id
                     String tempStopId = OsmFormatter.getValidBusStopId(elements[stopIdKey]);
@@ -99,10 +103,15 @@ public class GTFSReadIn {
                     Iterator it = keys.iterator();
                     try {
                         while(it.hasNext()){
-                            String k = (String)it.next();
+                        	String k = (String)it.next();
+                        	
                             String v = null;
-                            if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
+                            //if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
+                            if((Integer)keysIndex.get(k)< elements.length) v = elements[(Integer)keysIndex.get(k)];
                             if ((v!=null) && (!v.equals(""))) s.addTag(k, v);
+                            
+                            //System.out.print(k+":" + v +" ");
+                            
                         }
 //                        s.addTag(NTD_ID_KEY, OperatorInfo.getNTDID());
 //                        s.addTag("url", s.getTag("stop_url"));
@@ -115,6 +124,9 @@ public class GTFSReadIn {
                         	s.addTag("public_transport", "station");
                         else
                         	s.addTag("public_transport", "platform");
+                        
+//if (s.getTag("gtfs_location_type");)
+                        
 // disable source tag                        s.addTag("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
 //                        if (!tempStopId.contains("place")) s.addTag("url", "http://translink.com.au/stop/"+tempStopId);
                         
@@ -123,6 +135,7 @@ public class GTFSReadIn {
                         System.out.println(e.toString());
                         System.exit(0);
                     }
+                   // System.err.println(s.getTags());
                     String r = getRoutesInTextByBusStop((HashSet<Route>)stopIDs.get(tempStopId));
                     
 //             disable route tagging for now      

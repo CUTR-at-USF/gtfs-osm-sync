@@ -2241,15 +2241,78 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //    	GtfsArrayList.remove(o)
     	Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
     	String category = s.getReportCategory();
-    	ArrayList<Stop> GtfsAllArrayList = new ArrayList<Stop>() ;
+  //  	ArrayList<Stop> GtfsAllArrayList = new ArrayList<Stop>() ;
+    	LinkedList<Stop> GtfsAllLinkedList = new LinkedList<Stop>(Arrays.asList(gtfsAll));  
     	
-//    	GtfsAlGtfsAll
-    	if(category.equals("UPLOAD_CONFLICT")){
-//        	ArrayList<Stop> GtfsArrayList = new ArrayList<Stop>(Gt) ;
+    	
+    	
+    	System.out.println(gtfsUploadConflict.length+"\t" + gtfsUploadNoConflict.length+"\t" + gtfsModify.length+"\t" + gtfsUploadConflict.length+"\t" + gtfsAll.length+"\t" );
+    	System.out.print(GtfsAllLinkedList.size()+"\t");
 
-    		
-    		
-    	}
+//    	GtfsAlGtfsAll
+    	
+    	Stop[] gtfsarraynew;
+    	List <Stop> gtfsListnew; 
+        if(category.equals("UPLOAD_CONFLICT")){
+   //         gtfsUploadConflict = removeOneStopFromArray(gtfsUploadConflict, s);
+        	List <Stop> gtfsUploadConflictList = Arrays.asList(gtfsUploadConflict);
+            GtfsAllLinkedList.removeAll(gtfsUploadConflictList);
+            
+//            if index > gtfsUploadConflict.length //FIXME case where index > array after removal
+/*            if (allStopsRadioButton.isSelected())
+            	updateStopCategory(gtfsAll, index);
+            else*/
+            
+//          String sid = s.getStopID();
+//          finalStops.remove(sid);
+          finalStops.entrySet().removeAll(gtfsUploadConflictList);
+          osmDefaultFinalStops.entrySet().removeAll(gtfsUploadConflictList);
+          osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsUploadConflictList);
+          finalCheckboxes.entrySet().removeAll(gtfsUploadConflictList);
+//          osmDefaultFinalStops.remove(sid);
+//          osmDefaultOnlyChangedFinalStops.remove(sid);
+//          finalCheckboxes.remove(sid);                   
+          gtfsUploadConflict = new Stop[0];
+          updateStopCategory(gtfsUploadConflict, 0);
+        } else if(category.equals("UPLOAD_NO_CONFLICT")) {
+        	List <Stop> gtfsUploadNoConflictList = Arrays.asList(gtfsUploadNoConflict);
+            GtfsAllLinkedList.removeAll(gtfsUploadNoConflictList);            
+
+//            gtfsUploadNoConflict = removeOneStopFromArray(gtfsUploadNoConflict, s);
+/*        	if (allStopsRadioButton.isSelected())
+            	updateStopCategory(gtfsAll, 0);
+            else*/
+            
+            finalStops.entrySet().removeAll(gtfsUploadNoConflictList);
+            osmDefaultFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
+            osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
+            finalCheckboxes.entrySet().removeAll(gtfsUploadNoConflictList);            
+            
+            
+            gtfsUploadNoConflict = new Stop[0];
+            //Arrays.fill(gtfsUploadNoConflict, null);
+            updateStopCategory(gtfsUploadNoConflict, 0);
+        } else if(category.equals("MODIFY")){
+        	List <Stop> gtfsModifyConflictList = Arrays.asList(gtfsModify);
+            GtfsAllLinkedList.removeAll(gtfsModifyConflictList);
+//            GtfsAllLinkedList.removeAll(Arrays.asList(gtfsModify));
+
+            //gtfsModify = removeOneStopFromArray(gtfsModify, s);
+/*        	if (allStopsRadioButton.isSelected())
+            	updateStopCategory(gtfsAll, 0);
+            else*/
+            updateStopCategory(gtfsModify, 0);
+        }
+        gtfsAll =  Arrays.copyOf(GtfsAllLinkedList.toArray(gtfsAll), GtfsAllLinkedList.size());
+        
+/*
+        finalStops.entrySet().removeAll(gtfsListnew);
+        osmDefaultFinalStops.entrySet().removeAll(gtfsListnew);
+        osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsListnew);
+        finalCheckboxes.entrySet().removeAll(gtfsListnew);
+*/    //    finalStops.remove(sid);
+        
+        
     	// TODO: use HashSets insteaf of list
     	
 /*        private void updateStopCategory(Stop[] selectedCategory, int index){
@@ -2284,7 +2347,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 		    	donotUploadButtonActionPerformed(evt);*/
 		    
 	    	//FIXME broken when some already do not uploads?
-	    
+    	System.out.println(GtfsAllLinkedList.size()+"\t");
+
 	    
     }
     
@@ -2296,6 +2360,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 	    	donotUploadButtonActionPerformed(evt);
 	    
     	//FIXME broken when some already do not uploads?
+	    
+	    
+	    
+	    
+	    
     }
     
     private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt) 
@@ -2336,7 +2405,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         System.err.println(index + "\t gtfsStopsComboBox.getItemCount():\t" + gtfsStopsComboBox.getItemCount() + "x"); //FIXME combo box count is broken before uopdate
 
         
-
+        
         finalStops.remove(sid);
         osmDefaultFinalStops.remove(sid);
         osmDefaultOnlyChangedFinalStops.remove(sid);

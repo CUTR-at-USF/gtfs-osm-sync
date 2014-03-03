@@ -240,9 +240,10 @@ public class WriteFile {
                     else if(keys[j].equals("stop_lat")) content = st.getLat();
                     else if(keys[j].equals("stop_lon")) content = st.getLon();
                     // gtfs stop_url is mapped to source_ref tag in OSM
-                    else if(keys[j].equals("stop_url")){
-                        content = st.getTag("source_ref");
-                        st.removeTag("source_ref");
+                    else if(keys[j].equals("url")){
+//                        else if(keys[j].equals("stop_url")){                    	
+                        content = st.getTag("url");
+                        st.removeTag("url");
                     }
                     else if(keys[j].equals("transport:zone")){
                     	content = st.getTag("transport:zone");

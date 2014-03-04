@@ -2098,7 +2098,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 uploadDataButtonActionPerformed(evt);
             }
         });
-
+        //TODO remove button
+        uploadDataButton.setEnabled(false);
+        
         jMenuBar1.setName("jMenuBar1"); // NOI18N
 
         jMenu1.setText("File");
@@ -2456,26 +2458,35 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private void newWithMatchStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWithMatchStopsRadioButtonActionPerformed
         // TODO add your handling code here:
         updateStopCategory(gtfsUploadConflict, 0);
+        dontuploadAllBtn.setEnabled(true);
+
     }//GEN-LAST:event_newWithMatchStopsRadioButtonActionPerformed
 
     private void newNoMatchStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newNoMatchStopsRadioButtonActionPerformed
         // TODO add your handling code here:
         updateStopCategory(gtfsUploadNoConflict, 0);
+        dontuploadAllBtn.setEnabled(true);
+
     }//GEN-LAST:event_newNoMatchStopsRadioButtonActionPerformed
 
     private void updateStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStopsRadioButtonActionPerformed
         // TODO add your handling code here:
         updateStopCategory(gtfsModify, 0);
+        dontuploadAllBtn.setEnabled(true);
+
     }//GEN-LAST:event_updateStopsRadioButtonActionPerformed
 
     private void existingStopRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingStopRadioButtonActionPerformed
         // TODO add your handling code here:
         updateStopCategory(gtfsNoUpload, 0);
+        dontuploadAllBtn.setEnabled(false);
+
     }//GEN-LAST:event_existingStopRadioButtonActionPerformed
 
     private void allStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allStopsRadioButtonActionPerformed
         // TODO add your handling code here:
         updateStopCategory(gtfsAll, 0);
+        dontuploadAllBtn.setEnabled(false);
     }//GEN-LAST:event_allStopsRadioButtonActionPerformed
 
     private void osmStopsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_osmStopsComboBoxActionPerformed

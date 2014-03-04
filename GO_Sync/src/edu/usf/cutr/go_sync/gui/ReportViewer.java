@@ -2297,12 +2297,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         } else if(category.equals("MODIFY")){
         	List <Stop> gtfsModifyConflictList = Arrays.asList(gtfsModify);
             GtfsAllLinkedList.removeAll(gtfsModifyConflictList);
-//            GtfsAllLinkedList.removeAll(Arrays.asList(gtfsModify));
 
-            //gtfsModify = removeOneStopFromArray(gtfsModify, s);
-/*        	if (allStopsRadioButton.isSelected())
-            	updateStopCategory(gtfsAll, 0);
-            else*/
+            
+            finalStops.entrySet().removeAll(gtfsModifyConflictList);
+            osmDefaultFinalStops.entrySet().removeAll(gtfsModifyConflictList);
+            osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsModifyConflictList);
+            finalCheckboxes.entrySet().removeAll(gtfsModifyConflictList);                    
+            gtfsModify = new Stop[0];
+
             updateStopCategory(gtfsModify, 0);
         }
         gtfsAll =  Arrays.copyOf(GtfsAllLinkedList.toArray(gtfsAll), GtfsAllLinkedList.size());

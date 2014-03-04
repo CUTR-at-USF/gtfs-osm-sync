@@ -1,0 +1,30 @@
+<union>
+	<query type="node">
+		<has-kv k="highway" v="bus_stop"/>
+		<bbox-query w="left" e="right" s="bottom" n="top"/>
+	</query>
+	<query type="node">
+		<has-kv k="public_transport" v="platform"/>
+		<bbox-query w="left" e="right" s="bottom" n="top"/>
+	</query>
+	<query type="node">
+		<has-kv k="public_transport" v="station"/>
+		<bbox-query w="left" e="right" s="bottom" n="top"/>
+	</query>    
+</union>
+
+<union>
+	<query type="node">
+		<has-kv k="highway" v="bus_stop"/>
+		<bbox-query w="152.12022000000002" e="153.547374" s="-28.176196" n="-26.155424"/>
+	</query>
+	<query type="node">
+		<has-kv k="public_transport" v="platform"/>
+		<bbox-query w="152.12022000000002" e="153.547374" s="-28.176196" n="-26.155424"/>
+	</query>
+	<query type="node">
+		<has-kv k="public_transport" v="station"/>
+		<bbox-query w="152.12022000000002" e="153.547374" s="-28.176196" n="-26.155424"/>
+		</query>
+</union>
+<print mode="meta"/>

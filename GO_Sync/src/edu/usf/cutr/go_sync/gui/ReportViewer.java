@@ -73,12 +73,14 @@ import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 /**
  *
  * @author Khoa Tran
  */
 public class ReportViewer extends javax.swing.JFrame implements TableModelListener, PropertyChangeListener {
 
+	private JCheckBox routesCheckbox, stopsCheckbox;
     private HttpRequest osmRequest;
 
     private Hashtable report;
@@ -2081,6 +2083,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_totalNewMembersLabel.gridy = 11;
                 busRoutePanel.add(totalNewMembersLabel, gbc_totalNewMembersLabel);
 
+                
+                routesCheckbox = new JCheckBox("Routes");
+//                routesCheckbox.setMnemonic(KeyEvent.VK_C); 
+                routesCheckbox.setSelected(true);
+/*                routesCheckbox.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        dummyUploadButtonActionPerformed(evt);
+                    }
+                });*/
+                
         dummyUploadButton.setFont(new java.awt.Font("Tahoma", 0, 14));
         dummyUploadButton.setText("Dummy Upload");
         dummyUploadButton.setName("dummyUploadButton"); // NOI18N
@@ -2174,6 +2186,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(layout.createSequentialGroup()
+        			.addComponent(routesCheckbox)	
         			.addContainerGap(226, Short.MAX_VALUE)
         			.addComponent(dummyUploadButton)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -2187,6 +2200,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         			.addComponent(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        					.addComponent(routesCheckbox)
         				.addComponent(uploadDataButton)
         				.addComponent(dummyUploadButton))
         			.addContainerGap())
@@ -2236,7 +2250,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private void donotUploadAllButtonActionPerformed(java.awt.event.ActionEvent evt) 
     {
     	
-    	System.out.println(newWithMatchStopsRadioButton.isSelected());
+        System.out.println("upload\tmodify\tdelete\tfinalStops");
+    	System.out.println(upload.size() + "\t" + modify.size() + "\t" +delete.size() + "\t" +finalStops.size());
+
     	
     	
     	
@@ -2249,7 +2265,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     	
     	
     	System.out.println(gtfsUploadConflict.length+"\t" + gtfsUploadNoConflict.length+"\t" + gtfsModify.length+"\t" + gtfsUploadConflict.length+"\t" + gtfsAll.length+"\t" );
-    	System.out.print(GtfsAllLinkedList.size()+"\t");
+    	System.out.println(GtfsAllLinkedList.size()+"\t");
 
 //    	GtfsAlGtfsAll
     	
@@ -2271,6 +2287,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
           osmDefaultFinalStops.entrySet().removeAll(gtfsUploadConflictList);
           osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsUploadConflictList);
           finalCheckboxes.entrySet().removeAll(gtfsUploadConflictList);
+          upload.removeAll(gtfsUploadConflictList);
+          modify.removeAll(gtfsUploadConflictList);
+          delete.removeAll(gtfsUploadConflictList);
 //          osmDefaultFinalStops.remove(sid);
 //          osmDefaultOnlyChangedFinalStops.remove(sid);
 //          finalCheckboxes.remove(sid);                   
@@ -2289,7 +2308,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             osmDefaultFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
             osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
             finalCheckboxes.entrySet().removeAll(gtfsUploadNoConflictList);            
-            
+            upload.removeAll(gtfsUploadNoConflictList);
+            modify.removeAll(gtfsUploadNoConflictList);
+            delete.removeAll(gtfsUploadNoConflictList);            
             
             gtfsUploadNoConflict = new Stop[0];
             //Arrays.fill(gtfsUploadNoConflict, null);
@@ -2303,8 +2324,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             osmDefaultFinalStops.entrySet().removeAll(gtfsModifyConflictList);
             osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsModifyConflictList);
             finalCheckboxes.entrySet().removeAll(gtfsModifyConflictList);                    
+            
+            upload.removeAll(gtfsModifyConflictList);
+            modify.removeAll(gtfsModifyConflictList);
+            delete.removeAll(gtfsModifyConflictList);    
+            
             gtfsModify = new Stop[0];
-
             updateStopCategory(gtfsModify, 0);
         }
         gtfsAll =  Arrays.copyOf(GtfsAllLinkedList.toArray(gtfsAll), GtfsAllLinkedList.size());
@@ -2351,7 +2376,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 		    	donotUploadButtonActionPerformed(evt);*/
 		    
 	    	//FIXME broken when some already do not uploads?
-    	System.out.println(GtfsAllLinkedList.size()+"\t");
+        System.out.println("\t"+GtfsAllLinkedList.size());
+        System.out.println("upload\tmodify\tdelete\tfinalStops");
+    	System.out.println(upload.size() + "\t" + modify.size() + "\t" +delete.size() + "\t" +finalStops.size());
 
 	    
     }
@@ -2665,7 +2692,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private void dummyUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dummyUploadButtonActionPerformed
         // TODO add your handling code here:
         generateStopsToUpload(finalStops);
-        String osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, finalRoutes);
+        String osmChangeText ;
+        if (routesCheckbox.isSelected())																		
+        	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, finalRoutes);
+        else
+        	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, new Hashtable());
         new WriteFile("DUMMY_OSM_CHANGE.txt", osmChangeText);
         JOptionPane.showMessageDialog(this, "DUMMY_OSM_CHANGE.txt has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_dummyUploadButtonActionPerformed

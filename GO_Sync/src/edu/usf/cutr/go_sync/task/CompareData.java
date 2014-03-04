@@ -195,6 +195,13 @@ public class CompareData extends OsmTask{
                 upload.remove(s);
             }
         }
+        it = modify.iterator();
+        while (it.hasNext()) {
+            Stop s = (Stop)it.next();
+            if (upload.contains(s)) {
+            	upload.remove(s);
+            }
+        }        
     }
 
     /* Remove duplicates between modify set and noUpload set

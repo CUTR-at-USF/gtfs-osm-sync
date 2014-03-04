@@ -130,11 +130,12 @@ public class HttpRequest {
 "<print mode=\"meta\"/>";
       String[] hosts = {"http://api.openstreetmap.fr/oapi/interpreter","http://overpass.osm.rambler.ru/cgi/"}; 
       
-  	
+      System.out.println(content);
         try {
             // get data from server
             //String s = sendRequest(hosts, urlSuffix, "GET", "");
         	String s = sendRequest(hosts, "", "POST", content);
+        	
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServer.osm");

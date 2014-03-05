@@ -37,6 +37,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -91,7 +92,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private Hashtable<String, Stop> agencyStops = new Hashtable<String, Stop>();
 
-    private Hashtable<String, Stop> finalStops;
+    private Hashtable<String, Stop> finalStops, finalStopsNew;
 
     private Hashtable<String, Stop> osmDefaultFinalStops = new Hashtable<String, Stop>();
     
@@ -179,6 +180,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         delete.addAll(d);
 
         finalStops = new Hashtable<String, Stop>();
+        finalStopsNew = new Hashtable<String, Stop>();
         finalCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
 /*
         finalRoutes = new Hashtable();
@@ -224,6 +226,13 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
         }
         // add data to correct list (categorizing)
+        
+        
+        Hashtable<String,Stop> gtfsUploadConflictHash = new Hashtable<String,Stop>();
+        Hashtable<String,Stop> gtfsUploadNoConflictHash = new Hashtable<String,Stop>();
+        Hashtable<String,Stop> gtfsModifyHash =new Hashtable<String,Stop>();
+        Hashtable<String,Stop> gtfsNoUploadHash = new Hashtable<String,Stop>();
+        
         gtfsUploadConflict = new Stop[uci];
         gtfsUploadNoConflict = new Stop[unci];
         gtfsModify = new Stop[mi];
@@ -232,18 +241,22 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         for (int i=0; i<reportKeys.size(); i++) {
             String category = reportKeys.get(i).getReportCategory();
             if (category.equals("UPLOAD_CONFLICT")) {
-                gtfsUploadConflict[uci] = reportKeys.get(i);
+            	gtfsUploadConflictHash.put(reportKeys.get(i).getStopID(),reportKeys.get(i));
+                //gtfsUploadConflict[uci] = reportKeys.get(i);
                 uci++;
                 stopsToFinish.add(reportKeys.get(i).toString());
             } else if (category.equals("UPLOAD_NO_CONFLICT")) {
-                gtfsUploadNoConflict[unci] = reportKeys.get(i);
+            	gtfsUploadNoConflictHash.put(reportKeys.get(i).getStopID(),reportKeys.get(i));
+               // gtfsUploadNoConflict[unci] = reportKeys.get(i);
                 unci++;
             } else if (category.equals("MODIFY")) {
-                gtfsModify[mi] = reportKeys.get(i);
+            	gtfsModifyHash.put(reportKeys.get(i).getStopID(),reportKeys.get(i));
+                //gtfsModify[mi] = reportKeys.get(i);
                 mi++;
                 stopsToFinish.add(reportKeys.get(i).toString());
             } else if (category.equals("NOTHING_NEW")) {
-                gtfsNoUpload[nui] = reportKeys.get(i);
+            	gtfsNoUploadHash.put(reportKeys.get(i).getStopID(),reportKeys.get(i));
+            	//gtfsNoUpload[nui] = reportKeys.get(i);
                 nui++;
             }
 
@@ -254,6 +267,19 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             searchKeyToStop.put(stopSearchData, reportKeys.get(i));
         }
 
+        gtfsUploadConflictHash.keySet().removeAll(gtfsModifyHash.keySet());
+        gtfsUploadNoConflictHash.keySet().removeAll(gtfsModifyHash.keySet());
+        
+        gtfsUploadConflict = new Stop[gtfsUploadConflictHash.size()];
+        gtfsUploadConflict = gtfsUploadConflictHash.values().toArray(new Stop[0]);
+        gtfsUploadNoConflict = new Stop[gtfsUploadNoConflictHash.size()];
+        gtfsUploadNoConflict = gtfsUploadNoConflictHash.values().toArray(new Stop[0]);
+        gtfsModify = new Stop[gtfsModifyHash.size()];
+        gtfsModify = gtfsModifyHash.values().toArray(new Stop[0]);
+        gtfsNoUpload = new Stop[gtfsNoUploadHash.size()];
+        gtfsNoUpload = gtfsNoUploadHash.values().toArray(new Stop[0]);
+//        Collections.sort(new ArrayList<Stop>(gtfsNoUploadHash.values()));
+        
         // set the list to All initially
         gtfsStops = gtfsAll;
 
@@ -992,7 +1018,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         if((category.equals("UPLOAD_CONFLICT") || category.equals("MODIFY")) && (stopsToFinish.contains(selectedGtfsStop.toString()))) {
             tableStopButton.setText(uploadConflictCategoryText);
             tableStopButton.setEnabled(uploadConflictStatus);
-        } else {
+        } else  if(category.equals("UPLOAD_NO_CONFLICT"))
+        		{
+                tableStopButton.setText("Upload");;
+                tableStopButton.setEnabled(true);
+        		}
+        
+                else
+        {
             tableStopButton.setText(otherCategoryText);
             tableStopButton.setEnabled(otherStatus);
         }
@@ -1330,7 +1363,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                     }
                                                 });
                                                 
-                                                dontuploadAllBtn = new JButton("Don't Up All");
+                                                dontuploadAllBtn = new JButton("Upload All");
                                                 dontuploadAllBtn.addActionListener(new java.awt.event.ActionListener() {
                                                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                         donotUploadAllButtonActionPerformed(evt);
@@ -2259,126 +2292,33 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //    	GtfsArrayList.remove(o)
     	Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
     	String category = s.getReportCategory();
-  //  	ArrayList<Stop> GtfsAllArrayList = new ArrayList<Stop>() ;
-    	LinkedList<Stop> GtfsAllLinkedList = new LinkedList<Stop>(Arrays.asList(gtfsAll));  
-    	
-    	
-    	
-    	System.out.println(gtfsUploadConflict.length+"\t" + gtfsUploadNoConflict.length+"\t" + gtfsModify.length+"\t" + gtfsUploadConflict.length+"\t" + gtfsAll.length+"\t" );
-    	System.out.println(GtfsAllLinkedList.size()+"\t");
 
-//    	GtfsAlGtfsAll
     	
-    	Stop[] gtfsarraynew;
-    	List <Stop> gtfsListnew; 
         if(category.equals("UPLOAD_CONFLICT")){
-   //         gtfsUploadConflict = removeOneStopFromArray(gtfsUploadConflict, s);
-        	List <Stop> gtfsUploadConflictList = Arrays.asList(gtfsUploadConflict);
-            GtfsAllLinkedList.removeAll(gtfsUploadConflictList);
-            
-//            if index > gtfsUploadConflict.length //FIXME case where index > array after removal
-/*            if (allStopsRadioButton.isSelected())
-            	updateStopCategory(gtfsAll, index);
-            else*/
-            
-//          String sid = s.getStopID();
-//          finalStops.remove(sid);
-          finalStops.entrySet().removeAll(gtfsUploadConflictList);
-          osmDefaultFinalStops.entrySet().removeAll(gtfsUploadConflictList);
-          osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsUploadConflictList);
-          finalCheckboxes.entrySet().removeAll(gtfsUploadConflictList);
-          upload.removeAll(gtfsUploadConflictList);
-          modify.removeAll(gtfsUploadConflictList);
-          delete.removeAll(gtfsUploadConflictList);
-//          osmDefaultFinalStops.remove(sid);
-//          osmDefaultOnlyChangedFinalStops.remove(sid);
-//          finalCheckboxes.remove(sid);                   
-          gtfsUploadConflict = new Stop[0];
-          updateStopCategory(gtfsUploadConflict, 0);
-        } else if(category.equals("UPLOAD_NO_CONFLICT")) {
-        	List <Stop> gtfsUploadNoConflictList = Arrays.asList(gtfsUploadNoConflict);
-            GtfsAllLinkedList.removeAll(gtfsUploadNoConflictList);            
+        		for (int i=0; i<gtfsUploadNoConflict.length;i++)
+        		{
 
-//            gtfsUploadNoConflict = removeOneStopFromArray(gtfsUploadNoConflict, s);
-/*        	if (allStopsRadioButton.isSelected())
-            	updateStopCategory(gtfsAll, 0);
-            else*/
-            
-            finalStops.entrySet().removeAll(gtfsUploadNoConflictList);
-            osmDefaultFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
-            osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
-            finalCheckboxes.entrySet().removeAll(gtfsUploadNoConflictList);            
-            upload.removeAll(gtfsUploadNoConflictList);
-            modify.removeAll(gtfsUploadNoConflictList);
-            delete.removeAll(gtfsUploadNoConflictList);            
-            
-            gtfsUploadNoConflict = new Stop[0];
-            //Arrays.fill(gtfsUploadNoConflict, null);
-            updateStopCategory(gtfsUploadNoConflict, 0);
-        } else if(category.equals("MODIFY")){
-        	List <Stop> gtfsModifyConflictList = Arrays.asList(gtfsModify);
-            GtfsAllLinkedList.removeAll(gtfsModifyConflictList);
-
-            
-            finalStops.entrySet().removeAll(gtfsModifyConflictList);
-            osmDefaultFinalStops.entrySet().removeAll(gtfsModifyConflictList);
-            osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsModifyConflictList);
-            finalCheckboxes.entrySet().removeAll(gtfsModifyConflictList);                    
-            
-            upload.removeAll(gtfsModifyConflictList);
-            modify.removeAll(gtfsModifyConflictList);
-            delete.removeAll(gtfsModifyConflictList);    
-            
-            gtfsModify = new Stop[0];
-            updateStopCategory(gtfsModify, 0);
+        			tableStopButtonActionPerformed(evt);
+        		}
         }
-        gtfsAll =  Arrays.copyOf(GtfsAllLinkedList.toArray(gtfsAll), GtfsAllLinkedList.size());
-        
-/*
-        finalStops.entrySet().removeAll(gtfsListnew);
-        osmDefaultFinalStops.entrySet().removeAll(gtfsListnew);
-        osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsListnew);
-        finalCheckboxes.entrySet().removeAll(gtfsListnew);
-*/    //    finalStops.remove(sid);
-        
-        
-    	// TODO: use HashSets insteaf of list
-    	
-/*        private void updateStopCategory(Stop[] selectedCategory, int index){
-            gtfsStops = selectedCategory;
-            gtfsStopsComboBox.setModel(new DefaultComboBoxModel(gtfsStops));
-            totalGtfsStopsLabel.setText(Integer.toString(gtfsStops.length));
-            if(gtfsStops.length!=0 && index < gtfsStops.length) updateBusStop(gtfsStops[index]);
-            else updateBusStop(null);
-        }*/
-/*    	Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
-        String category = s.getReportCategory();
-        Stop[] stoplist;
+        		else if(category.equals("UPLOAD_NO_CONFLICT")){
+            		for (int i=0; i<gtfsUploadNoConflict.length;i++)
+            		{
 
-		if(category.equals("UPLOAD_CONFLICT"))
-			stoplist = gtfsUploadConflict;
-		else if(category.equals("UPLOAD_NO_CONFLICT")) 
-			stoplist = gtfsUploadNoConflict;
-		else if(category.equals("MODIFY"))
-	         stoplist = gtfsModify;
-		else
-			 stoplist = gtfsModify;*/
-		
-//	    while (stoplist.length > 0)
-  
-    	// FIXME only works properly when none in cat have been accepted
-//	    while (gtfsStopsComboBox.getItemCount() > 1) //works with >1 but not >0
-//	    	donotUploadButtonActionPerformed(evt);
-	    
-/*	    	int currentitem = 0;
-	    	gtfsStopsComboBox.setSelectedIndex(0);
-		    while (gtfsStopsComboBox.getItemCount() > 1) 
-		    	donotUploadButtonActionPerformed(evt);*/
-		    
-	    	//FIXME broken when some already do not uploads?
-        System.out.println("\t"+GtfsAllLinkedList.size());
-        System.out.println("upload\tmodify\tdelete\tfinalStops");
-    	System.out.println(upload.size() + "\t" + modify.size() + "\t" +delete.size() + "\t" +finalStops.size());
+            			tableStopButtonActionPerformed(evt);
+            		}
+        		}
+            		        		
+        		else if(category.equals("MODIFY")){
+            		for (int i=0; i<gtfsModify.length;i++)
+            		{
+
+            			tableStopButtonActionPerformed(evt);
+            		}
+        		}
+            		   
+            
+
 
 	    
     }
@@ -2594,7 +2534,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 else {
                     st.addAndOverwriteTag(tagName, tagValue);
                 }
+                
             }
+            finalStopsNew.put(selectedGtfs,st);
 
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
@@ -2636,6 +2578,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
+     		finalStopsNew.put(selectedGtfs,selectedGtfsStop);
+        }
+        
+        if(tableStopButtonText.contains("Upload")) 
+        {
+        	finalStopsNew.put(selectedGtfs,selectedGtfsStop);
+        	if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())
+        		gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
         }
 
         if(tableStopButtonText.equals("Accept & Save Change")) {
@@ -2644,6 +2594,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         } else {
             updateButtonTableStop("Accept", true, "Save Change", false);
         }
+        
+        
 }//GEN-LAST:event_tableStopButtonActionPerformed
 
     private void saveChangeRouteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeRouteButtonActionPerformed
@@ -2691,12 +2643,36 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private void dummyUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dummyUploadButtonActionPerformed
         // TODO add your handling code here:
-        generateStopsToUpload(finalStops);
+//        generateStopsToUpload(finalStops);
         String osmChangeText ;
+        HashSet<Stop> uploadNew, modifyNew;
+        uploadNew = new HashSet<Stop>();
+        modifyNew = new HashSet<Stop>();
+        Iterator<Stop> it = finalStopsNew.values().iterator();
+        System.out.println("uploadN\tmodifyN\tdelete\tfinalStops");
+    	System.out.println(uploadNew.size() + "\t" + modifyNew.size() + "\t" +delete.size() + "\t" +finalStopsNew.size());     
+        while (it.hasNext())
+        {
+        	
+            Stop st_gp = it.next();
+            String category = st_gp.getReportCategory();
+            if (category.equals("UPLOAD_CONFLICT") || category.equals("MODIFY")) {
+                modifyNew.add(st_gp);
+            } else if (category.equals("UPLOAD_NO_CONFLICT")) {
+            	uploadNew.add(st_gp);
+            }   
+        }
+        		
+        	
+        System.out.println("uploadN\tmodifyN\tdelete\tfinalStops");
+    	System.out.println(uploadNew.size() + "\t" + modifyNew.size() + "\t" +delete.size() + "\t" +finalStopsNew.size());        	
+        
+        
+        
         if (routesCheckbox.isSelected())																		
-        	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, finalRoutes);
+        	osmChangeText = osmRequest.getRequestContents("DUMMY", uploadNew, modifyNew, delete, finalRoutes);
         else
-        	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, new Hashtable());
+        	osmChangeText = osmRequest.getRequestContents("DUMMY", uploadNew, modifyNew, delete, new Hashtable());
         new WriteFile("DUMMY_OSM_CHANGE.txt", osmChangeText);
         JOptionPane.showMessageDialog(this, "DUMMY_OSM_CHANGE.txt has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_dummyUploadButtonActionPerformed

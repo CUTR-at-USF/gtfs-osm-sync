@@ -35,9 +35,11 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -147,6 +149,35 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private boolean generateStopsToUploadFlag = false;
 
+    private class StopIDComparator implements Comparator<Stop>
+    {
+
+
+		
+		public int compare(Stop arg0, Stop arg1) {
+			
+			try{
+			return Integer.parseInt(arg0.getStopID()) - Integer.parseInt(arg1.getStopID()) ;
+			}
+			catch (NumberFormatException e)
+			{
+				
+				int i = 0;
+				while(i < arg0.getStopID().length() && i < arg1.getStopID().length())
+				{
+					int result = arg0.getStopID().charAt(i) - arg1.getStopID().charAt(i);
+					if (result != 0)
+						return result;
+					i++;
+				}
+				
+			}
+return 0;
+		}
+    	
+    }
+    
+    
     /** Creates new form ReportViewer */
     public ReportViewer(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
@@ -272,6 +303,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         
         gtfsUploadConflict = new Stop[gtfsUploadConflictHash.size()];
         gtfsUploadConflict = gtfsUploadConflictHash.values().toArray(new Stop[0]);
+
+
+        ArrayList<Stop> gtfsUploadConflictList =  new ArrayList<Stop>(gtfsUploadConflictHash.values());
+
+        java.util.Collections.sort(gtfsUploadConflictList,new StopIDComparator());
+        gtfsUploadConflict = gtfsUploadConflictList.toArray(new Stop[0]);
         gtfsUploadNoConflict = new Stop[gtfsUploadNoConflictHash.size()];
         gtfsUploadNoConflict = gtfsUploadNoConflictHash.values().toArray(new Stop[0]);
         gtfsModify = new Stop[gtfsModifyHash.size()];

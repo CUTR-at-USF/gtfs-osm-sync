@@ -629,7 +629,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         stopsPainter.setRenderer(new WaypointRenderer() {
             public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-                Image busIcon = Toolkit.getDefaultToolkit().getImage("bus_icon.png");
+                Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
                 g.drawImage(busIcon, -5, -5, map);
                 return true;
             }

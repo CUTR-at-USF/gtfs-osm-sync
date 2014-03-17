@@ -427,7 +427,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 }
                 _fileDir = new File("GTFS_Temp").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
             } else {
-                _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
+                _fileDir = fileDirTextField.getText().replace("file://",""); //else use the folder selected with GTFS files in it
                 //TODO - validate that a folder was selected and that it does have GTFS files
             }
         }

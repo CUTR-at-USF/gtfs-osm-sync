@@ -24,11 +24,14 @@ import edu.usf.cutr.go_sync.tools.OsmDistance;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
@@ -70,7 +73,10 @@ import edu.usf.cutr.go_sync.tag_defs;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
+import javax.swing.AbstractAction;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
@@ -1262,6 +1268,12 @@ return 0;
                         tableStopButtonActionPerformed(evt);
                     }
                 });
+                tableStopButton.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,Event.CTRL_MASK), "doSomething");
+                tableStopButton.getActionMap().put("doSomething", new AbstractAction() {  
+                    public void actionPerformed(ActionEvent evt) {     
+                    	 tableStopButtonActionPerformed(evt);
+                   }
+               } );
                 jScrollPane1 = new javax.swing.JScrollPane();
                 dataTable = new JTable(){
                     public String getToolTipText(MouseEvent e){
@@ -2571,7 +2583,6 @@ return 0;
                 else {
                     st.addAndOverwriteTag(tagName, tagValue);
                 }
-                
             }
             finalStopsNew.put(selectedGtfs,st);
 
@@ -2616,6 +2627,7 @@ return 0;
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
      		selectedGtfsStop.setOsmId(((Stop)osmStopsComboBox.getSelectedItem()).getOsmId());
+     		selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt(((Stop)osmStopsComboBox.getSelectedItem()).getOsmVersion())+1))));
      		finalStopsNew.put(selectedGtfs,selectedGtfsStop);
         }
         

@@ -2366,7 +2366,7 @@ return 0;
             		}
         		}
             		   
-            
+        finalStopsNew.remove(s.getStopID());
 
 
 	    

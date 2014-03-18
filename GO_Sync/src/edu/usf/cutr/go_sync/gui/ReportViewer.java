@@ -642,7 +642,9 @@ return 0;
                 Hashtable<String,Stop> osmEquivTable = new Hashtable();
                 System.err.println("a" + osmEquiv.size() + "\t" + osmEquivTable.size() + "\t" + changedOSMStops.size());
                 
-               
+                String category = st.getReportCategory();
+                if(category.equals("UPLOAD_CONFLICT")) 
+                		{
 
                for (int i = 0; i < osmEquiv.size();i++  )
                 {
@@ -668,6 +670,7 @@ return 0;
                     tableStopButton.setVisible(true);
                 }
 */
+                		}
                 osmStops = new Stop[osmEquiv.size()];
                 for(int i=0; i<osmEquiv.size(); i++){
                     osmStops[i] = osmEquiv.get(i);
@@ -1788,6 +1791,12 @@ return 0;
                                 gbc_jScrollPane2.gridy = 8;
                                 busStopPanel.add(jScrollPane2, gbc_jScrollPane2);
         mapJXMapKit = new org.jdesktop.swingx.JXMapKit();
+        
+        //key zoom
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,0), "zoomin");
+        mapJXMapKit.getActionMap().put("zoomin", mapJXMapKit.getZoomInAction());
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0), "zoomout");
+        mapJXMapKit.getActionMap().put("zoomout", mapJXMapKit.getZoomOutAction());
         
                 mapJXMapKit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
                 mapJXMapKit.setDefaultProvider(org.jdesktop.swingx.JXMapKit.DefaultProviders.Custom);

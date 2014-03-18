@@ -320,12 +320,11 @@ return 0;
         gtfsUploadNoConflict = gtfsUploadNoConflictList.toArray(new Stop[0]);        
 
 
-        gtfsModify = new Stop[gtfsUploadConflictHash.size()];
-        ArrayList<Stop> gtfsUploadModifyList =  new ArrayList<Stop>(gtfsUploadConflictHash.values());
+        gtfsModify = new Stop[gtfsModifyHash.size()];
+        ArrayList<Stop> gtfsUploadModifyList =  new ArrayList<Stop>(gtfsModifyHash.values());
         java.util.Collections.sort(gtfsUploadModifyList,new StopIDComparator());
         gtfsModify = gtfsUploadNoConflictList.toArray(new Stop[0]);              
         
-
         gtfsNoUpload = new Stop[gtfsNoUploadHash.size()];
         gtfsNoUpload = gtfsNoUploadHash.values().toArray(new Stop[0]);
 //        Collections.sort(new ArrayList<Stop>(gtfsNoUploadHash.values()));

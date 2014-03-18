@@ -2585,7 +2585,6 @@ return 0;
                 }
             }
             finalStopsNew.put(selectedGtfs,st);
-
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
         if(tableStopButtonText.contains("Accept"))
@@ -2626,8 +2625,14 @@ return 0;
 
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
-     		selectedGtfsStop.setOsmId(((Stop)osmStopsComboBox.getSelectedItem()).getOsmId());
-     		selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt(((Stop)osmStopsComboBox.getSelectedItem()).getOsmVersion())+1))));
+     		
+     		Stop selectedOsmStop = (Stop)osmStopsComboBox.getSelectedItem();
+     		selectedGtfsStop.setOsmId(selectedOsmStop.getOsmId());
+     		System.err.println (selectedGtfsStop.getOsmId()+ "\t" +selectedGtfsStop.getOsmVersion()+ "\t\t"+ selectedOsmStop.getOsmId()  + "\t" +selectedOsmStop.getOsmVersion());
+     		if (selectedOsmStop.getOsmVersion() != null)
+     		selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt((selectedOsmStop).getOsmVersion())+1))));
+     		else
+     			selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt((selectedGtfsStop).getOsmVersion())+1))));
      		finalStopsNew.put(selectedGtfs,selectedGtfsStop);
         }
         

@@ -101,6 +101,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private Hashtable<String, Stop> agencyStops = new Hashtable<String, Stop>();
 
     private Hashtable<String, Stop> finalStops, finalStopsNew;
+    private HashSet<String> changedOSMStops = new HashSet<String>(); //OSM stops already selected for modification/upload
 
     private Hashtable<String, Stop> osmDefaultFinalStops = new Hashtable<String, Stop>();
     
@@ -323,7 +324,7 @@ return 0;
         gtfsModify = new Stop[gtfsModifyHash.size()];
         ArrayList<Stop> gtfsUploadModifyList =  new ArrayList<Stop>(gtfsModifyHash.values());
         java.util.Collections.sort(gtfsUploadModifyList,new StopIDComparator());
-        gtfsModify = gtfsUploadNoConflictList.toArray(new Stop[0]);              
+        gtfsModify = gtfsUploadModifyList.toArray(new Stop[0]);              
         
         gtfsNoUpload = new Stop[gtfsNoUploadHash.size()];
         gtfsNoUpload = gtfsNoUploadHash.values().toArray(new Stop[0]);
@@ -638,6 +639,28 @@ return 0;
             if(report.get(st) instanceof ArrayList){
                 // update osm combobox
                 ArrayList<Stop> osmEquiv = (ArrayList<Stop>)report.get(st);
+                Hashtable<String,Stop> osmEquivTable = new Hashtable();
+                System.err.println("a" + osmEquiv.size() + "\t" + osmEquivTable.size() + "\t" + changedOSMStops.size());
+                
+               
+
+               for (int i = 0; i < osmEquiv.size();i++  )
+                {
+            	   System.err.print(osmEquiv.get(i).getOsmId() +" ");
+                	osmEquivTable.put(osmEquiv.get(i).getOsmId(), osmEquiv.get(i));
+                }
+               System.out.println();
+               System.err.println("b" + osmEquiv.size() + "\t" + osmEquivTable.size() + "\t" + st.getOsmId());
+               Stop currentStop = null;
+               if (st.getOsmId()!= null)
+               currentStop = osmEquivTable.get(st.getOsmId());
+                osmEquivTable.keySet().removeAll(changedOSMStops); //remove already selected stops
+                
+                
+                osmEquiv.clear();
+                if (currentStop != null) osmEquiv.add(currentStop);
+                osmEquiv.addAll(osmEquivTable.values());
+                System.err.println("c" + osmEquiv.size() + "\t" + osmEquivTable.size());
 /*
                 if(osmEquiv.size()>1){
                     tableStopButton.setVisible(false);
@@ -648,6 +671,7 @@ return 0;
                 osmStops = new Stop[osmEquiv.size()];
                 for(int i=0; i<osmEquiv.size(); i++){
                     osmStops[i] = osmEquiv.get(i);
+                    if (changedOSMStops.contains(osmStops[i].getOsmId())) System.err.println (osmStops[i].getOsmId() +" is in changedOSMStops");
                     tempStopsGeo.add(new GeoPosition(Double.parseDouble(osmStops[i].getLat()), Double.parseDouble(osmStops[i].getLon())));
                 }
                 // if multiple stops, add the red overlay. If only 1 osm stop matches, it would duplicate the selected gtfs stop.
@@ -2373,7 +2397,7 @@ return 0;
         		}
             		   
         finalStopsNew.remove(s.getStopID());
-
+    	changedOSMStops.remove(s.getOsmId());
 
 	    
     }
@@ -2621,6 +2645,19 @@ return 0;
             if(!tableStopButtonText.contains("Save Change")) JOptionPane.showMessageDialog(this,"Stop is accepted!");
             
             
+
+     		
+     		Stop selectedOsmStop = (Stop)osmStopsComboBox.getSelectedItem();
+     		selectedGtfsStop.setOsmId(selectedOsmStop.getOsmId());
+     		System.err.println (selectedGtfsStop.getOsmId()+ "\t" +selectedGtfsStop.getOsmVersion()+ "\t\t"+ selectedOsmStop.getOsmId()  + "\t" +selectedOsmStop.getOsmVersion());
+     		if (selectedOsmStop.getOsmVersion() != null)
+     		selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt((selectedOsmStop).getOsmVersion())+1))));
+     		else
+     			selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt((selectedGtfsStop).getOsmVersion())+1))));
+     		finalStopsNew.put(selectedGtfs,selectedGtfsStop);
+     		changedOSMStops.add(selectedOsmStop.getOsmId());
+     		
+     		System.out.println(selectedOsmStop.getOsmId()+ "added tp changedOSMStops");
     		// 14thchanges the OSM COMbo box but not the gtfs one
     		// 16-10 only seems to work if tags not changed!?
      		if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())
@@ -2631,15 +2668,6 @@ return 0;
 
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
-     		
-     		Stop selectedOsmStop = (Stop)osmStopsComboBox.getSelectedItem();
-     		selectedGtfsStop.setOsmId(selectedOsmStop.getOsmId());
-     		System.err.println (selectedGtfsStop.getOsmId()+ "\t" +selectedGtfsStop.getOsmVersion()+ "\t\t"+ selectedOsmStop.getOsmId()  + "\t" +selectedOsmStop.getOsmVersion());
-     		if (selectedOsmStop.getOsmVersion() != null)
-     		selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt((selectedOsmStop).getOsmVersion())+1))));
-     		else
-     			selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt((selectedGtfsStop).getOsmVersion())+1))));
-     		finalStopsNew.put(selectedGtfs,selectedGtfsStop);
         }
         
         if(tableStopButtonText.contains("Upload")) 

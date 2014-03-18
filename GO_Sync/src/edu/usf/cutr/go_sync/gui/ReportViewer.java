@@ -307,18 +307,25 @@ return 0;
         gtfsUploadConflictHash.keySet().removeAll(gtfsModifyHash.keySet());
         gtfsUploadNoConflictHash.keySet().removeAll(gtfsModifyHash.keySet());
         
+        //sort and move lists
         gtfsUploadConflict = new Stop[gtfsUploadConflictHash.size()];
-        gtfsUploadConflict = gtfsUploadConflictHash.values().toArray(new Stop[0]);
-
-
         ArrayList<Stop> gtfsUploadConflictList =  new ArrayList<Stop>(gtfsUploadConflictHash.values());
-
         java.util.Collections.sort(gtfsUploadConflictList,new StopIDComparator());
         gtfsUploadConflict = gtfsUploadConflictList.toArray(new Stop[0]);
-        gtfsUploadNoConflict = new Stop[gtfsUploadNoConflictHash.size()];
-        gtfsUploadNoConflict = gtfsUploadNoConflictHash.values().toArray(new Stop[0]);
-        gtfsModify = new Stop[gtfsModifyHash.size()];
-        gtfsModify = gtfsModifyHash.values().toArray(new Stop[0]);
+        
+
+        gtfsUploadNoConflict = new Stop[gtfsUploadConflictHash.size()];
+        ArrayList<Stop> gtfsUploadNoConflictList =  new ArrayList<Stop>(gtfsUploadNoConflictHash.values());
+        java.util.Collections.sort(gtfsUploadNoConflictList,new StopIDComparator());
+        gtfsUploadNoConflict = gtfsUploadNoConflictList.toArray(new Stop[0]);        
+
+
+        gtfsModify = new Stop[gtfsUploadConflictHash.size()];
+        ArrayList<Stop> gtfsUploadModifyList =  new ArrayList<Stop>(gtfsUploadConflictHash.values());
+        java.util.Collections.sort(gtfsUploadModifyList,new StopIDComparator());
+        gtfsModify = gtfsUploadNoConflictList.toArray(new Stop[0]);              
+        
+
         gtfsNoUpload = new Stop[gtfsNoUploadHash.size()];
         gtfsNoUpload = gtfsNoUploadHash.values().toArray(new Stop[0]);
 //        Collections.sort(new ArrayList<Stop>(gtfsNoUploadHash.values()));

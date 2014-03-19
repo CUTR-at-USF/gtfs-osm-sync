@@ -126,6 +126,10 @@ public class HttpRequest {
  	" <has-kv k=\"public_transport\" v=\"station\"/>"+
    "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
   "</query>"+    
+//  "<query type=\"node\">" +
+//	" <has-kv k=\"amenity\" v=\"bus_station\"/>"+
+//  "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
+// "</query>"+   
 "</union>"+
 "<print mode=\"meta\"/>";
       String[] hosts = {"http://api.openstreetmap.fr/oapi/interpreter","http://overpass.osm.rambler.ru/cgi/"}; 

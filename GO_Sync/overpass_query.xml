@@ -26,5 +26,10 @@
 		<has-kv k="public_transport" v="station"/>
 		<bbox-query w="152.12022000000002" e="153.547374" s="-28.176196" n="-26.155424"/>
 	</query>
-</union>
+	<query type="node">
+		<has-kv k="amenity" v="bus_station"/>
+		<bbox-query w="152.12022000000002" e="153.547374" s="-28.176196" n="-26.155424"/>
+	</query>
+	
+	</union>
 <print mode="meta"/>

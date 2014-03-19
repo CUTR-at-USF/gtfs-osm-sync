@@ -697,7 +697,13 @@ return 0;
 //                    matchStopOverlayPainter = null;
 //                }
                 // update table
-                updateStopTable(st, osmStops[0]);
+                    if (osmStops.length > 0)
+                    	updateStopTable(st, osmStops[0]);
+                    else
+                    {
+                    	updateStopTable(st, null);
+                    }
+                    	
             } else {
                 updateStopTable(st, null);
             }

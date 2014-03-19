@@ -561,15 +561,27 @@ return 0;
 
             //make sure there's null pointer
             String newValue="", osmValue="", gtfsValue="";
+            
+            if(selectedOsmStop!=null) 
+        	{osmValue = (String)selectedOsmStop.getTag(k);
+        	if (selectedNewStop!=null &&  selectedNewStop.getTag(k) == null )
+        		selectedNewStop.addTag(k, osmValue);
+        	}
+        	
+            
             if(selectedNewStop!=null) {
                 newValue = (String)selectedNewStop.getTag(k);
                 gtfsValue = (String)aTags.get(k);
             }
-            if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
 
             //add tag to table, index+2 because of lat and lon
-            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
-                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
+//            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT") && !finalStops.contains(selectedNewStop.getStopID()) ) {
+//            	if (gtfsValue==null)
+//            		stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, false, osmValue, true, newValue}, i+2);
+//            	else
+            
+            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {      
+            		stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
             } else {
                 stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), (String)finalSt.getTag(k)}, i+2);
             }
@@ -2652,7 +2664,6 @@ return 0;
             }
 
             if(!tableStopButtonText.contains("Save Change")) JOptionPane.showMessageDialog(this,"Stop is accepted!");
-            
             
 
      		

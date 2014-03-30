@@ -562,12 +562,12 @@ return 0;
             //make sure there's null pointer
             String newValue="", osmValue="", gtfsValue="";
             
-            if(selectedOsmStop!=null) 
-        	{osmValue = (String)selectedOsmStop.getTag(k);
-        	if (selectedNewStop!=null &&  selectedNewStop.getTag(k) == null )
+            if(selectedOsmStop!=null) {osmValue = (String)selectedOsmStop.getTag(k);
+/*        	if (selectedNewStop!=null &&  selectedNewStop.getTag(k) == null )
         		selectedNewStop.addTag(k, osmValue);
-        	}
-        	
+  */ 
+            }
+      	
             
             if(selectedNewStop!=null) {
                 newValue = (String)selectedNewStop.getTag(k);
@@ -575,12 +575,13 @@ return 0;
             }
 
             //add tag to table, index+2 because of lat and lon
+            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
 //            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT") && !finalStops.contains(selectedNewStop.getStopID()) ) {
-//            	if (gtfsValue==null)
-//            		stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, false, osmValue, true, newValue}, i+2);
-//            	else
+            	if (gtfsValue==null)
+            		stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, false, osmValue, true, osmValue}, i+2);
+            	else
             
-            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {      
+//            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {      
             		stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
             } else {
                 stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), (String)finalSt.getTag(k)}, i+2);
@@ -2620,7 +2621,7 @@ return 0;
         String selectedGtfs = selectedGtfsStop.toString();
 
         String tableStopButtonText = tableStopButton.getText();
-        if(tableStopButtonText.contains("Save Change")) {
+        if(tableStopButtonText.contains("Save Change")|| tableStopButtonText.contains("Accept"))  {
             // Save Checkboxes values
             // no need to add 2 since lat and lon are already there (counted)
             ArrayList<Boolean> saveValues = new ArrayList<Boolean>(stopTableModel.getRowCount()*2);
@@ -2631,14 +2632,17 @@ return 0;
             finalCheckboxes.put(selectedGtfs, saveValues);
 
             // Save to final Stops
-            Stop st = finalStops.get(selectedGtfs);     //not creating new object
+            Stop st = selectedGtfsStop;//finalStops.get(selectedGtfs);     //not creating new object
             for(int i=0; i<stopTableModel.getRowCount(); i++){
                 String tagName = (String)stopTableModel.getValueAt(i, 0);
                 String tagValue = (String)stopTableModel.getValueAt(i, 5);
                 if(tagName.equals("lat")) st.setLat(tagValue);
                 else if(tagName.equals("lon")) st.setLon(tagValue);
                 else {
+               // 	System.out.println(tagName+ " " +tagValue);
                     st.addAndOverwriteTag(tagName, tagValue);
+//                    if (st.getTag(tagName) == null )
+//                		st.addTag(tagName, tagValue);
                 }
             }
             finalStopsNew.put(selectedGtfs,st);
@@ -2646,6 +2650,7 @@ return 0;
         }
         if(tableStopButtonText.contains("Accept"))
         {
+        	
             // stops to finish
             if(stopsToFinish.contains(selectedGtfsStop.toString()))
             {

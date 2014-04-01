@@ -1840,13 +1840,30 @@ return 0;
         
         //key zoom
         mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,0), "zoomin");
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS,0), "zoomin");
         mapJXMapKit.getActionMap().put("zoomin", mapJXMapKit.getZoomInAction());
         mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0), "zoomout");
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,0), "zoomout");
         mapJXMapKit.getActionMap().put("zoomout", mapJXMapKit.getZoomOutAction());
         // map movement shortcuts
         final int x_shift = 25;
         final int y_shift = 25;
-        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,Event.CTRL_MASK), "move_left");
+        
+        
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD5,0), "recentre_gtfs");
+        mapJXMapKit.getActionMap().put("recentre_gtfs", new AbstractAction() {  
+            public void actionPerformed(ActionEvent evt) {     
+            	GeoPosition gtfsLocation = new GeoPosition(	Double.parseDouble(((Stop)gtfsStopsComboBox.getSelectedItem()).getLat()),
+            												Double.parseDouble(((Stop)gtfsStopsComboBox.getSelectedItem()).getLon())); 
+            			
+
+            	mapJXMapKit.getMainMap().setCenterPosition(gtfsLocation);
+           }
+       } );
+        
+        //todo merge AbstractActions into single function
+//        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,Event.CTRL_MASK), "move_left");
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD4,0), "move_left");
         mapJXMapKit.getActionMap().put("move_left", new AbstractAction() {  
             public void actionPerformed(ActionEvent evt) {     
             	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();
@@ -1854,15 +1871,18 @@ return 0;
             	mapJXMapKit.getMainMap().setCenter(currentLocation);
            }
        } );
-        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,Event.CTRL_MASK), "move_right");
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD6,0), "move_right");
+
+//        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,Event.CTRL_MASK), "move_right");
         mapJXMapKit.getActionMap().put("move_right", new AbstractAction() {  
             public void actionPerformed(ActionEvent evt) {     
             	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();
             	currentLocation.setLocation(currentLocation.getX()+x_shift, currentLocation.getY());
             	mapJXMapKit.getMainMap().setCenter(currentLocation);
            }
-       } );        
-        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,Event.CTRL_MASK), "move_up");
+       } );
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD8,0), "move_up");
+//        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,Event.CTRL_MASK), "move_up");
         mapJXMapKit.getActionMap().put("move_up", new AbstractAction() {  
             public void actionPerformed(ActionEvent evt) {     
             	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();
@@ -1870,7 +1890,9 @@ return 0;
             	mapJXMapKit.getMainMap().setCenter(currentLocation);
            }
        } );
-        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,Event.CTRL_MASK), "move_down");
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD2,0), "move_down");
+
+        //mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,Event.CTRL_MASK), "move_down");
         mapJXMapKit.getActionMap().put("move_down", new AbstractAction() {  
             public void actionPerformed(ActionEvent evt) {     
             	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();

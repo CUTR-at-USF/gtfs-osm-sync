@@ -519,6 +519,13 @@ return 0;
     }
 
     private void updateStopTable(Stop selectedNewStop, Stop selectedOsmStop){
+        // When user click on OSM combobox 
+    	
+    	
+
+    	
+    	
+    	
 //        if(selectedNewStop==null) return;
         Stop agencyStop = agencyStops.get(selectedNewStop.toString());
         addSelectedStopsOverlay(selectedNewStop, selectedOsmStop);
@@ -535,6 +542,7 @@ return 0;
             }
         }
         if(selectedOsmStop!=null) tagKeys.addAll(selectedOsmStop.keySet());
+        
 
         // set new size to the table
         stopTableModel = new TagReportTableModel(tagKeys.size()+2);
@@ -610,7 +618,21 @@ return 0;
         dataTable.getModel().addTableModelListener(this);
 
         updateButtonTableStop("Accept", true, "Save Change", false);
-
+    	//TODO Enable changing of stops after commital
+    	if (!changedOSMStops.contains(selectedOsmStop.getOsmId()))
+    		{
+    		
+    		tableStopButton.setEnabled(true);
+    		tableStopButton.setText("Accept");
+    		
+    		}
+//    		
+//    		System.out.print(selectedOsmStop.getOsmId() +"-\t");
+//    		JOptionPane.showMessageDialog(this,selectedOsmStop.getOsmId());    		}
+ //   	else
+  //  		System.out.print(selectedOsmStop.getOsmId() +"\t");
+        
+        
         // set last edited information
         String lastEditedUser = "N/A";
         String lastEditedDate = "N/A";
@@ -639,9 +661,11 @@ return 0;
         else updateBusStop(null);
     }
 
-    // When user click on gtfs combobox 
+
     private void updateBusStop(Stop st){
-        //re-initialize array. set default to
+            // When user click on gtfs combobox 
+    	
+    	//re-initialize array. set default to
         osmStops = new Stop[0];
 
         //map display purpose - includes gtfs stops and all possible osm matches
@@ -1320,6 +1344,7 @@ return 0;
                         tableStopButtonActionPerformed(evt);
                     }
                 });
+            
                 tableStopButton.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,Event.CTRL_MASK), "doSomething");
                 tableStopButton.getActionMap().put("doSomething", new AbstractAction() {  
                     public void actionPerformed(ActionEvent evt) {     
@@ -1811,11 +1836,49 @@ return 0;
                                 busStopPanel.add(jScrollPane2, gbc_jScrollPane2);
         mapJXMapKit = new org.jdesktop.swingx.JXMapKit();
         
+        
+        
         //key zoom
         mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,0), "zoomin");
         mapJXMapKit.getActionMap().put("zoomin", mapJXMapKit.getZoomInAction());
         mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0), "zoomout");
         mapJXMapKit.getActionMap().put("zoomout", mapJXMapKit.getZoomOutAction());
+        // map movement shortcuts
+        final int x_shift = 25;
+        final int y_shift = 25;
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,Event.CTRL_MASK), "move_left");
+        mapJXMapKit.getActionMap().put("move_left", new AbstractAction() {  
+            public void actionPerformed(ActionEvent evt) {     
+            	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();
+            	currentLocation.setLocation(currentLocation.getX()-x_shift, currentLocation.getY());
+            	mapJXMapKit.getMainMap().setCenter(currentLocation);
+           }
+       } );
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,Event.CTRL_MASK), "move_right");
+        mapJXMapKit.getActionMap().put("move_right", new AbstractAction() {  
+            public void actionPerformed(ActionEvent evt) {     
+            	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();
+            	currentLocation.setLocation(currentLocation.getX()+x_shift, currentLocation.getY());
+            	mapJXMapKit.getMainMap().setCenter(currentLocation);
+           }
+       } );        
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,Event.CTRL_MASK), "move_up");
+        mapJXMapKit.getActionMap().put("move_up", new AbstractAction() {  
+            public void actionPerformed(ActionEvent evt) {     
+            	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();
+            	currentLocation.setLocation(currentLocation.getX(), currentLocation.getY()-y_shift);
+            	mapJXMapKit.getMainMap().setCenter(currentLocation);
+           }
+       } );
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,Event.CTRL_MASK), "move_down");
+        mapJXMapKit.getActionMap().put("move_down", new AbstractAction() {  
+            public void actionPerformed(ActionEvent evt) {     
+            	Point2D currentLocation = mapJXMapKit.getMainMap().getCenter();
+            	currentLocation.setLocation(currentLocation.getX(), currentLocation.getY()+y_shift);
+            	mapJXMapKit.getMainMap().setCenter(currentLocation);
+           }
+       } );        
+                
         
                 mapJXMapKit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
                 mapJXMapKit.setDefaultProvider(org.jdesktop.swingx.JXMapKit.DefaultProviders.Custom);
@@ -2676,8 +2739,15 @@ return 0;
 
             if(!tableStopButtonText.contains("Save Change")) JOptionPane.showMessageDialog(this,"Stop is accepted!");
             
+            String firststopinbox = ( (Stop)osmStopsComboBox.getItemAt(0)).getOsmId();
+        	System.out.println(firststopinbox+ "firststopinbox ");
+     		if (changedOSMStops.contains(firststopinbox))
+     		{//remove old stop if any
+     			//TODO do this first?
+         		changedOSMStops.remove(firststopinbox); 		
+         		System.out.println(firststopinbox+ "removed from changedOSMStops");
 
-     		
+     		}
      		Stop selectedOsmStop = (Stop)osmStopsComboBox.getSelectedItem();
      		selectedGtfsStop.setOsmId(selectedOsmStop.getOsmId());
      		System.err.println (selectedGtfsStop.getOsmId()+ "\t" +selectedGtfsStop.getOsmVersion()+ "\t\t"+ selectedOsmStop.getOsmId()  + "\t" +selectedOsmStop.getOsmVersion());
@@ -2686,9 +2756,9 @@ return 0;
      		else
      			selectedGtfsStop.setOsmVersion(Integer.toString(((Integer.parseInt((selectedGtfsStop).getOsmVersion())+1))));
      		finalStopsNew.put(selectedGtfs,selectedGtfsStop);
-     		changedOSMStops.add(selectedOsmStop.getOsmId());
-     		
+     		changedOSMStops.add(selectedOsmStop.getOsmId()); 		
      		System.out.println(selectedOsmStop.getOsmId()+ "added tp changedOSMStops");
+
     		// 14thchanges the OSM COMbo box but not the gtfs one
     		// 16-10 only seems to work if tags not changed!?
      		if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())

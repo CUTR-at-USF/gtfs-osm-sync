@@ -619,7 +619,7 @@ return 0;
 
         updateButtonTableStop("Accept", true, "Save Change", false);
     	//TODO Enable changing of stops after commital
-    	if (!changedOSMStops.contains(selectedOsmStop.getOsmId()))
+    	if (selectedOsmStop!=null && !changedOSMStops.contains(selectedOsmStop.getOsmId()))
     		{
     		
     		tableStopButton.setEnabled(true);

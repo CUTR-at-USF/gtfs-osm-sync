@@ -664,7 +664,7 @@ return 0;
 
     private void updateBusStop(Stop st){
             // When user click on gtfs combobox 
-    	
+    	//TODO "Existing stops with update" tags
     	//re-initialize array. set default to
         osmStops = new Stop[0];
 
@@ -675,11 +675,14 @@ return 0;
             tempStopsGeo.add(new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon())));
             if(report.get(st) instanceof ArrayList){
                 // update osm combobox
-                ArrayList<Stop> osmEquiv = (ArrayList<Stop>)report.get(st);
-                Hashtable<String,Stop> osmEquivTable = new Hashtable();
+	           	ArrayList<Stop> osmEquiv = new ArrayList<Stop>((ArrayList<Stop>)report.get(st));
+//            	ArrayList<Stop> osmEquiv = ((ArrayList<Stop>)report.get(st));
+//                ArrayList<Stop> osmEquivTemp = new ArrayList<Stop>((ArrayList<Stop>)report.get(st));
+                Hashtable<String,Stop> osmEquivTable = new Hashtable<String, Stop>();
                 System.err.println("a" + osmEquiv.size() + "\t" + osmEquivTable.size() + "\t" + changedOSMStops.size());
                 
                 String category = st.getReportCategory();
+                HashSet<String> changetest = new HashSet<String> ();
                 if(category.equals("UPLOAD_CONFLICT")) 
                 		{
 
@@ -687,17 +690,21 @@ return 0;
                 {
             	   System.err.print(osmEquiv.get(i).getOsmId() +" ");
                 	osmEquivTable.put(osmEquiv.get(i).getOsmId(), osmEquiv.get(i));
+                	changetest.add(osmEquiv.get(i).getOsmId());
                 }
                System.out.println();
                System.err.println("b" + osmEquiv.size() + "\t" + osmEquivTable.size() + "\t" + st.getOsmId());
                Stop currentStop = null;
                if (st.getOsmId()!= null)
-               currentStop = osmEquivTable.get(st.getOsmId());
-                osmEquivTable.keySet().removeAll(changedOSMStops); //remove already selected stops
-                
+            	   currentStop = osmEquivTable.get(st.getOsmId());
+               System.err.println("changetest\t" + changetest);
+               osmEquivTable.keySet().removeAll(changedOSMStops); //remove already selected stops
+                changetest.removeAll(changedOSMStops);
+                System.err.println("changedOSMStops\t" + changedOSMStops);
+                System.err.println("changetest\t" + changetest);
                 
                 osmEquiv.clear();
-                if (currentStop != null) osmEquiv.add(currentStop);
+                if (currentStop != null) osmEquiv.add(currentStop); //osmEquiv.add(0,currentStop);
                 osmEquiv.addAll(osmEquivTable.values());
                 System.err.println("c" + osmEquiv.size() + "\t" + osmEquivTable.size());
 /*
@@ -2568,7 +2575,7 @@ return 0;
         System.err.println(index + "\t gtfsStopsComboBox.getItemCount():\t" + gtfsStopsComboBox.getItemCount() + "x"); //FIXME combo box count is broken before uopdate
 
         
-        
+        changedOSMStops.remove(s.getOsmId());
         finalStops.remove(sid);
         osmDefaultFinalStops.remove(sid);
         osmDefaultOnlyChangedFinalStops.remove(sid);

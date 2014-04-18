@@ -2334,6 +2334,13 @@ return 0;
             }
         });
 
+        dummyUploadButton.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D,Event.CTRL_MASK), "doSomething");
+        dummyUploadButton.getActionMap().put("doSomething", new AbstractAction() {  
+            public void actionPerformed(ActionEvent evt) {     
+                dummyUploadButtonActionPerformed(evt);
+           }
+       } );        
+        
         uploadDataButton.setFont(new java.awt.Font("Tahoma", 0, 14));
         uploadDataButton.setText("Upload Data To OSM");
         uploadDataButton.setName("uploadDataButton"); // NOI18N

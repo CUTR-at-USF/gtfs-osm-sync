@@ -37,7 +37,9 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +51,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -1318,6 +1321,7 @@ return 0;
         uploadDataButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuImport = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         exportGtfsValueGtfsDataOnlyMenuItem = new javax.swing.JMenuItem();
@@ -2416,7 +2420,16 @@ return 0;
         jMenu3.add(jMenu4);
 
         jMenu1.add(jMenu3);
-
+        
+        jMenuImport.setText("Import previous session");
+        jMenuImport.setName("jMenuImport"); // NOI18N
+        jMenuImport  .addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	importMenuActionPerformed(evt);
+            }
+        });          
+        jMenu1.add(jMenuImport);
+        
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -2973,6 +2986,7 @@ return 0;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuItem jMenuImport;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel busStopPanel;
     private javax.swing.JPanel busRoutePanel;
@@ -3010,6 +3024,38 @@ return 0;
     private JButton dontuploadAllBtn;
     private JButton dontupremainButton;
     private JButton nextButton;
+
     // End of variables declaration//GEN-END:variables
+    
+    private void importMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
+        javax.swing.JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Browse for GTFS file...");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setMultiSelectionEnabled(true);
+        chooser.showOpenDialog(this);
+        if (chooser.getSelectedFile() != null) {
+        	try
+        	{
+        		java.io.FileReader fr = new FileReader(chooser.getSelectedFile());
+        		java.io.BufferedReader br =  new BufferedReader(fr);
+        		allStopsRadioButtonActionPerformed(evt);
+        		String brline = br.readLine();
+        		while (brline != null)
+        		{
+        			String[] brsplit = brline.split(",");
+        			System.out.println(brsplit[0] + " " + brsplit[1]);
+        			brline = br.readLine();
+        			changedOSMStops.add(brsplit[0]);
+        			
+        			//TODO remove gtfs stops
+ //       			gtfsStopsComboBox.setm
+        		}
+//            fileDirTextField.setText(chooser.getSelectedFile().getAbsolutePath());
+        	}
+        	catch (Exception e)
+        	{System.err.println(e.toString());}
+        }
+    }
 
 }

@@ -2613,10 +2613,19 @@ return 0;
 
         
         changedOSMStops.remove(s.getOsmId());
+        
+        //remove all references		
         finalStops.remove(sid);
+        finalStopsNew.remove(sid);
+        
         osmDefaultFinalStops.remove(sid);
         osmDefaultOnlyChangedFinalStops.remove(sid);
         finalCheckboxes.remove(sid);
+        stopsToFinish.remove(sid);
+        totalNumberOfStopsToFinish--;
+        int visited = totalNumberOfStopsToFinish - stopsToFinish.size();
+        finishProgressBar.setString(Integer.toString(visited)
+                                        +"/"+totalNumberOfStopsToFinish+" stops");        
     //    System.err.println(allMembersRadioButton.isSelected() + " "+ newWithMatchStopsRadioButton.isSelected());
         if (allStopsRadioButton.isSelected())
         	updateStopCategory(gtfsAll, 0);

@@ -347,7 +347,7 @@ return 0;
             int numberOfBool = (st.getTags().size()+2)*2;
             ArrayList<Boolean> arr = new ArrayList<Boolean>(numberOfBool);
             for(int j=0; j<numberOfBool; j++){
-                if(category.equals("UPLOAD_CONFLICT") || category.equals("UPLOAD_NO_CONFLICT")) {
+                if(category.equals("UPLOAD_CONFLICT") || category.equals("UPLOAD_NO_CONFLICT") || category.equals("MODIFY")) {
                     if(j%2==0) arr.add(true);
                     else arr.add(false);
                 }
@@ -387,7 +387,8 @@ return 0;
             } else if (category.equals("UPLOAD_NO_CONFLICT")) {
                 gtfsUploadNoConflict[unci] = reportKeys.get(i);
                 unci++;*/
-            if ((category.equals("MODIFY") || category.equals("NOTHING_NEW")) && numEquiv==1) {
+//            if ((category.equals("MODIFY") || category.equals("NOTHING_NEW")) && numEquiv==1) {
+          if (category.equals("NOTHING_NEW") && numEquiv==1) {
                 //String stopID, String operatorName, String stopName, String lat, String lon
                 Stop stopWithSelectedTags = new Stop(newStop.getStopID(), newStop.getOperatorName(), osmStop.getStopName(), osmStop.getLat(), osmStop.getLon());
                 Stop agencyStop = agencyStops.get(newStop.getStopID());
@@ -525,10 +526,6 @@ return 0;
         // When user click on OSM combobox 
     	
     	
-
-    	
-    	
-    	
 //        if(selectedNewStop==null) return;
         Stop agencyStop = agencyStops.get(selectedNewStop.toString());
         addSelectedStopsOverlay(selectedNewStop, selectedOsmStop);
@@ -548,6 +545,7 @@ return 0;
         
 
         // set new size to the table
+//        stopTableModel = new TagReportTableModel(tagKeys.size()+2);
         stopTableModel = new TagReportTableModel(tagKeys.size()+2);
         dataTable.setModel(stopTableModel);
 
@@ -567,6 +565,8 @@ return 0;
             stopTableModel.setRowValueAt(new Object[] {"lat", agencyStop.getLat(), finalCB.get(0), "",finalCB.get(1), finalSt.getLat()}, 0);
             stopTableModel.setRowValueAt(new Object[] {"lon", agencyStop.getLon(), finalCB.get(2), "", finalCB.get(3), finalSt.getLon()}, 1);
         }
+        
+        
         for(int i=0; i<tkeys.size(); i++){
             String k = tkeys.get(i);
 
@@ -584,7 +584,32 @@ return 0;
                 newValue = (String)selectedNewStop.getTag(k);
                 gtfsValue = (String)aTags.get(k);
             }
-
+//TODO Fix MODIFY (THIS IS A HACK)
+//            if (selectedNewStop.getReportCategory().equals("MODIFY") && (osmValue == null || osmValue.isEmpty()))
+            if (selectedNewStop.getReportCategory().equals("MODIFY"))
+            		
+            {
+            	try{	
+            	if (finalCB.get((i+2)*2))
+            	{
+            		newValue = gtfsValue;
+                 	if (newValue== null || newValue.isEmpty())
+            		{
+            			newValue = osmValue;
+            			finalCB.set((i+2)*2,false);
+            			finalCB.set((i+2)*2+1,true);
+            		}
+            	}
+            	}
+            	catch (java.lang.IndexOutOfBoundsException e)
+                {
+            		newValue = gtfsValue;
+                }
+             
+            	
+            }
+            
+            
             //add tag to table, index+2 because of lat and lon
             if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
 //            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT") && !finalStops.contains(selectedNewStop.getStopID()) ) {
@@ -595,7 +620,16 @@ return 0;
 //            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {      
             		stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
             } else {
-                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), (String)finalSt.getTag(k)}, i+2);
+                try
+                 {stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), newValue}, i+2);
+                 
+                 }
+                catch (Exception e)
+                {
+                	//stop 777 seems cause array of bounds
+                	System.err.println((i+2)*2);
+                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
+                }
             }
         }
 

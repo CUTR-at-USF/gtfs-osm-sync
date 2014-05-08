@@ -1,2 +1,0 @@
-stop_id,stop_code,stop_name,stop_lat,stop_lon
-7612,7612,Fowler Av @ Gillette St,28.05454,-82.377192

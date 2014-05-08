@@ -1,0 +1,933 @@
+<osmChange version='0.6' generator='ktran9'>
+<create>
+<relation changeset='6682420' id='-1' version='-1'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041545155' role='stop' />
+<member type='node' ref='1041545169' role='stop' />
+<member type='node' ref='1041545130' role='stop' />
+<member type='node' ref='1041542145' role='stop' />
+<member type='node' ref='1041545208' role='stop' />
+<member type='node' ref='1041544220' role='stop' />
+<member type='node' ref='1041542242' role='stop' />
+<member type='node' ref='1041541979' role='stop' />
+<member type='node' ref='1041542283' role='stop' />
+<member type='node' ref='1041544342' role='stop' />
+<member type='node' ref='1041542156' role='stop' />
+<member type='node' ref='1041542385' role='stop' />
+<member type='node' ref='1041542316' role='stop' />
+<member type='node' ref='1041544250' role='stop' />
+<member type='node' ref='1041545321' role='stop' />
+<member type='node' ref='1041545284' role='stop' />
+<member type='node' ref='1041542415' role='stop' />
+<member type='node' ref='1041545334' role='stop' />
+<member type='node' ref='1041545159' role='stop' />
+<member type='node' ref='1041545258' role='stop' />
+<member type='node' ref='1041544173' role='stop' />
+<member type='node' ref='1041541715' role='stop' />
+<member type='node' ref='1041542155' role='stop' />
+<member type='node' ref='1041544229' role='stop' />
+<member type='node' ref='1041545120' role='stop' />
+<member type='node' ref='1041542755' role='stop' />
+<member type='node' ref='1041542234' role='stop' />
+<member type='node' ref='1041544223' role='stop' />
+<member type='node' ref='1041541636' role='stop' />
+<member type='node' ref='1041542231' role='stop' />
+<member type='node' ref='1041542243' role='stop' />
+<member type='node' ref='1041542280' role='stop' />
+<member type='node' ref='1041545152' role='stop' />
+<member type='node' ref='1041542418' role='stop' />
+<tag k='gtfs_route_id' v='335' />
+<tag k='ref' v='21' />
+<tag k='type' v='route' />
+<tag k='route' v='bus' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='name' v='SCAT route 21' />
+</relation>
+<relation changeset='6682420' id='-2' version='-2'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041543511' role='stop' />
+<member type='node' ref='1041542198' role='stop' />
+<member type='node' ref='1041542474' role='stop' />
+<member type='node' ref='1041542178' role='stop' />
+<member type='node' ref='1041544478' role='stop' />
+<member type='node' ref='1041542349' role='stop' />
+<member type='node' ref='1041541798' role='stop' />
+<member type='node' ref='1041542348' role='stop' />
+<member type='node' ref='1041544530' role='stop' />
+<member type='node' ref='1041543318' role='stop' />
+<member type='node' ref='1041545021' role='stop' />
+<member type='node' ref='1041542463' role='stop' />
+<member type='node' ref='1041544502' role='stop' />
+<member type='node' ref='1041542479' role='stop' />
+<member type='node' ref='1041541777' role='stop' />
+<member type='node' ref='1041542522' role='stop' />
+<member type='node' ref='1041542270' role='stop' />
+<member type='node' ref='1041542448' role='stop' />
+<member type='node' ref='1041544873' role='stop' />
+<member type='node' ref='1041544850' role='stop' />
+<member type='node' ref='1041542254' role='stop' />
+<member type='node' ref='1041543985' role='stop' />
+<member type='node' ref='1041543455' role='stop' />
+<member type='node' ref='1041544503' role='stop' />
+<member type='node' ref='1041543979' role='stop' />
+<member type='node' ref='1041542362' role='stop' />
+<member type='node' ref='1041544471' role='stop' />
+<member type='node' ref='1041542464' role='stop' />
+<member type='node' ref='1041542360' role='stop' />
+<member type='node' ref='1041543693' role='stop' />
+<member type='node' ref='1041542265' role='stop' />
+<member type='node' ref='1041545003' role='stop' />
+<member type='node' ref='1041542487' role='stop' />
+<member type='node' ref='1041542475' role='stop' />
+<member type='node' ref='1041541782' role='stop' />
+<member type='node' ref='1041542460' role='stop' />
+<member type='node' ref='1041541792' role='stop' />
+<member type='node' ref='1041545100' role='stop' />
+<member type='node' ref='1041542176' role='stop' />
+<member type='node' ref='1041542673' role='stop' />
+<member type='node' ref='1041542246' role='stop' />
+<member type='node' ref='1041542168' role='stop' />
+<member type='node' ref='1041542264' role='stop' />
+<member type='node' ref='1041542491' role='stop' />
+<member type='node' ref='1041542351' role='stop' />
+<member type='node' ref='1041542517' role='stop' />
+<member type='node' ref='1041542494' role='stop' />
+<member type='node' ref='1041544003' role='stop' />
+<member type='node' ref='1041542982' role='stop' />
+<member type='node' ref='1041542253' role='stop' />
+<member type='node' ref='1041542443' role='stop' />
+<member type='node' ref='1041543333' role='stop' />
+<member type='node' ref='1041542504' role='stop' />
+<member type='node' ref='1041542592' role='stop' />
+<member type='node' ref='1041542329' role='stop' />
+<member type='node' ref='1041542191' role='stop' />
+<member type='node' ref='1041542721' role='stop' />
+<member type='node' ref='1041544476' role='stop' />
+<member type='node' ref='1041542693' role='stop' />
+<member type='node' ref='1041542726' role='stop' />
+<member type='node' ref='1041542452' role='stop' />
+<member type='node' ref='1041544452' role='stop' />
+<member type='node' ref='1041542167' role='stop' />
+<member type='node' ref='1041544479' role='stop' />
+<member type='node' ref='1041542267' role='stop' />
+<tag k='gtfs_route_id' v='334' />
+<tag k='ref' v='9' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 9' />
+</relation>
+<relation changeset='6682420' id='-3' version='-3'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041541829' role='stop' />
+<member type='node' ref='1041541745' role='stop' />
+<member type='node' ref='1041542338' role='stop' />
+<member type='node' ref='1041542474' role='stop' />
+<member type='node' ref='1041542487' role='stop' />
+<member type='node' ref='1041541819' role='stop' />
+<member type='node' ref='1041541744' role='stop' />
+<member type='node' ref='1041541837' role='stop' />
+<member type='node' ref='1041541817' role='stop' />
+<member type='node' ref='1041541747' role='stop' />
+<member type='node' ref='1041542448' role='stop' />
+<member type='node' ref='1041543693' role='stop' />
+<tag k='gtfs_route_id' v='333' />
+<tag k='ref' v='7' />
+<tag k='type' v='route' />
+<tag k='route' v='bus' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='name' v='SCAT route 7' />
+</relation>
+<relation changeset='6682420' id='-4' version='-4'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041541751' role='stop' />
+<member type='node' ref='1041542705' role='stop' />
+<member type='node' ref='1041542034' role='stop' />
+<member type='node' ref='1041542049' role='stop' />
+<member type='node' ref='1041541699' role='stop' />
+<member type='node' ref='1041544820' role='stop' />
+<member type='node' ref='1041543679' role='stop' />
+<member type='node' ref='1041542734' role='stop' />
+<member type='node' ref='1041543558' role='stop' />
+<member type='node' ref='1041542776' role='stop' />
+<member type='node' ref='1041542629' role='stop' />
+<member type='node' ref='1041544026' role='stop' />
+<member type='node' ref='1041541707' role='stop' />
+<member type='node' ref='1041545044' role='stop' />
+<member type='node' ref='1041542638' role='stop' />
+<member type='node' ref='1041544030' role='stop' />
+<member type='node' ref='1041545029' role='stop' />
+<member type='node' ref='1041544815' role='stop' />
+<member type='node' ref='1041544846' role='stop' />
+<member type='node' ref='1041545082' role='stop' />
+<member type='node' ref='1041542649' role='stop' />
+<member type='node' ref='1041544082' role='stop' />
+<member type='node' ref='1041543530' role='stop' />
+<member type='node' ref='1041542777' role='stop' />
+<member type='node' ref='1041542767' role='stop' />
+<member type='node' ref='1041544115' role='stop' />
+<member type='node' ref='1041542493' role='stop' />
+<member type='node' ref='1041542018' role='stop' />
+<member type='node' ref='1041544106' role='stop' />
+<member type='node' ref='1041541795' role='stop' />
+<member type='node' ref='1041541680' role='stop' />
+<member type='node' ref='1041542503' role='stop' />
+<member type='node' ref='1041542030' role='stop' />
+<member type='node' ref='1041544076' role='stop' />
+<member type='node' ref='1041542652' role='stop' />
+<member type='node' ref='1041542701' role='stop' />
+<member type='node' ref='1041542530' role='stop' />
+<member type='node' ref='1041544116' role='stop' />
+<member type='node' ref='1041542108' role='stop' />
+<member type='node' ref='1041542706' role='stop' />
+<member type='node' ref='1041543458' role='stop' />
+<member type='node' ref='1041542505' role='stop' />
+<member type='node' ref='1041542052' role='stop' />
+<member type='node' ref='1041542748' role='stop' />
+<member type='node' ref='1041541685' role='stop' />
+<member type='node' ref='1041542667' role='stop' />
+<member type='node' ref='1041544883' role='stop' />
+<member type='node' ref='1041542035' role='stop' />
+<member type='node' ref='1041542017' role='stop' />
+<member type='node' ref='1041544047' role='stop' />
+<member type='node' ref='1041542188' role='stop' />
+<member type='node' ref='1041545049' role='stop' />
+<member type='node' ref='1041542763' role='stop' />
+<member type='node' ref='1041542775' role='stop' />
+<member type='node' ref='1041542645' role='stop' />
+<tag k='gtfs_route_id' v='332' />
+<tag k='ref' v='6' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 6' />
+</relation>
+<relation changeset='6682420' id='-5' version='-5'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041542889' role='stop' />
+<member type='node' ref='1041542799' role='stop' />
+<member type='node' ref='1041542605' role='stop' />
+<member type='node' ref='1041542906' role='stop' />
+<member type='node' ref='1041542872' role='stop' />
+<member type='node' ref='1041543503' role='stop' />
+<member type='node' ref='1041542598' role='stop' />
+<member type='node' ref='1041542604' role='stop' />
+<member type='node' ref='1041542897' role='stop' />
+<member type='node' ref='1041543488' role='stop' />
+<member type='node' ref='1041544809' role='stop' />
+<member type='node' ref='1041542578' role='stop' />
+<member type='node' ref='1041543292' role='stop' />
+<member type='node' ref='1041542794' role='stop' />
+<member type='node' ref='1041542868' role='stop' />
+<member type='node' ref='1041542623' role='stop' />
+<member type='node' ref='1041542826' role='stop' />
+<member type='node' ref='1041542827' role='stop' />
+<tag k='gtfs_route_id' v='329' />
+<tag k='ref' v='3' />
+<tag k='type' v='route' />
+<tag k='route' v='bus' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='name' v='SCAT route 3' />
+</relation>
+<relation changeset='6682420' id='-6' version='-6'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041544197' role='stop' />
+<member type='node' ref='1041543047' role='stop' />
+<member type='node' ref='1041544181' role='stop' />
+<member type='node' ref='1041544194' role='stop' />
+<member type='node' ref='1041544217' role='stop' />
+<member type='node' ref='1041544142' role='stop' />
+<member type='node' ref='1041544168' role='stop' />
+<member type='node' ref='1041544534' role='stop' />
+<member type='node' ref='1041544564' role='stop' />
+<member type='node' ref='1041544544' role='stop' />
+<member type='node' ref='1041541825' role='stop' />
+<member type='node' ref='1041544149' role='stop' />
+<member type='node' ref='1041544139' role='stop' />
+<member type='node' ref='1041543697' role='stop' />
+<member type='node' ref='1041543208' role='stop' />
+<member type='node' ref='1041544550' role='stop' />
+<member type='node' ref='1041544570' role='stop' />
+<member type='node' ref='1041543203' role='stop' />
+<member type='node' ref='1041544177' role='stop' />
+<tag k='gtfs_route_id' v='331' />
+<tag k='ref' v='5' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 5' />
+</relation>
+<relation changeset='6682420' id='-7' version='-7'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041544027' role='stop' />
+<member type='node' ref='1041543047' role='stop' />
+<member type='node' ref='1041543120' role='stop' />
+<member type='node' ref='1041543726' role='stop' />
+<member type='node' ref='1041543415' role='stop' />
+<member type='node' ref='1041544621' role='stop' />
+<member type='node' ref='1041543148' role='stop' />
+<member type='node' ref='1041543042' role='stop' />
+<member type='node' ref='1041543313' role='stop' />
+<member type='node' ref='1041544794' role='stop' />
+<member type='node' ref='1041543696' role='stop' />
+<member type='node' ref='1041543079' role='stop' />
+<member type='node' ref='1041543306' role='stop' />
+<member type='node' ref='1041543391' role='stop' />
+<member type='node' ref='1041543697' role='stop' />
+<member type='node' ref='1041543208' role='stop' />
+<member type='node' ref='1041544025' role='stop' />
+<member type='node' ref='1041541759' role='stop' />
+<member type='node' ref='1041543750' role='stop' />
+<member type='node' ref='1041543720' role='stop' />
+<member type='node' ref='1041543125' role='stop' />
+<member type='node' ref='1041543085' role='stop' />
+<member type='node' ref='1041543203' role='stop' />
+<tag k='gtfs_route_id' v='328' />
+<tag k='ref' v='2' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 2' />
+</relation>
+<relation changeset='6682420' id='-8' version='-8'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041542018' role='stop' />
+<member type='node' ref='1041542549' role='stop' />
+<member type='node' ref='1041542100' role='stop' />
+<member type='node' ref='1041543547' role='stop' />
+<member type='node' ref='1041543279' role='stop' />
+<member type='node' ref='1041543259' role='stop' />
+<member type='node' ref='1041542919' role='stop' />
+<member type='node' ref='1041542083' role='stop' />
+<member type='node' ref='1041542803' role='stop' />
+<member type='node' ref='1041542817' role='stop' />
+<member type='node' ref='1041542111' role='stop' />
+<member type='node' ref='1041541778' role='stop' />
+<member type='node' ref='1041542572' role='stop' />
+<member type='node' ref='1041542827' role='stop' />
+<member type='node' ref='1041544507' role='stop' />
+<member type='node' ref='1041542112' role='stop' />
+<member type='node' ref='1041542891' role='stop' />
+<member type='node' ref='1041542805' role='stop' />
+<member type='node' ref='1041544850' role='stop' />
+<member type='node' ref='1041542815' role='stop' />
+<member type='node' ref='1041542093' role='stop' />
+<member type='node' ref='1041545076' role='stop' />
+<member type='node' ref='1041542676' role='stop' />
+<member type='node' ref='1041542444' role='stop' />
+<member type='node' ref='1041543503' role='stop' />
+<member type='node' ref='1041542097' role='stop' />
+<member type='node' ref='1041541931' role='stop' />
+<member type='node' ref='1041542555' role='stop' />
+<member type='node' ref='1041542113' role='stop' />
+<member type='node' ref='1041542818' role='stop' />
+<member type='node' ref='1041542085' role='stop' />
+<member type='node' ref='1041542876' role='stop' />
+<member type='node' ref='1041542794' role='stop' />
+<member type='node' ref='1041543312' role='stop' />
+<member type='node' ref='1041541927' role='stop' />
+<member type='node' ref='1041541866' role='stop' />
+<member type='node' ref='1041542811' role='stop' />
+<member type='node' ref='1041542925' role='stop' />
+<member type='node' ref='1041543680' role='stop' />
+<tag k='gtfs_route_id' v='330' />
+<tag k='ref' v='4' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 4' />
+</relation>
+<relation changeset='6682420' id='-9' version='-9'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041545184' role='stop' />
+<member type='node' ref='1041542432' role='stop' />
+<member type='node' ref='1041544843' role='stop' />
+<member type='node' ref='1041543043' role='stop' />
+<member type='node' ref='1041543144' role='stop' />
+<member type='node' ref='1041541861' role='stop' />
+<member type='node' ref='1041541996' role='stop' />
+<member type='node' ref='1041543463' role='stop' />
+<member type='node' ref='1041543129' role='stop' />
+<member type='node' ref='1041542165' role='stop' />
+<member type='node' ref='1041545170' role='stop' />
+<member type='node' ref='1041542776' role='stop' />
+<member type='node' ref='1041542093' role='stop' />
+<member type='node' ref='1041541982' role='stop' />
+<member type='node' ref='1041541897' role='stop' />
+<member type='node' ref='1041542375' role='stop' />
+<member type='node' ref='1041543783' role='stop' />
+<member type='node' ref='1041543397' role='stop' />
+<member type='node' ref='1041541866' role='stop' />
+<member type='node' ref='1041543419' role='stop' />
+<member type='node' ref='1041541848' role='stop' />
+<member type='node' ref='1041542199' role='stop' />
+<member type='node' ref='1041544045' role='stop' />
+<member type='node' ref='1041544242' role='stop' />
+<member type='node' ref='1041542018' role='stop' />
+<member type='node' ref='1041544658' role='stop' />
+<member type='node' ref='1041542718' role='stop' />
+<member type='node' ref='1041545112' role='stop' />
+<member type='node' ref='1041544692' role='stop' />
+<member type='node' ref='1041544270' role='stop' />
+<member type='node' ref='1041541910' role='stop' />
+<member type='node' ref='1041544789' role='stop' />
+<member type='node' ref='1041542136' role='stop' />
+<member type='node' ref='1041542244' role='stop' />
+<member type='node' ref='1041544087' role='stop' />
+<member type='node' ref='1041542318' role='stop' />
+<member type='node' ref='1041541997' role='stop' />
+<member type='node' ref='1041542148' role='stop' />
+<member type='node' ref='1041544112' role='stop' />
+<member type='node' ref='1041545196' role='stop' />
+<member type='node' ref='1041542567' role='stop' />
+<member type='node' ref='1041543339' role='stop' />
+<member type='node' ref='1041542286' role='stop' />
+<member type='node' ref='1041545293' role='stop' />
+<member type='node' ref='1041544761' role='stop' />
+<member type='node' ref='1041545316' role='stop' />
+<member type='node' ref='1041542667' role='stop' />
+<member type='node' ref='1041544725' role='stop' />
+<member type='node' ref='1041542201' role='stop' />
+<member type='node' ref='1041544684' role='stop' />
+<member type='node' ref='1041544053' role='stop' />
+<member type='node' ref='1041544695' role='stop' />
+<member type='node' ref='1041543989' role='stop' />
+<member type='node' ref='1041545169' role='stop' />
+<member type='node' ref='1041545208' role='stop' />
+<member type='node' ref='1041545182' role='stop' />
+<member type='node' ref='1041544252' role='stop' />
+<member type='node' ref='1041541999' role='stop' />
+<member type='node' ref='1041542015' role='stop' />
+<member type='node' ref='1041542689' role='stop' />
+<member type='node' ref='1041543263' role='stop' />
+<member type='node' ref='1041543755' role='stop' />
+<member type='node' ref='1041542112' role='stop' />
+<member type='node' ref='1041543090' role='stop' />
+<member type='node' ref='1041541960' role='stop' />
+<member type='node' ref='1041541913' role='stop' />
+<member type='node' ref='1041543116' role='stop' />
+<member type='node' ref='1041545120' role='stop' />
+<member type='node' ref='1041545252' role='stop' />
+<member type='node' ref='1041542740' role='stop' />
+<member type='node' ref='1041542078' role='stop' />
+<member type='node' ref='1041542649' role='stop' />
+<member type='node' ref='1041542054' role='stop' />
+<member type='node' ref='1041545052' role='stop' />
+<member type='node' ref='1041542766' role='stop' />
+<member type='node' ref='1041542390' role='stop' />
+<member type='node' ref='1041544628' role='stop' />
+<member type='node' ref='1041545126' role='stop' />
+<member type='node' ref='1041545324' role='stop' />
+<member type='node' ref='1041544667' role='stop' />
+<member type='node' ref='1041545130' role='stop' />
+<member type='node' ref='1041542187' role='stop' />
+<member type='node' ref='1041541804' role='stop' />
+<member type='node' ref='1041542685' role='stop' />
+<member type='node' ref='1041543357' role='stop' />
+<member type='node' ref='1041542972' role='stop' />
+<member type='node' ref='1041544246' role='stop' />
+<member type='node' ref='1041542111' role='stop' />
+<member type='node' ref='1041542568' role='stop' />
+<member type='node' ref='1041541778' role='stop' />
+<member type='node' ref='1041544008' role='stop' />
+<member type='node' ref='1041543697' role='stop' />
+<member type='node' ref='1041545297' role='stop' />
+<member type='node' ref='1041543396' role='stop' />
+<member type='node' ref='1041545295' role='stop' />
+<member type='node' ref='1041542156' role='stop' />
+<member type='node' ref='1041543254' role='stop' />
+<member type='node' ref='1041542618' role='stop' />
+<member type='node' ref='1041543197' role='stop' />
+<member type='node' ref='1041542097' role='stop' />
+<member type='node' ref='1041542392' role='stop' />
+<member type='node' ref='1041543423' role='stop' />
+<member type='node' ref='1041544720' role='stop' />
+<member type='node' ref='1041542113' role='stop' />
+<member type='node' ref='1041542545' role='stop' />
+<member type='node' ref='1041541947' role='stop' />
+<member type='node' ref='1041542686' role='stop' />
+<member type='node' ref='1041545146' role='stop' />
+<member type='node' ref='1041545242' role='stop' />
+<member type='node' ref='1041543014' role='stop' />
+<member type='node' ref='1041542763' role='stop' />
+<member type='node' ref='1041541666' role='stop' />
+<member type='node' ref='1041543285' role='stop' />
+<tag k='gtfs_route_id' v='327' />
+<tag k='ref' v='1' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 1' />
+</relation>
+<relation changeset='6682420' id='-10' version='-10'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041542204' role='stop' />
+<member type='node' ref='1041542166' role='stop' />
+<member type='node' ref='1041542211' role='stop' />
+<member type='node' ref='1041542366' role='stop' />
+<member type='node' ref='1041541969' role='stop' />
+<member type='node' ref='1041545142' role='stop' />
+<member type='node' ref='1041545318' role='stop' />
+<member type='node' ref='1041542725' role='stop' />
+<member type='node' ref='1041541631' role='stop' />
+<member type='node' ref='1041542128' role='stop' />
+<member type='node' ref='1041542718' role='stop' />
+<member type='node' ref='1041541869' role='stop' />
+<member type='node' ref='1041542328' role='stop' />
+<member type='node' ref='1041542124' role='stop' />
+<member type='node' ref='1041541723' role='stop' />
+<member type='node' ref='1041542786' role='stop' />
+<member type='node' ref='1041545161' role='stop' />
+<member type='node' ref='1041545118' role='stop' />
+<member type='node' ref='1041542301' role='stop' />
+<member type='node' ref='1041542327' role='stop' />
+<member type='node' ref='1041542011' role='stop' />
+<member type='node' ref='1041545192' role='stop' />
+<member type='node' ref='1041541718' role='stop' />
+<member type='node' ref='1041541978' role='stop' />
+<member type='node' ref='1041542063' role='stop' />
+<member type='node' ref='1041542122' role='stop' />
+<member type='node' ref='1041545200' role='stop' />
+<member type='node' ref='1041541865' role='stop' />
+<member type='node' ref='1041541661' role='stop' />
+<member type='node' ref='1041545129' role='stop' />
+<member type='node' ref='1041541964' role='stop' />
+<member type='node' ref='1041541646' role='stop' />
+<member type='node' ref='1041542735' role='stop' />
+<member type='node' ref='1041541667' role='stop' />
+<member type='node' ref='1041542290' role='stop' />
+<member type='node' ref='1041541998' role='stop' />
+<member type='node' ref='1041542418' role='stop' />
+<member type='node' ref='1041542133' role='stop' />
+<tag k='gtfs_route_id' v='343' />
+<tag k='ref' v='28' />
+<tag k='type' v='route' />
+<tag k='route' v='bus' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='name' v='SCAT route 28' />
+</relation>
+<relation changeset='6682420' id='-11' version='-11'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041543561' role='stop' />
+<member type='node' ref='1041541901' role='stop' />
+<member type='node' ref='1041541923' role='stop' />
+<member type='node' ref='1041544638' role='stop' />
+<member type='node' ref='1041544633' role='stop' />
+<member type='node' ref='1041542923' role='stop' />
+<member type='node' ref='1041542736' role='stop' />
+<member type='node' ref='1041544302' role='stop' />
+<member type='node' ref='1041542369' role='stop' />
+<member type='node' ref='1041543019' role='stop' />
+<member type='node' ref='1041545097' role='stop' />
+<member type='node' ref='1041545065' role='stop' />
+<member type='node' ref='1041541958' role='stop' />
+<member type='node' ref='1041544378' role='stop' />
+<member type='node' ref='1041545296' role='stop' />
+<member type='node' ref='1041544981' role='stop' />
+<member type='node' ref='1041541733' role='stop' />
+<member type='node' ref='1041544879' role='stop' />
+<member type='node' ref='1041542790' role='stop' />
+<member type='node' ref='1041542832' role='stop' />
+<member type='node' ref='1041543671' role='stop' />
+<member type='node' ref='1041542842' role='stop' />
+<member type='node' ref='1041541704' role='stop' />
+<member type='node' ref='1041544312' role='stop' />
+<member type='node' ref='1041541648' role='stop' />
+<member type='node' ref='1041541930' role='stop' />
+<member type='node' ref='1041545306' role='stop' />
+<member type='node' ref='1041545261' role='stop' />
+<member type='node' ref='1041541686' role='stop' />
+<member type='node' ref='1041544748' role='stop' />
+<member type='node' ref='1041545079' role='stop' />
+<member type='node' ref='1041541940' role='stop' />
+<member type='node' ref='1041544856' role='stop' />
+<member type='node' ref='1041544059' role='stop' />
+<member type='node' ref='1041541911' role='stop' />
+<member type='node' ref='1041544287' role='stop' />
+<member type='node' ref='1041544904' role='stop' />
+<member type='node' ref='1041542378' role='stop' />
+<member type='node' ref='1041541807' role='stop' />
+<member type='node' ref='1041543714' role='stop' />
+<member type='node' ref='1041544823' role='stop' />
+<member type='node' ref='1041542950' role='stop' />
+<member type='node' ref='1041541890' role='stop' />
+<tag k='gtfs_route_id' v='342' />
+<tag k='ref' v='27' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 27' />
+</relation>
+<relation changeset='6682420' id='-12' version='-12'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041545305' role='stop' />
+<member type='node' ref='1041545169' role='stop' />
+<member type='node' ref='1041542198' role='stop' />
+<member type='node' ref='1041542232' role='stop' />
+<member type='node' ref='1041542145' role='stop' />
+<member type='node' ref='1041545285' role='stop' />
+<member type='node' ref='1041545270' role='stop' />
+<member type='node' ref='1041542421' role='stop' />
+<member type='node' ref='1041542404' role='stop' />
+<member type='node' ref='1041542353' role='stop' />
+<member type='node' ref='1041545115' role='stop' />
+<member type='node' ref='1041543904' role='stop' />
+<member type='node' ref='1041542751' role='stop' />
+<member type='node' ref='1041542226' role='stop' />
+<member type='node' ref='1041545246' role='stop' />
+<member type='node' ref='1041543643' role='stop' />
+<member type='node' ref='1041542154' role='stop' />
+<member type='node' ref='1041542221' role='stop' />
+<member type='node' ref='1041542277' role='stop' />
+<member type='node' ref='1041542402' role='stop' />
+<member type='node' ref='1041542146' role='stop' />
+<member type='node' ref='1041542381' role='stop' />
+<member type='node' ref='1041543648' role='stop' />
+<member type='node' ref='1041542316' role='stop' />
+<member type='node' ref='1041542527' role='stop' />
+<member type='node' ref='1041543790' role='stop' />
+<member type='node' ref='1041545222' role='stop' />
+<member type='node' ref='1041545275' role='stop' />
+<member type='node' ref='1041545205' role='stop' />
+<member type='node' ref='1041542177' role='stop' />
+<member type='node' ref='1041542415' role='stop' />
+<member type='node' ref='1041545267' role='stop' />
+<member type='node' ref='1041545232' role='stop' />
+<member type='node' ref='1041542435' role='stop' />
+<member type='node' ref='1041543605' role='stop' />
+<member type='node' ref='1041542339' role='stop' />
+<member type='node' ref='1041542155' role='stop' />
+<member type='node' ref='1041545171' role='stop' />
+<member type='node' ref='1041542234' role='stop' />
+<member type='node' ref='1041543939' role='stop' />
+<member type='node' ref='1041542140' role='stop' />
+<member type='node' ref='1041542220' role='stop' />
+<member type='node' ref='1041542123' role='stop' />
+<member type='node' ref='1041542223' role='stop' />
+<member type='node' ref='1041542341' role='stop' />
+<member type='node' ref='1041543616' role='stop' />
+<member type='node' ref='1041543179' role='stop' />
+<member type='node' ref='1041543588' role='stop' />
+<member type='node' ref='1041543586' role='stop' />
+<member type='node' ref='1041543851' role='stop' />
+<member type='node' ref='1041543576' role='stop' />
+<member type='node' ref='1041543927' role='stop' />
+<member type='node' ref='1041543481' role='stop' />
+<member type='node' ref='1041542189' role='stop' />
+<member type='node' ref='1041545181' role='stop' />
+<member type='node' ref='1041545180' role='stop' />
+<member type='node' ref='1041545255' role='stop' />
+<member type='node' ref='1041543840' role='stop' />
+<member type='node' ref='1041543645' role='stop' />
+<member type='node' ref='1041545221' role='stop' />
+<member type='node' ref='1041545140' role='stop' />
+<member type='node' ref='1041543591' role='stop' />
+<member type='node' ref='1041542256' role='stop' />
+<member type='node' ref='1041545231' role='stop' />
+<member type='node' ref='1041545274' role='stop' />
+<member type='node' ref='1041545281' role='stop' />
+<member type='node' ref='1041543816' role='stop' />
+<member type='node' ref='1041545159' role='stop' />
+<member type='node' ref='1041545139' role='stop' />
+<member type='node' ref='1041543789' role='stop' />
+<member type='node' ref='1041542209' role='stop' />
+<member type='node' ref='1041545211' role='stop' />
+<member type='node' ref='1041543364' role='stop' />
+<member type='node' ref='1041542295' role='stop' />
+<member type='node' ref='1041542424' role='stop' />
+<member type='node' ref='1041543175' role='stop' />
+<member type='node' ref='1041543935' role='stop' />
+<member type='node' ref='1041543654' role='stop' />
+<member type='node' ref='1041542465' role='stop' />
+<member type='node' ref='1041545102' role='stop' />
+<member type='node' ref='1041545212' role='stop' />
+<member type='node' ref='1041542332' role='stop' />
+<member type='node' ref='1041545220' role='stop' />
+<member type='node' ref='1041542243' role='stop' />
+<member type='node' ref='1041543920' role='stop' />
+<member type='node' ref='1041542065' role='stop' />
+<member type='node' ref='1041541736' role='stop' />
+<member type='node' ref='1041545235' role='stop' />
+<member type='node' ref='1041542839' role='stop' />
+<tag k='gtfs_route_id' v='341' />
+<tag k='ref' v='26' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 26' />
+</relation>
+<relation changeset='6682420' id='-13' version='-13'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041545169' role='stop' />
+<member type='node' ref='1041545308' role='stop' />
+<member type='node' ref='1041542147' role='stop' />
+<member type='node' ref='1041543344' role='stop' />
+<member type='node' ref='1041545238' role='stop' />
+<member type='node' ref='1041541735' role='stop' />
+<member type='node' ref='1041543435' role='stop' />
+<member type='node' ref='1041544268' role='stop' />
+<member type='node' ref='1041544269' role='stop' />
+<member type='node' ref='1041542068' role='stop' />
+<member type='node' ref='1041542327' role='stop' />
+<member type='node' ref='1041543447' role='stop' />
+<member type='node' ref='1041543362' role='stop' />
+<member type='node' ref='1041543152' role='stop' />
+<member type='node' ref='1041541645' role='stop' />
+<member type='node' ref='1041541883' role='stop' />
+<member type='node' ref='1041542307' role='stop' />
+<member type='node' ref='1041543433' role='stop' />
+<member type='node' ref='1041543398' role='stop' />
+<member type='node' ref='1041541716' role='stop' />
+<member type='node' ref='1041542082' role='stop' />
+<member type='node' ref='1041542317' role='stop' />
+<member type='node' ref='1041545249' role='stop' />
+<member type='node' ref='1041543372' role='stop' />
+<member type='node' ref='1041541652' role='stop' />
+<member type='node' ref='1041543168' role='stop' />
+<member type='node' ref='1041543440' role='stop' />
+<member type='node' ref='1041542053' role='stop' />
+<member type='node' ref='1041541843' role='stop' />
+<member type='node' ref='1041542407' role='stop' />
+<member type='node' ref='1041542418' role='stop' />
+<tag k='gtfs_route_id' v='339' />
+<tag k='ref' v='24' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 24' />
+</relation>
+<relation changeset='6682420' id='-14' version='-14'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041545169' role='stop' />
+<member type='node' ref='1041545308' role='stop' />
+<member type='node' ref='1041542147' role='stop' />
+<member type='node' ref='1041544417' role='stop' />
+<member type='node' ref='1041544444' role='stop' />
+<member type='node' ref='1041543435' role='stop' />
+<member type='node' ref='1041542428' role='stop' />
+<member type='node' ref='1041544268' role='stop' />
+<member type='node' ref='1041545040' role='stop' />
+<member type='node' ref='1041545331' role='stop' />
+<member type='node' ref='1041542068' role='stop' />
+<member type='node' ref='1041542327' role='stop' />
+<member type='node' ref='1041543447' role='stop' />
+<member type='node' ref='1041542316' role='stop' />
+<member type='node' ref='1041543152' role='stop' />
+<member type='node' ref='1041545063' role='stop' />
+<member type='node' ref='1041541645' role='stop' />
+<member type='node' ref='1041542292' role='stop' />
+<member type='node' ref='1041542307' role='stop' />
+<member type='node' ref='1041544420' role='stop' />
+<member type='node' ref='1041542339' role='stop' />
+<member type='node' ref='1041544576' role='stop' />
+<member type='node' ref='1041545120' role='stop' />
+<member type='node' ref='1041542082' role='stop' />
+<member type='node' ref='1041542317' role='stop' />
+<member type='node' ref='1041545249' role='stop' />
+<member type='node' ref='1041544964' role='stop' />
+<member type='node' ref='1041543168' role='stop' />
+<member type='node' ref='1041541652' role='stop' />
+<member type='node' ref='1041544390' role='stop' />
+<member type='node' ref='1041542053' role='stop' />
+<member type='node' ref='1041545019' role='stop' />
+<member type='node' ref='1041545130' role='stop' />
+<member type='node' ref='1041544404' role='stop' />
+<member type='node' ref='1041543344' role='stop' />
+<member type='node' ref='1041545238' role='stop' />
+<member type='node' ref='1041544590' role='stop' />
+<member type='node' ref='1041541735' role='stop' />
+<member type='node' ref='1041545001' role='stop' />
+<member type='node' ref='1041544269' role='stop' />
+<member type='node' ref='1041544596' role='stop' />
+<member type='node' ref='1041545024' role='stop' />
+<member type='node' ref='1041543362' role='stop' />
+<member type='node' ref='1041545074' role='stop' />
+<member type='node' ref='1041542308' role='stop' />
+<member type='node' ref='1041541883' role='stop' />
+<member type='node' ref='1041544411' role='stop' />
+<member type='node' ref='1041544450' role='stop' />
+<member type='node' ref='1041544383' role='stop' />
+<member type='node' ref='1041544359' role='stop' />
+<member type='node' ref='1041544376' role='stop' />
+<member type='node' ref='1041543433' role='stop' />
+<member type='node' ref='1041544606' role='stop' />
+<member type='node' ref='1041543398' role='stop' />
+<member type='node' ref='1041541716' role='stop' />
+<member type='node' ref='1041545066' role='stop' />
+<member type='node' ref='1041544601' role='stop' />
+<member type='node' ref='1041544287' role='stop' />
+<member type='node' ref='1041542387' role='stop' />
+<member type='node' ref='1041542201' role='stop' />
+<member type='node' ref='1041543372' role='stop' />
+<member type='node' ref='1041543440' role='stop' />
+<member type='node' ref='1041542243' role='stop' />
+<member type='node' ref='1041542418' role='stop' />
+<member type='node' ref='1041542407' role='stop' />
+<tag k='gtfs_route_id' v='340' />
+<tag k='ref' v='25' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 25' />
+</relation>
+<relation changeset='6682420' id='-15' version='-15'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041543628' role='stop' />
+<member type='node' ref='1041544998' role='stop' />
+<member type='node' ref='1041541766' role='stop' />
+<member type='node' ref='1041543847' role='stop' />
+<member type='node' ref='1041543629' role='stop' />
+<member type='node' ref='1041542846' role='stop' />
+<member type='node' ref='1041544323' role='stop' />
+<member type='node' ref='1041543463' role='stop' />
+<member type='node' ref='1041544289' role='stop' />
+<member type='node' ref='1041541787' role='stop' />
+<member type='node' ref='1041544297' role='stop' />
+<member type='node' ref='1041543902' role='stop' />
+<member type='node' ref='1041543225' role='stop' />
+<member type='node' ref='1041541765' role='stop' />
+<member type='node' ref='1041543825' role='stop' />
+<member type='node' ref='1041543955' role='stop' />
+<member type='node' ref='1041543868' role='stop' />
+<member type='node' ref='1041543484' role='stop' />
+<member type='node' ref='1041543543' role='stop' />
+<member type='node' ref='1041543612' role='stop' />
+<member type='node' ref='1041543882' role='stop' />
+<member type='node' ref='1041544698' role='stop' />
+<member type='node' ref='1041543248' role='stop' />
+<member type='node' ref='1041544333' role='stop' />
+<member type='node' ref='1041543618' role='stop' />
+<member type='node' ref='1041541763' role='stop' />
+<member type='node' ref='1041543602' role='stop' />
+<member type='node' ref='1041541943' role='stop' />
+<member type='node' ref='1041544937' role='stop' />
+<member type='node' ref='1041544911' role='stop' />
+<member type='node' ref='1041544728' role='stop' />
+<member type='node' ref='1041544339' role='stop' />
+<member type='node' ref='1041543852' role='stop' />
+<member type='node' ref='1041543587' role='stop' />
+<member type='node' ref='1041543577' role='stop' />
+<member type='node' ref='1041543627' role='stop' />
+<member type='node' ref='1041543617' role='stop' />
+<member type='node' ref='1041543869' role='stop' />
+<member type='node' ref='1041543003' role='stop' />
+<member type='node' ref='1041544341' role='stop' />
+<member type='node' ref='1041543905' role='stop' />
+<member type='node' ref='1041544781' role='stop' />
+<member type='node' ref='1041544969' role='stop' />
+<member type='node' ref='1041544287' role='stop' />
+<member type='node' ref='1041543598' role='stop' />
+<member type='node' ref='1041543229' role='stop' />
+<member type='node' ref='1041544318' role='stop' />
+<member type='node' ref='1041543874' role='stop' />
+<member type='node' ref='1041542856' role='stop' />
+<member type='node' ref='1041543813' role='stop' />
+<member type='node' ref='1041544908' role='stop' />
+<tag k='gtfs_route_id' v='338' />
+<tag k='ref' v='23' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 23' />
+</relation>
+<relation changeset='6682420' id='-16' version='-16'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041544931' role='stop' />
+<member type='node' ref='1041542787' role='stop' />
+<member type='node' ref='1041543724' role='stop' />
+<member type='node' ref='1041543535' role='stop' />
+<member type='node' ref='1041542954' role='stop' />
+<member type='node' ref='1041542846' role='stop' />
+<member type='node' ref='1041543557' role='stop' />
+<member type='node' ref='1041543959' role='stop' />
+<member type='node' ref='1041543463' role='stop' />
+<member type='node' ref='1041543954' role='stop' />
+<member type='node' ref='1041542945' role='stop' />
+<member type='node' ref='1041542977' role='stop' />
+<member type='node' ref='1041542942' role='stop' />
+<member type='node' ref='1041542859' role='stop' />
+<member type='node' ref='1041544756' role='stop' />
+<member type='node' ref='1041543506' role='stop' />
+<member type='node' ref='1041541675' role='stop' />
+<member type='node' ref='1041542858' role='stop' />
+<member type='node' ref='1041543787' role='stop' />
+<member type='node' ref='1041543228' role='stop' />
+<member type='node' ref='1041544007' role='stop' />
+<member type='node' ref='1041542852' role='stop' />
+<member type='node' ref='1041543172' role='stop' />
+<member type='node' ref='1041544751' role='stop' />
+<member type='node' ref='1041544974' role='stop' />
+<member type='node' ref='1041544942' role='stop' />
+<member type='node' ref='1041543753' role='stop' />
+<member type='node' ref='1041543556' role='stop' />
+<member type='node' ref='1041543569' role='stop' />
+<member type='node' ref='1041544663' role='stop' />
+<member type='node' ref='1041543974' role='stop' />
+<member type='node' ref='1041544358' role='stop' />
+<member type='node' ref='1041544915' role='stop' />
+<member type='node' ref='1041543675' role='stop' />
+<member type='node' ref='1041543477' role='stop' />
+<member type='node' ref='1041543193' role='stop' />
+<member type='node' ref='1041544287' role='stop' />
+<member type='node' ref='1041542987' role='stop' />
+<member type='node' ref='1041543058' role='stop' />
+<member type='node' ref='1041542828' role='stop' />
+<tag k='gtfs_route_id' v='337' />
+<tag k='ref' v='22' />
+<tag k='type' v='route' />
+<tag k='route' v='bus' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='name' v='SCAT route 22' />
+</relation>
+<relation changeset='6682420' id='-17' version='-17'>
+<tag k='source' v='GO_Sync' />
+<member type='node' ref='1041542760' role='stop' />
+<member type='node' ref='1041545208' role='stop' />
+<member type='node' ref='1041542145' role='stop' />
+<member type='node' ref='1041544220' role='stop' />
+<member type='node' ref='1041542242' role='stop' />
+<member type='node' ref='1041542214' role='stop' />
+<member type='node' ref='1041542428' role='stop' />
+<member type='node' ref='1041542283' role='stop' />
+<member type='node' ref='1041544342' role='stop' />
+<member type='node' ref='1041542790' role='stop' />
+<member type='node' ref='1041542385' role='stop' />
+<member type='node' ref='1041544250' role='stop' />
+<member type='node' ref='1041544200' role='stop' />
+<member type='node' ref='1041545321' role='stop' />
+<member type='node' ref='1041542308' role='stop' />
+<member type='node' ref='1041545284' role='stop' />
+<member type='node' ref='1041542415' role='stop' />
+<member type='node' ref='1041545334' role='stop' />
+<member type='node' ref='1041545258' role='stop' />
+<member type='node' ref='1041544173' role='stop' />
+<member type='node' ref='1041542305' role='stop' />
+<member type='node' ref='1041544359' role='stop' />
+<member type='node' ref='1041541715' role='stop' />
+<member type='node' ref='1041542155' role='stop' />
+<member type='node' ref='1041544229' role='stop' />
+<member type='node' ref='1041541930' role='stop' />
+<member type='node' ref='1041542234' role='stop' />
+<member type='node' ref='1041544904' role='stop' />
+<member type='node' ref='1041542387' role='stop' />
+<member type='node' ref='1041541807' role='stop' />
+<member type='node' ref='1041542123' role='stop' />
+<member type='node' ref='1041542231' role='stop' />
+<member type='node' ref='1041544362' role='stop' />
+<member type='node' ref='1041541808' role='stop' />
+<member type='node' ref='1041542280' role='stop' />
+<member type='node' ref='1041543714' role='stop' />
+<member type='node' ref='1041542418' role='stop' />
+<tag k='gtfs_route_id' v='336' />
+<tag k='ref' v='21' />
+<tag k='type' v='route' />
+<tag k='operator' v='Space Coast Area Transit ' />
+<tag k='route' v='bus' />
+<tag k='name' v='SCAT route 21' />
+</relation>
+</create>
+<modify>
+</modify>
+<delete>
+</delete>
+</osmChange>

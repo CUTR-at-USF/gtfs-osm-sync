@@ -89,13 +89,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 l.add(op.getOperatorName()); //add their name to the list for autocompletion
             }
         }
-
-        fileDirTextField.setText("/tmp/bowen/");
-        fileDirTextField.setText("/tmp/SEQ/");
         
         //create a new textfield with autocomplete for operator names
         operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
-        operatorNameField.setText("Translink SEQ");
         //add the textfield to the panel
         compareDataPanel.add(operatorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 20, 240, -1));
         
@@ -203,8 +199,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         OperatorAbbLabel.setText("Operator Abbreviation (*)");
         compareDataPanel.add(OperatorAbbLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 23, -1, -1));
 
-        operatorNameAbbField.setName("usernameField"); // NOI18N
-        operatorNameAbbField.setText("Translink");
+        operatorNameAbbField.setName("usernameField");
         compareDataPanel.add(operatorNameAbbField, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 70, -1));
         operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
 
@@ -427,7 +422,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 }
                 _fileDir = new File("GTFS_Temp").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
             } else {
-                _fileDir = fileDirTextField.getText(); //else use the folder selected with GTFS files in it
+                _fileDir = fileDirTextField.getText().replace("file://",""); //else use the folder selected with GTFS files in it
                 //TODO - validate that a folder was selected and that it does have GTFS files
             }
         }

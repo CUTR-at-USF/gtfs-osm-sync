@@ -53,6 +53,10 @@ import java.awt.event.KeyListener;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Dimension;
 
 /**
  *
@@ -75,6 +79,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
     /** Creates new form MainForm */
     public MainForm() {
+    	setMinimumSize(new Dimension(660, 460));
         initComponents();
 
         DefaultOperatorReader reader = new DefaultOperatorReader(); //create a new reader
@@ -172,10 +177,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         fileDirTextField = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        changesetLabel = new javax.swing.JLabel();
-        revertChangesetField = new javax.swing.JTextField();
-        revertButton = new javax.swing.JButton();
+        revertChangesetPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taskOutput = new javax.swing.JTextArea();
 
@@ -309,48 +311,48 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         jTabbedPane1.addTab("Compare Data", compareDataPanel);
 
-        jPanel2.setName(""); // NOI18N
+        revertChangesetPanel.setName(""); // NOI18N
 
-        changesetLabel.setText("Changeset ID");
-
-        revertChangesetField.setName("usernameField"); // NOI18N
-
-        revertButton.setText("Run");
-        revertButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                revertButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(changesetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(277, 277, 277)
-                        .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(240, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changesetLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-                .addComponent(revertButton)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Revert Changeset", jPanel2);
+        jTabbedPane1.addTab("Revert Changeset", revertChangesetPanel);
+        GridBagLayout gbl_revertChangesetPanel = new GridBagLayout();
+        gbl_revertChangesetPanel.columnWidths = new int[]{120, 225, 0};
+        gbl_revertChangesetPanel.rowHeights = new int[]{78, 19, 110, 25, 0};
+        gbl_revertChangesetPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+        gbl_revertChangesetPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        revertChangesetPanel.setLayout(gbl_revertChangesetPanel);
+        changesetLabel = new javax.swing.JLabel();
+        
+                changesetLabel.setText("Changeset ID");
+                GridBagConstraints gbc_changesetLabel = new GridBagConstraints();
+                gbc_changesetLabel.anchor = GridBagConstraints.EAST;
+                gbc_changesetLabel.insets = new Insets(0, 0, 5, 5);
+                gbc_changesetLabel.gridx = 0;
+                gbc_changesetLabel.gridy = 1;
+                revertChangesetPanel.add(changesetLabel, gbc_changesetLabel);
+        revertChangesetField = new javax.swing.JTextField();
+        
+                revertChangesetField.setName("usernameField"); // NOI18N
+                GridBagConstraints gbc_revertChangesetField = new GridBagConstraints();
+                gbc_revertChangesetField.anchor = GridBagConstraints.NORTH;
+                gbc_revertChangesetField.fill = GridBagConstraints.HORIZONTAL;
+                gbc_revertChangesetField.insets = new Insets(0, 0, 5, 0);
+                gbc_revertChangesetField.gridx = 1;
+                gbc_revertChangesetField.gridy = 1;
+                revertChangesetPanel.add(revertChangesetField, gbc_revertChangesetField);
+        revertButton = new javax.swing.JButton();
+        
+                revertButton.setText("Run");
+                revertButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        revertButtonActionPerformed(evt);
+                    }
+                });
+                GridBagConstraints gbc_revertButton = new GridBagConstraints();
+                gbc_revertButton.gridwidth = 2;
+                gbc_revertButton.anchor = GridBagConstraints.NORTHEAST;
+                gbc_revertButton.gridx = 0;
+                gbc_revertButton.gridy = 3;
+                revertChangesetPanel.add(revertButton, gbc_revertButton);
 
         taskOutput.setColumns(20);
         taskOutput.setRows(5);
@@ -645,7 +647,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel compareDataPanel;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel revertChangesetPanel;
     private javax.swing.JPanel gtfsDataPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;

@@ -9,7 +9,7 @@
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="GO-Sync"/>
     <Property name="name" type="java.lang.String" value="mainForm" noResource="true"/>
-    <Property name="resizable" type="boolean" value="false"/>
+    <Property name="resizable" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -135,7 +135,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JLabel" name="usernameLabel2">
+            <Component class="javax.swing.JLabel" name="operatorNTDIDLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Operator NTD ID"/>
               </Properties>

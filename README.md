@@ -1,4 +1,4 @@
-gtfs-osm-sync
+gtfs-osm-sync [![Build Status](https://travis-ci.org/CUTR-at-USF/gtfs-osm-sync.svg?branch=master)](https://travis-ci.org/CUTR-at-USF/gtfs-osm-sync)
 =============
 
 GO_Sync is short for [General Transit Feed Specification (GTFS)](https://developers.google.com/transit/gtfs/reference) [OpenStreetMap](http://wiki.openstreetmap.org/wiki/Main_Page) Synchronization. 

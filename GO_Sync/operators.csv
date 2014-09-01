@@ -1,4 +1,5 @@
 operator_name,operator_abbreviation,ntd_id,gtfs_url,stop_digits
+"KU on Wheels & Lawrence Transit System",'KULTS',7048,http://lawrenceks.org/assets/gis/google-transit/google_transit.zip,19
 "2Plus Partners in Transportation, Inc ",2Plus,1110,,
 Abilene Transit System ,CityLink,6040,,
 "Academy Lines, Inc. ",,2122,,

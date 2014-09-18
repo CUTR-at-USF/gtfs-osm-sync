@@ -169,7 +169,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
         GridBagLayout gbl_compareDataPanel = new GridBagLayout();
-        gbl_compareDataPanel.columnWidths = new int[]{121, 10, 131, 3, 76, 50, 27, 0, 0, 120, 0, 120, 0, 0};
+        gbl_compareDataPanel.columnWidths = new int[]{151, 20, 161, 3, 126, 70, 57, 0, 0, 150, 0, 150, 0, 0};
         gbl_compareDataPanel.rowHeights = new int[]{19, 19, 95, 25, 0, 0};
         gbl_compareDataPanel.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
         gbl_compareDataPanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};

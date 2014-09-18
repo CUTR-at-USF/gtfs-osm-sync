@@ -59,8 +59,10 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
 import org.jdesktop.swingx.mapviewer.TileFactory;
 import org.jdesktop.swingx.mapviewer.TileFactoryInfo;
 import org.jdesktop.swingx.mapviewer.Waypoint;
+import org.jdesktop.swingx.mapviewer.DefaultWaypoint;
 import org.jdesktop.swingx.mapviewer.WaypointPainter;
 import org.jdesktop.swingx.mapviewer.WaypointRenderer;
+import org.jdesktop.swingx.mapviewer.DefaultWaypointRenderer;
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.Painter;
 import edu.usf.cutr.go_sync.tag_defs;
@@ -80,7 +82,9 @@ import javax.swing.JCheckBox;
  */
 public class ReportViewer extends javax.swing.JFrame implements TableModelListener, PropertyChangeListener {
 
-	private JCheckBox routesCheckbox, stopsCheckbox;
+    
+
+    private JCheckBox routesCheckbox, stopsCheckbox;
     private HttpRequest osmRequest;
 
     private Hashtable report;
@@ -618,7 +622,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         for(int i=0; i<newStops.size(); i++){
             Stop st = newStops.get(i);
-            waypoints.add(new Waypoint(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon())));
+            waypoints.add(new DefaultWaypoint(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon())));
             GeoPosition pos = new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon()));
             allStopsGeo.add(pos);
             newStopsByGeoPos.put(pos, st);
@@ -627,8 +631,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         //crate a WaypointPainter to draw the points
         stopsPainter.setWaypoints(waypoints);
 
-        stopsPainter.setRenderer(new WaypointRenderer() {
-            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
+        stopsPainter.setRenderer(new DefaultWaypointRenderer() {
+                public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
                 Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
                 g.drawImage(busIcon, -5, -5, map);
                 return true;
@@ -1681,7 +1685,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 mapJXMapKit.setDefaultProvider(org.jdesktop.swingx.JXMapKit.DefaultProviders.Custom);
                 mapJXMapKit.setFont(new java.awt.Font("Tahoma", 0, 14));
                 mapJXMapKit.setName("mapJXMapKit"); // NOI18N
-                mapJXMapKit.setScrollableTracksViewportWidth(false);
+                //mapJXMapKit.setScrollableTracksViewportWidth(false);
                 GridBagConstraints gbc_mapJXMapKit = new GridBagConstraints();
                 gbc_mapJXMapKit.fill = GridBagConstraints.BOTH;
                 gbc_mapJXMapKit.gridwidth = 8;

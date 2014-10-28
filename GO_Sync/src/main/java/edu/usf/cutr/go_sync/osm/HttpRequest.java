@@ -114,7 +114,27 @@ public class HttpRequest {
 //        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};
     	
     	String content = "<union>"+
-  "<query type=\"node\">" +
+      			"<query type='node'>" +
+    			"<has-kv k='highway' v='bus_stop'/>"+
+    			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
+    			"</query>"+
+
+    			"<query type='node'>" +
+    			"<has-kv k='public_transport' v='platform'/>"+
+    			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
+    			"</query>"+
+
+    			"<query type='node'>" +
+    			"<has-kv k='public_transport' v='station'/>"+
+    			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
+    			"</query>"+
+  			
+    			"<query type='node'>" +
+    			"<has-kv k='amenity' v='bus_station'/>"+
+    			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
+    			"</query>"+       	
+/*
+    			"<query type=\"node\">" +
     "<has-kv k=\"highway\" v=\"bus_stop\"/>"+
     "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
     " </query>"+
@@ -125,10 +145,12 @@ public class HttpRequest {
    "<query type=\"node\">" +
  	" <has-kv k=\"public_transport\" v=\"station\"/>"+
    "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
-  "</query>"+    
+  "</query>"+  */   
 "</union>"+
 "<print mode=\"meta\"/>";
-      String[] hosts = {"http://api.openstreetmap.fr/oapi/interpreter","http://overpass.osm.rambler.ru/cgi/"}; 
+    	
+    	content = content.replace("left", left).replace("right",right).replace("bottom", bottom).replace("north",top);
+      String[] hosts = {"http://overpass-api.de/api/interpreter","http://api.openstreetmap.fr/oapi/interpreter","http://overpass.osm.rambler.ru/cgi/interpreter",}; 
       
       System.out.println(content);
         try {

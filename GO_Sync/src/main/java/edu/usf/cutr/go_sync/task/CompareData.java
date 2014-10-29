@@ -73,7 +73,8 @@ public class CompareData extends OsmTask{
     private String fileNameInStops; 
     private String fileNameInTrips; 
     private String fileNameInRoutes;
-    private String fileNameInStopTimes; 
+    private String fileNameInStopTimes;
+    private String fileNameInAngency; 
 
     private ProgressMonitor progressMonitor;
     private JTextArea taskOutput;
@@ -87,6 +88,7 @@ public class CompareData extends OsmTask{
         fileNameInTrips = OperatorInfo.getFileDirectory()+ fileSeparator + "trips.txt";
         fileNameInRoutes = OperatorInfo.getFileDirectory()+ fileSeparator + "routes.txt";
         fileNameInStopTimes = OperatorInfo.getFileDirectory()+ fileSeparator + "stop_times.txt";
+        fileNameInAngency = OperatorInfo.getFileDirectory()+ fileSeparator + "agency.txt";
         progressMonitor = pm;
     }
 
@@ -722,6 +724,10 @@ public class CompareData extends OsmTask{
         updateProgress(1);
         this.setMessage("Reading GTFS files ... ");
         GTFSReadIn data = new GTFSReadIn();
+        String aName = data.readAgency(fileNameInAngency);
+        System.out.println(aName);
+        if (aName!= null)
+        	OperatorInfo.setFullName(aName);
         List<Stop> st = data.readBusStop(fileNameInStops, OperatorInfo.getFullName(), fileNameInRoutes, fileNameInTrips, fileNameInStopTimes);
         if(this.flagIsDone){
             updateProgress(100);

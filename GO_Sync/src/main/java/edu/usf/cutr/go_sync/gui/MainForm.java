@@ -26,15 +26,18 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,22 +45,27 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
 import edu.usf.cutr.go_sync.io.DefaultOperatorReader;
 import edu.usf.cutr.go_sync.object.DefaultOperator;
+
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
-
+//TODO add radius selection
 /**
  *
  * @author Khoa Tran and Marcy Gordon
@@ -504,7 +512,12 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 _fileDir = new File("GTFS_Temp").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
             } else {
                 _fileDir = fileDirTextField.getText().replace("file://",""); //else use the folder selected with GTFS files in it
-                //TODO - validate that a folder was selected and that it does have GTFS files
+                if (!(Files.isDirectory(new File(_fileDir).toPath())))
+                {
+                    JOptionPane.showMessageDialog(this, "Path does not specify a folder.");
+                    return;
+                }
+                //TODO - validate that a folder does have GTFS files
             }
         }
 
@@ -607,12 +620,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             OutputStream out = null;
             ZipInputStream zip;
 
-            //TODO test that URL and file are actually ZIP files
+            
+            //TODO test that URL is actually ZIP files
 
             if (zipFile == null) {
                 System.out.println("Unzipping " + zipURL.toString() + " to " + unzipLocation);
                 zip = new ZipInputStream(zipURL.openStream());
             } else {
+            	if (!(Files.probeContentType(zipFile.toPath())).equals("application/zip"))
+            		{System.out.println((Files.probeContentType(zipFile.toPath())));
+            		return false;}
                 System.out.println("Unzipping " + zipFile.getAbsolutePath() + " to " + unzipLocation);
                 zip = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
             }

@@ -184,7 +184,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         finalStops = new Hashtable<String, Stop>();
         finalCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
-/*
+
         finalRoutes = new Hashtable();
         finalRoutes.putAll(routes);
 
@@ -193,7 +193,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         existingRoutes = new Hashtable();
         existingRoutes.putAll(eRoutes);
-*/
+
 
         ArrayList<Stop> reportKeys = new ArrayList<Stop>();
         //convert to arrayList for ordering

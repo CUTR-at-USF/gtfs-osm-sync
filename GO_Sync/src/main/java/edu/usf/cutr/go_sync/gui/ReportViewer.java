@@ -87,7 +87,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JCheckBox routesCheckbox, stopsCheckbox;
     private HttpRequest osmRequest;
 
-    private Hashtable report;
+    private Hashtable<Stop, ArrayList<Stop>> report;
 
     private HashSet<Stop> upload, modify, delete;
 
@@ -151,7 +151,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private boolean generateStopsToUploadFlag = false;
 
     /** Creates new form ReportViewer */
-    public ReportViewer(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
+    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
@@ -168,7 +168,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             agencyStops.put(aData.get(i).toString(), aData.get(i));
         }
 
-        report = new Hashtable();
+        report = new Hashtable<Stop, ArrayList<Stop>>();
         report.putAll(r);
 
         stopTableModel = new TagReportTableModel(0);
@@ -194,7 +194,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         existingRoutes = new Hashtable();
         existingRoutes.putAll(eRoutes);
 
-
+//System.out.println(r.size() + "\t" + u.size() + "\t" + m.size() + "\t" + d.size() + "\t");
         ArrayList<Stop> reportKeys = new ArrayList<Stop>();
         //convert to arrayList for ordering
         reportKeys.addAll(report.keySet());

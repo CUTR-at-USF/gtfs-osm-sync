@@ -641,7 +641,12 @@ public class CompareData extends OsmTask{
         
         HashSet<String> reportIDs = new HashSet<String>();
         System.out.println("reportkeys " + reportKeys.size() + "reportIDs " + reportIDs.size());
-        reportKeys.forEach(element -> reportIDs.add(element.getStopID()));
+//JAVA8        reportKeys.forEach(element -> reportIDs.add(element.getStopID()));
+        for (Stop rk:reportKeys)
+        {
+        	reportIDs.add(rk.getStopID());
+        }
+ 
         for (int i=0; i<GTFSstops.size(); i++) {
             if(this.flagIsDone) return;
 //            if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportKeys.contains(GTFSstops.get(i))) ) {

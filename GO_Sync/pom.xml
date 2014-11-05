@@ -54,7 +54,9 @@
        </archive>
          </configuration>
      </plugin>
-<!--      <plugin>
+<!--      
+	TODO - This fails on Travis CI, so its commented out for now (see https://github.com/CUTR-at-USF/gtfs-osm-sync/pull/15#issuecomment-61645728)
+	  <plugin>
        <groupId>org.codehaus.mojo</groupId>
        <artifactId>exec-maven-plugin</artifactId>
        <version>1.1.1</version>

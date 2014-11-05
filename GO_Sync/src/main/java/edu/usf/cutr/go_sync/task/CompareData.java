@@ -20,20 +20,25 @@ package edu.usf.cutr.go_sync.task;
 import edu.usf.cutr.go_sync.gui.ReportViewer;
 import edu.usf.cutr.go_sync.osm.*;
 import edu.usf.cutr.go_sync.io.GTFSReadIn;
+
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.swing.JTextArea;
 import javax.swing.ProgressMonitor;
+
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.OsmPrimitive;
 import edu.usf.cutr.go_sync.object.RelationMember;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Stop;
+
 import org.xml.sax.helpers.AttributesImpl;
+
 import edu.usf.cutr.go_sync.tools.OsmDistance;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
 import edu.usf.cutr.go_sync.tag_defs;
@@ -50,14 +55,15 @@ public class CompareData extends OsmTask{
     private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     private ArrayList<HashSet<RelationMember>> OSMRelationMembers = new ArrayList<HashSet<RelationMember>>();
+//    private Hashtable<Stop, Object> report = new Hashtable<Stop, Object>();
     private Hashtable report = new Hashtable();
     private HashSet<Stop> noUpload = new HashSet<Stop>();
     private HashSet<Stop> upload = new HashSet<Stop>();
     private HashSet<Stop> modify = new HashSet<Stop>();
     private HashSet<Stop> delete = new HashSet<Stop>();
     private Hashtable<String, Route> routes = new Hashtable<String, Route>();
-    private Hashtable agencyRoutes = new Hashtable();
-    private Hashtable existingRoutes = new Hashtable();
+    private Hashtable<String, Route> agencyRoutes = new Hashtable<String, Route>();
+    private Hashtable<String, Route> existingRoutes = new Hashtable<String, Route>();
     private double minLat=0, minLon=0, maxLat=0, maxLon=0;
     private HttpRequest osmRequest;
     private HashSet<String> osmActiveUsers = new HashSet<String>();
@@ -73,10 +79,35 @@ public class CompareData extends OsmTask{
     private String fileNameInStops; 
     private String fileNameInTrips; 
     private String fileNameInRoutes;
-    private String fileNameInStopTimes; 
+    private String fileNameInStopTimes;
+    private String fileNameInAngency; 
 
     private ProgressMonitor progressMonitor;
     private JTextArea taskOutput;
+    
+    private class ReportData
+    {
+//    	static enum report_category{
+//    		MODIFY,
+//    		NOTHING_NEW,
+//    		UPLOAD_CONFLICT,
+//    		UPLOAD_NO_CONFLICT;
+//    	}    	;
+        private HashSet<Stop> upload = new HashSet<Stop>();
+        private HashSet<Stop> modify = new HashSet<Stop>();
+        private HashSet<Stop> delete = new HashSet<Stop>();	
+        
+        boolean addStop(Stop s)
+        {
+       	if (!(upload.contains(s)  
+        			|| modify.contains(s) || noUpload.contains(s)))
+       	{
+       		
+       	}
+        		
+        return false;	
+       }
+    }
     
     public CompareData(ProgressMonitor pm, JTextArea to){
         super(pm);
@@ -87,6 +118,7 @@ public class CompareData extends OsmTask{
         fileNameInTrips = OperatorInfo.getFileDirectory()+ fileSeparator + "trips.txt";
         fileNameInRoutes = OperatorInfo.getFileDirectory()+ fileSeparator + "routes.txt";
         fileNameInStopTimes = OperatorInfo.getFileDirectory()+ fileSeparator + "stop_times.txt";
+        fileNameInAngency = OperatorInfo.getFileDirectory()+ fileSeparator + "agency.txt";
         progressMonitor = pm;
     }
 
@@ -428,7 +460,7 @@ public class CompareData extends OsmTask{
                         // if has same stop_id
                         if ((osmStopID!= null) && (!osmStopID.equals("missing")) && (osmStopID.equals(gtfsStop.getStopID()))){
                             noUpload.add(gtfsStop);
-                            osmIdToGtfsId.put(node.getValue("id"), gtfsStop.getStopID());
+                            osmIdToGtfsId.put(node.getValue("id"), gtfsStop.getStopID());  //EXISTING STOP WITH UPDATE
                             if (distance>ERROR_TO_ZERO) {
                                 Stop ns = new Stop(gtfsStop);
                                 ns.addTags(osmtag);
@@ -606,10 +638,19 @@ public class CompareData extends OsmTask{
         // Add everything else without worries
         HashSet<Stop> reportKeys = new HashSet<Stop>(report.size());
         reportKeys.addAll(report.keySet());
+        
+        HashSet<String> reportIDs = new HashSet<String>();
+        System.out.println("reportkeys " + reportKeys.size() + "reportIDs " + reportIDs.size());
+//JAVA8        reportKeys.forEach(element -> reportIDs.add(element.getStopID()));
+        for (Stop rk:reportKeys)
+        {
+        	reportIDs.add(rk.getStopID());
+        }
+ 
         for (int i=0; i<GTFSstops.size(); i++) {
             if(this.flagIsDone) return;
-            if(this.flagIsDone) return;
-            if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportKeys.contains(GTFSstops.get(i))) ) {
+//            if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportKeys.contains(GTFSstops.get(i))) ) {
+            if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportIDs.contains(GTFSstops.get(i).getStopID())) ) {
                 Stop n = new Stop(GTFSstops.get(i));
                 n.setReportText("New upload with no conflicts");
                 n.setReportCategory("UPLOAD_NO_CONFLICT");
@@ -722,6 +763,10 @@ public class CompareData extends OsmTask{
         updateProgress(1);
         this.setMessage("Reading GTFS files ... ");
         GTFSReadIn data = new GTFSReadIn();
+        String aName = data.readAgency(fileNameInAngency);
+        System.out.println(aName);
+        if (aName!= null)
+        	OperatorInfo.setFullName(aName);
         List<Stop> st = data.readBusStop(fileNameInStops, OperatorInfo.getFullName(), fileNameInRoutes, fileNameInTrips, fileNameInStopTimes);
         if(this.flagIsDone){
             updateProgress(100);
@@ -763,10 +808,13 @@ public class CompareData extends OsmTask{
     }
 
     public void generateReport(){
-        ReportViewer rv = new ReportViewer(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput);
+    	System.out.println("GTFSstops "+ GTFSstops.size() + " report" + report.size() + "upload" + upload.size() + "modify" + modify.size() + "delete" + delete.size()  );
+    	ReportViewer rv = new ReportViewer(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput);
         String info = "Active OSM bus stop mappers:\n"+osmActiveUsers.toString()+"\n\n";
         info += "There are currently "+OSMNodes.size()+" OSM stops in the region\n\n";
         info += "Transit agency GTFS dataset has "+GTFSstops.size()+" stops";
+        
+        
         rv.SetGeneralInformationToStopTextArea(info);
 
         info = "There are currently "+existingRoutes.size()+" OSM routes in the region\n\n";

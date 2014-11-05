@@ -87,7 +87,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JCheckBox routesCheckbox, stopsCheckbox;
     private HttpRequest osmRequest;
 
-    private Hashtable report;
+    private Hashtable<Stop, ArrayList<Stop>> report;
 
     private HashSet<Stop> upload, modify, delete;
 
@@ -151,7 +151,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private boolean generateStopsToUploadFlag = false;
 
     /** Creates new form ReportViewer */
-    public ReportViewer(List<Stop> aData, Hashtable r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
+    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
@@ -168,7 +168,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             agencyStops.put(aData.get(i).toString(), aData.get(i));
         }
 
-        report = new Hashtable();
+        report = new Hashtable<Stop, ArrayList<Stop>>();
         report.putAll(r);
 
         stopTableModel = new TagReportTableModel(0);
@@ -184,7 +184,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         finalStops = new Hashtable<String, Stop>();
         finalCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
-/*
+
         finalRoutes = new Hashtable();
         finalRoutes.putAll(routes);
 
@@ -193,8 +193,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         existingRoutes = new Hashtable();
         existingRoutes.putAll(eRoutes);
-*/
 
+//System.out.println(r.size() + "\t" + u.size() + "\t" + m.size() + "\t" + d.size() + "\t");
         ArrayList<Stop> reportKeys = new ArrayList<Stop>();
         //convert to arrayList for ordering
         reportKeys.addAll(report.keySet());
@@ -632,12 +632,27 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         stopsPainter.setWaypoints(waypoints);
 
         stopsPainter.setRenderer(new DefaultWaypointRenderer() {
-                public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
-                Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
-                g.drawImage(busIcon, -5, -5, map);
-                return true;
-            }
-        });
+            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
+            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
+            g.drawImage(busIcon, -5, -5, map);
+            return true;
+        }
+            public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
+            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
+    		Point2D point = map.getTileFactory().geoToPixel(wp.getPosition(), map.getZoom());
+    		
+    		int x = (int)point.getX() -16/ 2;
+    		int y = (int)point.getY() -16;
+    		
+            g.drawImage(busIcon,x, y, map);
+            return;
+        }
+//			public void paintWaypoint(Graphics2D g, JXMapViewer map,Object waypoint) {
+//                Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
+//                g.drawImage(busIcon, -5, -5, map);			
+//                System.out.println(busIcon.g);
+//			}                
+    });
 
         mainMap.setZoom(1);
         mainMap.calculateZoomFrom(allStopsGeo);
@@ -666,9 +681,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             public void mouseClicked(MouseEvent e){
                 Stop selected = findStop(e.getPoint());
                 if(selected!=null){
-                    System.out.println(selected);
+                    System.out.println(selected+" " + selected.getReportCategory() + " MouseListener.mouseClicked");
                     System.out.println(selected.getLat()+","+selected.getLon());
-
+                    
                     // when the user is in multiple possible match category
                     // if user selects one of the items in osm list then only update osm list, no need to zoom in
                     boolean isInOsmList = false;

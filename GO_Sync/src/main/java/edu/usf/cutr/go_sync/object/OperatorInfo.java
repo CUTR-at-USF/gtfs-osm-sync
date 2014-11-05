@@ -64,7 +64,20 @@ public class OperatorInfo {
     public static String getFullName(){
         return fullName;
     }
-
+    public static void setFullName(String aName){
+    	
+    	possibleOperatorName.clear();
+        fullName = aName;
+        addName(fullName);
+        addName(abbreviate);
+        if(aliasName!=null && !aliasName.equals("")){
+            String[] temp;
+            temp = aliasName.split(";");
+            for(int i=0; i<temp.length; i++){
+                addName(temp[i]);
+            }
+        }
+    }
     public static String getAbbreviateName(){
         return abbreviate;
     }

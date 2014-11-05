@@ -37,7 +37,87 @@ public class GTFSReadIn {
     private final String ROUTE_KEY = "route_ref";
     private final String NTD_ID_KEY = "ntd_id";
     private static Hashtable<String, Route> allRoutes;
+//TODO read agency.txt
+    
+    public String readAgency(String agency_fName)
+    //public Hashtable<String, Route> readRoutes(String routes_fName)
+    {
+        Hashtable<String, Route> routes = new Hashtable<String, Route>();
+        String thisLine;
+        String [] elements;
+        int agencyIdKey=-1, agencyNameKey=-1;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(agency_fName));
+            boolean isFirstLine = true;
+            Hashtable<String,Integer> keysIndex = new Hashtable<String,Integer>();
+            while ((thisLine = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    thisLine = thisLine.replace("\"", "");
+                    String[] keys = thisLine.split(",");
+                    for(int i=0; i<keys.length; i++){
+                        if(keys[i].equals("agency_id")) agencyIdKey = i;
+                        else {
+                            if(keys[i].equals("agency_name")) agencyNameKey = i;
+                            String t = "gtfs_"+keys[i];
+                            keysIndex.put(t, i);
+                        }
+                    }
+//                    System.out.println(stopIdKey+","+stopNameKey+","+stopLatKey+","+stopLonKey);
+                }
+                else {
+                    boolean lastIndexEmpty=false;
+                    thisLine = thisLine.trim();
+                    if(thisLine.contains("\"")) {
+                         String[] temp = thisLine.split("\"");
+                         for(int x=0; x<temp.length; x++){
+                             if(x%2==1) temp[x] = temp[x].replace(",", "");
+                         }
+                         thisLine = "";
+                         for(int x=0; x<temp.length; x++){
+                             thisLine = thisLine + temp[x];
+                         }
+                    }
+                    elements = thisLine.split(",");
+                    if(thisLine.charAt(thisLine.length()-1)==',') lastIndexEmpty=true;
+                    String angencyName;
+                    if(elements[agencyNameKey]==null || elements[agencyNameKey].equals("")) angencyName = elements[agencyIdKey];
+                    else angencyName = elements[agencyNameKey];
+                    
+                    br.close();
+                    return angencyName;
+                    /*
+                    Route r = new Route(elements[agencyIdKey], angencyName, OperatorInfo.getFullName());
+                    HashSet<String> keys = new HashSet<String>();
+                    keys.addAll(keysIndex.keySet());
+                    Iterator<String> it = keys.iterator();
+                    try {
+                        while(it.hasNext()){
+                            String k = (String)it.next();
+                            String v = null;
+                            if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
+                            if ((v!=null) && (!v.equals(""))) r.addTag(k, v);
+                        }
+                    } catch(Exception e){
+                        System.out.println("Error occurred! Please check your GTFS input files");
+                        System.out.println(e.toString());
+                        System.exit(0);
+                    }
+                    routes.put(elements[agencyIdKey], r);
+                    */
+                }
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            System.err.println("Error: " + e);
+            return null;
+        }
+        return null;
+    }
 
+    
+    
     public List<Stop> readBusStop(String fName, String agencyName, String routes_fName, String trips_fName, String stop_times_fName){
         Hashtable<String, HashSet<Route>> stopIDs = new Hashtable<String, HashSet<Route>>();
         Hashtable id = matchRouteToStop(routes_fName, trips_fName, stop_times_fName);

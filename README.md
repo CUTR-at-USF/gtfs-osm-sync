@@ -20,7 +20,7 @@ Since two of GO_Sync's functionalities are the automated edits (e.g., upload, mo
 
 ## Getting Started
 
-Please visit our Getting started wiki page for details.
+Please visit our [Getting started wiki page](https://github.com/CUTR-at-USF/gtfs-osm-sync/wiki/Getting-started) for details.
 
 If you encounter any problems with GO_Sync, please visit the Common Errors wiki page
 

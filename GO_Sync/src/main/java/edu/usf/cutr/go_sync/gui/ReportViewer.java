@@ -1345,9 +1345,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 osmStopsComboBox = new javax.swing.JComboBox(osmStops);
                                 
                                         osmStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
-                                        osmStopsComboBox.setMinimumSize(new java.awt.Dimension(60, 20));
+                                        osmStopsComboBox.setMinimumSize(new java.awt.Dimension(100, 20));
                                         osmStopsComboBox.setName("osmStopsComboBox"); // NOI18N
-                                        osmStopsComboBox.setPreferredSize(new java.awt.Dimension(60, 20));
+                                        osmStopsComboBox.setPreferredSize(new java.awt.Dimension(100, 20));
                                         osmStopsComboBox.addActionListener(new java.awt.event.ActionListener() {
                                             public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                 osmStopsComboBoxActionPerformed(evt);

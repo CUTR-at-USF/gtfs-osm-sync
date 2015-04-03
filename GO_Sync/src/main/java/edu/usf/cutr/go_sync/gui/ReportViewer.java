@@ -70,8 +70,14 @@ import edu.usf.cutr.go_sync.tag_defs;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Event;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
@@ -84,7 +90,7 @@ import javax.swing.JCheckBox;
  */
 public class ReportViewer extends javax.swing.JFrame implements TableModelListener, PropertyChangeListener {
 
-    
+
 
     private JCheckBox routesCheckbox, stopsCheckbox, acceptedOnlyCheckbox;
     private HttpRequest osmRequest;
@@ -152,17 +158,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JProgressBar progressBar;
 
     private boolean generateStopsToUploadFlag = false;
-    
+
     protected ImageIcon busIcon;
 
     protected static Color matchColor, selectedOSMColor, selectedGTFSColor;
-    
+
 
     /** Creates new form ReportViewer */
-    
-    
-    
-    
+
+
+
+
     public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable<String, Route> routes, Hashtable<String, Route> nRoutes, Hashtable<String, Route> eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
@@ -177,7 +183,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         matchColor 		  = new Color(255,255,0,150);
         selectedOSMColor  = new Color(0,127,0,150);
         selectedGTFSColor = new Color(0,0,127,150);
-        
+
         // set tooltip time for 10 seconds
         javax.swing.ToolTipManager.sharedInstance().setDismissDelay(10000);
 
@@ -1171,7 +1177,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     public void SetGeneralInformationToRouteTextArea(String s){
         generalInformationRouteTextArea.setText(s);
     }
-    
+
     protected ImageIcon generateImageIcon (Color c)
     {
         int w = 20;
@@ -1180,7 +1186,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         BufferedImage img = new BufferedImage( w,h, BufferedImage.TYPE_INT_ARGB );
     	// Get a Graphics object
     	Graphics2D g = img.createGraphics();
-    	 
+
     	// Create white background
     	g.setColor( Color.WHITE );
     	g.fillRect( 0, 0, w,h);
@@ -1189,7 +1195,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     	g.setColor(c);
     	g.fillRect( 1, 1, w-2,h-2 );
     	return new ImageIcon(img);
-    }    
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -1251,14 +1257,19 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         busStopPanel.setLayout(gbl_busStopPanel);
         tableStopButton = new javax.swing.JButton();
         
+        javax.swing.AbstractAction tableStopButtonActionListener = new javax.swing.AbstractAction() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tableStopButtonActionPerformed(evt);
+            }
+
+        };
                 tableStopButton.setFont(new java.awt.Font("Tahoma", 0, 12));
                 tableStopButton.setText("setTextByCode");
                 tableStopButton.setName("tableStopButton"); // NOI18N
-                tableStopButton.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        tableStopButtonActionPerformed(evt);
-                    }
-                });
+                tableStopButton.addActionListener(tableStopButtonActionListener);
+                tableStopButton.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,Event.CTRL_MASK), "doSomething");
+                tableStopButton.getActionMap().put("doSomething",tableStopButtonActionListener);
+
                 jScrollPane1 = new javax.swing.JScrollPane();
                 dataTable = new JTable(){
                     public String getToolTipText(MouseEvent e){
@@ -1744,6 +1755,27 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 busStopPanel.add(jScrollPane2, gbc_jScrollPane2);
         mapJXMapKit = new org.jdesktop.swingx.JXMapKit();
         
+
+        //shortcuts
+
+        //zoom
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT,0), "zoomin");
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS,0), "zoomin");
+        mapJXMapKit.getActionMap().put("zoomin", mapJXMapKit.getZoomInAction());
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0), "zoomout");
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,0), "zoomout");
+        mapJXMapKit.getActionMap().put("zoomout", mapJXMapKit.getZoomOutAction());
+
+        //recentre
+        mapJXMapKit.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD5,0), "recentre_gtfs");
+        mapJXMapKit.getActionMap().put("recentre_gtfs", new AbstractAction() {
+            public void actionPerformed(ActionEvent evt) {
+            	GeoPosition gtfsLocation = new GeoPosition(	Double.parseDouble(((Stop)gtfsStopsComboBox.getSelectedItem()).getLat()),
+            												Double.parseDouble(((Stop)gtfsStopsComboBox.getSelectedItem()).getLon()));
+            	mapJXMapKit.getMainMap().setCenterPosition(gtfsLocation);
+           }
+        } );
+
                 mapJXMapKit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
                 mapJXMapKit.setDefaultProvider(org.jdesktop.swingx.JXMapKit.DefaultProviders.Custom);
                 mapJXMapKit.setFont(new java.awt.Font("Tahoma", 0, 14));

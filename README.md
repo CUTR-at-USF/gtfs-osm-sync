@@ -25,7 +25,9 @@ You'll need to install both [Git](https://git-scm.com/) for version control, and
 Then, from the command line run:
 
 `git clone https://github.com/CUTR-at-USF/gtfs-osm-sync.git`
+
 `cd gtfs-osm-sync/GO_Sync`
+
 `mvn package`
 
 This should download the dependencies for the project (you'll need an internet connection) and create a file:
@@ -35,6 +37,7 @@ This should download the dependencies for the project (you'll need an internet c
 You can double-click on this JAR file to run the application, or execute it from the command line:
 
 `cd target`
+
 `java -jar gtfs-osm-sync-1.0-SNAPSHOT.jar`
 
 Note that you can also supply a list of default operators in a operators.csv file.  An example file is [here](https://github.com/CUTR-at-USF/gtfs-osm-sync/blob/master/GO_Sync/operators.csv).

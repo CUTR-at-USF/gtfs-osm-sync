@@ -20,9 +20,29 @@ Since two of GO_Sync's functionalities are the automated edits (e.g., upload, mo
 
 ## Getting Started
 
-Please visit our [Getting started wiki page](https://github.com/CUTR-at-USF/gtfs-osm-sync/wiki/Getting-started) for details.
+You'll need to install both [Git](https://git-scm.com/) for version control, and [Maven](https://maven.apache.org/index.html) for dependency management and to build the project.
 
-If you encounter any problems with GO_Sync, please visit the Common Errors wiki page
+Then, from the command line run:
+
+`git clone https://github.com/CUTR-at-USF/gtfs-osm-sync.git`
+
+`cd gtfs-osm-sync/GO_Sync`
+
+`mvn install`
+
+This should download the dependencies for the project (you'll need an internet connection) and create a file:
+
+`gtfs-osm-sync\GO_Sync\target\gtfs-osm-sync-1.0-SNAPSHOT-jar-with-dependencies.jar`
+
+You can double-click on this JAR file to run the application, or execute it from the command line:
+
+`cd target`
+
+`java -jar gtfs-osm-sync-1.0-SNAPSHOT-jar-with-dependencies.jar`
+
+Note that you can also supply a list of default operators in a operators.csv file.  An example file is [here](https://github.com/CUTR-at-USF/gtfs-osm-sync/blob/master/GO_Sync/operators.csv).
+
+Fore more info, please visit our [Getting started wiki page](https://github.com/CUTR-at-USF/gtfs-osm-sync/wiki/Getting-started) for details.
 
 If you'd like to contribute to the project, please let us know!
 

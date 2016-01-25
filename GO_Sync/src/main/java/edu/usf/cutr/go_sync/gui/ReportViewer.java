@@ -70,6 +70,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
@@ -149,12 +150,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JProgressBar progressBar;
 
     private boolean generateStopsToUploadFlag = false;
+    
+    protected ImageIcon busIcon;
 
     /** Creates new form ReportViewer */
     public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
+        busIcon = new javax.swing.ImageIcon(this.getClass().getClassLoader().getResource("bus_icon.png"));
         // set tooltip time for 10 seconds
         javax.swing.ToolTipManager.sharedInstance().setDismissDelay(10000);
 
@@ -633,18 +637,19 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         stopsPainter.setRenderer(new DefaultWaypointRenderer() {
             public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
-            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
-            g.drawImage(busIcon, -5, -5, map);
+//            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
+//            Image busIcon = Toolkit.getDefaultToolkit().getImage(this.getClass().getClassLoader().getResource("/bus_icon.png"));
+            g.drawImage(busIcon.getImage(), -5, -5, map);
             return true;
         }
             public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
+//            Image busIcon = Toolkit.getDefaultToolkit().getImage(this.getClass().getClassLoader().getResource("/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
     		Point2D point = map.getTileFactory().geoToPixel(wp.getPosition(), map.getZoom());
     		
     		int x = (int)point.getX() -16/ 2;
     		int y = (int)point.getY() -16;
     		
-            g.drawImage(busIcon,x, y, map);
+            g.drawImage(busIcon.getImage(),x, y, map);
             return;
         }
 //			public void paintWaypoint(Graphics2D g, JXMapViewer map,Object waypoint) {
@@ -1586,7 +1591,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         busStopPanel.add(donotUploadButton, gbc_donotUploadButton);
                 jLabel18 = new javax.swing.JLabel();
                 
-                        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png"))); // NOI18N
+                        jLabel18.setIcon(busIcon); // NOI18N
                         jLabel18.setText("New Stop");
                         jLabel18.setName("jLabel18"); // NOI18N
                         GridBagConstraints gbc_jLabel18 = new GridBagConstraints();
@@ -1608,7 +1613,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 busStopPanel.add(tableStopButton, gbc_tableStopButton);
                 jLabel15 = new javax.swing.JLabel();
                 
-                        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/yellow.png"))); // NOI18N
+                        jLabel15.setIcon(new ImageIcon(getClass().getClassLoader().getResource("yellow.png"))); // NOI18N
                         jLabel15.setText("Potential Match Stops");
                         jLabel15.setName("jLabel15"); // NOI18N
                         jLabel15.setOpaque(true);
@@ -1649,7 +1654,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         busStopPanel.add(jLabel3, gbc_jLabel3);
         jLabel16 = new javax.swing.JLabel();
         
-                jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/green.png"))); // NOI18N
+                jLabel16.setIcon(new ImageIcon(getClass().getClassLoader().getResource("green.png"))); // NOI18N
                 jLabel16.setText("Selected Osm Stop");
                 jLabel16.setName("jLabel16"); // NOI18N
                 jLabel16.setOpaque(true);
@@ -1662,7 +1667,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 busStopPanel.add(jLabel16, gbc_jLabel16);
         jLabel17 = new javax.swing.JLabel();
         
-                jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/blue.png"))); // NOI18N
+                jLabel17.setIcon(new ImageIcon(getClass().getClassLoader().getResource("blue.png"))); // NOI18N
                 jLabel17.setText("Selected Gtfs Stop");
                 jLabel17.setName("jLabel17"); // NOI18N
                 jLabel17.setOpaque(true);

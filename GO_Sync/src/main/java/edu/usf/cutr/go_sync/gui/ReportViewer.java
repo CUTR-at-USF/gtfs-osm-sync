@@ -158,7 +158,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
-        busIcon = new javax.swing.ImageIcon(this.getClass().getClassLoader().getResource("bus_icon.png"));
+        try {
+        	busIcon = new javax.swing.ImageIcon(this.getClass().getClassLoader().getResource("bus_icon.png"));
+        }
+        catch (Exception e) {
+            busIcon = new javax.swing.ImageIcon(this.getClass().getResource("bus_icon.png"));
+        }
         // set tooltip time for 10 seconds
         javax.swing.ToolTipManager.sharedInstance().setDismissDelay(10000);
 

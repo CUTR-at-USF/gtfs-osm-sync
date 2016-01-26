@@ -640,28 +640,20 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         //crate a WaypointPainter to draw the points
         stopsPainter.setWaypoints(waypoints);
 
-        stopsPainter.setRenderer(new DefaultWaypointRenderer() {
-            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
-//            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
-//            Image busIcon = Toolkit.getDefaultToolkit().getImage(this.getClass().getClassLoader().getResource("/bus_icon.png"));
-            g.drawImage(busIcon.getImage(), -5, -5, map);
-            return true;
-        }
+        stopsPainter.setRenderer(new WaypointRenderer<Waypoint>() {
+//            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
+//            g.drawImage(busIcon.getImage(), -5, -5, map);
+//            return true;
+//        }
             public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-//            Image busIcon = Toolkit.getDefaultToolkit().getImage(this.getClass().getClassLoader().getResource("/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
     		Point2D point = map.getTileFactory().geoToPixel(wp.getPosition(), map.getZoom());
     		
     		int x = (int)point.getX() -16/ 2;
     		int y = (int)point.getY() -16;
     		
             g.drawImage(busIcon.getImage(),x, y, map);
-            return;
+            return ;
         }
-//			public void paintWaypoint(Graphics2D g, JXMapViewer map,Object waypoint) {
-//                Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
-//                g.drawImage(busIcon, -5, -5, map);			
-//                System.out.println(busIcon.g);
-//			}                
     });
 
         mainMap.setZoom(1);

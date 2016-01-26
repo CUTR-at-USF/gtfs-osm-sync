@@ -90,7 +90,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     	setMinimumSize(new Dimension(660, 460));
 
         DefaultOperatorReader reader = new DefaultOperatorReader(); //create a new reader
-        ops = reader.readOperators(new File("operators.csv").getAbsolutePath()); //read a file with operator info for autocompletion
+//        ops = reader.readOperators(new File("operators.csv").getAbsolutePath()); //read a file with operator info for autocompletion
+        ops = reader.readOperators(getClass().getResourceAsStream("/operators.csv")); //read a file with operator info for autocompletion
 
         //TODO Fix textfield with ops is null (operators.csv doesn't exist)
         

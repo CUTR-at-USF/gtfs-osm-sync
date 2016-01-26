@@ -8,6 +8,9 @@ package edu.usf.cutr.go_sync.io;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import edu.usf.cutr.go_sync.object.DefaultOperator;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,7 @@ public class DefaultOperatorReader {
                 
                 if(thisLine.contains("\"")) {
                      String[] temp = thisLine.split("\"");
-                     ArrayList l = new ArrayList();
+                     ArrayList<String> l = new ArrayList<String>();
                      l.add(temp[1].toString());
                      int commas = temp[1].replaceAll("[^,]", "").length();
                      
@@ -91,7 +94,24 @@ public class DefaultOperatorReader {
         return ops;
 	}
 	
-        public List<DefaultOperator> readOperators(String fName){
+	
+//	BufferedReader txtReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/resources/mytextfile.txt")));
+    public List<DefaultOperator> readOperators(InputStream fName){
+        
+
+    try {
+        BufferedReader br = new BufferedReader(new InputStreamReader(fName));
+        List<DefaultOperator> ops = readOperatorsInternal(br);
+        br.close();
+        return ops;
+    }
+    catch (IOException e) {
+        System.err.println("Error reading in default operators: " + e.getLocalizedMessage());
+        return null;
+    }
+}
+    
+	public List<DefaultOperator> readOperators(String fName){
        
 
         try {

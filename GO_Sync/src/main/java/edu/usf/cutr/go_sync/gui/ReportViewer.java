@@ -32,6 +32,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -153,7 +154,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     
     protected ImageIcon busIcon;
 
+    protected static Color matchColor, selectedOSMColor, selectedGTFSColor;
+    
+
     /** Creates new form ReportViewer */
+    
+    
+    
+    
     public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
@@ -164,6 +172,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         catch (Exception e) {
             busIcon = new javax.swing.ImageIcon(this.getClass().getResource("bus_icon.png"));
         }
+
+        matchColor 		  = new Color(255,255,0,150);
+        selectedOSMColor  = new Color(0,127,0,150);
+        selectedGTFSColor = new Color(0,0,127,150);
+        
         // set tooltip time for 10 seconds
         javax.swing.ToolTipManager.sharedInstance().setDismissDelay(10000);
 
@@ -736,7 +749,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     JXMapViewer mainMap = mapJXMapKit.getMainMap();
                     Iterator it = matchStop.iterator();
                     while(it.hasNext()){
-                        g.setColor(new Color(255,255,0,150));
+                        g.setColor(matchColor);
                         Stop st = (Stop)it.next();
                         GeoPosition st_gp = new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon()));
                         //convert to pixel
@@ -774,7 +787,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     Rectangle rect = map.getViewportBounds();
                     //                g.translate(-rect.x, -rect.y);
 
-                    g.setColor(new Color(0,0,127,150));
+                    g.setColor(selectedGTFSColor);
 
                     JXMapViewer mainMap = mapJXMapKit.getMainMap();
 
@@ -804,7 +817,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     Rectangle rect = map.getViewportBounds();
                     //                g.translate(-rect.x, -rect.y);
 
-                    g.setColor(new Color(0,127,0,150));
+                    g.setColor(selectedOSMColor);
 
                     JXMapViewer mainMap = mapJXMapKit.getMainMap();
 
@@ -1144,6 +1157,25 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     public void SetGeneralInformationToRouteTextArea(String s){
         generalInformationRouteTextArea.setText(s);
     }
+    
+    protected ImageIcon generateImageIcon (Color c)
+    {
+        int w = 20;
+        int h =20;
+
+        BufferedImage img = new BufferedImage( w,h, BufferedImage.TYPE_INT_ARGB );
+    	// Get a Graphics object
+    	Graphics2D g = img.createGraphics();
+    	 
+    	// Create white background
+    	g.setColor( Color.WHITE );
+    	g.fillRect( 0, 0, w,h);
+    	g.setColor( Color.BLACK );
+    	g.drawRect( 0, 0, w-1,h-1);
+    	g.setColor(c);
+    	g.fillRect( 1, 1, w-2,h-2 );
+    	return new ImageIcon(img);
+    }    
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -1609,8 +1641,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_tableStopButton.gridy = 5;
                 busStopPanel.add(tableStopButton, gbc_tableStopButton);
                 jLabel15 = new javax.swing.JLabel();
-                
-                        jLabel15.setIcon(new ImageIcon(getClass().getClassLoader().getResource("yellow.png"))); // NOI18N
+                        jLabel15.setIcon(generateImageIcon(matchColor)); // NOI18N
                         jLabel15.setText("Potential Match Stops");
                         jLabel15.setName("jLabel15"); // NOI18N
                         jLabel15.setOpaque(true);
@@ -1651,7 +1682,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         busStopPanel.add(jLabel3, gbc_jLabel3);
         jLabel16 = new javax.swing.JLabel();
         
-                jLabel16.setIcon(new ImageIcon(getClass().getClassLoader().getResource("green.png"))); // NOI18N
+                jLabel16.setIcon(generateImageIcon(selectedOSMColor)); // NOI18N
                 jLabel16.setText("Selected Osm Stop");
                 jLabel16.setName("jLabel16"); // NOI18N
                 jLabel16.setOpaque(true);
@@ -1664,7 +1695,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 busStopPanel.add(jLabel16, gbc_jLabel16);
         jLabel17 = new javax.swing.JLabel();
         
-                jLabel17.setIcon(new ImageIcon(getClass().getClassLoader().getResource("blue.png"))); // NOI18N
+
+                jLabel17.setIcon(generateImageIcon(selectedGTFSColor)); // NOI18N
                 jLabel17.setText("Selected Gtfs Stop");
                 jLabel17.setName("jLabel17"); // NOI18N
                 jLabel17.setOpaque(true);

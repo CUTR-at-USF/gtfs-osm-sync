@@ -31,6 +31,8 @@ import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Stop;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 public class GTFSReadIn {
     private List<Stop> stops;
@@ -127,7 +129,7 @@ public class GTFSReadIn {
         String [] elements;
         int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fName));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fName),"UTF-8"));
             boolean isFirstLine = true;
             Hashtable keysIndex = new Hashtable();
             while ((thisLine = br.readLine()) != null) 
@@ -242,7 +244,7 @@ public class GTFSReadIn {
         String [] elements;
         int routeIdKey=-1, routeShortNameKey=-1;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(routes_fName));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(routes_fName),"UTF-8"));
             boolean isFirstLine = true;
             Hashtable keysIndex = new Hashtable();
             while ((thisLine = br.readLine()) != null) {
@@ -314,7 +316,7 @@ public class GTFSReadIn {
         // trips.txt read-in
         try {
             int tripIdKey=-1, routeIdKey=-1;
-            BufferedReader br = new BufferedReader(new FileReader(trips_fName));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(trips_fName),"UTF-8"));
             boolean isFirstLine = true;
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
@@ -355,7 +357,7 @@ public class GTFSReadIn {
         // stop_times.txt read-in
         int stopIdKey=-1, tripIdKey = -1;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(stop_times_fName));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(stop_times_fName),"UTF-8"));
             boolean isFirstLine = true;
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {

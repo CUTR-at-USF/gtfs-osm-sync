@@ -547,7 +547,7 @@ public class HttpRequest {
                 BufferedReader response;
                 String s;
                 if(responseCode==HttpURLConnection.HTTP_OK) {
-                    response = new BufferedReader(new InputStreamReader (conn.getInputStream()));
+                    response = new BufferedReader(new InputStreamReader (conn.getInputStream(),"UTF-8"));
                     char[] cbuf = new char[]{};
                     response.read(cbuf);
                     s = response.readLine();

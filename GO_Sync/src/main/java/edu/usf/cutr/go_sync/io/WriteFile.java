@@ -47,7 +47,7 @@ public class WriteFile {
         Writer output = null;
         File file = new File(fname);
         try {
-            output = new BufferedWriter(new FileWriter(file));
+            output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
             output.write(contents);
             output.close();
             System.out.println("Your file: "+fname+" has been written");
@@ -64,7 +64,7 @@ public class WriteFile {
         Writer output = null;
         File file = new File(fname);
         try {
-            output = new BufferedWriter(new FileWriter(file));
+            output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
             reportKeys.addAll(report.keySet());
             Iterator it = reportKeys.iterator();
             int count = 1;
@@ -223,7 +223,7 @@ public class WriteFile {
         Writer output = null;
         File file = new File(fname);
         try {
-            output = new BufferedWriter(new FileWriter(file));
+            output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
             //print key (first line)
             output.write(OperatorInfo.getGtfsFields());
             if(!isGtfsFormat) output.write(",OSM_TAGs");
@@ -299,7 +299,7 @@ public class WriteFile {
         Writer output = null;
         File file = new File(fname);
         try {
-            output = new BufferedWriter(new FileWriter(file));
+            output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
             output.write("stop_id,stop_name,stop_lat,stop_lon\n");
             for(int i=0; i<stops.size(); i++){
                 output.write(stops.get(i).getStopID()+","+stops.get(i).getStopName()+","+

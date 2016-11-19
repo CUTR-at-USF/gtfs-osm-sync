@@ -32,6 +32,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -70,6 +71,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
@@ -149,12 +151,32 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JProgressBar progressBar;
 
     private boolean generateStopsToUploadFlag = false;
+    
+    protected ImageIcon busIcon;
+
+    protected static Color matchColor, selectedOSMColor, selectedGTFSColor;
+    
 
     /** Creates new form ReportViewer */
+    
+    
+    
+    
     public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
+        try {
+        	busIcon = new javax.swing.ImageIcon(this.getClass().getClassLoader().getResource("bus_icon.png"));
+        }
+        catch (Exception e) {
+            busIcon = new javax.swing.ImageIcon(this.getClass().getResource("bus_icon.png"));
+        }
+
+        matchColor 		  = new Color(255,255,0,150);
+        selectedOSMColor  = new Color(0,127,0,150);
+        selectedGTFSColor = new Color(0,0,127,150);
+        
         // set tooltip time for 10 seconds
         javax.swing.ToolTipManager.sharedInstance().setDismissDelay(10000);
 
@@ -631,27 +653,20 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         //crate a WaypointPainter to draw the points
         stopsPainter.setWaypoints(waypoints);
 
-        stopsPainter.setRenderer(new DefaultWaypointRenderer() {
-            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
-            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
-            g.drawImage(busIcon, -5, -5, map);
-            return true;
-        }
+        stopsPainter.setRenderer(new WaypointRenderer<Waypoint>() {
+//            public boolean paintWaypoint(Graphics2D g, JXMapViewer map, JXMapViewer v, Waypoint wp) {
+//            g.drawImage(busIcon.getImage(), -5, -5, map);
+//            return true;
+//        }
             public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-            Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
     		Point2D point = map.getTileFactory().geoToPixel(wp.getPosition(), map.getZoom());
     		
     		int x = (int)point.getX() -16/ 2;
     		int y = (int)point.getY() -16;
     		
-            g.drawImage(busIcon,x, y, map);
-            return;
+            g.drawImage(busIcon.getImage(),x, y, map);
+            return ;
         }
-//			public void paintWaypoint(Graphics2D g, JXMapViewer map,Object waypoint) {
-//                Image busIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png")); //Toolkit.getDefaultToolkit().getImage("bus_icon.png");
-//                g.drawImage(busIcon, -5, -5, map);			
-//                System.out.println(busIcon.g);
-//			}                
     });
 
         mainMap.setZoom(1);
@@ -734,7 +749,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     JXMapViewer mainMap = mapJXMapKit.getMainMap();
                     Iterator it = matchStop.iterator();
                     while(it.hasNext()){
-                        g.setColor(new Color(255,255,0,150));
+                        g.setColor(matchColor);
                         Stop st = (Stop)it.next();
                         GeoPosition st_gp = new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon()));
                         //convert to pixel
@@ -772,7 +787,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     Rectangle rect = map.getViewportBounds();
                     //                g.translate(-rect.x, -rect.y);
 
-                    g.setColor(new Color(0,0,127,150));
+                    g.setColor(selectedGTFSColor);
 
                     JXMapViewer mainMap = mapJXMapKit.getMainMap();
 
@@ -802,7 +817,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     Rectangle rect = map.getViewportBounds();
                     //                g.translate(-rect.x, -rect.y);
 
-                    g.setColor(new Color(0,127,0,150));
+                    g.setColor(selectedOSMColor);
 
                     JXMapViewer mainMap = mapJXMapKit.getMainMap();
 
@@ -1142,6 +1157,25 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     public void SetGeneralInformationToRouteTextArea(String s){
         generalInformationRouteTextArea.setText(s);
     }
+    
+    protected ImageIcon generateImageIcon (Color c)
+    {
+        int w = 20;
+        int h =20;
+
+        BufferedImage img = new BufferedImage( w,h, BufferedImage.TYPE_INT_ARGB );
+    	// Get a Graphics object
+    	Graphics2D g = img.createGraphics();
+    	 
+    	// Create white background
+    	g.setColor( Color.WHITE );
+    	g.fillRect( 0, 0, w,h);
+    	g.setColor( Color.BLACK );
+    	g.drawRect( 0, 0, w-1,h-1);
+    	g.setColor(c);
+    	g.fillRect( 1, 1, w-2,h-2 );
+    	return new ImageIcon(img);
+    }    
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -1586,7 +1620,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         busStopPanel.add(donotUploadButton, gbc_donotUploadButton);
                 jLabel18 = new javax.swing.JLabel();
                 
-                        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/bus_icon.png"))); // NOI18N
+                        jLabel18.setIcon(busIcon); // NOI18N
                         jLabel18.setText("New Stop");
                         jLabel18.setName("jLabel18"); // NOI18N
                         GridBagConstraints gbc_jLabel18 = new GridBagConstraints();
@@ -1607,8 +1641,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_tableStopButton.gridy = 5;
                 busStopPanel.add(tableStopButton, gbc_tableStopButton);
                 jLabel15 = new javax.swing.JLabel();
-                
-                        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/yellow.png"))); // NOI18N
+                        jLabel15.setIcon(generateImageIcon(matchColor)); // NOI18N
                         jLabel15.setText("Potential Match Stops");
                         jLabel15.setName("jLabel15"); // NOI18N
                         jLabel15.setOpaque(true);
@@ -1649,7 +1682,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         busStopPanel.add(jLabel3, gbc_jLabel3);
         jLabel16 = new javax.swing.JLabel();
         
-                jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/green.png"))); // NOI18N
+                jLabel16.setIcon(generateImageIcon(selectedOSMColor)); // NOI18N
                 jLabel16.setText("Selected Osm Stop");
                 jLabel16.setName("jLabel16"); // NOI18N
                 jLabel16.setOpaque(true);
@@ -1662,7 +1695,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 busStopPanel.add(jLabel16, gbc_jLabel16);
         jLabel17 = new javax.swing.JLabel();
         
-                jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/usf/cutr/go_sync/gui/blue.png"))); // NOI18N
+
+                jLabel17.setIcon(generateImageIcon(selectedGTFSColor)); // NOI18N
                 jLabel17.setText("Selected Gtfs Stop");
                 jLabel17.setName("jLabel17"); // NOI18N
                 jLabel17.setOpaque(true);

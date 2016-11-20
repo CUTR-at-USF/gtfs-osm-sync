@@ -778,7 +778,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 isOverlapped=true;
             }
         }
-        if(gtfsStop!=null && !isOverlapped){
+        if(gtfsStop!=null){
             final Stop tempStop = new Stop(gtfsStop);
             selectedGtfsOverlayPainter = new Painter<JXMapViewer>() {
                 public void paint(Graphics2D g, JXMapViewer map, int w, int h) {
@@ -804,9 +804,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     g.dispose();
                 }
             };
-        } else {
+        }/* else {
             selectedGtfsOverlayPainter = null;
-        }
+        }*/
 
         if(osmStop!=null){
             final Stop tempStop = new Stop(osmStop);

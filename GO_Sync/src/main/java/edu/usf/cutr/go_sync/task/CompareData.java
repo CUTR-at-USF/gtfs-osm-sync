@@ -294,7 +294,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
      * e.g., stops in noUpload and (modify sets - modified stops in osm)
      * We can use report hashtable for convenience
      * ALWAYS Invoke this method AFTER compareBusStopData()
-     * */
+     * *//*
     public void compareRouteData() throws InterruptedException{
         //20% of task includes:
         //10% for reading GTFS routes from modify and nothing_new sets
@@ -406,6 +406,180 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             }
         }
         System.out.println("There are "+routeKeys.size()+" in total!");
+    }
+*/
+    public void compareRouteData() throws InterruptedException{
+        //20% of task includes:
+        //10% for reading GTFS routes from modify and nothing_new sets
+        //10% for compare with existing OSM routes
+
+        updateProgress(10);
+        this.setMessage("Reading GTFS routes from modify and noupload sets...");
+        System.out.println("Reading GTFS routes from modify and noupload sets...");
+
+        // get all the routes and its associated bus stops
+        ArrayList<Stop> reportKeys = new ArrayList<Stop>();
+        reportKeys.addAll(report.keySet());
+        HashSet<String> gtfsRoutes = new HashSet<String>();
+        gtfsRoutes.addAll(GTFSReadIn.getAllRoutesID());
+        for (int i=0; i<reportKeys.size(); i++) {
+            if(this.flagIsDone) return;
+            Stop st = reportKeys.get(i);
+            String category = st.getReportCategory();
+            if (category.equals("MODIFY") || category.equals("NOTHING_NEW")) {
+                ArrayList<Route> routeInOneStop = new ArrayList<Route>();
+                if(st.getRoutes()!=null) {
+                    routeInOneStop.addAll(st.getRoutes());
+//                    for(int j=0; j<routeInOneStop.size(); j++){
+                    for(Route rios :routeInOneStop){
+                        if(this.flagIsDone) return;
+//                        Route rios = routeInOneStop.get(j);
+                        Route r;
+                        if(!routes.containsKey(rios.getRouteId())){
+                            r = new Route(rios);
+                            //add tag
+                            r.addTag("name", OperatorInfo.getAbbreviateName()+
+                                    " Route "+ r.getRouteRef()); //TODO use long route name instead of creating own
+                            r.addTag(tag_defs.GTFS_OPERATOR_KEY,OperatorInfo.getFullName());
+//                            r.addTag("network",OperatorInfo.getFullName());
+                            r.addTag("ref", r.getRouteRef());
+                            r.addTag("route", "bus"); //TODO handle type from gtfs value
+                            r.addTag("type", "route");
+                        }
+                        else {
+                            r = new Route((Route)routes.get(rios.getRouteId()));
+                            routes.remove(rios.getRouteId());
+                        }
+                        //add member
+                        //Route rt = (Route)routes.get(routeArray[j]);
+                        r.addOsmMembers(rios.getOsmMembers());
+                        String osmNodeId = st.getOsmId();
+                        RelationMember rm = new RelationMember(osmNodeId,"node","stop");
+                        rm.setStatus("GTFS dataset");
+                        rm.setGtfsId(st.getStopID());
+                        r.addOsmMember(rm);
+                        r.setStatus("n");
+                        routes.put(rios.getRouteId(), r);
+                    }
+                }
+            }
+        }
+
+        agencyRoutes.putAll(routes);
+
+        updateProgress(10);
+        System.out.println ("routes " + routes.size());
+        this.setMessage("Comparing GTFS routes with OSM routes...");
+        System.out.println("Comparing GTFS routes with OSM routes...");
+
+        //compare with existing OSM relation
+        ArrayList<String> routeKeys = new ArrayList<String>();
+        routeKeys.addAll(routes.keySet());
+        System.out.println ("routeKeys " + routeKeys.size()  +" OSMRelations " + OSMRelations.size());
+
+        Hashtable<String, Route> routesByShortName = new Hashtable<String, Route>();
+
+
+        Iterator<Route> it = routes.values().iterator();
+        while (it.hasNext())
+//        	        for (Route ri:routes.values())
+        {
+            Route ri = it.next();
+            try{
+
+
+                ri.getRouteRef();
+//        		if (ri.getTag(ri.getTag("gtfs_route_short_name"))!= null)
+                routesByShortName.put(ri.getRouteRef(),ri);}
+            catch (Exception e)
+            {
+                System.out.println(e);
+                e.printStackTrace();
+            }
+//        	        	routesByShortName.put(ri.getTag("route_short_name"),ri);
+//        	            System.out.println(ri.getTag("route_short_name"));
+        }
+
+
+
+        System.out.println ("routes " + routes.size()  + "routesByShortName" + routesByShortName.size());
+
+        //TODO parralise in Java 8
+        ArrayList<String> routeNameKeys = new ArrayList<String>();
+        routeNameKeys.addAll(routesByShortName.keySet());
+
+        for(int osm=0; osm<OSMRelations.size(); osm++){
+            if(this.flagIsDone) return;
+            AttributesImpl osmRelation = OSMRelations.get(osm);
+            Hashtable osmtag = new Hashtable();
+            osmtag.putAll(OSMRelationTags.get(osm));
+            String routeLongName = (String)osmtag.get("name");
+            String routeId = (String)osmtag.get("gtfs_route_id");
+            String routeShortName = (String)osmtag.get("ref");
+            String operator = (String)osmtag.get("operator");  //tag_defs.GTFS_OPERATOR_KEY); //FIXME use tag_defs
+            String network = (String)osmtag.get("network"); //(tag_defs.GTFS_NETWORK_KEY);    //FIXME use tag_defs
+            System.out.println(osm + " routeId " + routeId + routeKeys.contains(routeId) +  "routeShortName " + routeShortName + routeNameKeys.contains(routeShortName) + operator + network);
+            if((routeKeys.contains(routeId) ||routeNameKeys.contains(routeShortName))
+                    && (
+                    (operator!=null && OperatorInfo.isTheSameOperator(operator))||
+                            (network!=null && OperatorInfo.isTheSameOperator(network))
+            )
+                    ) {
+                System.out.println(routeId +"\t" + operator);
+                HashSet<RelationMember> em = OSMRelationMembers.get(osm);
+                Route r;
+                String ostring,idstring,refstring;
+
+                if (network != null)
+                    ostring = network;
+                else ostring = operator;
+                if (routeKeys.contains(routeId))
+                    r = new Route(routes.get(routeId));
+                else
+
+                {
+                    r = new Route(routesByShortName	.get(routeShortName));
+                    routeId = r.getRouteId();
+                }
+                Route er = new Route(routeId, routeShortName, ostring);
+                ArrayList<RelationMember> tempem = new ArrayList<RelationMember>();
+                tempem.addAll(em);
+                for(int i=0; i<em.size(); i++) {
+                    if(this.flagIsDone) return;
+                    RelationMember m = tempem.get(i);
+                    m.setGtfsId((String)osmIdToGtfsId.get(m.getRef()));
+                    er.addOsmMember(m);
+
+                    RelationMember matchMember = r.getOsmMember(m.getRef());
+                    if(matchMember!=null) {
+                        matchMember.setStatus("both GTFS dataset and OSM server");
+                    } else {
+                        r.addOsmMember(new RelationMember(m));
+                    }
+                }
+                er.addTags(osmtag);
+                er.setOsmVersion(osmRelation.getValue("version"));
+
+                Hashtable diff = compareOsmTags(osmtag, r);
+                if(!em.containsAll(r.getOsmMembers()) || diff.size()!=0){
+                    r.setStatus("m");
+                    r.setOsmVersion(osmRelation.getValue("version"));
+                    r.setOsmId(osmRelation.getValue("id"));
+                    r.addOsmMembers(em);
+                    r.addTags(osmtag);
+                }
+                else {
+                    r.setStatus("e");
+                }
+
+                routes.remove((String)r.getRouteId());
+                routes.put(r.getRouteId(), r);
+
+                existingRoutes.put(routeId, er);
+
+            }
+        }
+        System.out.println("There are "+routeKeys.size()+" routeKeys in total!");
     }
 
     public void compareBusStopData() throws InterruptedException {

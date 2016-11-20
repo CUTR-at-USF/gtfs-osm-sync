@@ -142,7 +142,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private TileFactory osmTf;
 
-    private Hashtable finalRoutes, agencyRoutes, existingRoutes;
+    private Hashtable<String, Route> finalRoutes, agencyRoutes, existingRoutes;
 
     private UploadData taskUpload = null;
 
@@ -162,7 +162,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     
     
     
-    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
+    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable<String, Route> routes, Hashtable<String, Route> nRoutes, Hashtable<String, Route> eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
@@ -207,14 +207,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         finalStops = new Hashtable<String, Stop>();
         finalCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
 
-        finalRoutes = new Hashtable();
-        finalRoutes.putAll(routes);
-
-        agencyRoutes = new Hashtable();
-        agencyRoutes.putAll(nRoutes);
-
-        existingRoutes = new Hashtable();
-        existingRoutes.putAll(eRoutes);
 
 //System.out.println(r.size() + "\t" + u.size() + "\t" + m.size() + "\t" + d.size() + "\t");
         ArrayList<Stop> reportKeys = new ArrayList<Stop>();
@@ -364,20 +356,22 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         routeTableModel = new TagReportTableModel(0);
         memberTableModel = new RouteMemberTableModel(0);
 
-        finalRoutes = new Hashtable();
+        finalRoutes = new Hashtable<String, Route>();
         finalRoutes.putAll(routes);
 
-        agencyRoutes = new Hashtable();
+        agencyRoutes = new Hashtable<String, Route>();
         agencyRoutes.putAll(nRoutes);
 
-        existingRoutes = new Hashtable();
+        existingRoutes = new Hashtable<String, Route>();
         existingRoutes.putAll(eRoutes);
 
         //ordering by hashcode
         ArrayList<String> routeKeys = new ArrayList<String>();
+
         //convert to arrayList for ordering
         routeKeys.addAll(agencyRoutes.keySet());
-        //ordering by hashcode
+        java.util.Collections.sort(routeKeys);
+ /*       //ordering by hashcode
         for (int i=0; i<routeKeys.size()-1; i++) {
             int k=i;
             for (int j=i+1; j<routeKeys.size(); j++) {
@@ -388,8 +382,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             String temp = routeKeys.get(i);
             routeKeys.set(i, routeKeys.get(k));
             routeKeys.set(k, temp);
-        }
-        
+        }*/
+
         //get the total elements in each list first
         gtfsRouteAll = new Route[routeKeys.size()];
 
@@ -532,7 +526,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         int width = 15;
         col.setPreferredWidth(width);col.setMaxWidth(width);
         col = dataTable.getColumnModel().getColumn(4);
-        col.setPreferredWidth(width);;col.setMaxWidth(width);
+        col.setPreferredWidth(width);col.setMaxWidth(width);
         col = dataTable.getColumnModel().getColumn(0);
         col.setPreferredWidth(100);
         col = dataTable.getColumnModel().getColumn(1);
@@ -915,12 +909,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
 
         //set the column width with checkbox to minimum size
-        routeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        routeTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
         TableColumn col = routeTable.getColumnModel().getColumn(2);
         int width = 15;
-        col.setPreferredWidth(width);
+        col.setPreferredWidth(width);col.setMaxWidth(width);
         col = routeTable.getColumnModel().getColumn(4);
-        col.setPreferredWidth(width);
+        col.setPreferredWidth(width);col.setMaxWidth(width);
         col = routeTable.getColumnModel().getColumn(0);
         col.setPreferredWidth(100);
         col = routeTable.getColumnModel().getColumn(1);
@@ -1780,7 +1774,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 jLabel8 = new javax.swing.JLabel();
                 
                         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18));
-                        jLabel8.setText("Total Stops:");
+                        jLabel8.setText("Total Routes:");
                         jLabel8.setName("jLabel8"); // NOI18N
                         GridBagConstraints gbc_jLabel8 = new GridBagConstraints();
                         gbc_jLabel8.anchor = GridBagConstraints.NORTHWEST;

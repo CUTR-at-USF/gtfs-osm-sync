@@ -2476,7 +2476,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     
     private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt) 
     {//GEN-FIRST:event_donotUploadButtonActionPerformed
-        // TODO add your handling code here:
         Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
 
         if(s==null) return;
@@ -2533,12 +2532,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 }//GEN-LAST:event_donotUploadButtonActionPerformed
 
     private void gtfsStopsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsStopsComboBoxActionPerformed
-        // TODO add your handling code here:
         updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
     }//GEN-LAST:event_gtfsStopsComboBoxActionPerformed
 
     private void uploadDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadDataButtonActionPerformed
-        // TODO add your handling code here:
         //new Session(_username, _password, _changesetComment);
 
         OSMSessionForm osmLogin = new OSMSessionForm();
@@ -2561,91 +2558,76 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 }//GEN-LAST:event_uploadDataButtonActionPerformed
 
     private void newWithMatchStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWithMatchStopsRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateStopCategory(gtfsUploadConflict, 0);
         dontuploadAllBtn.setEnabled(true);
 
     }//GEN-LAST:event_newWithMatchStopsRadioButtonActionPerformed
 
     private void newNoMatchStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newNoMatchStopsRadioButtonActionPerformed
-        // TODO add your handling code here:
+        // TODO change text on button to add
         updateStopCategory(gtfsUploadNoConflict, 0);
         dontuploadAllBtn.setEnabled(true);
 
     }//GEN-LAST:event_newNoMatchStopsRadioButtonActionPerformed
 
     private void updateStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStopsRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateStopCategory(gtfsModify, 0);
         dontuploadAllBtn.setEnabled(true);
 
     }//GEN-LAST:event_updateStopsRadioButtonActionPerformed
 
     private void existingStopRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingStopRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateStopCategory(gtfsNoUpload, 0);
         dontuploadAllBtn.setEnabled(false);
 
     }//GEN-LAST:event_existingStopRadioButtonActionPerformed
 
     private void allStopsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allStopsRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateStopCategory(gtfsAll, 0);
         dontuploadAllBtn.setEnabled(false);
     }//GEN-LAST:event_allStopsRadioButtonActionPerformed
 
     private void osmStopsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_osmStopsComboBoxActionPerformed
-        // TODO add your handling code here:
         updateStopTable((Stop)gtfsStopsComboBox.getSelectedItem(), (Stop)osmStopsComboBox.getSelectedItem());
     }//GEN-LAST:event_osmStopsComboBoxActionPerformed
 
     private void gtfsRoutesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsRoutesComboBoxActionPerformed
-        // TODO add your handling code here:
         updateRouteTable((Route)gtfsRoutesComboBox.getSelectedItem());
 }//GEN-LAST:event_gtfsRoutesComboBoxActionPerformed
 
     private void allRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allRoutesRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateRouteCategory(gtfsRouteAll);
 }//GEN-LAST:event_allRoutesRadioButtonActionPerformed
 
     private void newRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRoutesRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateRouteCategory(gtfsRouteUploadNoConflict);
 }//GEN-LAST:event_newRoutesRadioButtonActionPerformed
 
     private void existingRoutesWithUpdatesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingRoutesWithUpdatesRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateRouteCategory(gtfsRouteModify);
 }//GEN-LAST:event_existingRoutesWithUpdatesRadioButtonActionPerformed
 
     private void existingRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existingRoutesRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateRouteCategory(gtfsRouteNoUpload);
 }//GEN-LAST:event_existingRoutesRadioButtonActionPerformed
 
     private void allMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allMembersRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"all");
 }//GEN-LAST:event_allMembersRadioButtonActionPerformed
 
     private void osmMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_osmMembersRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"OSM server");
 }//GEN-LAST:event_osmMembersRadioButtonActionPerformed
 
     private void gtfsMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsMembersRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"GTFS dataset");
 }//GEN-LAST:event_gtfsMembersRadioButtonActionPerformed
 
     private void bothMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bothMembersRadioButtonActionPerformed
-        // TODO add your handling code here:
         updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"both GTFS dataset and OSM server");
 }//GEN-LAST:event_bothMembersRadioButtonActionPerformed
 
     private void tableStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableStopButtonActionPerformed
-        // TODO add your handling code here:
         Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
         String selectedGtfs = selectedGtfsStop.toString();
         Stop selectedOSMStop  = (Stop)osmStopsComboBox.getSelectedItem();
@@ -2730,18 +2712,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 }//GEN-LAST:event_tableStopButtonActionPerformed
 
     private void saveChangeRouteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeRouteButtonActionPerformed
-        // TODO add your handling code here:
         saveChangeRouteButton.setEnabled(false);
 }//GEN-LAST:event_saveChangeRouteButtonActionPerformed
 
     private void exportGtfsValueGtfsDataOnlyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportGtfsValueGtfsDataOnlyMenuItemActionPerformed
-        // TODO add your handling code here:
         WriteFile.exportStops("exportGtfsValueGtfsOnly.csv", agencyStops, true);
         JOptionPane.showMessageDialog(this, "exportGtfsValueGtfsOnly.csv has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_exportGtfsValueGtfsDataOnlyMenuItemActionPerformed
 
     private void exportGtfsValueWithOsmTagsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportGtfsValueWithOsmTagsMenuItemActionPerformed
-        // TODO add your handling code here:
         ArrayList<String> keys = new ArrayList<String>(agencyStops.keySet());
         Hashtable<String, Stop> gtfsDefaultFinalStops = new Hashtable<String, Stop>();
         gtfsDefaultFinalStops.putAll(agencyStops);
@@ -2755,25 +2734,21 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }//GEN-LAST:event_exportGtfsValueWithOsmTagsMenuItemActionPerformed
 
     private void exportOsmValueGtfsDataOnlyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportOsmValueGtfsDataOnlyMenuItemActionPerformed
-        // TODO add your handling code here:
         WriteFile.exportStops("exportOsmValueGtfsOnly.csv", finalStops, true);
         JOptionPane.showMessageDialog(this, "exportOsmValueGtfsOnly.csv has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_exportOsmValueGtfsDataOnlyMenuItemActionPerformed
 
     private void exportOsmValueWithOsmTagsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportOsmValueWithOsmTagsMenuItemActionPerformed
-        // TODO add your handling code here:
         WriteFile.exportStops("exportOsmValueWithOsmTags.csv", finalStops, false);
         JOptionPane.showMessageDialog(this, "exportOsmValueWithOsmTags.csv has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_exportOsmValueWithOsmTagsMenuItemActionPerformed
 
     private void exportOsmValueStopsWithConflictsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportOsmValueStopsWithConflictsMenuItemActionPerformed
-        // TODO add your handling code here:
         WriteFile.exportStops("exportOsmValueWithConflictsOnly.csv", osmDefaultOnlyChangedFinalStops, false);
         JOptionPane.showMessageDialog(this, "exportOsmValueWithConflictsOnly.csv has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_exportOsmValueStopsWithConflictsMenuItemActionPerformed
 
     private void dummyUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dummyUploadButtonActionPerformed
-        // TODO add your handling code here:
         if (acceptedOnlyCheckbox.isSelected())
             generateStopsToUpload(finalStopsAccepted);
         else
@@ -2795,7 +2770,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }//GEN-LAST:event_dummyUploadButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
         String userInput = searchTextField.getText();
         ArrayList<String> keys = new ArrayList<String>(searchKeyToStop.keySet());
         for (int i=0; i<keys.size(); i++){

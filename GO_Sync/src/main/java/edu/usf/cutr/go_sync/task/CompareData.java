@@ -443,7 +443,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                             r.addTag(tag_defs.GTFS_OPERATOR_KEY,OperatorInfo.getFullName());
 //                            r.addTag("network",OperatorInfo.getFullName());
                             r.addTag("ref", r.getRouteRef());
-                            r.addTag("route", "bus"); //TODO handle type from gtfs value
+//                            r.addTag("route", "bus"); //TODO handle type from gtfs value
                             r.addTag("type", "route");
                         }
                         else {

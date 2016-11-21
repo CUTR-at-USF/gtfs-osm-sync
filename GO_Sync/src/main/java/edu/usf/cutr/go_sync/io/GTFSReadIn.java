@@ -16,9 +16,7 @@ Copyright 2010 University of South Florida
 **/
 package edu.usf.cutr.go_sync.io;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -31,8 +29,6 @@ import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Stop;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 
 public class GTFSReadIn {
     private List<Stop> stops;
@@ -253,11 +249,13 @@ public class GTFSReadIn {
                     isFirstLine = false;
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
+
                     for(int i=0; i<keys.length; i++){
+                        //read keys
                         if(keys[i].equals("route_id")) routeIdKey = i;
-                        else if(keys[i].equals("route_url")){
-                            keysIndex.put("url", i);
-                        }
+                        else if(keys[i].equals("route_url"))    keysIndex.put("url", i);
+                        else if(keys[i].equals("route_type"))   keysIndex.put(tag_defs.OSM_ROUTE_TYPE_KEY, i);
+                        else if(keys[i].equals("route_color"))  keysIndex.put(tag_defs.OSM_COLOUR_KEY, i);
                         else {
                             if(keys[i].equals("route_short_name")) routeShortNameKey = i;
                             if(keys[i].equals("route_long_name")) routeLongNameKey = i;
@@ -291,13 +289,45 @@ public class GTFSReadIn {
                     Route r = new Route(elements[routeIdKey], routeName, OperatorInfo.getFullName());
                     HashSet<String> keys = new HashSet<String>();
                     keys.addAll(keysIndex.keySet());
-                    Iterator it = keys.iterator();
+                    Iterator<String> it = keys.iterator();
                     try {
                         while(it.hasNext()){
-                            String k = (String)it.next();
+                            String k = it.next();
                             String v = null;
-                            if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
-                            if ((v!=null) && (!v.equals(""))) r.addTag(k, v);
+                            if(!lastIndexEmpty) v = elements[keysIndex.get(k)];
+                            if ((v!=null) && (!v.equals("")))
+                            {
+                                if (k.equals(tag_defs.OSM_ROUTE_TYPE_KEY))
+                                {
+                                    String route_value;
+                                    switch(Integer.parseInt(v))
+                                    {
+                                        // TODO allow drop down finetuning selection on report viewer
+                                        // https://developers.google.com/transit/gtfs/reference/routes-file
+                                        // https://wiki.openstreetmap.org/wiki/Relation:route#Route_types_.28route.29
+                                        case 0: route_value = "light_rail";	break;// 0: Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
+                                        case 1:	route_value = "subway"; break;	// Subway, Metro. Any underground rail system within a metropolitan area.
+                                        case 2: route_value = "railway"; break;	// Rail. Used for intercity or long-distance travel.
+                                        case 3: route_value = "bus"; break;	// Bus. Used for short- and long-distance bus routes.
+                                        case 4: route_value = "ferry"; break;	// Ferry. Used for short- and long-distance boat service.
+                                        case 5: route_value = "cable_car"; break;	// Cable car. Used for street-level cable cars where the cable runs beneath the car.
+                                        case 6: route_value = "gondola"; break;	// Gondola, Suspended cable car. Typically used for aerial cable cars where the car is suspended from the cable.
+                                        case 7: route_value = "funicular"; break;	// Funicular. Any rail system designed for steep inclines.
+                                        default: route_value = v; break;
+                                    }
+                                    v = route_value;
+                                }
+                                //prepend hex colours
+                                if (k.equals(tag_defs.OSM_COLOUR_KEY))
+                                    System.out.println(tag_defs.OSM_COLOUR_KEY + " "+ v + " #"+v);
+                                if (k.equals(tag_defs.OSM_COLOUR_KEY) && ((v.length() == 3 || v.length() == 6) && v.matches("^[a-fA-F0-9]+$")) )
+                                {
+                                    v = "#".concat(v);
+                                }
+
+
+                                r.addTag(k, v);
+                            }
                         }
                     } catch(Exception e){
                         System.out.println("Error occurred! Please check your GTFS input files");

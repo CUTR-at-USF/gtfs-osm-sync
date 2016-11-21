@@ -7,4 +7,6 @@ public class tag_defs {
 //	public final static String GTFS_OPERATOR_KEY = "operator";
     public final static String GTFS_NAME_KEY = "name";
     public final static String ROUTE_KEY = "ref";
+    public final static String OSM_COLOUR_KEY = "colour";
+    public final static String OSM_ROUTE_TYPE_KEY = "route";
 }

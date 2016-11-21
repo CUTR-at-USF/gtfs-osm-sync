@@ -86,7 +86,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     
 
-    private JCheckBox routesCheckbox, stopsCheckbox;
+    private JCheckBox routesCheckbox, stopsCheckbox, acceptedOnlyCheckbox;
     private HttpRequest osmRequest;
 
     private Hashtable<Stop, ArrayList<Stop>> report;
@@ -97,7 +97,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private Hashtable<String, Stop> agencyStops = new Hashtable<String, Stop>();
 
-    private Hashtable<String, Stop> finalStops;
+    private Hashtable<String, Stop> finalStops  = new Hashtable<String, Stop>(),
+                            finalStopsAccepted  = new Hashtable<String, Stop>();
 
     private Hashtable<String, Stop> osmDefaultFinalStops = new Hashtable<String, Stop>();
     
@@ -204,7 +205,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         delete = new HashSet<Stop>();
         delete.addAll(d);
 
-        finalStops = new Hashtable<String, Stop>();
+
         finalCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
 
 
@@ -1107,7 +1108,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             String category = s.getReportCategory();
             if(category.equals("UPLOAD_NO_CONFLICT")){
                 upload.add(s);
-            } else if(category.equals("UPLOAD_CONFLICT")){
+            }
+            else if(category.equals("UPLOAD_CONFLICT") && acceptedOnlyCheckbox.isSelected()){
+                modify.add(s);
+
+            }
+            else if(category.equals("UPLOAD_CONFLICT")){
                 // upload the new stop
                 upload.add(s);
                 // add FIXME to its potential matches
@@ -2130,10 +2136,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_totalNewMembersLabel.gridy = 11;
                 busRoutePanel.add(totalNewMembersLabel, gbc_totalNewMembersLabel);
 
-                
-                routesCheckbox = new JCheckBox("Routes");
+
+                stopsCheckbox = new JCheckBox("Stops");stopsCheckbox.setSelected(true);
+                routesCheckbox = new JCheckBox("Routes");routesCheckbox.setSelected(true);
+                acceptedOnlyCheckbox = new JCheckBox("Only Accepted");acceptedOnlyCheckbox.setSelected(true);
 //                routesCheckbox.setMnemonic(KeyEvent.VK_C); 
-                routesCheckbox.setSelected(true);
+
 /*                routesCheckbox.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         dummyUploadButtonActionPerformed(evt);
@@ -2233,8 +2241,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(layout.createSequentialGroup()
-        			.addComponent(routesCheckbox)	
-        			.addContainerGap(226, Short.MAX_VALUE)
+                        .addComponent(stopsCheckbox)
+                        .addContainerGap(100, Short.MAX_VALUE)
+        			.addComponent(routesCheckbox)
+        			.addContainerGap(100, Short.MAX_VALUE)
+                        .addComponent(acceptedOnlyCheckbox)
+                        .addContainerGap(100, Short.MAX_VALUE)
         			.addComponent(dummyUploadButton)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(uploadDataButton)
@@ -2247,8 +2259,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         			.addComponent(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        					.addComponent(routesCheckbox)
-        				.addComponent(uploadDataButton)
+                            .addComponent(stopsCheckbox)
+                            .addComponent(routesCheckbox)
+                            .addComponent(acceptedOnlyCheckbox)
+
+                            .addComponent(uploadDataButton)
         				.addComponent(dummyUploadButton))
         			.addContainerGap())
         );
@@ -2619,6 +2634,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // TODO add your handling code here:
         Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
         String selectedGtfs = selectedGtfsStop.toString();
+        Stop selectedOSMStop  = (Stop)osmStopsComboBox.getSelectedItem();
 
         String tableStopButtonText = tableStopButton.getText();
         if(tableStopButtonText.contains("Save Change")) {
@@ -2626,27 +2642,30 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             // no need to add 2 since lat and lon are already there (counted)
             ArrayList<Boolean> saveValues = new ArrayList<Boolean>(stopTableModel.getRowCount()*2);
             for(int i=0; i<stopTableModel.getRowCount(); i++){
-                saveValues.add((Boolean)stopTableModel.getValueAt(i, 2));
-                saveValues.add((Boolean)stopTableModel.getValueAt(i, 4));
+                saveValues.add((Boolean)stopTableModel.getValueAt(i, 2)); //gtfs
+                saveValues.add((Boolean)stopTableModel.getValueAt(i, 4)); //osm
             }
             finalCheckboxes.put(selectedGtfs, saveValues);
 
             // Save to final Stops
             Stop st = finalStops.get(selectedGtfs);     //not creating new object
             for(int i=0; i<stopTableModel.getRowCount(); i++){
-                String tagName = (String)stopTableModel.getValueAt(i, 0);
-                String tagValue = (String)stopTableModel.getValueAt(i, 5);
+                String tagName = (String)stopTableModel.getValueAt(i, 0); //gtfs
+                String tagValue = (String)stopTableModel.getValueAt(i, 5); //final
                 if(tagName.equals("lat")) st.setLat(tagValue);
                 else if(tagName.equals("lon")) st.setLon(tagValue);
                 else {
                     st.addAndOverwriteTag(tagName, tagValue);
                 }
             }
-
+            generateStopsToUploadFlag=false;
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
         if(tableStopButtonText.contains("Accept"))
         {
+            selectedGtfsStop.setOsmId(selectedOSMStop.getOsmId());
+            int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
+            selectedGtfsStop.setOsmVersion(Integer.toString(newOSMVersion + 1));
             // stops to finish
             if(stopsToFinish.contains(selectedGtfsStop.toString()))
             {
@@ -2683,6 +2702,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
+            finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
+            generateStopsToUploadFlag=false;
         }
 
         if(tableStopButtonText.equals("Accept & Save Change")) {
@@ -2738,12 +2759,22 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private void dummyUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dummyUploadButtonActionPerformed
         // TODO add your handling code here:
-        generateStopsToUpload(finalStops);
-        String osmChangeText ;
-        if (routesCheckbox.isSelected())																		
-        	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, finalRoutes);
+        if (acceptedOnlyCheckbox.isSelected())
+            generateStopsToUpload(finalStopsAccepted);
         else
+            generateStopsToUpload(finalStops);
+
+        String osmChangeText ="";
+        if (routesCheckbox.isSelected() && stopsCheckbox.isSelected())
+        	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, finalRoutes);
+        else if (!routesCheckbox.isSelected() && stopsCheckbox.isSelected())
         	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, new Hashtable());
+        else if (routesCheckbox.isSelected() && !stopsCheckbox.isSelected())
+            osmChangeText = osmRequest.getRequestContents("DUMMY", new HashSet<Stop>(), new HashSet<Stop>(), new HashSet<Stop>(), finalRoutes);
+        else if (!routesCheckbox.isSelected() && !stopsCheckbox.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Nothing to export");
+            return;
+        }
         new WriteFile("DUMMY_OSM_CHANGE.txt", osmChangeText);
         JOptionPane.showMessageDialog(this, "DUMMY_OSM_CHANGE.txt has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_dummyUploadButtonActionPerformed

@@ -564,7 +564,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // Must be placed after all data has been inserted inside the table. Otherwise, saveChangeButton is enabled
         dataTable.getModel().addTableModelListener(this);
 
-        updateButtonTableStop("Accept", true, "Save Change", false);
+        if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT"))
+            updateButtonTableStop("Accept", true, "Add", true);
+        else
+            updateButtonTableStop("Accept", true, "Save Change", false);
+
 
         // set last edited information
         String lastEditedUser = "N/A";
@@ -2669,8 +2673,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         Stop selectedOSMStop  = (Stop)osmStopsComboBox.getSelectedItem();
 
         String tableStopButtonText = tableStopButton.getText();
-        if(tableStopButtonText.contains("Save Change" ) ||  !finalStopsAccepted.contains(selectedGtfs))
+        if(tableStopButtonText.contains("Save Change" ) || !finalStopsAccepted.contains(selectedGtfs))
         {
+
             // Save Checkboxes values
             // no need to add 2 since lat and lon are already there (counted)
             ArrayList<Boolean> saveValues = new ArrayList<Boolean>(stopTableModel.getRowCount()*2);
@@ -2682,6 +2687,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
             // Save to final Stops
             Stop st = finalStops.get(selectedGtfs);     //not creating new object
+            if (selectedOSMStop!= null) {
+                st.setOsmId(selectedOSMStop.getOsmId());
+                //broken
+//                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
+//                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
+            }
             for(int i=0; i<stopTableModel.getRowCount(); i++){
                 String tagName = (String)stopTableModel.getValueAt(i, 0); //gtfs
                 String tagValue = (String)stopTableModel.getValueAt(i, 5); //final
@@ -2695,9 +2706,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             finalStopsAccepted.put(selectedGtfs,st);
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
-        if(tableStopButtonText.contains("Accept"))
+        if(tableStopButtonText.contains("Accept") || tableStopButtonText.contains("Add"))
         {
-            if (!selectedGtfsStop.getReportCategory().equals("MODIFY")) {
+            if (!selectedGtfsStop.getReportCategory().equals("MODIFY") && !selectedGtfsStop.getReportCategory().equals("UPLOAD_NO_CONFLICT")) {
                 selectedGtfsStop.setOsmId(selectedOSMStop.getOsmId());
                 int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
                 selectedGtfsStop.setOsmVersion(Integer.toString(newOSMVersion + 1));
@@ -2737,7 +2748,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
-            if  (!finalStopsAccepted.containsKey(selectedGtfs));
+            if  (!finalStopsAccepted.containsKey(selectedGtfs))
                 finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
             generateStopsToUploadFlag=false;
         }

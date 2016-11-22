@@ -101,14 +101,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
 //    private Hashtable<Stop, Hashtable> agencyTable;
 
-    private Hashtable<String, Stop> agencyStops = new Hashtable<String, Stop>();
-
-    private Hashtable<String, Stop> finalStops  = new Hashtable<String, Stop>(),
-                            finalStopsAccepted  = new Hashtable<String, Stop>();
-
-    private Hashtable<String, Stop> osmDefaultFinalStops = new Hashtable<String, Stop>();
-    
-    private Hashtable<String, Stop> osmDefaultOnlyChangedFinalStops = new Hashtable<String, Stop>();
+    private Hashtable<String, Stop> agencyStops = new Hashtable<String, Stop>(),
+                                     finalStops = new Hashtable<String, Stop>(),
+                             finalStopsAccepted = new Hashtable<String, Stop>(),
+                           osmDefaultFinalStops = new Hashtable<String, Stop>(),
+                osmDefaultOnlyChangedFinalStops = new Hashtable<String, Stop>();
 
     private Hashtable<String, ArrayList<Boolean>> finalCheckboxes;
 
@@ -517,7 +514,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gtfsValue = (String)aTags.get(k);
             }
             if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
-            //don't wipe extra tags for UPLOAD_CONFLICT, use GTFS values for missing tags for MODIFY;
+ /*           //don't wipe extra tags for UPLOAD_CONFLICT, use GTFS values for missing tags for MODIFY;
                 if (!(osmValue == null || osmValue.isEmpty() ) &&
                     (gtfsValue == null || gtfsValue.isEmpty()))
                     {
@@ -535,6 +532,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
             if(!finalStopsAccepted.contains(selectedNewStop.toString())) {
                 stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i+2);
+            } else {
+                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), (String)finalSt.getTag(k)}, i+2);
+            }
+            */
+            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
+                                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
             } else {
                 stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), (String)finalSt.getTag(k)}, i+2);
             }
@@ -1109,8 +1112,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }
 
     private void generateStopsToUpload(Hashtable<String, Stop> stops){
-        if(generateStopsToUploadFlag) return;
-        generateStopsToUploadFlag = true;
+        //disable as plays with output checkboxes
+//        if(generateStopsToUploadFlag) return;
+//        generateStopsToUploadFlag = true;
         
         if(stops == null){
             JOptionPane.showMessageDialog(this, "There's no stops to upload");
@@ -2665,7 +2669,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         Stop selectedOSMStop  = (Stop)osmStopsComboBox.getSelectedItem();
 
         String tableStopButtonText = tableStopButton.getText();
-        if(tableStopButtonText.contains("Save Change" ) ||  !finalStopsAccepted.contains(selectedGtfs)) {
+        if(tableStopButtonText.contains("Save Change" ) ||  !finalStopsAccepted.contains(selectedGtfs))
+        {
             // Save Checkboxes values
             // no need to add 2 since lat and lon are already there (counted)
             ArrayList<Boolean> saveValues = new ArrayList<Boolean>(stopTableModel.getRowCount()*2);
@@ -2687,6 +2692,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 }
             }
             generateStopsToUploadFlag=false;
+            finalStopsAccepted.put(selectedGtfs,st);
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
         if(tableStopButtonText.contains("Accept"))
@@ -2731,7 +2737,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
             // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
-            finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
+            if  (!finalStopsAccepted.containsKey(selectedGtfs));
+                finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
             generateStopsToUploadFlag=false;
         }
 

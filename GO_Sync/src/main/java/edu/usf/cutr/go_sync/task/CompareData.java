@@ -73,11 +73,13 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     private Hashtable<String,String> osmIdToGtfsId = new Hashtable<String,String>();
 
     private final double ERROR_TO_ZERO = 0.5;       // acceptable error while calculating distance ~= consider as 0
-    private final double DELTA = 0.004;   // ~400m in Lat and 400m in Lon       0.00001 ~= 1.108m in Lat and 0.983 in Lon
-    private final double RANGE = 400;         // FIXME bus stop is within 400 meters
+    private /*final*/ double DELTA = 0.004;   // ~400m in Lat and 400m in Lon       0.00001 ~= 1.108m in Lat and 0.983 in Lon
+    private /*final*/ double RANGE = 400;         // FIXME bus stop is within 400 meters
 
 //    private final double DELTA = 0.001;   // ~400m in Lat and 400m in Lon       0.00001 ~= 1.108m in Lat and 0.983 in Lon
 //    private final double RANGE = 100;         // FIXME bus stop is within 400 meters
+
+
 
     private String fileNameInStops;
     private String fileNameInTrips;
@@ -123,6 +125,12 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         fileNameInStopTimes = OperatorInfo.getFileDirectory()+ fileSeparator + "stop_times.txt";
         fileNameInAngency = OperatorInfo.getFileDirectory()+ fileSeparator + "agency.txt";
         progressMonitor = pm;
+    }
+
+    public void setRangeThreshold(double newRange)
+    {
+        RANGE= newRange;
+        DELTA = RANGE/100000;
     }
 
     public List<Stop> convertToStopObject(List<AttributesImpl> eNodes, String agencyName){

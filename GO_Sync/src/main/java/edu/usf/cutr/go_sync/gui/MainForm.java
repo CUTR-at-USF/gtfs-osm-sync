@@ -27,11 +27,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.ProgressMonitor;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.task.CompareData;
@@ -58,7 +54,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.GridBagLayout;
@@ -387,7 +382,24 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         gbc_jLabel1.gridwidth = 12;
                         gbc_jLabel1.gridx = 0;
                         gbc_jLabel1.gridy = 3;
+
                         compareDataPanel.add(jLabel1, gbc_jLabel1);
+
+
+        distanceThreshold = new JSpinner();
+        distanceThreshold.setValue(400);
+        GridBagConstraints gbc_threshold = new GridBagConstraints();
+        JLabel threshold_label = new JLabel("Approximate Comparision Distance Threshold (m)");
+//        gbc_threshold.fill = GridBagConstraints.HORIZONTAL;
+        gbc_threshold.insets = new Insets(0, 0, 5, 5);
+        gbc_threshold.gridwidth = 12;
+
+        gbc_threshold.gridy = 4;
+        gbc_threshold.gridx = 0;
+        compareDataPanel.add(threshold_label,gbc_threshold);
+        gbc_threshold.gridx = 6;
+        compareDataPanel.add(distanceThreshold, gbc_threshold);
+
                 compareButton = new javax.swing.JButton();
                 
                         compareButton.setText("Run");
@@ -400,7 +412,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         gbc_compareButton.insets = new Insets(0, 0, 0, 5);
                         gbc_compareButton.gridwidth = 12;
                         gbc_compareButton.gridx = 0;
-                        gbc_compareButton.gridy = 4;
+                        gbc_compareButton.gridy = 5;
                         compareDataPanel.add(compareButton, gbc_compareButton);
 
         revertChangesetPanel.setName(""); // NOI18N
@@ -551,6 +563,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 progressMonitor.setProgress(0);
                 compareButton.setEnabled(false);
                 compareTask = new CompareData(progressMonitor, taskOutput);
+                compareTask.setRangeThreshold(Double.parseDouble(distanceThreshold.getValue().toString()));
                 task = compareTask;
                 task.addPropertyChangeListener(this);
                 try{
@@ -747,6 +760,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JLabel jLabel1;
+    private JSpinner distanceThreshold;
     private javax.swing.JPanel compareDataPanel;
     private javax.swing.JPanel revertChangesetPanel;
     private javax.swing.JPanel gtfsDataPanel;

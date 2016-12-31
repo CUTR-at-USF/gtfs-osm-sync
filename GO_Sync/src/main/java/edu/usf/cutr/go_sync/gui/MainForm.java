@@ -34,13 +34,10 @@ import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +57,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
+
 //TODO add radius selection
 /**
  *
@@ -79,6 +77,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private ProgressMonitor progressMonitor;
     private OsmTask task;
     private List<DefaultOperator> ops;
+
 
     /** Creates new form MainForm */
     public MainForm() {
@@ -642,8 +641,21 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             //TODO test that URL is actually ZIP files
 
             if (zipFile == null) {
+                //TODO check ftp codes
+                if (zipURL.getProtocol().equals("http"))
+                {
+                    HttpURLConnection zipHttpCon = ((HttpURLConnection)zipURL.openConnection());
+                    int response_code = zipHttpCon.getResponseCode();
+                    if (response_code != 200 ) {
+                        taskOutput.append("HTTP server returned " +response_code + " " + zipHttpCon.getResponseMessage());
+                        System.err.println("HTTP server returned " +response_code);
+                        return false;
+                    }
+                }
                 System.out.println("Unzipping " + zipURL.toString() + " to " + unzipLocation);
-                zip = new ZipInputStream(zipURL.openStream());
+                InputStream zipstr = zipURL.openStream();
+                System.out.println(zipstr + " " );
+                zip = new ZipInputStream(new BufferedInputStream(zipstr));
             } else {
             	if (!(Files.probeContentType(zipFile.toPath())).equals("application/zip"))
             		{System.out.println((Files.probeContentType(zipFile.toPath())));
@@ -653,6 +665,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
 
             ZipEntry next_file;
+//            System.out.println("Zip is " + zip.available() + zip.getNextEntry());
 
             while ((next_file = zip.getNextEntry()) != null) {
 
@@ -665,6 +678,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 while ((len = zip.read(buf)) > 0) {
                     out.write(buf, 0, len);
                 }
+
 
                 out.close();
                 //out.flush();

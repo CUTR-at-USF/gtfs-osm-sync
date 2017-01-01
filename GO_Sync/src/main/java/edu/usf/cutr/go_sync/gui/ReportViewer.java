@@ -312,14 +312,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             int numEquiv = 0;
             ArrayList<Stop> arr = null;
             if(report.get(reportKeys.get(i)) instanceof ArrayList){
-                arr = (ArrayList<Stop>)report.get(reportKeys.get(i));
+                arr = report.get(reportKeys.get(i));
                 if(arr.size()>1) numEquiv = 2;
                 else if(arr.size()==1) numEquiv = 1;
             }
             if(numEquiv==1) {
-                osmStop = new Stop((Stop)arr.get(0));
+                osmStop = new Stop(arr.get(0));
             } else {
-                osmStop = new Stop((Stop)reportKeys.get(i));
+                osmStop = new Stop(reportKeys.get(i));
             }
             osmDefaultFinalStops.put(osmStop.getStopID(), osmStop);
 
@@ -393,7 +393,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         unci=0; mi=0; nui=0;
         for (int i=0; i<routeKeys.size(); i++) {
-            gtfsRouteAll[i] = (Route)finalRoutes.get(routeKeys.get(i));
+            gtfsRouteAll[i] = finalRoutes.get(routeKeys.get(i));
             String status = gtfsRouteAll[i].getStatus();
             if (status.equals("n")) {
                 unci++;
@@ -409,7 +409,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gtfsRouteNoUpload = new Route[nui];
         unci=0; mi=0; nui=0;
         for (int i=0; i<routeKeys.size(); i++) {
-            Route tempr = (Route)finalRoutes.get(routeKeys.get(i));
+            Route tempr = finalRoutes.get(routeKeys.get(i));
             String status = tempr.getStatus();
             if (status.equals("n")) {
                 gtfsRouteUploadNoConflict[unci] = tempr;
@@ -494,7 +494,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         // add data to table
         // first, add lat and lon
-        Stop finalSt = (Stop)finalStops.get(selectedNewStop.getStopID());
+        Stop finalSt = finalStops.get(selectedNewStop.getStopID());
         ArrayList<Boolean> finalCB = finalCheckboxes.get(selectedNewStop.getStopID());
 
         if(selectedOsmStop!=null) {
@@ -510,10 +510,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             //make sure there's null pointer
             String newValue="", osmValue="", gtfsValue="";
             if(selectedNewStop!=null) {
-                newValue = (String)selectedNewStop.getTag(k);
+                newValue = selectedNewStop.getTag(k);
                 gtfsValue = (String)aTags.get(k);
             }
-            if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
+            if(selectedOsmStop!=null) osmValue = selectedOsmStop.getTag(k);
+            //TODO re-enable this
  /*           //don't wipe extra tags for UPLOAD_CONFLICT, use GTFS values for missing tags for MODIFY;
                 if (!(osmValue == null || osmValue.isEmpty() ) &&
                     (gtfsValue == null || gtfsValue.isEmpty()))
@@ -539,7 +540,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
                                 stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
             } else {
-                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), (String)finalSt.getTag(k)}, i+2);
+                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), finalSt.getTag(k)}, i+2);
             }
         }
 
@@ -564,7 +565,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // Must be placed after all data has been inserted inside the table. Otherwise, saveChangeButton is enabled
         dataTable.getModel().addTableModelListener(this);
 
-        if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT"))
+        if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
             updateButtonTableStop("Accept", true, "Add", true);
         else
             updateButtonTableStop("Accept", true, "Save Change", false);
@@ -610,7 +611,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             tempStopsGeo.add(new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon())));
             if(report.get(st) instanceof ArrayList){
                 // update osm combobox
-                ArrayList<Stop> osmEquiv = (ArrayList<Stop>)report.get(st);
+                ArrayList<Stop> osmEquiv = report.get(st);
 /*
                 if(osmEquiv.size()>1){
                     tableStopButton.setVisible(false);
@@ -898,8 +899,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         Route aRoute = null, eRoute=null;
         if(selectedNewRoute!=null) {
             tagKeys.addAll(selectedNewRoute.keySet());
-            aRoute = (Route)agencyRoutes.get(selectedNewRoute.getRouteId());
-            eRoute = (Route)existingRoutes.get(selectedNewRoute.getRouteId());
+            aRoute = agencyRoutes.get(selectedNewRoute.getRouteId());
+            eRoute = existingRoutes.get(selectedNewRoute.getRouteId());
 
             if(aRoute!=null) aTags.putAll(aRoute.getTags());
             if(eRoute!=null) eTags.putAll(eRoute.getTags());
@@ -927,9 +928,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             //make sure there's null pointer
             String newValue="", osmValue="", gtfsValue="";
             if(selectedNewRoute!=null) {
-                newValue = (String)selectedNewRoute.getTag(k);
-                gtfsValue = (String)aTags.get(k);
-                osmValue = (String)eTags.get(k);
+                newValue = selectedNewRoute.getTag(k);
+                gtfsValue = aTags.get(k);
+                osmValue = eTags.get(k);
             }
 
             //add tag to table
@@ -963,8 +964,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private void updateMemberList(Route selectedNewRoute, String criteria){
         Route aRoute = null, eRoute=null;
         if(selectedNewRoute!=null) {
-            aRoute = (Route)agencyRoutes.get(selectedNewRoute.getRouteId());
-            eRoute = (Route)existingRoutes.get(selectedNewRoute.getRouteId());
+            aRoute = agencyRoutes.get(selectedNewRoute.getRouteId());
+            eRoute = existingRoutes.get(selectedNewRoute.getRouteId());
         }
         else return;
         
@@ -1041,6 +1042,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
     }
 
+    /*
+    @param uploadConflictCategoryText text to set if in UPLOAD_CONFLICT or MODIFY categories and has not been accepted
+    @param otherCategoryText text to set if in other categories or has been accepted
+
+     */
     private void updateButtonTableStop(String uploadConflictCategoryText, boolean uploadConflictStatus, String otherCategoryText, boolean otherStatus){
         Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
 
@@ -1435,8 +1441,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                 gbc_gtfsStopsComboBox.gridx = 5;
                                                 gbc_gtfsStopsComboBox.gridy = 1;
                                                 busStopPanel.add(gtfsStopsComboBox, gbc_gtfsStopsComboBox);
-                                        
+
+
                                         nextButton = new JButton("→");
+
                                         nextButton.addActionListener(new java.awt.event.ActionListener() {
                                             public void actionPerformed(java.awt.event.ActionEvent evt) {
                                         
@@ -1447,6 +1455,26 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                 }
                                             }
                                         });
+
+                                        //TODO add addosmcocombobox refocus shortcuts?
+                                        gtfsStopsComboBox.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,Event.CTRL_MASK), "gtfs_prev");
+                                        gtfsStopsComboBox.getActionMap().put("gtfs_prev", new AbstractAction() {
+                                            public void actionPerformed(ActionEvent evt) {
+                                                int currentindex = gtfsStopsComboBox.getSelectedIndex();
+                                                if (currentindex > 0)
+                                                    gtfsStopsComboBox.setSelectedIndex(currentindex-1);
+
+                                            }
+                                        } );
+                                        gtfsStopsComboBox.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,Event.CTRL_MASK), "gtfs_next");
+                                        gtfsStopsComboBox.getActionMap().put("gtfs_next", new AbstractAction() {
+                                            public void actionPerformed(ActionEvent evt) {
+                                                int currentindex = gtfsStopsComboBox.getSelectedIndex();
+                                                if (currentindex < gtfsStopsComboBox.getItemCount() - 1)
+                                                    gtfsStopsComboBox.setSelectedIndex(currentindex+1);
+
+                                            }
+                                        } );
                                         GridBagConstraints gbc_nextButton = new GridBagConstraints();
                                         gbc_nextButton.insets = new Insets(0, 0, 5, 5);
                                         gbc_nextButton.gridx = 7;
@@ -2673,7 +2701,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         Stop selectedOSMStop  = (Stop)osmStopsComboBox.getSelectedItem();
 
         String tableStopButtonText = tableStopButton.getText();
-        if(tableStopButtonText.contains("Save Change" ) || !finalStopsAccepted.contains(selectedGtfs))
+        if(tableStopButtonText.contains("Save Change" ))// || !finalStopsAccepted.contains(selectedGtfs))
         {
 
             // Save Checkboxes values
@@ -2745,18 +2773,24 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
              
              gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
          	
-
-            // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
+         //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
             if  (!finalStopsAccepted.containsKey(selectedGtfs))
                 finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
             generateStopsToUploadFlag=false;
         }
-
+//TODO the code/logic here needs simplifying
+        Stop selectedNewStop =(Stop)gtfsStopsComboBox.getSelectedItem();
         if(tableStopButtonText.equals("Accept & Save Change")) {
+            System.out.println("test");
             JOptionPane.showMessageDialog(this,"Stop is accepted and changes have been made!");
             updateButtonTableStop("Save Change", false, "Save Change", false);
-        } else {
+            if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
+                updateButtonTableStop("Accept", true, "Add", true);
+        } else if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
+            updateButtonTableStop("Accept", true, "Add", true);
+        else
+        {
             updateButtonTableStop("Accept", true, "Save Change", false);
         }
 }//GEN-LAST:event_tableStopButtonActionPerformed

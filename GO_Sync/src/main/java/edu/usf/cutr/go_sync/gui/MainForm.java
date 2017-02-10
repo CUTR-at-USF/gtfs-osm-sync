@@ -721,15 +721,15 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         try {
             // Set system native Java L&F
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException e) {
+        } catch (UnsupportedLookAndFeelException|ClassNotFoundException|InstantiationException|IllegalAccessException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
-        } catch (ClassNotFoundException e) {
+/*        } catch (ClassNotFoundException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         } catch (InstantiationException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         } catch (IllegalAccessException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
-        }
+*/        }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 

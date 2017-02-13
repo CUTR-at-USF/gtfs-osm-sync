@@ -91,76 +91,139 @@ import javax.swing.JCheckBox;
 public class ReportViewer extends javax.swing.JFrame implements TableModelListener, PropertyChangeListener {
 
 
-
+    protected static Color matchColor, selectedOSMColor, selectedGTFSColor;
+    protected String[] tagReportColumnHeaderToolTips = {
+            "Tag name",
+            "<html>Values from transit agency under <br>General Transit Feeds Specification (GTFS) format</html>", null,
+            "Values from OpenStreetMap", null,
+            "Values to be added in OpenStreetMap"
+    };
+    protected ImageIcon busIcon;
     private JCheckBox routesCheckbox, stopsCheckbox, acceptedOnlyCheckbox;
+
+    //    private Hashtable<Stop, Hashtable> agencyTable;
     private HttpRequest osmRequest;
-
     private Hashtable<Stop, ArrayList<Stop>> report;
-
     private HashSet<Stop> upload, modify, delete;
-
-//    private Hashtable<Stop, Hashtable> agencyTable;
-
     private Hashtable<String, Stop> agencyStops = new Hashtable<String, Stop>(),
                                      finalStops = new Hashtable<String, Stop>(),
                              finalStopsAccepted = new Hashtable<String, Stop>(),
                            osmDefaultFinalStops = new Hashtable<String, Stop>(),
                 osmDefaultOnlyChangedFinalStops = new Hashtable<String, Stop>();
-
     private Hashtable<String, ArrayList<Boolean>> finalCheckboxes;
-
     private Hashtable<String, Stop> searchKeyToStop = new Hashtable<String, Stop>();
-
     private HashSet<String> stopsToFinish = new HashSet<String>();  // uploadConflict + modified
-
     private int totalNumberOfStopsToFinish = 0;
-
     private TagReportTableModel stopTableModel, routeTableModel;
-
     private RouteMemberTableModel memberTableModel;
-
-    protected String[] tagReportColumnHeaderToolTips = {
-        "Tag name",
-        "<html>Values from transit agency under <br>General Transit Feeds Specification (GTFS) format</html>", null,
-        "Values from OpenStreetMap", null,
-        "Values to be added in OpenStreetMap"
-    };
-
     private Stop[] gtfsStops, gtfsAll, gtfsUploadConflict, gtfsUploadNoConflict, gtfsModify, gtfsNoUpload;
-
     private Stop[] osmStops = new Stop[0];
-
     private Route[] gtfsRoutes, gtfsRouteAll, gtfsRouteUploadNoConflict, gtfsRouteModify, gtfsRouteNoUpload;
-
     private JXMapViewer mainMap;
-
     private Hashtable<GeoPosition, Stop> newStopsByGeoPos = new Hashtable<GeoPosition, Stop>();  // to interact with user on the map
-
     private HashSet<GeoPosition> allStopsGeo;
-
     private Painter<JXMapViewer> matchStopOverlayPainter, selectedGtfsOverlayPainter, selectedOsmOverlayPainter;
-
     private CompoundPainter mainPainter = new CompoundPainter();
-
     private WaypointPainter stopsPainter = new WaypointPainter();
-
     private TileFactory osmTf;
-
     private Hashtable<String, Route> finalRoutes, agencyRoutes, existingRoutes;
-
     private UploadData taskUpload = null;
-
     private JTextArea taskOutput;
-
     private JProgressBar progressBar;
-
     private boolean generateStopsToUploadFlag = false;
+    /**
+     * @param args the command line arguments
 
-    protected ImageIcon busIcon;
+    public static void main(String args[]) {
+    java.awt.EventQueue.invokeLater(new Runnable() {
+    public void run() {
+    new ReportViewer().setVisible(true);
+    }
+    });
+    }*/
 
-    protected static Color matchColor, selectedOSMColor, selectedGTFSColor;
-
-
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton allMembersRadioButton;
+    private javax.swing.JRadioButton allRoutesRadioButton;
+    private javax.swing.JRadioButton allStopsRadioButton;
+    private javax.swing.JRadioButton bothMembersRadioButton;
+    private javax.swing.JTable dataTable;
+    private javax.swing.JButton donotUploadButton;
+    private javax.swing.JButton dummyUploadButton;
+    private javax.swing.JRadioButton existingRoutesRadioButton;
+    private javax.swing.JRadioButton existingRoutesWithUpdatesRadioButton;
+    private javax.swing.JRadioButton existingStopRadioButton;
+    private javax.swing.JMenuItem exportGtfsValueGtfsDataOnlyMenuItem;
+    private javax.swing.JMenuItem exportGtfsValueWithOsmTagsMenuItem;
+    private javax.swing.JMenuItem exportOsmValueGtfsDataOnlyMenuItem;
+    private javax.swing.JMenuItem exportOsmValueStopsWithConflictsMenuItem;
+    private javax.swing.JMenuItem exportOsmValueWithOsmTagsMenuItem;
+    private javax.swing.JProgressBar finishProgressBar;
+    private javax.swing.JTextArea generalInformationRouteTextArea;
+    private javax.swing.JTextArea generalInformationStopTextArea;
+    private javax.swing.JRadioButton gtfsMembersRadioButton;
+    private javax.swing.JComboBox gtfsRoutesComboBox;
+    private javax.swing.JComboBox gtfsStopsComboBox;
+    private javax.swing.JLabel gtfsStopsComboBoxLabel;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel osmStopsComboBoxLabel;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel busStopPanel;
+    private javax.swing.JPanel busRoutePanel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lastEditedLabel;
+    private org.jdesktop.swingx.JXMapKit mapJXMapKit;
+    private javax.swing.JTable memberTable;
+    private javax.swing.ButtonGroup membersButtonGroup;
+    private javax.swing.JRadioButton newNoMatchStopsRadioButton;
+    private javax.swing.JRadioButton newRoutesRadioButton;
+    private javax.swing.JRadioButton newWithMatchStopsRadioButton;
+    private javax.swing.JRadioButton osmMembersRadioButton;
+    private javax.swing.JComboBox osmStopsComboBox;
+    private javax.swing.JTable routeTable;
+    private javax.swing.ButtonGroup routesButtonGroup;
+    private javax.swing.JButton saveChangeRouteButton;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchTextField;
+    private javax.swing.ButtonGroup stopsButtonGroup;
+    private javax.swing.JButton tableStopButton;
+    private javax.swing.JLabel totalGtfsMembersLabel;
+    private javax.swing.JLabel totalGtfsRoutesLabel;
+    private javax.swing.JLabel totalGtfsStopsLabel;
+    private javax.swing.JLabel totalNewMembersLabel;
+    private javax.swing.JLabel totalOsmMembersLabel;
+    private javax.swing.JLabel totalOsmStopsLabel;
+    private javax.swing.JRadioButton updateStopsRadioButton;
+    private javax.swing.JButton uploadDataButton;
+    private JPanel panel;
+    private JButton dontuploadAllBtn;
+    private JButton dontupremainButton;
+    private JButton nextButton;
     /** Creates new form ReportViewer */
 
 
@@ -515,8 +578,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
             if(selectedOsmStop!=null) osmValue = selectedOsmStop.getTag(k);
             //TODO re-enable this
- /*           //don't wipe extra tags for UPLOAD_CONFLICT, use GTFS values for missing tags for MODIFY;
-                if (!(osmValue == null || osmValue.isEmpty() ) &&
+            //don't wipe extra tags for UPLOAD_CONFLICT, use GTFS values for missing tags for MODIFY;
+            if (!(osmValue == null || osmValue.isEmpty()) &&
                     (gtfsValue == null || gtfsValue.isEmpty()))
                     {
                         newValue = osmValue;
@@ -527,21 +590,18 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 	gtfsCB = true;
                         	newValue = gtfsValue;
                         }
-
             //add tag to table, index+2 because of lat and lon
-//            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
-//                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
-            if(!finalStopsAccepted.contains(selectedNewStop.toString())) {
-                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i+2);
+            if (finalStopsAccepted.containsKey(selectedNewStop.getStopID())) {
+                stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
             } else {
-                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), (String)finalSt.getTag(k)}, i+2);
+                stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i + 2);
             }
-            */
+            /*
             if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
-                                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
+                  stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
             } else {
                 stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), finalSt.getTag(k)}, i+2);
-            }
+            }*/
         }
 
         //set the column width with checkbox to minimum size
@@ -580,7 +640,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             if(selectedOsmStop.getLastEditedOsmDate()!=null && !selectedOsmStop.getLastEditedOsmDate().equals(""))
                 lastEditedDate = selectedOsmStop.getLastEditedOsmDate();
         }
-        
+
         if(!lastEditedUser.equals("N/A")) lastEditedLabel.setText("Last edited by "+lastEditedUser+" on "+lastEditedDate);
         else lastEditedLabel.setText("Last edited: Information cannot be retrieved from OSM");
     }
@@ -599,7 +659,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         else updateBusStop(null);
     }
 
-    // When user click on gtfs combobox 
+    // When user click on gtfs combobox
     private void updateBusStop(Stop st){
         //re-initialize array. set default to
         osmStops = new Stop[0];
@@ -650,7 +710,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             mainMap.setZoom(1);
             ArrayList<GeoPosition> tempGeo = new ArrayList<GeoPosition>();
             tempGeo.addAll(tempStopsGeo);
-            
+
             if(tempStopsGeo.size()>2 || (tempStopsGeo.size()==2 && OsmDistance.distVincenty(Double.toString(tempGeo.get(0).getLatitude()), Double.toString(tempGeo.get(0).getLongitude()),
                                                     Double.toString(tempGeo.get(1).getLatitude()), Double.toString(tempGeo.get(1).getLongitude()))>100)) mainMap.calculateZoomFrom(tempStopsGeo);
             else {
@@ -683,10 +743,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //        }
             public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
     		Point2D point = map.getTileFactory().geoToPixel(wp.getPosition(), map.getZoom());
-    		
+
     		int x = (int)point.getX() -16/ 2;
     		int y = (int)point.getY() -16;
-    		
+
             g.drawImage(busIcon.getImage(),x, y, map);
             return ;
         }
@@ -694,7 +754,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         mainMap.setZoom(1);
         mainMap.calculateZoomFrom(allStopsGeo);
-        
+
         addMaskOverlay(null);
     }
 
@@ -721,7 +781,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 if(selected!=null){
                     System.out.println(selected+" " + selected.getReportCategory() + " MouseListener.mouseClicked");
                     System.out.println(selected.getLat()+","+selected.getLon());
-                    
+
                     // when the user is in multiple possible match category
                     // if user selects one of the items in osm list then only update osm list, no need to zoom in
                     boolean isInOsmList = false;
@@ -968,7 +1028,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             eRoute = existingRoutes.get(selectedNewRoute.getRouteId());
         }
         else return;
-        
+
         // Member Table
         ArrayList<RelationMember> newMembers = new ArrayList<RelationMember>();
         newMembers.addAll(selectedNewRoute.getOsmMembers());
@@ -1013,7 +1073,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
                 if(hashGtfs.get(t)!=null) memberGtfsIndex++;
                 if(hashOsm.get(t)!=null) memberOsmIndex++;
-                
+
                 if (v!=null && !v.equals("none") && !v.equals("")) {
                     memberTableModel.setRowValueAt(new Object[] {hashGtfs.get(t), hashOsm.get(t), v}, memberNewIndex);
                     memberNewIndex++;
@@ -1034,7 +1094,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }
 
     // When user click on gtfs combobox
-    private void updateBusRoute(Route rt){   
+    private void updateBusRoute(Route rt) {
         if (rt!=null) {
             updateRouteTable(rt);
         } else {
@@ -1065,7 +1125,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             donotUploadButton.setVisible(true);
         }
     }
-
 
     public void tableChanged(TableModelEvent e){
         TableModel model = (TableModel)e.getSource();
@@ -1125,7 +1184,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         //disable as plays with output checkboxes
 //        if(generateStopsToUploadFlag) return;
 //        generateStopsToUploadFlag = true;
-        
+
         if(stops == null){
             JOptionPane.showMessageDialog(this, "There's no stops to upload");
             return;
@@ -1220,7 +1279,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-    	
+
     	setResizable(true); //false);
         stopsButtonGroup = new javax.swing.ButtonGroup();
         routesButtonGroup = new javax.swing.ButtonGroup();
@@ -1229,7 +1288,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         busStopPanel = new javax.swing.JPanel();
         final int osmMaxZoom = 19;
 
-        
+
       TileFactoryInfo osmInfo = new TileFactoryInfo(1,osmMaxZoom-2,osmMaxZoom,
             256, true, true, // tile size is 256 and x/y orientation is normal
             "http://tile.openstreetmap.org",//5/15/10.png",
@@ -1240,7 +1299,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 return url;
             }
         };
-        osmTf = new DefaultTileFactory(osmInfo);  
+        osmTf = new DefaultTileFactory(osmInfo);
         busRoutePanel = new javax.swing.JPanel();
         dummyUploadButton = new javax.swing.JButton();
         uploadDataButton = new javax.swing.JButton();
@@ -1270,7 +1329,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gbl_busStopPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         busStopPanel.setLayout(gbl_busStopPanel);
         tableStopButton = new javax.swing.JButton();
-        
+
         javax.swing.AbstractAction tableStopButtonActionListener = new javax.swing.AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tableStopButtonActionPerformed(evt);
@@ -1308,7 +1367,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 String tip = null;
                                 java.awt.Point p = e.getPoint();
                                 int index = columnModel.getColumnIndexAtX(p.x);
-                                int realIndex = 
+                                int realIndex =
                                 columnModel.getColumn(index).getModelIndex();
                                 return tagReportColumnHeaderToolTips[realIndex];
                             }
@@ -1318,16 +1377,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 dataTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());
                 dataTable.addMouseListener(new BooleanMouseListener(dataTable));
                 dataTable.addMouseListener(new BooleanMouseListener(dataTable));
-                
+
                         jScrollPane1.setName("jScrollPane1"); // NOI18N
-                        
+
                                 dataTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                 dataTable.setModel(stopTableModel);
                                 dataTable.setName("dataTable"); // NOI18N
                                 dataTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
                                 dataTable.getTableHeader().setReorderingAllowed(false);
                                 jLabel19 = new javax.swing.JLabel();
-                                
+
                                         jLabel19.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                         jLabel19.setText("Finish");
                                         jLabel19.setName("jLabel19"); // NOI18N
@@ -1338,7 +1397,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_jLabel19.gridy = 0;
                                         busStopPanel.add(jLabel19, gbc_jLabel19);
                                 finishProgressBar = new javax.swing.JProgressBar();
-                                
+
                                         finishProgressBar.setToolTipText("<html>\nStops that you should visit before uploading into OSM<br>\nThese stops are either new stops that GO_Sync can't find a match for in OSM or existing stops in OSM that have new data to be inserted.\n</html>"); // NOI18N
                                         finishProgressBar.setName("finishProgressBar"); // NOI18N
                                         finishProgressBar.setString("0"); // NOI18N
@@ -1350,7 +1409,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_finishProgressBar.gridx = 2;
                                         gbc_finishProgressBar.gridy = 0;
                                         busStopPanel.add(finishProgressBar, gbc_finishProgressBar);
-                                
+
                                 dontupremainButton = new JButton("Don't Up Remain");
                                 GridBagConstraints gbc_dontupremainButton = new GridBagConstraints();
                                 gbc_dontupremainButton.gridwidth = 2;
@@ -1364,7 +1423,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                     }
                                 });
                                 gtfsStopsComboBoxLabel = new javax.swing.JLabel();
-                                
+
                                         gtfsStopsComboBoxLabel.setFont(new java.awt.Font("Times New Roman", 1, 18));
                                         gtfsStopsComboBoxLabel.setText("GTFS Stops");
                                         gtfsStopsComboBoxLabel.setName("jLabel1"); // NOI18N
@@ -1376,7 +1435,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_gtfsStopsComboBoxLabel.gridy = 0;
                                         busStopPanel.add(gtfsStopsComboBoxLabel, gbc_gtfsStopsComboBoxLabel);
                                 osmStopsComboBoxLabel = new javax.swing.JLabel();
-                                
+
                                         osmStopsComboBoxLabel.setFont(new java.awt.Font("Times New Roman", 1, 18));
                                         osmStopsComboBoxLabel.setText("OSM Stops");
                                         osmStopsComboBoxLabel.setName("jLabel2"); // NOI18N
@@ -1388,7 +1447,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_osmStopsComboBoxLabel.gridy = 0;
                                         busStopPanel.add(osmStopsComboBoxLabel, gbc_osmStopsComboBoxLabel);
                                 osmStopsComboBox = new javax.swing.JComboBox(osmStops);
-                                
+
                                         osmStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
                                         osmStopsComboBox.setMinimumSize(new java.awt.Dimension(100, 20));
                                         osmStopsComboBox.setName("osmStopsComboBox"); // NOI18N
@@ -1399,7 +1458,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                             }
                                         });
                                         jLabel4 = new javax.swing.JLabel();
-                                        
+
                                                 jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18));
                                                 jLabel4.setText("Stops to view:");
                                                 jLabel4.setName("jLabel4"); // NOI18N
@@ -1410,7 +1469,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                 gbc_jLabel4.gridy = 1;
                                                 busStopPanel.add(jLabel4, gbc_jLabel4);
                                         gtfsStopsComboBox = new javax.swing.JComboBox(gtfsStops);
-                                        
+
                                                 gtfsStopsComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
                                                 gtfsStopsComboBox.setMinimumSize(new Dimension(100, 20));
                                                 gtfsStopsComboBox.setName("gtfsStopsComboBox"); // NOI18N
@@ -1421,7 +1480,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                         totalGtfsStopsLabel.setText(gtfsStopsComboBox.getSelectedIndex()+1 + "/" + gtfsStopsComboBox.getItemCount());
                                                     }
                                                 });
-                                                
+
                                                 dontuploadAllBtn = new JButton("Don't Up All");
                                                 dontuploadAllBtn.addActionListener(new java.awt.event.ActionListener() {
                                                     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1447,11 +1506,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
                                         nextButton.addActionListener(new java.awt.event.ActionListener() {
                                             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                        
+
                                          		if (gtfsStopsComboBox.getSelectedIndex()+1 < gtfsStopsComboBox.getItemCount())
                                                 {
                                             	gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
-                                            	
+
                                                 }
                                             }
                                         });
@@ -1487,7 +1546,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_osmStopsComboBox.gridy = 1;
                                         busStopPanel.add(osmStopsComboBox, gbc_osmStopsComboBox);
                                 searchButton = new javax.swing.JButton();
-                                
+
                                         searchButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                         searchButton.setText("Search");
                                         searchButton.setIconTextGap(2);
@@ -1499,8 +1558,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                             }
                                         });
                                         searchTextField = new javax.swing.JTextField();
-                                        
-                                                searchTextField.setToolTipText("Input stop name or stop id to search for stop");
+
+        searchTextField.setToolTipText("Input stop name or stop id to search for stop");
                                                 searchTextField.setName("searchTextField"); // NOI18N
                                                 GridBagConstraints gbc_searchTextField = new GridBagConstraints();
                                                 gbc_searchTextField.anchor = GridBagConstraints.NORTH;
@@ -1515,8 +1574,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_searchButton.gridx = 11;
                                         gbc_searchButton.gridy = 1;
                                         busStopPanel.add(searchButton, gbc_searchButton);
-                                
-                                panel = new JPanel();
+
+        panel = new JPanel();
                                 GridBagConstraints gbc_panel = new GridBagConstraints();
                                 gbc_panel.gridheight = 2;
                                 gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -1527,8 +1586,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
                                 newWithMatchStopsRadioButton = new javax.swing.JRadioButton();
                                 panel.add(newWithMatchStopsRadioButton);
-                                
-                                        stopsButtonGroup.add(newWithMatchStopsRadioButton);
+
+        stopsButtonGroup.add(newWithMatchStopsRadioButton);
                                         newWithMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                         newWithMatchStopsRadioButton.setText("New GTFS stops with"); // NOI18N
                                         newWithMatchStopsRadioButton.setToolTipText("<html>\nNew GTFS stops to be added to OpenStreetMap.<br>\nHowever, there are some existing stops in OSM within 400 meters that could be this GTFS stop.<br>\nPlease verify if the stop is already in OSM by clicking the Match button.<br>\nOtherwise, these GTFS stops would be uploaded with a FIXME tag.\n</html>"); // NOI18N
@@ -1540,15 +1599,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         });
                                         jLabel14 = new javax.swing.JLabel();
                                         panel.add(jLabel14);
-                                        
-                                                jLabel14.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        jLabel14.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                                 jLabel14.setText("Potential Matches in OSM");
                                                 jLabel14.setToolTipText("<html>\nNew GTFS stops to be added to OpenStreetMap.<br>\nHowever, there are some existing stops in OSM within 400 meters that could be this GTFS stop.<br>\nPlease verify if the stop is already in OSM by clicking the Match button.<br>\nOtherwise, these GTFS stops would be uploaded with a FIXME tag.\n</html>"); // NOI18N
                                                 jLabel14.setName("jLabel14");
                                                 newNoMatchStopsRadioButton = new javax.swing.JRadioButton();
                                                 panel.add(newNoMatchStopsRadioButton);
-                                                
-                                                        stopsButtonGroup.add(newNoMatchStopsRadioButton);
+
+        stopsButtonGroup.add(newNoMatchStopsRadioButton);
                                                         newNoMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                                         newNoMatchStopsRadioButton.setText("New GTFS stops with");
                                                         newNoMatchStopsRadioButton.setToolTipText("New GTFS stops to be added to OpenStreetMap."); // NOI18N
@@ -1560,15 +1619,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                         });
                                                         jLabel13 = new javax.swing.JLabel();
                                                         panel.add(jLabel13);
-                                                        
-                                                                jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                                                 jLabel13.setText("No OSM Matches");
                                                                 jLabel13.setToolTipText("New GTFS stops to be added to OpenStreetMap."); // NOI18N
                                                                 jLabel13.setName("jLabel13");
                                                                 updateStopsRadioButton = new javax.swing.JRadioButton();
                                                                 panel.add(updateStopsRadioButton);
-                                                                
-                                                                        stopsButtonGroup.add(updateStopsRadioButton);
+
+        stopsButtonGroup.add(updateStopsRadioButton);
                                                                         updateStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                                                         updateStopsRadioButton.setText("Existing stops with Updates");
                                                                         updateStopsRadioButton.setToolTipText("<html>\nThese GTFS stops are already there in OpenStreetMap.<br>\nHowever, some tags are different.\n</html>"); // NOI18N
@@ -1580,8 +1639,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                                         });
                                                                         existingStopRadioButton = new javax.swing.JRadioButton();
                                                                         panel.add(existingStopRadioButton);
-                                                                        
-                                                                                stopsButtonGroup.add(existingStopRadioButton);
+
+        stopsButtonGroup.add(existingStopRadioButton);
                                                                                 existingStopRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                                                                 existingStopRadioButton.setText("Existing stops");
                                                                                 existingStopRadioButton.setToolTipText("<html>\nThese GTFS stops are already in OpenStreetMap.<br>\nNo new information is added.\n</html>"); // NOI18N
@@ -1593,8 +1652,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                                                 });
                                                                                 allStopsRadioButton = new javax.swing.JRadioButton();
                                                                                 panel.add(allStopsRadioButton);
-                                                                                
-                                                                                        stopsButtonGroup.add(allStopsRadioButton);
+
+        stopsButtonGroup.add(allStopsRadioButton);
                                                                                         allStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                                                                         allStopsRadioButton.setSelected(true);
                                                                                         allStopsRadioButton.setText("All");
@@ -1606,8 +1665,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                                                             }
                                                                                         });
                                 jLabel7 = new javax.swing.JLabel();
-                                
-                                        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18));
                                         jLabel7.setText("Total Stops:");
                                         jLabel7.setName("jLabel7"); // NOI18N
                                         GridBagConstraints gbc_jLabel7 = new GridBagConstraints();
@@ -1618,8 +1677,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_jLabel7.gridy = 2;
                                         busStopPanel.add(jLabel7, gbc_jLabel7);
                                 totalGtfsStopsLabel = new javax.swing.JLabel();
-                                
-                                        totalGtfsStopsLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        totalGtfsStopsLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                         totalGtfsStopsLabel.setText("N/A"); // NOI18N
                                         totalGtfsStopsLabel.setName("totalGtfsStopsLabel"); // NOI18N
                                         GridBagConstraints gbc_totalGtfsStopsLabel = new GridBagConstraints();
@@ -1629,8 +1688,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_totalGtfsStopsLabel.gridy = 2;
                                         busStopPanel.add(totalGtfsStopsLabel, gbc_totalGtfsStopsLabel);
                                 totalOsmStopsLabel = new javax.swing.JLabel();
-                                
-                                        totalOsmStopsLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        totalOsmStopsLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                         totalOsmStopsLabel.setText("N/A");
                                         totalOsmStopsLabel.setName("totalOsmStopsLabel"); // NOI18N
                                         GridBagConstraints gbc_totalOsmStopsLabel = new GridBagConstraints();
@@ -1640,8 +1699,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_totalOsmStopsLabel.gridy = 2;
                                         busStopPanel.add(totalOsmStopsLabel, gbc_totalOsmStopsLabel);
                                 jScrollPane1.setViewportView(dataTable);
-                                
-                                        GridBagConstraints gbc_jScrollPane1 = new GridBagConstraints();
+
+        GridBagConstraints gbc_jScrollPane1 = new GridBagConstraints();
                                         gbc_jScrollPane1.fill = GridBagConstraints.BOTH;
                                         gbc_jScrollPane1.insets = new Insets(0, 0, 5, 0);
                                         gbc_jScrollPane1.gridwidth = 8;
@@ -1649,8 +1708,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                         gbc_jScrollPane1.gridy = 3;
                                         busStopPanel.add(jScrollPane1, gbc_jScrollPane1);
                 donotUploadButton = new javax.swing.JButton();
-                
-                        donotUploadButton.setFont(new java.awt.Font("Tahoma", 0, 12));
+
+        donotUploadButton.setFont(new java.awt.Font("Tahoma", 0, 12));
                         donotUploadButton.setText("Don't Upload");
                         donotUploadButton.setName("donotUploadButton"); // NOI18N
                         donotUploadButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1659,8 +1718,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                             }
                         });
                         lastEditedLabel = new javax.swing.JLabel();
-                        
-                                lastEditedLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        lastEditedLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                 lastEditedLabel.setText("N/A");
                                 lastEditedLabel.setName("lastEditedLabel"); // NOI18N
                                 GridBagConstraints gbc_lastEditedLabel = new GridBagConstraints();
@@ -1680,8 +1739,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_donotUploadButton.gridy = 5;
                         busStopPanel.add(donotUploadButton, gbc_donotUploadButton);
                 jLabel18 = new javax.swing.JLabel();
-                
-                        jLabel18.setIcon(busIcon); // NOI18N
+
+        jLabel18.setIcon(busIcon); // NOI18N
                         jLabel18.setText("New Stop");
                         jLabel18.setName("jLabel18"); // NOI18N
                         GridBagConstraints gbc_jLabel18 = new GridBagConstraints();
@@ -1715,8 +1774,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_jLabel15.gridy = 5;
                         busStopPanel.add(jLabel15, gbc_jLabel15);
                 jLabel5 = new javax.swing.JLabel();
-                
-                        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 18));
                         jLabel5.setText("General Information");
                         jLabel5.setName("jLabel5"); // NOI18N
                         GridBagConstraints gbc_jLabel5 = new GridBagConstraints();
@@ -1728,8 +1787,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_jLabel5.gridy = 6;
                         busStopPanel.add(jLabel5, gbc_jLabel5);
                 jLabel3 = new javax.swing.JLabel();
-                
-                        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18));
                         jLabel3.setText("Display on Map:");
                         jLabel3.setName("jLabel3"); // NOI18N
                         GridBagConstraints gbc_jLabel3 = new GridBagConstraints();
@@ -1742,8 +1801,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_jLabel3.gridy = 6;
                         busStopPanel.add(jLabel3, gbc_jLabel3);
         jLabel16 = new javax.swing.JLabel();
-        
-                jLabel16.setIcon(generateImageIcon(selectedOSMColor)); // NOI18N
+
+        jLabel16.setIcon(generateImageIcon(selectedOSMColor)); // NOI18N
                 jLabel16.setText("Selected Osm Stop");
                 jLabel16.setName("jLabel16"); // NOI18N
                 jLabel16.setOpaque(true);
@@ -1755,9 +1814,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_jLabel16.gridy = 7;
                 busStopPanel.add(jLabel16, gbc_jLabel16);
         jLabel17 = new javax.swing.JLabel();
-        
 
-                jLabel17.setIcon(generateImageIcon(selectedGTFSColor)); // NOI18N
+
+        jLabel17.setIcon(generateImageIcon(selectedGTFSColor)); // NOI18N
                 jLabel17.setText("Selected Gtfs Stop");
                 jLabel17.setName("jLabel17"); // NOI18N
                 jLabel17.setOpaque(true);
@@ -1772,17 +1831,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         generalInformationStopTextArea = new javax.swing.JTextArea();
         generalInformationStopTextArea.setLineWrap(true);
         generalInformationStopTextArea.setWrapStyleWord(true);
-        
-                jScrollPane2.setName("jScrollPane2"); // NOI18N
-                
-                        generalInformationStopTextArea.setColumns(20);
+
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        generalInformationStopTextArea.setColumns(20);
                         generalInformationStopTextArea.setEditable(false);
                         generalInformationStopTextArea.setRows(5);
                         generalInformationStopTextArea.setWrapStyleWord(true);
                         generalInformationStopTextArea.setName("generalInformationStopTextArea"); // NOI18N
                         jScrollPane2.setViewportView(generalInformationStopTextArea);
-                        
-                                GridBagConstraints gbc_jScrollPane2 = new GridBagConstraints();
+
+        GridBagConstraints gbc_jScrollPane2 = new GridBagConstraints();
                                 gbc_jScrollPane2.fill = GridBagConstraints.BOTH;
                                 gbc_jScrollPane2.insets = new Insets(0, 0, 0, 5);
                                 gbc_jScrollPane2.gridwidth = 4;
@@ -1790,7 +1849,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 gbc_jScrollPane2.gridy = 8;
                                 busStopPanel.add(jScrollPane2, gbc_jScrollPane2);
         mapJXMapKit = new org.jdesktop.swingx.JXMapKit();
-        
+
 
         //shortcuts
 
@@ -1837,8 +1896,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gbl_busRoutePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         busRoutePanel.setLayout(gbl_busRoutePanel);
         existingRoutesWithUpdatesRadioButton = new javax.swing.JRadioButton();
-        
-                routesButtonGroup.add(existingRoutesWithUpdatesRadioButton);
+
+        routesButtonGroup.add(existingRoutesWithUpdatesRadioButton);
                 existingRoutesWithUpdatesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                 existingRoutesWithUpdatesRadioButton.setText("Existing routes with Updates");
                 existingRoutesWithUpdatesRadioButton.setName("existingRoutesWithUpdatesRadioButton"); // NOI18N
@@ -1848,8 +1907,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     }
                 });
                 jLabel6 = new javax.swing.JLabel();
-                
-                        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18));
                         jLabel6.setText("GTFS Routes");
                         jLabel6.setName("jLabel6"); // NOI18N
                         GridBagConstraints gbc_jLabel6 = new GridBagConstraints();
@@ -1860,8 +1919,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_jLabel6.gridy = 0;
                         busRoutePanel.add(jLabel6, gbc_jLabel6);
                 jLabel8 = new javax.swing.JLabel();
-                
-                        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18));
                         jLabel8.setText("Total Routes:");
                         jLabel8.setName("jLabel8"); // NOI18N
                         GridBagConstraints gbc_jLabel8 = new GridBagConstraints();
@@ -1871,8 +1930,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_jLabel8.gridy = 0;
                         busRoutePanel.add(jLabel8, gbc_jLabel8);
                 jLabel9 = new javax.swing.JLabel();
-                
-                        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18));
                         jLabel9.setText("Routes to view:");
                         jLabel9.setName("jLabel9"); // NOI18N
                         GridBagConstraints gbc_jLabel9 = new GridBagConstraints();
@@ -1881,8 +1940,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_jLabel9.gridy = 1;
                         busRoutePanel.add(jLabel9, gbc_jLabel9);
                 newRoutesRadioButton = new javax.swing.JRadioButton();
-                
-                        routesButtonGroup.add(newRoutesRadioButton);
+
+        routesButtonGroup.add(newRoutesRadioButton);
                         newRoutesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                         newRoutesRadioButton.setText("New GTFS routes"); // NOI18N
                         newRoutesRadioButton.setName("newRoutesRadioButton"); // NOI18N
@@ -1892,8 +1951,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                             }
                         });
                         gtfsRoutesComboBox = new javax.swing.JComboBox(gtfsStops);
-                        
-                                gtfsRoutesComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
+
+        gtfsRoutesComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14));
                                 gtfsRoutesComboBox.setMinimumSize(new Dimension(100, 20));
                                 gtfsRoutesComboBox.setName("gtfsRoutesComboBox"); // NOI18N
                                 gtfsRoutesComboBox.setPreferredSize(new Dimension(100, 20));
@@ -1910,8 +1969,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 gbc_gtfsRoutesComboBox.gridy = 1;
                                 busRoutePanel.add(gtfsRoutesComboBox, gbc_gtfsRoutesComboBox);
                         totalGtfsRoutesLabel = new javax.swing.JLabel();
-                        
-                                totalGtfsRoutesLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        totalGtfsRoutesLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                 totalGtfsRoutesLabel.setText("N/A"); // NOI18N
                                 totalGtfsRoutesLabel.setName("totalGtfsRoutesLabel"); // NOI18N
                                 GridBagConstraints gbc_totalGtfsRoutesLabel = new GridBagConstraints();
@@ -1950,7 +2009,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 String tip = null;
                                 java.awt.Point p = e.getPoint();
                                 int index = columnModel.getColumnIndexAtX(p.x);
-                                int realIndex = 
+                                int realIndex =
                                 columnModel.getColumn(index).getModelIndex();
                                 return tagReportColumnHeaderToolTips[realIndex];
                             }
@@ -1958,17 +2017,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     }
                 };
                 routeTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());
-                
-                        jScrollPane4.setName("jScrollPane4"); // NOI18N
-                        
-                                routeTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        jScrollPane4.setName("jScrollPane4"); // NOI18N
+
+        routeTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                 routeTable.setModel(routeTableModel);
                                 routeTable.setName("routeTable"); // NOI18N
                                 routeTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
                                 routeTable.getTableHeader().setReorderingAllowed(false);
                                 jScrollPane4.setViewportView(routeTable);
-                                
-                                        GridBagConstraints gbc_jScrollPane4 = new GridBagConstraints();
+
+        GridBagConstraints gbc_jScrollPane4 = new GridBagConstraints();
                                         gbc_jScrollPane4.fill = GridBagConstraints.BOTH;
                                         gbc_jScrollPane4.insets = new Insets(0, 0, 5, 0);
                                         gbc_jScrollPane4.gridheight = 4;
@@ -1983,8 +2042,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_existingRoutesWithUpdatesRadioButton.gridy = 3;
                 busRoutePanel.add(existingRoutesWithUpdatesRadioButton, gbc_existingRoutesWithUpdatesRadioButton);
         saveChangeRouteButton = new javax.swing.JButton();
-        
-                saveChangeRouteButton.setText("Save Change");
+
+        saveChangeRouteButton.setText("Save Change");
                 saveChangeRouteButton.setEnabled(false);
                 saveChangeRouteButton.setName("saveChangeRouteButton"); // NOI18N
                 saveChangeRouteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1993,8 +2052,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     }
                 });
                 existingRoutesRadioButton = new javax.swing.JRadioButton();
-                
-                        routesButtonGroup.add(existingRoutesRadioButton);
+
+        routesButtonGroup.add(existingRoutesRadioButton);
                         existingRoutesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                         existingRoutesRadioButton.setText("Existing routes");
                         existingRoutesRadioButton.setName("existingRoutesRadioButton"); // NOI18N
@@ -2010,8 +2069,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_existingRoutesRadioButton.gridy = 4;
                         busRoutePanel.add(existingRoutesRadioButton, gbc_existingRoutesRadioButton);
                 allRoutesRadioButton = new javax.swing.JRadioButton();
-                
-                        routesButtonGroup.add(allRoutesRadioButton);
+
+        routesButtonGroup.add(allRoutesRadioButton);
                         allRoutesRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                         allRoutesRadioButton.setSelected(true);
                         allRoutesRadioButton.setText("All");
@@ -2035,8 +2094,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_saveChangeRouteButton.gridy = 6;
                 busRoutePanel.add(saveChangeRouteButton, gbc_saveChangeRouteButton);
         jLabel10 = new javax.swing.JLabel();
-        
-                jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 18));
                 jLabel10.setText("General Information");
                 jLabel10.setName("jLabel10"); // NOI18N
                 GridBagConstraints gbc_jLabel10 = new GridBagConstraints();
@@ -2046,8 +2105,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_jLabel10.gridy = 8;
                 busRoutePanel.add(jLabel10, gbc_jLabel10);
         jLabel11 = new javax.swing.JLabel();
-        
-                jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 18));
                 jLabel11.setText("Members to view:");
                 jLabel11.setName("jLabel11"); // NOI18N
                 GridBagConstraints gbc_jLabel11 = new GridBagConstraints();
@@ -2058,8 +2117,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_jLabel11.gridy = 8;
                 busRoutePanel.add(jLabel11, gbc_jLabel11);
                 allMembersRadioButton = new javax.swing.JRadioButton();
-                
-                        membersButtonGroup.add(allMembersRadioButton);
+
+        membersButtonGroup.add(allMembersRadioButton);
                         allMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                         allMembersRadioButton.setSelected(true);
                         allMembersRadioButton.setText("All");
@@ -2077,8 +2136,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         gbc_allMembersRadioButton.gridy = 8;
                         busRoutePanel.add(allMembersRadioButton, gbc_allMembersRadioButton);
                 osmMembersRadioButton = new javax.swing.JRadioButton();
-                
-                        membersButtonGroup.add(osmMembersRadioButton);
+
+        membersButtonGroup.add(osmMembersRadioButton);
                         osmMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                         osmMembersRadioButton.setText("From OSM only"); // NOI18N
                         osmMembersRadioButton.setName("osmMembersRadioButton"); // NOI18N
@@ -2088,8 +2147,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                             }
                         });
                         gtfsMembersRadioButton = new javax.swing.JRadioButton();
-                        
-                                membersButtonGroup.add(gtfsMembersRadioButton);
+
+        membersButtonGroup.add(gtfsMembersRadioButton);
                                 gtfsMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                 gtfsMembersRadioButton.setText("From GTFS only");
                                 gtfsMembersRadioButton.setName("gtfsMembersRadioButton"); // NOI18N
@@ -2116,17 +2175,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         jScrollPane5 = new javax.swing.JScrollPane();
         memberTable = new javax.swing.JTable();
         memberTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.RouteMemberTableCellRenderer());
-        
-                jScrollPane5.setName("jScrollPane5"); // NOI18N
-                
-                        memberTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        jScrollPane5.setName("jScrollPane5"); // NOI18N
+
+        memberTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
                         memberTable.setModel(stopTableModel);
                         memberTable.setName("memberTable"); // NOI18N
                         memberTable.setSelectionForeground(new java.awt.Color(0, 0, 0));
                         memberTable.getTableHeader().setReorderingAllowed(false);
                         bothMembersRadioButton = new javax.swing.JRadioButton();
-                        
-                                membersButtonGroup.add(bothMembersRadioButton);
+
+        membersButtonGroup.add(bothMembersRadioButton);
                                 bothMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14));
                                 bothMembersRadioButton.setText("From both dataset");
                                 bothMembersRadioButton.setName("bothMembersRadioButton"); // NOI18N
@@ -2144,17 +2203,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 busRoutePanel.add(bothMembersRadioButton, gbc_bothMembersRadioButton);
                         jScrollPane3 = new javax.swing.JScrollPane();
                         generalInformationRouteTextArea = new javax.swing.JTextArea();
-                        
-                                jScrollPane3.setName("jScrollPane3"); // NOI18N
-                                
-                                        generalInformationRouteTextArea.setColumns(20);
+
+        jScrollPane3.setName("jScrollPane3"); // NOI18N
+
+        generalInformationRouteTextArea.setColumns(20);
                                         generalInformationRouteTextArea.setLineWrap(true);
                                         generalInformationRouteTextArea.setRows(5);
                                         generalInformationRouteTextArea.setWrapStyleWord(true);
                                         generalInformationRouteTextArea.setName("generalInformationRouteTextArea"); // NOI18N
                                         jScrollPane3.setViewportView(generalInformationRouteTextArea);
-                                        
-                                                GridBagConstraints gbc_jScrollPane3 = new GridBagConstraints();
+
+        GridBagConstraints gbc_jScrollPane3 = new GridBagConstraints();
                                                 gbc_jScrollPane3.fill = GridBagConstraints.BOTH;
                                                 gbc_jScrollPane3.insets = new Insets(0, 0, 0, 5);
                                                 gbc_jScrollPane3.gridheight = 2;
@@ -2162,8 +2221,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                                 gbc_jScrollPane3.gridy = 10;
                                                 busRoutePanel.add(jScrollPane3, gbc_jScrollPane3);
                         jScrollPane5.setViewportView(memberTable);
-                        
-                                GridBagConstraints gbc_jScrollPane5 = new GridBagConstraints();
+
+        GridBagConstraints gbc_jScrollPane5 = new GridBagConstraints();
                                 gbc_jScrollPane5.fill = GridBagConstraints.BOTH;
                                 gbc_jScrollPane5.insets = new Insets(0, 0, 5, 0);
                                 gbc_jScrollPane5.gridwidth = 7;
@@ -2171,8 +2230,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 gbc_jScrollPane5.gridy = 10;
                                 busRoutePanel.add(jScrollPane5, gbc_jScrollPane5);
         jLabel12 = new javax.swing.JLabel();
-        
-                jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18));
+
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18));
                 jLabel12.setText("Total:");
                 jLabel12.setName("jLabel12"); // NOI18N
                 GridBagConstraints gbc_jLabel12 = new GridBagConstraints();
@@ -2182,8 +2241,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_jLabel12.gridy = 11;
                 busRoutePanel.add(jLabel12, gbc_jLabel12);
         totalGtfsMembersLabel = new javax.swing.JLabel();
-        
-                totalGtfsMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        totalGtfsMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
                 totalGtfsMembersLabel.setText("N/A"); // NOI18N
                 totalGtfsMembersLabel.setName("totalGtfsMembersLabel"); // NOI18N
                 GridBagConstraints gbc_totalGtfsMembersLabel = new GridBagConstraints();
@@ -2194,8 +2253,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gbc_totalGtfsMembersLabel.gridy = 11;
                 busRoutePanel.add(totalGtfsMembersLabel, gbc_totalGtfsMembersLabel);
         totalOsmMembersLabel = new javax.swing.JLabel();
-        
-                totalOsmMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        totalOsmMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
                 totalOsmMembersLabel.setText("N/A"); // NOI18N
                 totalOsmMembersLabel.setName("totalOsmMembersLabel"); // NOI18N
                 GridBagConstraints gbc_totalOsmMembersLabel = new GridBagConstraints();
@@ -2208,8 +2267,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         jTabbedPane1.addTab("Bus Route", busRoutePanel);
         totalNewMembersLabel = new javax.swing.JLabel();
-        
-                totalNewMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
+
+        totalNewMembersLabel.setFont(new java.awt.Font("Times New Roman", 0, 14));
                 totalNewMembersLabel.setText("N/A"); // NOI18N
                 totalNewMembersLabel.setName("totalNewMembersLabel"); // NOI18N
                 GridBagConstraints gbc_totalNewMembersLabel = new GridBagConstraints();
@@ -2222,14 +2281,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 stopsCheckbox = new JCheckBox("Stops");stopsCheckbox.setSelected(true);
                 routesCheckbox = new JCheckBox("Routes");routesCheckbox.setSelected(true);
                 acceptedOnlyCheckbox = new JCheckBox("Only Accepted");acceptedOnlyCheckbox.setSelected(true);
-//                routesCheckbox.setMnemonic(KeyEvent.VK_C); 
+//                routesCheckbox.setMnemonic(KeyEvent.VK_C);
 
 /*                routesCheckbox.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         dummyUploadButtonActionPerformed(evt);
                     }
                 });*/
-                
+
         dummyUploadButton.setFont(new java.awt.Font("Tahoma", 0, 14));
         dummyUploadButton.setText("Dummy Upload");
         dummyUploadButton.setName("dummyUploadButton"); // NOI18N
@@ -2249,7 +2308,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         });
         //TODO remove button
         uploadDataButton.setEnabled(false);
-        
+
         jMenuBar1.setName("jMenuBar1"); // NOI18N
 
         jMenu1.setText("File");
@@ -2355,11 +2414,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }// </editor-fold>//GEN-END:initComponents
 
     private Stop[] removeOneStopFromArray(Stop[] arrayStops, Stop s){
-    	
+
     	/*
-        
+
 		Stop[] gtfsTemp = new Stop[arrayStops.length-1];
-           
+
         int i = 0;
         while(!arrayStops[i].equals(s)){
             gtfsTemp[i] = arrayStops[i];
@@ -2375,56 +2434,52 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         for(i=0; i<gtfsTemp.length; i++) arrayStops[i] = gtfsTemp[i];
         return arrayStops;
         */
-        
-        
-    	LinkedList<Stop> stopList = new LinkedList<Stop>(Arrays.asList(arrayStops));  
+
+
+        LinkedList<Stop> stopList = new LinkedList<Stop>(Arrays.asList(arrayStops));
         System.out.print(stopList.size());
     	stopList.remove(s);
-    	
+
 //        arrayStops = stopList.toArray(arrayStops);
     	arrayStops =  Arrays.copyOf(stopList.toArray(arrayStops), stopList.size());
-        System.out.println("\t" + stopList.size() + "\t" + arrayStops.length); 
+        System.out.println("\t" + stopList.size() + "\t" + arrayStops.length);
         return arrayStops;
-        
-       
+
+
     }
 
-    
-    
-    private void donotUploadAllButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    private void donotUploadAllButtonActionPerformed(java.awt.event.ActionEvent evt)
     {
-    	
+
         System.out.println("upload\tmodify\tdelete\tfinalStops");
     	System.out.println(upload.size() + "\t" + modify.size() + "\t" +delete.size() + "\t" +finalStops.size());
 
-    	
-    	
-    	
+
 //    	GtfsArrayList.remove(o)
     	Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
     	String category = s.getReportCategory();
   //  	ArrayList<Stop> GtfsAllArrayList = new ArrayList<Stop>() ;
-    	LinkedList<Stop> GtfsAllLinkedList = new LinkedList<Stop>(Arrays.asList(gtfsAll));  
-    	
-    	
-    	
+        LinkedList<Stop> GtfsAllLinkedList = new LinkedList<Stop>(Arrays.asList(gtfsAll));
+
+
+
     	System.out.println(gtfsUploadConflict.length+"\t" + gtfsUploadNoConflict.length+"\t" + gtfsModify.length+"\t" + gtfsUploadConflict.length+"\t" + gtfsAll.length+"\t" );
     	System.out.println(GtfsAllLinkedList.size()+"\t");
 
 //    	GtfsAlGtfsAll
-    	
-    	Stop[] gtfsarraynew;
-    	List <Stop> gtfsListnew; 
+
+        Stop[] gtfsarraynew;
+        List<Stop> gtfsListnew;
         if(category.equals("UPLOAD_CONFLICT")){
    //         gtfsUploadConflict = removeOneStopFromArray(gtfsUploadConflict, s);
         	List <Stop> gtfsUploadConflictList = Arrays.asList(gtfsUploadConflict);
             GtfsAllLinkedList.removeAll(gtfsUploadConflictList);
-            
+
 //            if index > gtfsUploadConflict.length //FIXME case where index > array after removal
 /*            if (allStopsRadioButton.isSelected())
             	updateStopCategory(gtfsAll, index);
             else*/
-            
+
 //          String sid = s.getStopID();
 //          finalStops.remove(sid);
           finalStops.entrySet().removeAll(gtfsUploadConflictList);
@@ -2436,26 +2491,26 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
           delete.removeAll(gtfsUploadConflictList);
 //          osmDefaultFinalStops.remove(sid);
 //          osmDefaultOnlyChangedFinalStops.remove(sid);
-//          finalCheckboxes.remove(sid);                   
+//          finalCheckboxes.remove(sid);
           gtfsUploadConflict = new Stop[0];
           updateStopCategory(gtfsUploadConflict, 0);
         } else if(category.equals("UPLOAD_NO_CONFLICT")) {
         	List <Stop> gtfsUploadNoConflictList = Arrays.asList(gtfsUploadNoConflict);
-            GtfsAllLinkedList.removeAll(gtfsUploadNoConflictList);            
+            GtfsAllLinkedList.removeAll(gtfsUploadNoConflictList);
 
 //            gtfsUploadNoConflict = removeOneStopFromArray(gtfsUploadNoConflict, s);
 /*        	if (allStopsRadioButton.isSelected())
             	updateStopCategory(gtfsAll, 0);
             else*/
-            
+
             finalStops.entrySet().removeAll(gtfsUploadNoConflictList);
             osmDefaultFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
             osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsUploadNoConflictList);
-            finalCheckboxes.entrySet().removeAll(gtfsUploadNoConflictList);            
+            finalCheckboxes.entrySet().removeAll(gtfsUploadNoConflictList);
             upload.removeAll(gtfsUploadNoConflictList);
             modify.removeAll(gtfsUploadNoConflictList);
-            delete.removeAll(gtfsUploadNoConflictList);            
-            
+            delete.removeAll(gtfsUploadNoConflictList);
+
             gtfsUploadNoConflict = new Stop[0];
             //Arrays.fill(gtfsUploadNoConflict, null);
             updateStopCategory(gtfsUploadNoConflict, 0);
@@ -2463,31 +2518,31 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         	List <Stop> gtfsModifyConflictList = Arrays.asList(gtfsModify);
             GtfsAllLinkedList.removeAll(gtfsModifyConflictList);
 
-            
+
             finalStops.entrySet().removeAll(gtfsModifyConflictList);
             osmDefaultFinalStops.entrySet().removeAll(gtfsModifyConflictList);
             osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsModifyConflictList);
-            finalCheckboxes.entrySet().removeAll(gtfsModifyConflictList);                    
-            
+            finalCheckboxes.entrySet().removeAll(gtfsModifyConflictList);
+
             upload.removeAll(gtfsModifyConflictList);
             modify.removeAll(gtfsModifyConflictList);
-            delete.removeAll(gtfsModifyConflictList);    
-            
+            delete.removeAll(gtfsModifyConflictList);
+
             gtfsModify = new Stop[0];
             updateStopCategory(gtfsModify, 0);
         }
         gtfsAll =  Arrays.copyOf(GtfsAllLinkedList.toArray(gtfsAll), GtfsAllLinkedList.size());
-        
+
 /*
         finalStops.entrySet().removeAll(gtfsListnew);
         osmDefaultFinalStops.entrySet().removeAll(gtfsListnew);
         osmDefaultOnlyChangedFinalStops.entrySet().removeAll(gtfsListnew);
         finalCheckboxes.entrySet().removeAll(gtfsListnew);
 */    //    finalStops.remove(sid);
-        
-        
-    	// TODO: use HashSets insteaf of list
-    	
+
+
+        // TODO: use HashSets insteaf of list
+
 /*        private void updateStopCategory(Stop[] selectedCategory, int index){
             gtfsStops = selectedCategory;
             gtfsStopsComboBox.setModel(new DefaultComboBoxModel(gtfsStops));
@@ -2501,48 +2556,45 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
 		if(category.equals("UPLOAD_CONFLICT"))
 			stoplist = gtfsUploadConflict;
-		else if(category.equals("UPLOAD_NO_CONFLICT")) 
+		else if(category.equals("UPLOAD_NO_CONFLICT"))
 			stoplist = gtfsUploadNoConflict;
 		else if(category.equals("MODIFY"))
 	         stoplist = gtfsModify;
 		else
 			 stoplist = gtfsModify;*/
-		
+
 //	    while (stoplist.length > 0)
-  
-    	// FIXME only works properly when none in cat have been accepted
+
+        // FIXME only works properly when none in cat have been accepted
 //	    while (gtfsStopsComboBox.getItemCount() > 1) //works with >1 but not >0
 //	    	donotUploadButtonActionPerformed(evt);
-	    
+
 /*	    	int currentitem = 0;
-	    	gtfsStopsComboBox.setSelectedIndex(0);
-		    while (gtfsStopsComboBox.getItemCount() > 1) 
+            gtfsStopsComboBox.setSelectedIndex(0);
+		    while (gtfsStopsComboBox.getItemCount() > 1)
 		    	donotUploadButtonActionPerformed(evt);*/
-		    
-	    	//FIXME broken when some already do not uploads?
+
+        //FIXME broken when some already do not uploads?
         System.out.println("\t"+GtfsAllLinkedList.size());
         System.out.println("upload\tmodify\tdelete\tfinalStops");
     	System.out.println(upload.size() + "\t" + modify.size() + "\t" +delete.size() + "\t" +finalStops.size());
 
-	    
+
     }
-    
-    private void donotUploadRemainingButtonActionPerformed(java.awt.event.ActionEvent evt) 
+
+    private void donotUploadRemainingButtonActionPerformed(java.awt.event.ActionEvent evt)
     {
     	int currentitem = gtfsStopsComboBox.getSelectedIndex();
     	gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getItemCount()-1);
-	    while (gtfsStopsComboBox.getItemCount() > (currentitem+1)) 
-	    	donotUploadButtonActionPerformed(evt);
-	    
-    	//FIXME broken when some already do not uploads?
-	    
-	    
-	    
-	    
-	    
+        while (gtfsStopsComboBox.getItemCount() > (currentitem + 1))
+            donotUploadButtonActionPerformed(evt);
+
+        //FIXME broken when some already do not uploads?
+
+
     }
-    
-    private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt) 
+
+    private void donotUploadButtonActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_donotUploadButtonActionPerformed
         Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
 
@@ -2553,7 +2605,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         String sid = s.getStopID();
         String category = s.getReportCategory();
  //       System.err.print(category);
-//        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount() + "b"); 
+//        System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount() + "b");
         gtfsAll = removeOneStopFromArray(gtfsAll, s);
         if(category.equals("UPLOAD_CONFLICT")){
             gtfsUploadConflict = removeOneStopFromArray(gtfsUploadConflict, s);
@@ -2578,8 +2630,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
         System.err.println(index + "\t gtfsStopsComboBox.getItemCount():\t" + gtfsStopsComboBox.getItemCount() + "x"); //FIXME combo box count is broken before uopdate
 
-        
-        
+
         finalStops.remove(sid);
         osmDefaultFinalStops.remove(sid);
         osmDefaultOnlyChangedFinalStops.remove(sid);
@@ -2591,8 +2642,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         System.err.println(index + "\t" + gtfsStopsComboBox.getItemCount());
  		if (index < gtfsStopsComboBox.getItemCount() -1)
         {
-         
-         gtfsStopsComboBox.setSelectedIndex(index);
+
+            gtfsStopsComboBox.setSelectedIndex(index);
         // updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
         }
  		else
@@ -2612,11 +2663,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             JOptionPane.showMessageDialog(this, "To edit OSM data, you must log in to OSM.");
             return;
         }
-        
+
         generateStopsToUpload(finalStops);
 
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        
+
         uploadDataButton.setEnabled(false);
 //        progressBar.setVisible(true);
 //        progressBar.setIndeterminate(false);
@@ -2701,7 +2752,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         Stop selectedOSMStop  = (Stop)osmStopsComboBox.getSelectedItem();
 
         String tableStopButtonText = tableStopButton.getText();
-        if(tableStopButtonText.contains("Save Change" ))// || !finalStopsAccepted.contains(selectedGtfs))
+        if (tableStopButtonText.contains("Save Change") || !finalStopsAccepted.contains(selectedGtfs))
         {
 
             // Save Checkboxes values
@@ -2743,7 +2794,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }// stops to finish
             if(stopsToFinish.contains(selectedGtfsStop.toString()))
             {
-            	
+
                 stopsToFinish.remove(selectedGtfsStop.toString());
                 int visited = totalNumberOfStopsToFinish - stopsToFinish.size();
                 finishProgressBar.setString(Integer.toString(visited)
@@ -2764,16 +2815,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
 
             if(!tableStopButtonText.contains("Save Change")) JOptionPane.showMessageDialog(this,"Stop is accepted!");
-            
-            
-    		// 14thchanges the OSM COMbo box but not the gtfs one
+
+
+            // 14thchanges the OSM COMbo box but not the gtfs one
     		// 16-10 only seems to work if tags not changed!?
      		if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())
             {
-             
-             gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
-         	
-         //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
+
+                gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+
+                //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
             if  (!finalStopsAccepted.containsKey(selectedGtfs))
                 finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
@@ -2865,100 +2916,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         JOptionPane.showMessageDialog(this, "No stop found!\nPlease check your spelling!");
     }//GEN-LAST:event_searchButtonActionPerformed
-
-    /**
-    * @param args the command line arguments
-    
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ReportViewer().setVisible(true);
-            }
-        });
-    }*/
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton allMembersRadioButton;
-    private javax.swing.JRadioButton allRoutesRadioButton;
-    private javax.swing.JRadioButton allStopsRadioButton;
-    private javax.swing.JRadioButton bothMembersRadioButton;
-    private javax.swing.JTable dataTable;
-    private javax.swing.JButton donotUploadButton;
-    private javax.swing.JButton dummyUploadButton;
-    private javax.swing.JRadioButton existingRoutesRadioButton;
-    private javax.swing.JRadioButton existingRoutesWithUpdatesRadioButton;
-    private javax.swing.JRadioButton existingStopRadioButton;
-    private javax.swing.JMenuItem exportGtfsValueGtfsDataOnlyMenuItem;
-    private javax.swing.JMenuItem exportGtfsValueWithOsmTagsMenuItem;
-    private javax.swing.JMenuItem exportOsmValueGtfsDataOnlyMenuItem;
-    private javax.swing.JMenuItem exportOsmValueStopsWithConflictsMenuItem;
-    private javax.swing.JMenuItem exportOsmValueWithOsmTagsMenuItem;
-    private javax.swing.JProgressBar finishProgressBar;
-    private javax.swing.JTextArea generalInformationRouteTextArea;
-    private javax.swing.JTextArea generalInformationStopTextArea;
-    private javax.swing.JRadioButton gtfsMembersRadioButton;
-    private javax.swing.JComboBox gtfsRoutesComboBox;
-    private javax.swing.JComboBox gtfsStopsComboBox;
-    private javax.swing.JLabel gtfsStopsComboBoxLabel;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel osmStopsComboBoxLabel;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel busStopPanel;
-    private javax.swing.JPanel busRoutePanel;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lastEditedLabel;
-    private org.jdesktop.swingx.JXMapKit mapJXMapKit;
-    private javax.swing.JTable memberTable;
-    private javax.swing.ButtonGroup membersButtonGroup;
-    private javax.swing.JRadioButton newNoMatchStopsRadioButton;
-    private javax.swing.JRadioButton newRoutesRadioButton;
-    private javax.swing.JRadioButton newWithMatchStopsRadioButton;
-    private javax.swing.JRadioButton osmMembersRadioButton;
-    private javax.swing.JComboBox osmStopsComboBox;
-    private javax.swing.JTable routeTable;
-    private javax.swing.ButtonGroup routesButtonGroup;
-    private javax.swing.JButton saveChangeRouteButton;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JTextField searchTextField;
-    private javax.swing.ButtonGroup stopsButtonGroup;
-    private javax.swing.JButton tableStopButton;
-    private javax.swing.JLabel totalGtfsMembersLabel;
-    private javax.swing.JLabel totalGtfsRoutesLabel;
-    private javax.swing.JLabel totalGtfsStopsLabel;
-    private javax.swing.JLabel totalNewMembersLabel;
-    private javax.swing.JLabel totalOsmMembersLabel;
-    private javax.swing.JLabel totalOsmStopsLabel;
-    private javax.swing.JRadioButton updateStopsRadioButton;
-    private javax.swing.JButton uploadDataButton;
-    private JPanel panel;
-    private JButton dontuploadAllBtn;
-    private JButton dontupremainButton;
-    private JButton nextButton;
     // End of variables declaration//GEN-END:variables
 
 }

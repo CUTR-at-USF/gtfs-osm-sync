@@ -11,7 +11,9 @@ public class tag_defs {
     public final static String  OSM_NETWORK_KEY  = "network";
     public final static String GTFS_ZONE_KEY  = "zone_id";
     public final static String  OSM_ZONE_KEY  = "transport:zone";
-//	public final static String GTFS_OPERATOR_KEY = "operator"
+
+
+    //	public final static String GTFS_OPERATOR_KEY = "operator"
 //
 //
 // ;
@@ -21,6 +23,8 @@ public class tag_defs {
     public final static String  OSM_ROUTE_NAME  = "name";
     public final static String GTFS_COLOUR_KEY  = "route_color";
     public final static String  OSM_COLOUR_KEY  = "colour";
+    public final static String GTFS_WHEELCHAIR_KEY = "wheelchair_boarding";
+    public final static String OSM_WHEELCHAIR_KEY = "wheelchair";
 
 
     public final static String GTFS_STOP_TYPE_KEY  = "location_type";
@@ -33,6 +37,8 @@ public class tag_defs {
     public final static String GTFS_ROUTE_URL_KEY  = "route_url";
     public final static String  OSM_URL_KEY  = "url";
 //
+
+
 }
 
 /*

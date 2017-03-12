@@ -106,7 +106,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                              finalStopsAccepted = new Hashtable<String, Stop>(),
                            osmDefaultFinalStops = new Hashtable<String, Stop>(),
                 osmDefaultOnlyChangedFinalStops = new Hashtable<String, Stop>();
-    private Hashtable<String, ArrayList<Boolean>> finalCheckboxes;
+    private Hashtable<String, ArrayList<Boolean>> finalCheckboxes, finalRouteCheckboxes;
     private Hashtable<String, Stop> searchKeyToStop = new Hashtable<String, Stop>();
     private HashSet<String> stopsToFinish = new HashSet<String>();  // uploadConflict + modified
     private int totalNumberOfStopsToFinish = 0;
@@ -122,7 +122,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private CompoundPainter mainPainter = new CompoundPainter();
     private WaypointPainter stopsPainter = new WaypointPainter();
     private TileFactory osmTf;
-    private Hashtable<String, Route> finalRoutes, agencyRoutes, existingRoutes;
+    private Hashtable<String, Route> finalRoutes, finalRoutesAccepted, agencyRoutes, existingRoutes;
     private UploadData taskUpload = null;
     private JTextArea taskOutput;
     private JProgressBar progressBar;
@@ -269,6 +269,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
 
         finalCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
+        finalRouteCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
 
 
 //System.out.println(r.size() + "\t" + u.size() + "\t" + m.size() + "\t" + d.size() + "\t");
@@ -428,6 +429,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         existingRoutes = new Hashtable<String, Route>();
         existingRoutes.putAll(eRoutes);
 
+        finalRoutesAccepted = new Hashtable<String, Route>();
+
         //ordering by hashcode
         ArrayList<String> routeKeys = new ArrayList<String>();
 
@@ -573,7 +576,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 gtfsValue = (String)aTags.get(k);
             }
             if(selectedOsmStop!=null) osmValue = selectedOsmStop.getTag(k);
-            //TODO re-enable this
             //don't wipe extra tags for UPLOAD_CONFLICT, use GTFS values for missing tags for MODIFY;
             if (!(osmValue == null || osmValue.isEmpty()) &&
                     (gtfsValue == null || gtfsValue.isEmpty()))
@@ -946,7 +948,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }
 
     private void updateRouteTable(Route selectedNewRoute){
-        saveChangeRouteButton.setEnabled(false);
 
         // get all the possible tag names from gtfs data and osm data
         HashSet<String> tagKeys = new HashSet<String>();
@@ -976,11 +977,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         // add data to table
         // first, add lat and lon
-//        Stop finalSt = (Stop)finalStops.get(selectedNewStop.getStopID());
-//        ArrayList<Boolean> finalCB = finalCheckboxes.get(selectedNewStop.getStopID());
+        Route finalRt = finalRoutes.get(selectedNewRoute.getRouteId());
+        ArrayList<Boolean> finalCB = finalRouteCheckboxes.get(selectedNewRoute.getRouteId());
         for(int i=0; i<tkeys.size(); i++){
             String k = tkeys.get(i);
-
+            boolean osmCB = false, gtfsCB = false;
             //make sure there's null pointer
             String newValue="", osmValue="", gtfsValue="";
             if(selectedNewRoute!=null) {
@@ -989,8 +990,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 osmValue = eTags.get(k);
             }
 
-            //add tag to table
-            routeTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i);
+            //add tag to table TODO finish
+            if (finalRoutesAccepted.containsKey(selectedNewRoute.getRouteId())) {
+                routeTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get(i * 2), osmValue, finalCB.get(i * 2 + 1), finalRt.getTag(k)}, i);
+
+                // stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
+            } else {
+                routeTableModel.setRowValueAt(new Object[]{k, gtfsValue, true, osmValue, false, newValue}, i);
+                //   stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i + 2);
+            }
         }
 
         //set the column width with checkbox to minimum size
@@ -1122,6 +1130,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
     }
 
+
     public void tableChanged(TableModelEvent e){
         TableModel model = (TableModel)e.getSource();
         int row = e.getFirstRow();
@@ -1131,6 +1140,13 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             if(!tableStopButton.isEnabled() || tableStopButton.getText().equals("Accept")){
 //                Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
                 updateButtonTableStop("Accept & Save Change", true, "Save Change", true);
+            }
+        }
+        if (model.equals(routeTableModel) && (data instanceof Boolean)) {
+            if (!tableStopButton.isEnabled() || tableStopButton.getText().equals("Accept")) {
+//                Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
+                saveChangeRouteButton.setEnabled(true);
+                saveChangeRouteButton.setText("Accept & Save Change");
             }
         }
         /*
@@ -1371,7 +1387,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     }
                 };
                 dataTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());
-                dataTable.addMouseListener(new BooleanMouseListener(dataTable));
                 dataTable.addMouseListener(new BooleanMouseListener(dataTable));
 
         jStopsScrollPane1.setName("jStopsScrollPane1"); // NOI18N
@@ -2013,6 +2028,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     }
                 };
                 routeTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());
+        routeTable.addMouseListener(new BooleanMouseListener(routeTable));
 
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
@@ -2039,8 +2055,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 busRoutePanel.add(existingRoutesWithUpdatesRadioButton, gbc_existingRoutesWithUpdatesRadioButton);
         saveChangeRouteButton = new javax.swing.JButton();
 
-        saveChangeRouteButton.setText("Save Change");
-                saveChangeRouteButton.setEnabled(false);
+        saveChangeRouteButton.setText("Accept");
+        saveChangeRouteButton.setEnabled(true);
                 saveChangeRouteButton.setName("saveChangeRouteButton"); // NOI18N
                 saveChangeRouteButton.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2845,8 +2861,46 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
 }//GEN-LAST:event_tableStopButtonActionPerformed
 
+    //action when savechange button on  route tags
     private void saveChangeRouteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeRouteButtonActionPerformed
         saveChangeRouteButton.setEnabled(false);
+
+        Route selectedGtfsRoute = (Route) gtfsRoutesComboBox.getSelectedItem();
+        String selectedGtfs = selectedGtfsRoute.getRouteId();
+        if (saveChangeRouteButton.getText().contains("Save Change") || !finalRoutesAccepted.contains(selectedGtfs)) {
+
+            // Save Checkboxes values
+            // no need to add 2 since lat and lon are already there (counted)
+            ArrayList<Boolean> saveValues = new ArrayList<Boolean>(routeTableModel.getRowCount() * 2);
+            for (int i = 0; i < routeTableModel.getRowCount(); i++) {
+                saveValues.add((Boolean) routeTableModel.getValueAt(i, 2)); //gtfs
+                saveValues.add((Boolean) routeTableModel.getValueAt(i, 4)); //osm
+            }
+            finalRouteCheckboxes.put(selectedGtfs, saveValues);
+
+            // Save to final Stops
+            Route rt = finalRoutes.get(selectedGtfs);     //not creating new object
+/*            if (selectedOSMStop!= null) {
+                st.setOsmId(selectedOSMStop.getOsmId());
+                //broken
+//                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
+//                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
+            }*/
+            for (int i = 0; i < routeTableModel.getRowCount(); i++) {
+                String tagName = (String) routeTableModel.getValueAt(i, 0); //gtfs
+                String tagValue = (String) routeTableModel.getValueAt(i, 5); //final
+//                if(tagName.equals("lat")) st.setLat(tagValue);
+//                else if(tagName.equals("lon")) st.setLon(tagValue);
+//                else {
+                rt.addAndOverwriteTag(tagName, tagValue);
+//                }
+            }
+            generateStopsToUploadFlag = false;
+            finalRoutes.put(selectedGtfs, rt);
+            finalRoutesAccepted.put(selectedGtfs, rt);
+            if (!saveChangeRouteButton.getText().contains("Accept"))
+                JOptionPane.showMessageDialog(this, "Changes have been made!");
+        }
 }//GEN-LAST:event_saveChangeRouteButtonActionPerformed
 
     private void exportGtfsValueGtfsDataOnlyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportGtfsValueGtfsDataOnlyMenuItemActionPerformed
@@ -2883,18 +2937,23 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }//GEN-LAST:event_exportOsmValueStopsWithConflictsMenuItemActionPerformed
 
     private void dummyUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dummyUploadButtonActionPerformed
-        if (acceptedOnlyCheckbox.isSelected())
+        Hashtable uploadRoutes;
+        if (acceptedOnlyCheckbox.isSelected()) {
             generateStopsToUpload(finalStopsAccepted);
-        else
+            uploadRoutes = finalRoutesAccepted;
+        }
+        else {
             generateStopsToUpload(finalStops);
+            uploadRoutes = finalRoutes;
+        }
 
         String osmChangeText ="";
         if (routesCheckbox.isSelected() && stopsCheckbox.isSelected())
-        	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, finalRoutes);
+            osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, uploadRoutes);
         else if (!routesCheckbox.isSelected() && stopsCheckbox.isSelected())
         	osmChangeText = osmRequest.getRequestContents("DUMMY", upload, modify, delete, new Hashtable());
         else if (routesCheckbox.isSelected() && !stopsCheckbox.isSelected())
-            osmChangeText = osmRequest.getRequestContents("DUMMY", new HashSet<Stop>(), new HashSet<Stop>(), new HashSet<Stop>(), finalRoutes);
+            osmChangeText = osmRequest.getRequestContents("DUMMY", new HashSet<Stop>(), new HashSet<Stop>(), new HashSet<Stop>(), uploadRoutes);
         else if (!routesCheckbox.isSelected() && !stopsCheckbox.isSelected()) {
             JOptionPane.showMessageDialog(this, "Nothing to export");
             return;

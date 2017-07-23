@@ -38,6 +38,7 @@ public class GTFSReadIn {
     private List<Stop> stops;
     private final String ROUTE_KEY = "route_ref";
     private final String NTD_ID_KEY = "ntd_id";
+    private static final String UTF8_BOM = "\uFEFF";
     private static Hashtable<String, Route> allRoutes;
 //TODO read agency.txt
     
@@ -136,6 +137,9 @@ public class GTFSReadIn {
             { 
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     OperatorInfo.setGtfsFields(thisLine);
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
@@ -250,6 +254,9 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
@@ -321,6 +328,9 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
@@ -362,6 +372,9 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){

@@ -48,7 +48,7 @@ If you'd like to contribute to the project, please let us know!
 
 ## Papers and Presentations
 
-If you're interested in the details of GO_Sync, check out our [paper](http://www.locationaware.usf.edu/wp-content/uploads/2011/10/Tran-et.-al.-GO_Sync-Framework-to-Synchronize-Crowd-sourced-Transit-Data-with-GTFS-ITS-final.pdf) and [presentation](http://www.locationaware.usf.edu/wp-content/uploads/2011/10/LocationDataSigning-ITSWC2011-sjb.pps) from the 2011 ITS World Congress:
+If you're interested in the details of GO_Sync, check out our [paper](http://www.locationaware.usf.edu/wp-content/uploads/2011/10/Tran-et.-al.-GO_Sync-Framework-to-Synchronize-Crowd-sourced-Transit-Data-with-GTFS-ITS-final.pdf) and [presentation](https://www.slideshare.net/sjbarbeau/go-syncitsworldcongress20119703) from the 2011 ITS World Congress:
 
 Khoa Tran, Ed Hillsman, Sean J. Barbeau, and Miguel Labrador. “GO! Sync – A Framework to Synchronize Crowd-Sourced Mapping Contributions From Online Communities and Transit Agency Bus Stop Inventories,” Proceedings of the 2011 ITS World Congress, Orlando, FL, October 18, 2011.
 

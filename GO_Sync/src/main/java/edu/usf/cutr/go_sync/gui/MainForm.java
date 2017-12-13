@@ -27,24 +27,17 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.ProgressMonitor;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,13 +51,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
+
 //TODO add radius selection
 /**
  *
@@ -84,6 +77,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private ProgressMonitor progressMonitor;
     private OsmTask task;
     private List<DefaultOperator> ops;
+
 
     /** Creates new form MainForm */
     public MainForm() {
@@ -387,7 +381,24 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         gbc_jLabel1.gridwidth = 12;
                         gbc_jLabel1.gridx = 0;
                         gbc_jLabel1.gridy = 3;
+
                         compareDataPanel.add(jLabel1, gbc_jLabel1);
+
+
+        distanceThreshold = new JSpinner();
+        distanceThreshold.setValue(400);
+        GridBagConstraints gbc_threshold = new GridBagConstraints();
+        JLabel threshold_label = new JLabel("Approximate Comparision Distance Threshold (m)");
+//        gbc_threshold.fill = GridBagConstraints.HORIZONTAL;
+        gbc_threshold.insets = new Insets(0, 0, 5, 5);
+        gbc_threshold.gridwidth = 12;
+
+        gbc_threshold.gridy = 4;
+        gbc_threshold.gridx = 0;
+        compareDataPanel.add(threshold_label,gbc_threshold);
+        gbc_threshold.gridx = 6;
+        compareDataPanel.add(distanceThreshold, gbc_threshold);
+
                 compareButton = new javax.swing.JButton();
                 
                         compareButton.setText("Run");
@@ -400,7 +411,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         gbc_compareButton.insets = new Insets(0, 0, 0, 5);
                         gbc_compareButton.gridwidth = 12;
                         gbc_compareButton.gridx = 0;
-                        gbc_compareButton.gridy = 4;
+                        gbc_compareButton.gridy = 5;
                         compareDataPanel.add(compareButton, gbc_compareButton);
 
         revertChangesetPanel.setName(""); // NOI18N
@@ -551,6 +562,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 progressMonitor.setProgress(0);
                 compareButton.setEnabled(false);
                 compareTask = new CompareData(progressMonitor, taskOutput);
+                compareTask.setRangeThreshold(Double.parseDouble(distanceThreshold.getValue().toString()));
                 task = compareTask;
                 task.addPropertyChangeListener(this);
                 try{
@@ -629,8 +641,21 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             //TODO test that URL is actually ZIP files
 
             if (zipFile == null) {
+                //TODO check ftp codes
+                if (zipURL.getProtocol().equals("http"))
+                {
+                    HttpURLConnection zipHttpCon = ((HttpURLConnection)zipURL.openConnection());
+                    int response_code = zipHttpCon.getResponseCode();
+                    if (response_code != 200 ) {
+                        taskOutput.append("HTTP server returned " +response_code + " " + zipHttpCon.getResponseMessage());
+                        System.err.println("HTTP server returned " +response_code);
+                        return false;
+                    }
+                }
                 System.out.println("Unzipping " + zipURL.toString() + " to " + unzipLocation);
-                zip = new ZipInputStream(zipURL.openStream());
+                InputStream zipstr = zipURL.openStream();
+                System.out.println(zipstr + " " );
+                zip = new ZipInputStream(new BufferedInputStream(zipstr));
             } else {
             	if (!(Files.probeContentType(zipFile.toPath())).equals("application/zip"))
             		{System.out.println((Files.probeContentType(zipFile.toPath())));
@@ -640,6 +665,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
 
             ZipEntry next_file;
+//            System.out.println("Zip is " + zip.available() + zip.getNextEntry());
 
             while ((next_file = zip.getNextEntry()) != null) {
 
@@ -652,6 +678,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 while ((len = zip.read(buf)) > 0) {
                     out.write(buf, 0, len);
                 }
+
 
                 out.close();
                 //out.flush();
@@ -694,15 +721,15 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         try {
             // Set system native Java L&F
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException e) {
+        } catch (UnsupportedLookAndFeelException|ClassNotFoundException|InstantiationException|IllegalAccessException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
-        } catch (ClassNotFoundException e) {
+/*        } catch (ClassNotFoundException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         } catch (InstantiationException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
         } catch (IllegalAccessException e) {
             System.err.println("Error setting LookAndFeel: " + e.getLocalizedMessage());
-        }
+*/        }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -747,6 +774,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JLabel jLabel1;
+    private JSpinner distanceThreshold;
     private javax.swing.JPanel compareDataPanel;
     private javax.swing.JPanel revertChangesetPanel;
     private javax.swing.JPanel gtfsDataPanel;

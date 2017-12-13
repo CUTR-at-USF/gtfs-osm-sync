@@ -34,6 +34,11 @@ public class GTFSReadIn {
     private static Hashtable<String, Route> allRoutes;
     private final String ROUTE_KEY = "route_ref";
     private final String NTD_ID_KEY = "ntd_id";
+    private static final String UTF8_BOM = "\uFEFF";
+    private static Hashtable<String, Route> allRoutes;
+//TODO read agency.txt
+    
+
     private List<Stop> stops;
 
     public GTFSReadIn() {
@@ -45,6 +50,7 @@ public class GTFSReadIn {
     public static Set<String> getAllRoutesID() {
         return allRoutes.keySet();
     }
+
 
     public String readAgency(String agency_fName)
     //public Hashtable<String, Route> readRoutes(String routes_fName)
@@ -138,6 +144,9 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     OperatorInfo.setGtfsFields(thisLine);
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
@@ -311,6 +320,9 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     //map GTFS keys to OSM keys
@@ -437,6 +449,9 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
@@ -478,6 +493,9 @@ public class GTFSReadIn {
             while ((thisLine = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (thisLine.startsWith(UTF8_BOM)) {
+                        thisLine = thisLine.substring(1);
+                    }
                     thisLine = thisLine.replace("\"", "");
                     String[] keys = thisLine.split(",");
                     for(int i=0; i<keys.length; i++){
@@ -546,5 +564,15 @@ public class GTFSReadIn {
             }
         }
         return text;
+    }
+
+    public static Set<String> getAllRoutesID(){
+        return allRoutes.keySet();
+    }
+    
+    public GTFSReadIn() {
+        stops = new ArrayList<Stop>();
+        allRoutes = new Hashtable<String, Route>();
+//        readBusStop("C:\\Users\\Khoa Tran\\Desktop\\Summer REU\\Khoa_transit\\stops.txt");
     }
 }

@@ -47,6 +47,7 @@ import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Session;
 import org.xml.sax.SAXException;
 import sun.misc.BASE64Encoder;
+//import java.util.Base64.Encoder
 import edu.usf.cutr.go_sync.tools.parser.BusStopParser;
 import edu.usf.cutr.go_sync.tools.parser.ChangesetDownloadParser;
 import edu.usf.cutr.go_sync.tools.parser.OsmVersionParser;
@@ -189,7 +190,10 @@ public class HttpRequest {
 //        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
 //        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
     	String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};    	        
+        //TODO store xapi servers in config
+        String[] hosts = {"http://www.overpass-api.de/api/xapi_meta"," http://overpass.osm.rambler.ru/cgi/xapi_meta"};
+
+//        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};
         try {
             // get data from server
             String s = sendRequest(hosts, urlSuffix, "GET", "");

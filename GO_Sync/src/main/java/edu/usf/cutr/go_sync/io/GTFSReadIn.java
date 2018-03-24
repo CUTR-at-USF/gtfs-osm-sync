@@ -35,7 +35,6 @@ public class GTFSReadIn {
     private final String ROUTE_KEY = "route_ref";
     private final String NTD_ID_KEY = "ntd_id";
     private static final String UTF8_BOM = "\uFEFF";
-    private static Hashtable<String, Route> allRoutes;
 //TODO read agency.txt
     
 
@@ -47,7 +46,7 @@ public class GTFSReadIn {
 //        readBusStop("C:\\Users\\Khoa Tran\\Desktop\\Summer REU\\Khoa_transit\\stops.txt");
     }
 
-    public static Set<String> getAllRoutesID() {
+    public static Set<String> getAllRoutesID(){
         return allRoutes.keySet();
     }
 
@@ -566,13 +565,6 @@ public class GTFSReadIn {
         return text;
     }
 
-    public static Set<String> getAllRoutesID(){
-        return allRoutes.keySet();
-    }
-    
-    public GTFSReadIn() {
-        stops = new ArrayList<Stop>();
-        allRoutes = new Hashtable<String, Route>();
-//        readBusStop("C:\\Users\\Khoa Tran\\Desktop\\Summer REU\\Khoa_transit\\stops.txt");
-    }
+
+
 }

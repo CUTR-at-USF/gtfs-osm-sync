@@ -2841,7 +2841,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
                 //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
-            if  (!finalStopsAccepted.containsKey(selectedGtfs))
+//            if  (!finalStopsAccepted.containsKey(selectedGtfs))
                 finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
             generateStopsToUploadFlag=false;
         }

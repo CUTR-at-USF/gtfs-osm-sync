@@ -49,6 +49,7 @@ import edu.usf.cutr.go_sync.tag_defs;
  */
 
 public class CompareData extends OsmTask{
+    long tStart = System.currentTimeMillis();
     private List<Stop> GTFSstops = new ArrayList<Stop>();
     private List<String> GTFSstopsIDs = new ArrayList<String>();
     private ArrayList<AttributesImpl> OSMNodes = new ArrayList<AttributesImpl>();
@@ -1005,6 +1006,9 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
     @Override
     public void done() {
+        long tDelta = System.currentTimeMillis() - tStart;
+//        this.setMessage("Completed in "+ tDelta /1000.0 + "seconds");
+        System.out.println("Completed in "+ tDelta /1000.0 + "seconds");
         Toolkit.getDefaultToolkit().beep();
         boolean isCanceled = progressMonitor.isCanceled();
         progressMonitor.close();

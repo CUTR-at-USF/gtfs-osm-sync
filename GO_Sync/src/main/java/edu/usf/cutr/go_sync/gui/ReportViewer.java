@@ -2311,6 +2311,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     	
 //    	GtfsArrayList.remove(o)
     	Stop s = (Stop)gtfsStopsComboBox.getSelectedItem();
+        if (s == null) {
+            return;
+        }
     	String category = s.getReportCategory();
   //  	ArrayList<Stop> GtfsAllArrayList = new ArrayList<Stop>() ;
     	LinkedList<Stop> GtfsAllLinkedList = new LinkedList<Stop>(Arrays.asList(gtfsAll));  

@@ -189,7 +189,7 @@ public class HttpRequest {
 //        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
 //        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
     	String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};    	        
+        String[] hosts = {"http://www.overpass-api.de/api/xapi_meta","http://overpass.openstreetmap.ru/cgi/xapi_meta"};
         try {
             // get data from server
             String s = sendRequest(hosts, urlSuffix, "GET", "");

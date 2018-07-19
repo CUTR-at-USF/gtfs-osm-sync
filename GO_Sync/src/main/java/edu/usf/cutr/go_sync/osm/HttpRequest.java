@@ -59,7 +59,7 @@ import edu.usf.cutr.go_sync.tag_defs;
 public class HttpRequest {
     private static final int SLEEP_TIME = 500;
     private static final String API_VERSION ="0.6";
-    private static final String OSM_HOST = "http://api.openstreetmap.org/api/0.6/";
+    private static final String OSM_HOST = "https://openstreetmap.org/api/0.6/";
 
     private ArrayList<AttributesImpl> existingNodes = new ArrayList<AttributesImpl>();
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();

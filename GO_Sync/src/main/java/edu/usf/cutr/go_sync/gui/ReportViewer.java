@@ -2624,6 +2624,24 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"both GTFS dataset and OSM server");
 }//GEN-LAST:event_bothMembersRadioButtonActionPerformed
 
+    /** Use modified stop data to save data into finalStops
+      *  Does not create new object
+      */
+    private Stop saveAcceptedDataToFinalStops(String selectedGtfs) {
+        // Save to final Stops
+        Stop st = finalStops.get(selectedGtfs);     //not creating new object
+        for(int i=0; i<stopTableModel.getRowCount(); i++){
+            String tagName = (String)stopTableModel.getValueAt(i, 0);
+            String tagValue = (String)stopTableModel.getValueAt(i, 5);
+            if(tagName.equals("lat")) st.setLat(tagValue);
+            else if(tagName.equals("lon")) st.setLon(tagValue);
+            else {
+                st.addAndOverwriteTag(tagName, tagValue);
+            }
+        }
+        return st;
+    }
+
     private void tableStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableStopButtonActionPerformed
         // TODO add your handling code here:
         Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
@@ -2641,16 +2659,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             finalCheckboxes.put(selectedGtfs, saveValues);
 
             // Save to final Stops
-            Stop st = finalStops.get(selectedGtfs);     //not creating new object
-            for(int i=0; i<stopTableModel.getRowCount(); i++){
-                String tagName = (String)stopTableModel.getValueAt(i, 0);
-                String tagValue = (String)stopTableModel.getValueAt(i, 5);
-                if(tagName.equals("lat")) st.setLat(tagValue);
-                else if(tagName.equals("lon")) st.setLon(tagValue);
-                else {
-                    st.addAndOverwriteTag(tagName, tagValue);
-                }
-            }
+            Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
 
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
@@ -2679,7 +2688,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 }
             }
 
-            if(!tableStopButtonText.contains("Save Change")) JOptionPane.showMessageDialog(this,"Stop is accepted!");
+            if(!tableStopButtonText.contains("Save Change")) {
+                Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
+                Stop selectedOsmStop = (Stop) osmStopsComboBox.getSelectedItem();
+                // set osmId and version number
+                st.setOsmId(selectedOsmStop.getOsmId());
+                st.setOsmVersion((selectedOsmStop.getOsmVersion()));
+                st.setReportCategory("MODIFY");
+                // Do not want to upload selectedOsmStop
+                JOptionPane.showMessageDialog(this,"Stop is accepted!");
+            }
             
             
     		// 14thchanges the OSM COMbo box but not the gtfs one

@@ -18,6 +18,7 @@ Copyright 2010 University of South Florida
 package edu.usf.cutr.go_sync.gui.object;
 
 import javax.swing.table.AbstractTableModel;
+import edu.usf.cutr.go_sync.gui.object.StopTableInfo;
 
 /**
  *
@@ -79,10 +80,13 @@ public class TagReportTableModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int row, int col){
         // only the checkbox columns are editable
-        if(col==2 || col==4) {
-            String gtfs = (String)data[row][1];
-            String osm = (String)data[row][3];
-            if((gtfs==null) || (gtfs.equals("")) || (osm!=null && osm.contains(gtfs)))
+        if(col==StopTableInfo.GTFS_CHECK_COL || col==StopTableInfo.OSM_CHECK_COL) {
+            String gtfs = (String)data[row][StopTableInfo.GTFS_DATA_COL];
+            String osm = (String)data[row][StopTableInfo.OSM_DATA_COL];
+            // if gtfs is null/"", then we can still check the otfs value
+            if( ((gtfs==null) || (gtfs.equals(""))) && col == 2 )
+                return false;
+            if (gtfs != null && osm!=null && osm.contains(gtfs))
                 return false;
             if(osm!=null && osm.equals("")) return false;
 

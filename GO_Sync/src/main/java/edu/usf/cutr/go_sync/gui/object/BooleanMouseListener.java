@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
+import edu.usf.cutr.go_sync.gui.object.StopTableInfo;
 
 /**
  *
@@ -49,42 +50,66 @@ public class BooleanMouseListener implements MouseListener{
         if((dataValue!=null) && !(dataValue.equals(""))){
             Boolean otherCheckBox;
             String otherData, insertData=dataValue;
-            int otherColumn;
-            if(column==2) {
-                otherCheckBox = (Boolean)dataTable.getValueAt(row, column+2);
-                otherData = (String)dataTable.getValueAt(row, column+1);
-                if(otherData!=null && !(otherData.equals(""))) insertData = dataValue+";"+otherData;
-                otherColumn = column+2;
-            }
-            else {
-                otherCheckBox = (Boolean)dataTable.getValueAt(row, column-2);
-                otherData = (String)dataTable.getValueAt(row, column-3);
-                insertData = otherData+";"+dataValue;
-                otherColumn = column-2;
+            int otherCheckColumn;
+            int dataColumn = column - 1;
+            int otherDataColumn;
+
+            // look at data, checkBox info for other columns
+            // FIXME: needs some cleaning up for better readability
+            if(column==StopTableInfo.GTFS_CHECK_COL) {
+                otherCheckColumn = StopTableInfo.OSM_CHECK_COL;
+                otherDataColumn = otherCheckColumn - 1;
+                otherCheckBox = (Boolean)dataTable.getValueAt(row, otherCheckColumn);
+                otherData = (String)dataTable.getValueAt(row, otherDataColumn);
+                if(otherData!=null && !(otherData.equals("")))
+                    insertData = dataValue+";"+otherData;
+            } else { // column == StopTableInfo.OSM_CHECK_COL
+                otherCheckColumn = StopTableInfo.GTFS_CHECK_COL;
+                otherDataColumn = otherCheckColumn - 1;
+                otherCheckBox = (Boolean)dataTable.getValueAt(row, otherCheckColumn);
+                otherData = (String)dataTable.getValueAt(row, otherDataColumn);
+                if(otherCheckBox) {
+                    if (otherData!=null && !(otherData.equals("")))
+                        insertData = otherData+";"+dataValue;
+                    else {
+                        insertData = dataValue;
+                        otherCheckBox = false;
+                        otherData = "";
+                    }
+                } else {
+                    insertData = dataValue;
+                }
             }
 
-            if(row==0 || row==1){
+            if(row==0 || row==1){ // lat || lon
                 if((Boolean)currentValue) {
-                    dataTable.setValueAt(dataValue, row, 5);
-                    dataTable.setValueAt(new Boolean(false), row, otherColumn);
+                    dataTable.setValueAt(dataValue, row, StopTableInfo.NEW_VALUE_DATA_COL);
+                    dataTable.setValueAt(new Boolean(false), row, otherCheckColumn);
                 } else {
-                    dataTable.setValueAt(otherData, row, 5);
-                    dataTable.setValueAt(new Boolean(true), row, otherColumn);
+                    dataTable.setValueAt(otherData, row, StopTableInfo.NEW_VALUE_DATA_COL);
+                    dataTable.setValueAt(new Boolean(true), row, otherCheckColumn);
                 }
                 return;
             }
 
             if((Boolean)currentValue) {
-                if(otherCheckBox) dataTable.setValueAt(insertData, row, 5);
+                if(otherCheckBox)
+                    dataTable.setValueAt(insertData, row, StopTableInfo.NEW_VALUE_DATA_COL);
                 else {
-                    dataTable.setValueAt(dataValue, row, 5);
+                    dataTable.setValueAt(dataValue, row, StopTableInfo.NEW_VALUE_DATA_COL);
                 }
-            }
-            else {
-                if(otherCheckBox) dataTable.setValueAt(otherData, row, 5);
+            } else {
+                if(otherCheckBox)
+                    dataTable.setValueAt(otherData, row, StopTableInfo.NEW_VALUE_DATA_COL);
                 else {
-                    dataTable.setValueAt(new Boolean(true), row, otherColumn);
-                    dataTable.setValueAt(otherData, row, 5);
+                    if(otherData!=null && !(otherData.equals(""))) {
+                        dataTable.setValueAt(new Boolean(true), row, otherCheckColumn);
+                        dataTable.setValueAt(otherData, row, StopTableInfo.NEW_VALUE_DATA_COL);
+                    } else {
+                        dataTable.setValueAt(new Boolean(false), row, otherCheckColumn);
+                        dataTable.setValueAt(new Boolean(false), row, column);
+                        dataTable.setValueAt(otherData, row, StopTableInfo.NEW_VALUE_DATA_COL);
+                    }
                 }
             }
         }

@@ -220,6 +220,7 @@ public class CompareData extends OsmTask{
                 if (found) {
                     tree.clear();
                 }
+                report.remove(gtfsStop);
             }
 
             if (tree == null) {

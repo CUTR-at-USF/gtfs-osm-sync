@@ -43,6 +43,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -473,7 +475,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         Stop agencyStop = agencyStops.get(selectedNewStop.toString());
         addSelectedStopsOverlay(selectedNewStop, selectedOsmStop);
         // get all the possible tag names from gtfs data and osm data
-        HashSet<String> tagKeys = new HashSet<String>();
+        Set<String> tagKeys = new TreeSet<String>();
         Hashtable aTags = null;
         if(selectedNewStop!=null) {
             tagKeys.addAll(selectedNewStop.keySet());
@@ -870,7 +872,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         saveChangeRouteButton.setEnabled(false);
 
         // get all the possible tag names from gtfs data and osm data
-        HashSet<String> tagKeys = new HashSet<String>();
+        Set<String> tagKeys = new TreeSet<String>();
         Hashtable<String, String> aTags = new Hashtable<String, String>();
         Hashtable<String, String> eTags= new Hashtable<String, String>();
         Route aRoute = null, eRoute=null;

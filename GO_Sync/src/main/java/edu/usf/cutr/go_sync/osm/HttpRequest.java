@@ -47,7 +47,6 @@ import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Session;
 import org.xml.sax.SAXException;
 import sun.misc.BASE64Encoder;
-//import java.util.Base64.Encoder
 import edu.usf.cutr.go_sync.tools.parser.BusStopParser;
 import edu.usf.cutr.go_sync.tools.parser.ChangesetDownloadParser;
 import edu.usf.cutr.go_sync.tools.parser.OsmVersionParser;
@@ -60,7 +59,7 @@ import edu.usf.cutr.go_sync.tag_defs;
 public class HttpRequest {
     private static final int SLEEP_TIME = 500;
     private static final String API_VERSION ="0.6";
-    private static final String OSM_HOST = "http://api.openstreetmap.org/api/0.6/";
+    private static final String OSM_HOST = "https://openstreetmap.org/api/0.6/";
 
     private ArrayList<AttributesImpl> existingNodes = new ArrayList<AttributesImpl>();
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
@@ -190,10 +189,7 @@ public class HttpRequest {
 //        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
 //        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
     	String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        //TODO store xapi servers in config
-        String[] hosts = {"http://www.overpass-api.de/api/xapi_meta"," http://overpass.osm.rambler.ru/cgi/xapi_meta"};
-
-//        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};
+        String[] hosts = {"http://www.overpass-api.de/api/xapi_meta","http://overpass.openstreetmap.ru/cgi/xapi_meta"};
         try {
             // get data from server
             String s = sendRequest(hosts, urlSuffix, "GET", "");

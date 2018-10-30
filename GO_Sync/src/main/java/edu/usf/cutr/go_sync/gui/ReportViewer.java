@@ -2963,8 +2963,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             JOptionPane.showMessageDialog(this, "Nothing to export");
             return;
         }
-        new WriteFile("DUMMY_OSM_CHANGE.txt", osmChangeText);
-        JOptionPane.showMessageDialog(this, "DUMMY_OSM_CHANGE.txt has been written to "+ (new File(".")).getAbsolutePath());
+        new WriteFile("DUMMY_OSM_CHANGE.osc", osmChangeText);
+        JOptionPane.showMessageDialog(this, "DUMMY_OSM_CHANGE.osc has been written to "+ (new File(".")).getAbsolutePath());
     }//GEN-LAST:event_dummyUploadButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed

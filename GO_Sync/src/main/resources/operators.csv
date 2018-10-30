@@ -605,23 +605,23 @@ Yolo County Transportation District ,YCTD,9090,,
 York County Transportation Authority ,rabbittransit,3027,,
 Yuba-Sutter Transit Authority ,YSTA,9061,,
 Yuma Metropolitan Planning Organization ,YMPO,9192,,
-QConnect (Airlie Beach),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/airlie.zip,
-QConnect (Bowen),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/bowen.zip,
-QConnect (Bundaberg),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/bundaberg.zip,
-QConnect (Cairns),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/cairns.zip,
-QConnect (Gladstone),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/gladstone.zip,
-QConnect (Gympie),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/gympie.zip,
-QConnect (Innisfail),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/innisfail.zip,
-QConnect (Kilcoy),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/kilcoy.zip,
-QConnect (Mackay),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/mackay.zip,
-QConnect (Magnetic Island),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/magnetic-island.zip,
-QConnect (Magnetic Island Ferry),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/sealink.zip,
-QConnect (Maleny - Landsborough),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/maleny-landsborough.zip,
-QConnect (Maryborough - Hervey Bay),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/maryborough-herveybay.zip,
-QConnect (Rockhampton),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/rockhampton.zip,
-QConnect (Toowoomba),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/toowoomba.zip,
-QConnect (Townsville),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/townsville.zip,
-QConnect (Warwick),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/warwick.zip,
-QConnect (Yeppoon),QConnect,,https://gtfsrt.api.translink.com.au/GTFS/yeppoon.zip,
+"QConnect (Airlie Beach)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/WHT_GTFS.zip
+"QConnect (Bowen)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/BOW_GTFS.zip
+"QConnect (Bundaberg)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/BUN_GTFS.zip
+"QConnect (Cairns)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/CNS_GTFS.zip
+"QConnect (Gladstone)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/GLT_GTFS.zip
+"QConnect (Gympie)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/GYM_GTFS.zip
+"QConnect (Innisfail)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/INN_GTFS.zip
+"QConnect (Kilcoy)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/KIL_GTFS.zip
+"QConnect (Mackay)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/MKY_GTFS.zip
+"QConnect (Magnetic Island)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/MAG_GTFS.zip
+"QConnect (Magnetic Island Ferry)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/MIF_GTFS.zip
+"QConnect (Maleny - Landsborough)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/MAL_GTFS.zip
+"QConnect (Maryborough - Hervey Bay)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/MHB_GTFS.zip
+"QConnect (Rockhampton)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/ROK_GTFS.zip
+"QConnect (Toowoomba)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/TWB_GTFS.zip
+"QConnect (Townsville)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/TSV_GTFS.zip
+"QConnect (Warwick)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/WAR_GTFS.zip
+"QConnect (Yeppoon)",QConnect,,https://gtfsrt.api.translink.com.au/GTFS/YEP_GTFS.zip
 Translink SEQ,Translink,,https://gtfsrt.api.translink.com.au/GTFS/SEQ_GTFS.zip,
 Société de Transport de l'Outaouais,STO,,http://www.contenu.sto.ca/GTFS/GTFS.zip,

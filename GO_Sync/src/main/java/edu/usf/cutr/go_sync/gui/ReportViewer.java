@@ -227,7 +227,21 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
 
 
+
+    /**
+     * @param aData GTFSstops
+     * @param r report
+     * @param u upload
+     * @param m modify
+     * @param d delete
+     * @param routes
+     * @param nRoutesagencyRoutes
+     * @param eRoutes existingRoutes
+     * @param to taskOutput
+     */
     public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable<String, Route> routes, Hashtable<String, Route> nRoutes, Hashtable<String, Route> eRoutes, JTextArea to) {
+
+//    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
@@ -351,6 +365,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             // format: gtfs,osm,gtfs,osm,gtfs,osm,etc.
             int numberOfBool = (st.getTags().size()+2)*2;
             ArrayList<Boolean> arr = new ArrayList<Boolean>(numberOfBool);
+            // FIXME: very difficult to read, and does not handle gtfs nulls
             for(int j=0; j<numberOfBool; j++){
                 if(category.equals("UPLOAD_CONFLICT") || category.equals("UPLOAD_NO_CONFLICT")) {
                     if(j%2==0) arr.add(true);
@@ -530,6 +545,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         progressBar.setStringPainted(true);
     }
 
+    /**
+      * Set initial values of updateStopTable
+      * Usually, GTFS values are preferred over OSM values
+      * unless GTFS values are null or an empty string,
+      * then choose OSM values
+      */
     private void updateStopTable(Stop selectedNewStop, Stop selectedOsmStop){
 //        if(selectedNewStop==null) return;
         Stop agencyStop = agencyStops.get(selectedNewStop.toString());
@@ -573,6 +594,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             boolean osmCB = false, gtfsCB = false;
             //make sure there's null pointer
             String newValue="", osmValue="", gtfsValue="";
+            // default to newValue from gtfs
             if(selectedNewStop!=null) {
                 newValue = selectedNewStop.getTag(k);
                 gtfsValue = (String)aTags.get(k);
@@ -593,6 +615,27 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             //add tag to table, index+2 because of lat and lon
             if (finalStopsAccepted.containsKey(selectedNewStop.getStopID())) {
                 stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
+//            if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
+//
+//            /* default to GTFS checked
+//             * OSM unchecked
+//             */
+//            boolean gtfsCheckValue = true;
+//            boolean osmCheckValue = false;
+//            // switch to OSM if gtfs value is null or empty string
+//            // also switch check boxes
+//            // FIXME: this is a bit clunky,
+//            // values are recalculated each time this stop is visited
+//            // should something else be done here?
+//            if (gtfsValue == null) {
+//                newValue = osmValue;
+//                gtfsCheckValue = false;
+//                osmCheckValue = true;
+//            }
+//            //add tag to table, index+2 because of lat and lon
+//            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
+//                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, gtfsCheckValue, osmValue, osmCheckValue, newValue}, i+2);
+//>>>>>>> 1a58b026a52d1271696dac9c53450d65f773cf06
             } else {
                 stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i + 2);
             }

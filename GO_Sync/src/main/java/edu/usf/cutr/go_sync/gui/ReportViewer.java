@@ -387,9 +387,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             Stop osmStop = null;
 
             int numEquiv = 0;
-            ArrayList<Stop> arr = null;
-            if(report.get(reportKeys.get(i)) instanceof ArrayList){
-                arr = report.get(reportKeys.get(i));
+            ArrayList<Stop> arr = report.get(reportKeys.get(i));
+            if (arr != null) {
                 if(arr.size()>1) numEquiv = 2;
                 else if(arr.size()==1) numEquiv = 1;
             }
@@ -712,9 +711,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         if (st!=null) {
             tempStopsGeo.add(new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon())));
-            if(report.get(st) instanceof ArrayList){
-                // update osm combobox
-                ArrayList<Stop> osmEquiv = report.get(st);
+            // update osm combobox
+            ArrayList<Stop> osmEquiv = report.get(st);
+            if(osmEquiv != null){
 /*
                 if(osmEquiv.size()>1){
                     tableStopButton.setVisible(false);
@@ -735,7 +734,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //                    matchStopOverlayPainter = null;
 //                }
                 // update table
-                updateStopTable(st, osmStops[0]);
+                    if (osmStops.length > 0) {
+                        updateStopTable(st, osmStops[0]);
+                    } else {
+                        updateStopTable(st, null);
+                    }
             } else {
                 updateStopTable(st, null);
             }

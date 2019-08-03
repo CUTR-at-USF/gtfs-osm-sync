@@ -27,6 +27,10 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Map;
 
 import javax.swing.JTextArea;
 import javax.swing.ProgressMonitor;
@@ -48,6 +52,22 @@ import edu.usf.cutr.go_sync.tag_defs;
  * @author Khoa Tran
  */
 
+/**
+ * This comparison will allow TreeSet to sort members by distance from gtfsStop_
+ * Closer osm stops will be earlier in the set
+ * Further stops will be later in the set
+ */
+class CompareStopDistance implements Comparator<Stop> {
+    public CompareStopDistance(Stop gtfsStop) {
+        gtfsStop_ = gtfsStop;
+    }
+    public int compare(Stop rhs, Stop lhs) {
+        return (int)Math.signum(OsmDistance.distVincenty(gtfsStop_.getLat(), gtfsStop_.getLon(), rhs.getLat(), rhs.getLon()) - 
+                   OsmDistance.distVincenty(gtfsStop_.getLat(), gtfsStop_.getLon(), lhs.getLat(), lhs.getLon()));
+    }
+    private Stop gtfsStop_;
+}
+
 public class CompareData extends OsmTask{
     long tStart = System.currentTimeMillis();
     private List<Stop> GTFSstops = new ArrayList<Stop>();
@@ -59,8 +79,9 @@ public class CompareData extends OsmTask{
 //    private ArrayList<Hashtable<String, String>> OSMRelationTags = new ArrayList<Hashtable<String, String>>();
 private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     private ArrayList<HashSet<RelationMember>> OSMRelationMembers = new ArrayList<HashSet<RelationMember>>();
- //    private Hashtable<Stop, Object> report = new Hashtable<Stop, Object>();
-    private Hashtable report = new Hashtable();
+    // key is gtfs, value is container of potential osm matches, sorted by distance from gtfs stop
+    private Hashtable<Stop, TreeSet<Stop>> report =
+        new Hashtable<Stop, TreeSet<Stop>>();
     private HashSet<Stop> noUpload = new HashSet<Stop>();
     private HashSet<Stop> upload = new HashSet<Stop>();
     private HashSet<Stop> modify = new HashSet<Stop>();
@@ -194,25 +215,31 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     }
 
     /**
-     *
-     *
-     * @param gtfs GTFS stop
-     * @param osm	Existing OSM stop
-     * @param found	if the OSM stop is an exact match
-     */
+      * add osm stop to list of potential matches
+      * by using TreeSort, each tree is sorted by distance from potentially match osm stop
+      * @param gtfs GTFS stop
+      * @param osm add this stop to array of potential matches to gtfsn
+      * @param found if true, then osm is only match
+      *                        otherwise, append stop to list
+      */
 
     public void addToReport(Stop gtfs, Stop osm, boolean found) {
         Stop gtfsStop = new Stop(gtfs);
         if (osm!=null) {
             Stop osmStop = new Stop(osm);
-            ArrayList<Stop> arr = new ArrayList<Stop>();
+            TreeSet<Stop> tree = null;
             if (report.containsKey(gtfsStop)) {
-                if (!found) {
-                    arr.addAll((ArrayList<Stop>)report.get(gtfsStop));
+                tree = report.get(gtfsStop);
+                if (found) {
+                    tree.clear();
                 }
                 report.remove(gtfsStop);
             }
-            arr.add(osmStop);
+
+            if (tree == null) {
+                tree = new TreeSet<Stop>(new CompareStopDistance(gtfsStop));
+            }
+            tree.add(osmStop);
 
             // set stop value to osm value as default (only affect modify category)
             if(gtfsStop.getReportCategory().equals("MODIFY")){
@@ -225,14 +252,15 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             if(gtfsStop.toString().equals("none") || gtfsStop.getStopID().equals("") || gtfsStop.getTag("gtfs_id").equals("none")){
                 System.out.println();
             }
-            report.put(gtfsStop, arr);
+
+            report.put(gtfsStop, tree);
         }
         // successfully added
         else {
             if (report.containsKey(gtfsStop)) {
                 report.remove(gtfsStop);
             }
-            report.put(gtfsStop, "none");
+            report.put(gtfsStop, new TreeSet<Stop>(new CompareStopDistance(gtfsStop)));
         }
     }
 
@@ -591,6 +619,9 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         System.out.println("There are "+routeKeys.size()+" routeKeys in total!");
     }
 
+    /**
+     * FIXME: why is wrong gtfs_id included?
+     */
     public void compareBusStopData() throws InterruptedException {
         //Compare the OSM stops with GTFS data
 
@@ -786,6 +817,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
 
                                 else {
+                                    // FIXME: should this be potential match if gtfs_id does not match?
                                     es.setReportText("Different gtfs_id but in range. Possible redundant stop. Please check again!\n" +
                                             " ACTION: No modified with FIXME!");
                                 }
@@ -870,7 +902,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             Stop s = new Stop(reportKeys.get(i));
             String category = s.getReportCategory();
             if(category.equals("MODIFY")){
-                ArrayList<Stop> arr = new ArrayList<Stop>((ArrayList<Stop>)report.get(s));
+                TreeSet<Stop> arr = report.get(s);
                 if(arr.size()==1) {
                     String tempStopId=null;
                     report.remove(s);
@@ -884,7 +916,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                     }
                     s.addAndOverwriteTags(newTags);
                     // add Osm tags, the rest remains empty
-                    s.addAndOverwriteTags(arr.get(0).getTags());
+                    s.addAndOverwriteTags(arr.first().getTags());
                     if(tempStopId!=null) s.addAndOverwriteTag("gtfs_id", tempStopId);
                     report.put(s, arr);
                 }
@@ -1021,9 +1053,21 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     }
 
     public void generateReport(){
-        System.out.println("GTFSstops "+ GTFSstops.size() + " report" + report.size() + "upload" + upload.size() + "modify" + modify.size() + "delete" + delete.size()  );
 
-        ReportViewer rv = new ReportViewer(GTFSstops, report, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput);
+    	System.out.println("GTFSstops "+ GTFSstops.size() + " report" + report.size() + "upload" + upload.size() + "modify" + modify.size() + "delete" + delete.size()  );
+
+        // copy report, where values are TreeSets,
+        // to reportArrays, where values are ArrayLists
+        // which is what ReportViewer wants
+        Hashtable<Stop, ArrayList<Stop>> reportArrays = new Hashtable<Stop, ArrayList<Stop>>();
+
+        for (Map.Entry<Stop, TreeSet<Stop>> entry : report.entrySet()) {
+            Stop key = entry.getKey();
+            ArrayList<Stop> arr = new ArrayList<Stop>();
+            arr.addAll(entry.getValue());
+            reportArrays.put(key, arr);
+        }
+    	ReportViewer rv = new ReportViewer(GTFSstops, reportArrays, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput);
         String info = "Active OSM bus stop mappers:\n"+osmActiveUsers.toString()+"\n\n";
         info += "There are currently "+OSMNodes.size()+" OSM stops in the region\n\n";
         info += "Transit agency GTFS dataset has "+GTFSstops.size()+" stops";

@@ -2857,13 +2857,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
             }
             generateStopsToUploadFlag=false;
-            finalStopsAccepted.put(selectedGtfs,st);
+            //finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
 
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
         if(tableStopButtonText.contains("Accept") || tableStopButtonText.contains("Add"))
         {
-            if (!selectedGtfsStop.getReportCategory().equals("MODIFY") && !selectedGtfsStop.getReportCategory().equals("UPLOAD_NO_CONFLICT")) {
+            if (       !selectedGtfsStop.getReportCategory().equals("MODIFY")
+                    && !selectedGtfsStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") )
+            {
+
                 selectedGtfsStop.setOsmId(selectedOSMStop.getOsmId());
                 int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
                 selectedGtfsStop.setOsmVersion(Integer.toString(newOSMVersion + 1));
@@ -2890,13 +2893,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 }
             }
 
-            if(!tableStopButtonText.contains("Save Change")) {
+            if(!tableStopButtonText.contains("Save Change") || !finalStopsAccepted.contains(selectedGtfs)) {
                 Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
                 Stop selectedOsmStop = (Stop) osmStopsComboBox.getSelectedItem();
                 // set osmId and version number
                 st.setOsmId(selectedOsmStop.getOsmId());
-                st.setOsmVersion((selectedOsmStop.getOsmVersion()));
+//                st.setOsmVersion((selectedOsmStop.getOsmVersion()));
+                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
+                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
                 st.setReportCategory("MODIFY");
+                finalStopsAccepted.put(selectedGtfs,st);
+
                 // Do not want to upload selectedOsmStop
                 JOptionPane.showMessageDialog(this,"Stop is accepted!");
             }
@@ -2912,7 +2919,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
 //            if  (!finalStopsAccepted.containsKey(selectedGtfs))
-                finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
+//                finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
             generateStopsToUploadFlag=false;
         }
 //TODO the code/logic here needs simplifying

@@ -93,7 +93,7 @@ public class TagReportTableModel extends AbstractTableModel {
             // if gtfs is null/"", then we can still check the otfs value
             if( ((gtfs==null) || (gtfs.equals(""))) && col == 2 )
                 return false;
-            if (gtfs != null && osm!=null && osm.contains(gtfs))
+            if (gtfs != null && osm!=null && osm.equals(gtfs))
                 return false;
             if(osm!=null && osm.equals("")) return false;
 

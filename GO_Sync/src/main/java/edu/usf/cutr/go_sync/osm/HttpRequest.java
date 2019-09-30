@@ -46,7 +46,9 @@ import edu.usf.cutr.go_sync.object.RelationMember;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Session;
 import org.xml.sax.SAXException;
-import sun.misc.BASE64Encoder;
+//import sun.misc.BASE64Encoder;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import edu.usf.cutr.go_sync.tools.parser.BusStopParser;
 import edu.usf.cutr.go_sync.tools.parser.ChangesetDownloadParser;
 import edu.usf.cutr.go_sync.tools.parser.OsmVersionParser;
@@ -112,7 +114,7 @@ public class HttpRequest {
 //        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
 //    	String urlSuffix = "?node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
 //        String[] hosts = {"http://api.openstreetmap.fr/xapi","http://www.informationfreeway.org"};
-    	
+
     	String content = "<union>"+
       			"<query type='node'>" +
     			"<has-kv k='highway' v='bus_stop'/>"+
@@ -128,11 +130,11 @@ public class HttpRequest {
     			"<has-kv k='public_transport' v='station'/>"+
     			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
     			"</query>"+
-  			
+
     			"<query type='node'>" +
     			"<has-kv k='amenity' v='bus_station'/>"+
     			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
-    			"</query>"+       	
+    			"</query>"+
 /*
     			"<query type=\"node\">" +
     "<has-kv k=\"highway\" v=\"bus_stop\"/>"+
@@ -145,19 +147,19 @@ public class HttpRequest {
    "<query type=\"node\">" +
  	" <has-kv k=\"public_transport\" v=\"station\"/>"+
    "<bbox-query w=\""+left+"\" e=\""+right+"\" s=\""+bottom+"\" n=\""+top+"\"/>"+
-  "</query>"+  */   
+  "</query>"+  */
 "</union>"+
 "<print mode=\"meta\"/>";
-    	
+
     	content = content.replace("left", left).replace("right",right).replace("bottom", bottom).replace("north",top);
-      String[] hosts = {"http://overpass-api.de/api/interpreter","http://api.openstreetmap.fr/oapi/interpreter","http://overpass.osm.rambler.ru/cgi/interpreter",}; 
-      
+      String[] hosts = {"http://overpass-api.de/api/interpreter","http://api.openstreetmap.fr/oapi/interpreter","http://overpass.osm.rambler.ru/cgi/interpreter",};
+
       System.out.println(content);
         try {
             // get data from server
             //String s = sendRequest(hosts, urlSuffix, "GET", "");
         	String s = sendRequest(hosts, "", "POST", content);
-        	
+
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServer.osm");
@@ -516,9 +518,10 @@ public class HttpRequest {
                 conn.setConnectTimeout(15000);
 
                 if (method.equals("PUT") || method.equals("POST") || method.equals("DELETE")) {
-                    BASE64Encoder enc = new sun.misc.BASE64Encoder();
+                    //BASE64Encoder enc = new sun.misc.BASE64Encoder();
+                    Base64.Encoder enc = java.util.Base64.getEncoder();
                     String usernamePassword = Session.getUserName()+":"+Session.getPassword();
-                    String encodedAuthorization = enc.encode(usernamePassword.getBytes());
+                    String encodedAuthorization = enc.encode(usernamePassword.getBytes()).toString();
                     conn.setRequestProperty("Authorization", "Basic "+ encodedAuthorization);
 
                     conn.setRequestProperty("Content-type", "text/xml");

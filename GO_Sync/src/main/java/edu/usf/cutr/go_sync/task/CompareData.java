@@ -62,7 +62,7 @@ class CompareStopDistance implements Comparator<Stop> {
         gtfsStop_ = gtfsStop;
     }
     public int compare(Stop rhs, Stop lhs) {
-        return (int)Math.signum(OsmDistance.distVincenty(gtfsStop_.getLat(), gtfsStop_.getLon(), rhs.getLat(), rhs.getLon()) - 
+        return (int)Math.signum(OsmDistance.distVincenty(gtfsStop_.getLat(), gtfsStop_.getLon(), rhs.getLat(), rhs.getLon()) -
                    OsmDistance.distVincenty(gtfsStop_.getLat(), gtfsStop_.getLon(), lhs.getLat(), lhs.getLon()));
     }
     private Stop gtfsStop_;
@@ -878,7 +878,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         {
             reportIDs.add(rk.getStopID());
         }
-        // find GTFS stops not in report and mark as new 
+        // find GTFS stops not in report and mark as new
         for (int i=0; i<GTFSstops.size(); i++) {
             if(this.flagIsDone) return;
 //            if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportKeys.contains(GTFSstops.get(i))) ) {
@@ -1082,3 +1082,5 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         rv.setVisible(true);
     }
 }
+
+//TODO parallelise comparebusdata using https://stackoverflow.com/questions/11366330/waiting-for-multiple-swingworkers/11372932#11372932

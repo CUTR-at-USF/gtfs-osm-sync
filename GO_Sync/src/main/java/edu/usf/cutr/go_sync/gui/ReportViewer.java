@@ -227,7 +227,21 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
 
 
+
+    /**
+     * @param aData GTFSstops
+     * @param r report
+     * @param u upload
+     * @param m modify
+     * @param d delete
+     * @param routes
+     * @param nRoutesagencyRoutes
+     * @param eRoutes existingRoutes
+     * @param to taskOutput
+     */
     public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable<String, Route> routes, Hashtable<String, Route> nRoutes, Hashtable<String, Route> eRoutes, JTextArea to) {
+
+//    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
         super.setResizable(true); //false);
 
@@ -351,6 +365,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             // format: gtfs,osm,gtfs,osm,gtfs,osm,etc.
             int numberOfBool = (st.getTags().size()+2)*2;
             ArrayList<Boolean> arr = new ArrayList<Boolean>(numberOfBool);
+            // FIXME: very difficult to read, and does not handle gtfs nulls
             for(int j=0; j<numberOfBool; j++){
                 if(category.equals("UPLOAD_CONFLICT") || category.equals("UPLOAD_NO_CONFLICT")) {
                     if(j%2==0) arr.add(true);
@@ -372,9 +387,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             Stop osmStop = null;
 
             int numEquiv = 0;
-            ArrayList<Stop> arr = null;
-            if(report.get(reportKeys.get(i)) instanceof ArrayList){
-                arr = report.get(reportKeys.get(i));
+            ArrayList<Stop> arr = report.get(reportKeys.get(i));
+            if (arr != null) {
                 if(arr.size()>1) numEquiv = 2;
                 else if(arr.size()==1) numEquiv = 1;
             }
@@ -530,6 +544,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         progressBar.setStringPainted(true);
     }
 
+    /**
+      * Set initial values of updateStopTable
+      * Usually, GTFS values are preferred over OSM values
+      * unless GTFS values are null or an empty string,
+      * then choose OSM values
+      */
     private void updateStopTable(Stop selectedNewStop, Stop selectedOsmStop){
 //        if(selectedNewStop==null) return;
         Stop agencyStop = agencyStops.get(selectedNewStop.toString());
@@ -573,6 +593,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             boolean osmCB = false, gtfsCB = false;
             //make sure there's null pointer
             String newValue="", osmValue="", gtfsValue="";
+            // default to newValue from gtfs
             if(selectedNewStop!=null) {
                 newValue = selectedNewStop.getTag(k);
                 gtfsValue = (String)aTags.get(k);
@@ -593,6 +614,27 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             //add tag to table, index+2 because of lat and lon
             if (finalStopsAccepted.containsKey(selectedNewStop.getStopID())) {
                 stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
+//            if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
+//
+//            /* default to GTFS checked
+//             * OSM unchecked
+//             */
+//            boolean gtfsCheckValue = true;
+//            boolean osmCheckValue = false;
+//            // switch to OSM if gtfs value is null or empty string
+//            // also switch check boxes
+//            // FIXME: this is a bit clunky,
+//            // values are recalculated each time this stop is visited
+//            // should something else be done here?
+//            if (gtfsValue == null) {
+//                newValue = osmValue;
+//                gtfsCheckValue = false;
+//                osmCheckValue = true;
+//            }
+//            //add tag to table, index+2 because of lat and lon
+//            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
+//                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, gtfsCheckValue, osmValue, osmCheckValue, newValue}, i+2);
+//>>>>>>> 1a58b026a52d1271696dac9c53450d65f773cf06
             } else {
                 stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i + 2);
             }
@@ -669,9 +711,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         if (st!=null) {
             tempStopsGeo.add(new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon())));
-            if(report.get(st) instanceof ArrayList){
-                // update osm combobox
-                ArrayList<Stop> osmEquiv = report.get(st);
+            // update osm combobox
+            ArrayList<Stop> osmEquiv = report.get(st);
+            if(osmEquiv != null){
 /*
                 if(osmEquiv.size()>1){
                     tableStopButton.setVisible(false);
@@ -692,7 +734,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //                    matchStopOverlayPainter = null;
 //                }
                 // update table
-                updateStopTable(st, osmStops[0]);
+                    if (osmStops.length > 0) {
+                        updateStopTable(st, osmStops[0]);
+                    } else {
+                        updateStopTable(st, null);
+                    }
             } else {
                 updateStopTable(st, null);
             }
@@ -2766,6 +2812,24 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"both GTFS dataset and OSM server");
 }//GEN-LAST:event_bothMembersRadioButtonActionPerformed
 
+    /** Use modified stop data to save data into finalStops
+      *  Does not create new object
+      */
+    private Stop saveAcceptedDataToFinalStops(String selectedGtfs) {
+        // Save to final Stops
+        Stop st = finalStops.get(selectedGtfs);     //not creating new object
+        for(int i=0; i<stopTableModel.getRowCount(); i++){
+            String tagName = (String)stopTableModel.getValueAt(i, 0);
+            String tagValue = (String)stopTableModel.getValueAt(i, 5);
+            if(tagName.equals("lat")) st.setLat(tagValue);
+            else if(tagName.equals("lon")) st.setLon(tagValue);
+            else {
+                st.addAndOverwriteTag(tagName, tagValue);
+            }
+        }
+        return st;
+    }
+
     private void tableStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableStopButtonActionPerformed
         Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
         String selectedGtfs = selectedGtfsStop.toString();
@@ -2785,29 +2849,24 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             finalCheckboxes.put(selectedGtfs, saveValues);
 
             // Save to final Stops
-            Stop st = finalStops.get(selectedGtfs);     //not creating new object
+            Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
             if (selectedOSMStop!= null) {
                 st.setOsmId(selectedOSMStop.getOsmId());
                 //broken
 //                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
 //                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
             }
-            for(int i=0; i<stopTableModel.getRowCount(); i++){
-                String tagName = (String)stopTableModel.getValueAt(i, 0); //gtfs
-                String tagValue = (String)stopTableModel.getValueAt(i, 5); //final
-                if(tagName.equals("lat")) st.setLat(tagValue);
-                else if(tagName.equals("lon")) st.setLon(tagValue);
-                else {
-                    st.addAndOverwriteTag(tagName, tagValue);
-                }
-            }
             generateStopsToUploadFlag=false;
-            finalStopsAccepted.put(selectedGtfs,st);
+            //finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
+
             if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
         if(tableStopButtonText.contains("Accept") || tableStopButtonText.contains("Add"))
         {
-            if (!selectedGtfsStop.getReportCategory().equals("MODIFY") && !selectedGtfsStop.getReportCategory().equals("UPLOAD_NO_CONFLICT")) {
+            if (       !selectedGtfsStop.getReportCategory().equals("MODIFY")
+                    && !selectedGtfsStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") )
+            {
+
                 selectedGtfsStop.setOsmId(selectedOSMStop.getOsmId());
                 int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
                 selectedGtfsStop.setOsmVersion(Integer.toString(newOSMVersion + 1));
@@ -2834,10 +2893,23 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 }
             }
 
-            if(!tableStopButtonText.contains("Save Change")) JOptionPane.showMessageDialog(this,"Stop is accepted!");
+            if(!tableStopButtonText.contains("Save Change") || !finalStopsAccepted.contains(selectedGtfs)) {
+                Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
+                Stop selectedOsmStop = (Stop) osmStopsComboBox.getSelectedItem();
+                // set osmId and version number
+                st.setOsmId(selectedOsmStop.getOsmId());
+//                st.setOsmVersion((selectedOsmStop.getOsmVersion()));
+                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
+                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
+                st.setReportCategory("MODIFY");
+                finalStopsAccepted.put(selectedGtfs,st);
+
+                // Do not want to upload selectedOsmStop
+                JOptionPane.showMessageDialog(this,"Stop is accepted!");
+            }
 
 
-            // 14thchanges the OSM COMbo box but not the gtfs one
+    		// 14thchanges the OSM COMbo box but not the gtfs one
     		// 16-10 only seems to work if tags not changed!?
      		if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())
             {
@@ -2847,7 +2919,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
             }
 //            if  (!finalStopsAccepted.containsKey(selectedGtfs))
-                finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
+//                finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
             generateStopsToUploadFlag=false;
         }
 //TODO the code/logic here needs simplifying

@@ -235,7 +235,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
      * @param m modify
      * @param d delete
      * @param routes
-     * @param nRoutesagencyRoutes
+     * @param nRoutes agencyRoutes
      * @param eRoutes existingRoutes
      * @param to taskOutput
      */
@@ -2897,10 +2897,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
                 Stop selectedOsmStop = (Stop) osmStopsComboBox.getSelectedItem();
                 // set osmId and version number
-                st.setOsmId(selectedOsmStop.getOsmId());
+                if (st.getOsmId() == null) st.setOsmId(selectedOsmStop.getOsmId());
 //                st.setOsmVersion((selectedOsmStop.getOsmVersion()));
-                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
-                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
+                if (st.getOsmVersion() == null) {
+//                    int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
+                    st.setOsmVersion(selectedOsmStop.getOsmVersion());
+                }
                 st.setReportCategory("MODIFY");
                 finalStopsAccepted.put(selectedGtfs,st);
 

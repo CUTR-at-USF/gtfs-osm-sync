@@ -2859,7 +2859,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             generateStopsToUploadFlag=false;
             //finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
 
-            if(!tableStopButtonText.contains("Accept")) JOptionPane.showMessageDialog(this,"Changes have been made!");
+            if(!(tableStopButtonText.contains("Accept") || tableStopButtonText.contains("Add") )) JOptionPane.showMessageDialog(this,"Changes have been made!");
         }
         if(tableStopButtonText.contains("Accept") || tableStopButtonText.contains("Add"))
         {
@@ -2897,17 +2897,22 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
                 Stop selectedOsmStop = (Stop) osmStopsComboBox.getSelectedItem();
                 // set osmId and version number
-                if (st.getOsmId() == null) st.setOsmId(selectedOsmStop.getOsmId());
+                if (selectedOsmStop != null) {
+                    if (st.getOsmId() == null) st.setOsmId(selectedOsmStop.getOsmId());
 //                st.setOsmVersion((selectedOsmStop.getOsmVersion()));
-                if (st.getOsmVersion() == null) {
+                    if (st.getOsmVersion() == null) {
 //                    int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
-                    st.setOsmVersion(selectedOsmStop.getOsmVersion());
+                        st.setOsmVersion(selectedOsmStop.getOsmVersion());
+                    }
+                    st.setReportCategory("MODIFY");
                 }
-                st.setReportCategory("MODIFY");
                 finalStopsAccepted.put(selectedGtfs,st);
 
                 // Do not want to upload selectedOsmStop
-                JOptionPane.showMessageDialog(this,"Stop is accepted!");
+                if(tableStopButtonText.equals("Accept & Save Change"))
+                    JOptionPane.showMessageDialog(this,"Stop is accepted and changes have been made!");
+                else
+                    JOptionPane.showMessageDialog(this,"Stop is accepted!");
             }
 
 
@@ -2927,8 +2932,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //TODO the code/logic here needs simplifying
         Stop selectedNewStop =(Stop)gtfsStopsComboBox.getSelectedItem();
         if(tableStopButtonText.equals("Accept & Save Change")) {
-            System.out.println("test");
-            JOptionPane.showMessageDialog(this,"Stop is accepted and changes have been made!");
+//            System.out.println("test");
+//            JOptionPane.showMessageDialog(this,"Stop is accepted and changes have been made!");
             updateButtonTableStop("Save Change", false, "Save Change", false);
             if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
                 updateButtonTableStop("Accept", true, "Add", true);

@@ -2930,6 +2930,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             generateStopsToUploadFlag=false;
         }
 //TODO the code/logic here needs simplifying
+        //FIXME the button is disabled after a change is made to the preceding stop
         Stop selectedNewStop =(Stop)gtfsStopsComboBox.getSelectedItem();
         if(tableStopButtonText.equals("Accept & Save Change")) {
 //            System.out.println("test");

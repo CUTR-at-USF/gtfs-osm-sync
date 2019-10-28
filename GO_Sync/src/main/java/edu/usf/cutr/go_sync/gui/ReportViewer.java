@@ -612,7 +612,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         	newValue = gtfsValue;
                         }
             //add tag to table, index+2 because of lat and lon
-            if (finalStopsAccepted.containsKey(selectedNewStop.getStopID())) {
+            if (finalStopsAccepted.containsKey(selectedNewStop.getStopID())
+                    &&  finalStopsAccepted.get(selectedNewStop.getStopID()).getOsmId().equals(selectedOsmStop.getOsmId())) {
                 stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
 //            if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
 //

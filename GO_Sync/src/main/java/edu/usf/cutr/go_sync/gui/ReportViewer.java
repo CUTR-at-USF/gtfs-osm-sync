@@ -107,7 +107,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                      finalStops = new Hashtable<String, Stop>(),
                              finalStopsAccepted = new Hashtable<String, Stop>(),
                            osmDefaultFinalStops = new Hashtable<String, Stop>(),
-                osmDefaultOnlyChangedFinalStops = new Hashtable<String, Stop>();
+                osmDefaultOnlyChangedFinalStops = new Hashtable<String, Stop>(),
+    usedOSMstops = new Hashtable<>();
     private Hashtable<String, ArrayList<Boolean>> finalCheckboxes, finalRouteCheckboxes;
     private Hashtable<String, Stop> searchKeyToStop = new Hashtable<String, Stop>();
     private HashSet<String> stopsToFinish = new HashSet<String>();  // uploadConflict + modified
@@ -672,6 +673,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             updateButtonTableStop("Accept", true, "Add", true);
         else
             updateButtonTableStop("Accept", true, "Save Change", false);
+        if (selectedOsmStop!= null && usedOSMstops.containsKey(selectedOsmStop.getOsmId() )
+                && !usedOSMstops.get(selectedOsmStop.getOsmId()).getStopID().equals(agencyStop))
+//                && !finalStopsAccepted.get(selectedNewStop.getStopID()).getOsmId().equals(selectedOsmStop.getOsmId())) // TODO allow changing osm matches
+            updateButtonTableStop("Already Matched", false, "Already Matched", false);
 
 
         // set last edited information
@@ -2857,6 +2862,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
             if (selectedOSMStop!= null) {
                 st.setOsmId(selectedOSMStop.getOsmId());
+                usedOSMstops.put(selectedOSMStop.getOsmId(),st); //TODO do this properly
                 //broken
 //                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
 //                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
@@ -2903,7 +2909,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 Stop selectedOsmStop = (Stop) osmStopsComboBox.getSelectedItem();
                 // set osmId and version number
                 if (selectedOsmStop != null) {
-                    if (st.getOsmId() == null) st.setOsmId(selectedOsmStop.getOsmId());
+                    if (st.getOsmId() == null) {
+                        st.setOsmId(selectedOsmStop.getOsmId());
+                    }
 //                st.setOsmVersion((selectedOsmStop.getOsmVersion()));
                     if (st.getOsmVersion() == null) {
 //                    int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
@@ -2912,6 +2920,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     st.setReportCategory("MODIFY");
                 }
                 finalStopsAccepted.put(selectedGtfs,st);
+                usedOSMstops.put(selectedOSMStop.getOsmId(),st); //TODO do this properly
 
                 // Do not want to upload selectedOsmStop
                 if(tableStopButtonText.equals("Accept & Save Change"))

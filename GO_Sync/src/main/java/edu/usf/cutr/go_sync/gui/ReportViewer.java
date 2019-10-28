@@ -712,6 +712,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         if (st!=null) {
             tempStopsGeo.add(new GeoPosition(Double.parseDouble(st.getLat()), Double.parseDouble(st.getLon())));
             // update osm combobox
+            //TODO if a potentially matched stop is already in
+            // final stops and is not set to the current stop, don't show
+            // it in list
             ArrayList<Stop> osmEquiv = report.get(st);
             if(osmEquiv != null){
 /*
@@ -2353,7 +2356,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 });*/
 
         dummyUploadButton.setFont(new java.awt.Font("Tahoma", 0, 14));
-        dummyUploadButton.setText("Dummy Upload");
+        dummyUploadButton.setText("Export OSMChange");
         dummyUploadButton.setName("dummyUploadButton"); // NOI18N
         dummyUploadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2371,6 +2374,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         });
         //TODO remove button
         uploadDataButton.setEnabled(false);
+        uploadDataButton.setVisible(false);
 
         jMenuBar1.setName("jMenuBar1"); // NOI18N
 
@@ -2916,29 +2920,30 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
 
 
-    		// 14thchanges the OSM COMbo box but not the gtfs one
-    		// 16-10 only seems to work if tags not changed!?
-     		if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())
-            {
 
-                gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+        }
+        // 14thchanges the OSM COMbo box but not the gtfs one
+        // 16-10 only seems to work if tags not changed!?
+        if (gtfsStopsComboBox.getSelectedIndex() + 1< gtfsStopsComboBox.getItemCount())
+        {
 
-                //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
-            }
+            gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex()+1);
+
+            //    updateBusStop((Stop)gtfsStopsComboBox.getSelectedItem());
+        }
 //            if  (!finalStopsAccepted.containsKey(selectedGtfs))
 //                finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
-            generateStopsToUploadFlag=false;
-        }
+        generateStopsToUploadFlag=false;
 //TODO the code/logic here needs simplifying
         //FIXME the button is disabled after a change is made to the preceding stop
         Stop selectedNewStop =(Stop)gtfsStopsComboBox.getSelectedItem();
-        if(tableStopButtonText.equals("Accept & Save Change")) {
+/*        if(tableStopButtonText.equals("Accept & Save Change")) {
 //            System.out.println("test");
 //            JOptionPane.showMessageDialog(this,"Stop is accepted and changes have been made!");
             updateButtonTableStop("Save Change", false, "Save Change", false);
             if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
                 updateButtonTableStop("Accept", true, "Add", true);
-        } else if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
+        } else */if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
             updateButtonTableStop("Accept", true, "Add", true);
         else
         {

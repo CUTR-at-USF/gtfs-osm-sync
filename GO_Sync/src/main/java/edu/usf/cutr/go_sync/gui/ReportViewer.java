@@ -322,6 +322,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 nui++;
             }
         }
+
+        System.out.println("Categories " + " UPLOAD_CONFLICT:" + uci + " UPLOAD_NO_CONFLICT:" + unci + " MODIFY:" + mi + " NOTHING_NEW:" + nui);
+
         // add data to correct list (categorizing)
         gtfsUploadConflict = new Stop[uci];
         gtfsUploadNoConflict = new Stop[unci];

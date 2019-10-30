@@ -555,14 +555,14 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             String routeShortName = (String)osmtag.get("ref");
             String operator = (String)osmtag.get("operator");  //tag_defs.GTFS_OPERATOR_KEY); //FIXME use tag_defs
             String network = (String)osmtag.get("network"); //(tag_defs.GTFS_NETWORK_KEY);    //FIXME use tag_defs
-            System.out.println(osm + " routeId " + routeId + routeKeys.contains(routeId) +  "routeShortName " + routeShortName + routeNameKeys.contains(routeShortName) + operator + network);
+//            System.out.println(osm + " routeId " + routeId + routeKeys.contains(routeId) +  "routeShortName " + routeShortName + routeNameKeys.contains(routeShortName) + operator + network);
             if((routeKeys.contains(routeId) ||routeNameKeys.contains(routeShortName))
                     && (
                     (operator!=null && OperatorInfo.isTheSameOperator(operator))||
                             (network!=null && OperatorInfo.isTheSameOperator(network))
             )
                     ) {
-                System.out.println(routeId +"\t" + operator);
+//                System.out.println(routeId +"\t" + operator);
                 HashSet<RelationMember> em = OSMRelationMembers.get(osm);
                 Route r;
                 String ostring,idstring,refstring;

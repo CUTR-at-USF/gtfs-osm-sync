@@ -616,7 +616,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         	newValue = gtfsValue;
                         }
             //add tag to table, index+2 because of lat and lon
-            if (finalStopsAccepted.containsKey(selectedNewStop.getStopID())
+            if (finalStopsAccepted.containsKey(selectedNewStop.getStopID()) && selectedOsmStop!=null
                     &&  finalStopsAccepted.get(selectedNewStop.getStopID()).getOsmId().equals(selectedOsmStop.getOsmId())) {
                 stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
 //            if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
@@ -2921,9 +2921,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         st.setOsmVersion(selectedOsmStop.getOsmVersion());
                     }
                     st.setReportCategory("MODIFY");
+                    usedOSMstops.put(selectedOSMStop.getOsmId(),st); //TODO do this properly
                 }
                 finalStopsAccepted.put(selectedGtfs,st);
-                usedOSMstops.put(selectedOSMStop.getOsmId(),st); //TODO do this properly
 
                 // Do not want to upload selectedOsmStop
                 if(tableStopButtonText.equals("Accept & Save Change"))
@@ -2965,6 +2965,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 }//GEN-LAST:event_tableStopButtonActionPerformed
 
     //action when savechange button on  route tags
+    //FIXME status is currently broken
     private void saveChangeRouteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeRouteButtonActionPerformed
         saveChangeRouteButton.setEnabled(false);
 

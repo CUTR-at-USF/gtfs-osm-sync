@@ -46,7 +46,7 @@ public class OsmPrinter {
         return "</create>\n" +
                 "<modify>\n";
     }
-    
+
     public String osmChangeDelete(){
         return "</modify>\n" +
                 "<delete>\n";
@@ -64,29 +64,38 @@ public class OsmPrinter {
                 "<tag k='comment' v='"+OsmFormatter.getValidXmlText(Session.getChangeSetComment())+"'/>\n" +
                 "</changeset>\n";
     }
-
+    //FIXME handle null changeIDs properly
     public String writeDeleteNode(String nodeID, String changeSetID, String version) {
-        return "<node id='"+nodeID+"' changeset='"+ changeSetID + "' version='"+ version +"' />\n";
+        String changesetText = " ";
+        if (!changeSetID.equals("DUMMY"))
+            changesetText = "changeset='" + changeSetID+ "'";
+        return "<node id='"+nodeID+ "' " + changesetText +  " version='"+ version +"' />\n";
     }
 
     public String writeBusStop(String changeSetID, String lat, String lon) {
-        return "<node changeset='" + changeSetID+ "' lat='" + lat + "' lon='" + lon + "'>\n" +
+        String changesetText = " ";
+        if (!changeSetID.equals("DUMMY"))
+            changesetText = "changeset='" + changeSetID+ "'";
+        return "<node " + changesetText +  " lat='" + lat + "' lon='" + lon + "'>\n" +
                 "<tag k='highway' v='bus_stop'/>\n" +
                 "</node>";
     }
 
     public String writeBusStop(String changeSetID, String nodeID, Stop st) {
+        String changesetText = " ";
+        if (!changeSetID.equals("DUMMY"))
+            changesetText = "changeset='" + changeSetID+ "'";
         String text="";
         Stop s = new Stop(st);
         // if modify, we need version number
         if(st.getOsmVersion()!=null) {
-            text += "<node changeset='" + changeSetID + "' id='" + nodeID
+            text += "<node " + changesetText + " id='" + nodeID
                     + "' lat='" + st.getLat() + "' lon='" + st.getLon()
                     + "' version='"+st.getOsmVersion() + "'>\n";
         }
         // mainly for create new node
         else {
-            text += "<node changeset='" + changeSetID + "' id='" + nodeID
+            text += "<node " + changesetText + " id='" + nodeID
                     + "' lat='" + st.getLat() + "' lon='" + st.getLon() + "'>\n";
             if(st.getTag(APPLICATION_CREATOR_KEY)!=null && !st.getTag(APPLICATION_CREATOR_KEY).equals("none")) {
                 text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
@@ -107,16 +116,19 @@ public class OsmPrinter {
     }
 
     public String writeBusRoute(String changeSetID, String routeID, Route r) {
+        String changesetText = " ";
+        if (!changeSetID.equals("DUMMY"))
+            changesetText = "changeset='" + changeSetID+ "'";
         String text="";
         Route route = new Route(r);
         // if modify, we need version number
         if(r.getOsmVersion()!=null) {
-            text += "<relation changeset='" + changeSetID + "' id='" + routeID
+            text += "<relation " + changesetText + " id='" + routeID
                     + "' version='"+route.getOsmVersion() + "'>\n";
         }
         // mainly for create new relation
         else {
-            text += "<relation changeset='" + changeSetID + "' id='" + routeID
+            text += "<relation  " + changesetText + "  id='" + routeID
                     + "' version='"+ routeID +"'>\n";
             text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
         }

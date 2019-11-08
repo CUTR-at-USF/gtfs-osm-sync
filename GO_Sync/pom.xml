@@ -34,6 +34,14 @@
 	<version>4aug2000r7-dev</version>
 </dependency>
 
+
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-csv</artifactId>
+          <version>1.7</version>
+      </dependency>
+
+
   </dependencies>
 
 <build>
@@ -55,7 +63,7 @@
        </archive>
          </configuration>
      </plugin>
-<!--      
+<!--
 	TODO - This fails on Travis CI, so its commented out for now (see https://github.com/CUTR-at-USF/gtfs-osm-sync/pull/15#issuecomment-61645728)
 	  <plugin>
        <groupId>org.codehaus.mojo</groupId>
@@ -72,7 +80,7 @@
          </configuration>
         </execution>
        </executions>
-      </plugin>	    
+      </plugin>
 -->
 
 <plugin>
@@ -101,8 +109,8 @@
     <artifactId>maven-compiler-plugin</artifactId>
     <version>3.2</version>
     <configuration>
-      <source>1.7</source>
-      <target>1.7</target>
+      <source>1.8</source>
+      <target>1.8</target>
     </configuration>
   </plugin>
 </plugins>

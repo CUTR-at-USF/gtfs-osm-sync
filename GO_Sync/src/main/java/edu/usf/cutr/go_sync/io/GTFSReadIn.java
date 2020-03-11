@@ -80,7 +80,7 @@ public class GTFSReadIn {
         int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fName),"UTF-8"));
-            Hashtable<String,Integer> keysIndex = new Hashtable<String,Integer> ();
+            HashMap<String,Integer> keysIndex = new HashMap<String,Integer> ();
             thisLine = br.readLine();
             StringReader sr = new StringReader(thisLine);
             CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader(
@@ -225,7 +225,7 @@ public class GTFSReadIn {
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(routes_fName),"UTF-8"));
-            Hashtable<String,Integer> keysIndex = new Hashtable<String,Integer> ();
+            HashMap<String,Integer> keysIndex = new HashMap<String,Integer> ();
             thisLine = br.readLine();
             StringReader sr = new StringReader(thisLine);
             CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader(

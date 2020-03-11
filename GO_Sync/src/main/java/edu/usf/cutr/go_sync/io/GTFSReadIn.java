@@ -34,8 +34,6 @@ public class GTFSReadIn {
     private static final String ROUTE_KEY = "route_ref";
     private static final String NTD_ID_KEY = "ntd_id";
     private static final String UTF8_BOM = "\uFEFF";
-//TODO read agency.txt
-
 
     private List<Stop> stops;
 
@@ -48,15 +46,12 @@ public class GTFSReadIn {
     public static Set<String> getAllRoutesID(){
         return allRoutes.keySet();
     }
+
 //TODO handle multiple agencies
-    public String readAgency(String agency_fName)
-    //public Hashtable<String, Route> readRoutes(String routes_fName)
-    {
+    public String readAgency(String agency_fName){
         try {
             BufferedReader br = new BufferedReader(new FileReader(agency_fName));
-            boolean isFirstLine = true;
             CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader());
-            Map<String, Integer> keysIndex = parser.getHeaderMap();
 
             for (CSVRecord csvRecord : parser) {
                 String agencyName;
@@ -85,23 +80,18 @@ public class GTFSReadIn {
         int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fName),"UTF-8"));
-            boolean isFirstLine = false;//true;
             Hashtable<String,Integer> keysIndex = new Hashtable<String,Integer> ();
             thisLine = br.readLine();
             StringReader sr = new StringReader(thisLine);
-            CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader(//"route_id","route_short_name","route_long_name","route_desc","route_type","route_url","color","route_text_color"
+            CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader(
+                    //"route_id","route_short_name","route_long_name","route_desc","route_type","route_url","color","route_text_color"
             ));
-            Map<String, Integer> CSVkeysMap =  headerParser.getHeaderMap();
-//            CSVkeysIndex.putAll(
-//                    CSVKeysMap.entrySet();
-//            );
+
             List<String> CSVkeysList = headerParser.getHeaderNames();
             ArrayList<String> CSVkeysListNew = new ArrayList<>(CSVkeysList);
             String[] keys =  new String[CSVkeysList.size()];
-            keys = CSVkeysList.toArray(keys);
-
-            {
-                    for(int i=0; i<keys.length; i++){
+            keys = CSVkeysList.toArray(keys);{
+                    for(int i=0; i<keys.length; i++) {
                         switch (keys[i]) {
                             case "stop_id":
                                 stopIdKey = i;
@@ -135,38 +125,27 @@ public class GTFSReadIn {
                     System.out.println(keysIndex.toString());
 //                    System.out.println(stopIdKey+","+stopNameKey+","+stopLatKey+","+stopLonKey);
                 }
-//            while ((thisLine = br.readLine()) != null) {
-//                else {
             CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader(keys));
-            for (CSVRecord csvRecord : parser)
-            {
-//                    for (Map.Entry<String, Integer> x : CSVkeysIndex.entrySet())
-//                    cvsRecord.toMap<>();
+            for (CSVRecord csvRecord : parser) {
                 Iterator<String> iter = csvRecord.iterator();
                 Map<String,String> hm = csvRecord.toMap();
                 elements =  new String[hm.size()];
                 elements = hm.values().toArray(elements);
-/*
-                    //System.out.println(elements.length);
-                   // for (int zxc = 0; zxc< elements.length-1; zxc++) {System.out.print(elements[zxc]+ ",");}System.out.print(elements[elements.length] );
-                    if(thisLine.charAt(thisLine.length()-1)==',') lastIndexEmpty=true;
- */                    //add leading 0's to gtfs_id
+                 //add leading 0's to gtfs_id
                     String tempStopId = OsmFormatter.getValidBusStopId(elements[stopIdKey]);
                     Stop s = new Stop(tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey]);
                     HashSet<String> keysn = new HashSet<String>(keysIndex.keySet());
                     Iterator it = keysn.iterator();
                     try {
-                        while(it.hasNext()){
+                        while(it.hasNext()) {
                         	String k = (String)it.next();
 
                             String v = null;
                             //if(!lastIndexEmpty) v = elements[(Integer)keysIndex.get(k)];
                             if(keysIndex.get(k) < elements.length) v = elements[keysIndex.get(k)];
                             if ((v!=null) && (!v.isEmpty())) {
-                                if (k.equals(tag_defs.OSM_STOP_TYPE_KEY))
-                                {
-                                    switch(Integer.parseInt(v))
-                                    {
+                                if (k.equals(tag_defs.OSM_STOP_TYPE_KEY)) {
+                                    switch(Integer.parseInt(v)) {
                                         // https://developers.google.com/transit/gtfs/reference/stops-file
                                         case 0: v="platform";break;
                                         case 1: v="station"; break;
@@ -195,21 +174,19 @@ public class GTFSReadIn {
                                         }
                                         s.addTag(k, v);
                                     }
-
                                 } else
-
                                     s.addTag(k, v);
                             }
                             //System.out.print(k+":" + v +" ");
-
                         }
 //                        s.addTag(NTD_ID_KEY, OperatorInfo.getNTDID());
 //                        s.addTag("url", s.getTag("stop_url"));
 
-// disable source tag                        s.addTag("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
+// disable source tag
+//                        s.addTag("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
 //                        if (!tempStopId.contains("place")) s.addTag("url", "http://translink.com.au/stop/"+tempStopId);
 
-                    } catch(Exception e){
+                    } catch(Exception e) {
                         System.out.println("Error occurred! Please check your GTFS input files");
                         System.out.println(e.toString());
                         System.exit(0);
@@ -227,9 +204,6 @@ public class GTFSReadIn {
 
                     HashMap<String,String> modes = getModeTagsByBusStop(stopIDs.get(tempStopId));
                     if (!r.isEmpty()) s.addTags(modes);
-
-
-
 //                    System.out.println(thisLine);
                 }
 //            }
@@ -243,11 +217,6 @@ public class GTFSReadIn {
         return stops;
     }
 
-    /*
-
-
-
-     */
     public Hashtable<String, Route> readRoutes(String routes_fName){
         Hashtable<String, Route> routes = new Hashtable<String, Route>();
         String thisLine;
@@ -256,17 +225,12 @@ public class GTFSReadIn {
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(routes_fName),"UTF-8"));
-            boolean isFirstLine = false;//true;
             Hashtable<String,Integer> keysIndex = new Hashtable<String,Integer> ();
             thisLine = br.readLine();
             StringReader sr = new StringReader(thisLine);
-            CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader(//"route_id","route_short_name","route_long_name","route_desc","route_type","route_url","color","route_text_color"
+            CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader(
+                    //"route_id","route_short_name","route_long_name","route_desc","route_type","route_url","color","route_text_color"
             ));
-//            Hashtable<String, Integer> CSVkeysIndex = new Hashtable<>();
-            Map<String, Integer> CSVkeysMap =  headerParser.getHeaderMap();
-//            CSVkeysIndex.putAll(
-//                    CSVKeysMap.entrySet();
-//            );
             List<String> CSVkeysList = headerParser.getHeaderNames();
             ArrayList<String> CSVkeysListNew = new ArrayList<>(CSVkeysList);
             String[] keysn =  new String[CSVkeysList.size()];
@@ -274,7 +238,7 @@ public class GTFSReadIn {
             for(int i=0; i<keysn.length; i++) {
                 //read keys
                 switch (keysn[i]) {
-                    case "route_id":
+                    case tag_defs.GTFS_ROUTE_ID_KEY:
                         routeIdKey = i;
                         break;
                     case tag_defs.GTFS_ROUTE_URL_KEY:
@@ -306,10 +270,8 @@ public class GTFSReadIn {
             {
                 final Pattern colourPattern = Pattern.compile("^[a-fA-F0-9]+$");
                 CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader(keysn));
-                for (CSVRecord csvRecord : parser)
-                {
-//                    for (Map.Entry<String, Integer> x : CSVkeysIndex.entrySet())
-//                    cvsRecord.toMap<>();
+                for (CSVRecord csvRecord : parser) {
+
                     Iterator<String> iter = csvRecord.iterator();
                     Map<String,String> hm = csvRecord.toMap();
                     elements =  new String[hm.size()];
@@ -322,18 +284,15 @@ public class GTFSReadIn {
                     HashSet<String> keys = new HashSet<String>(keysIndex.keySet());
                     Iterator<String> it = keys.iterator();
                     try {
-                        while(it.hasNext()){
+                        while(it.hasNext()) {
                             String k = it.next();
                             String v = null;
                             int ki = keysIndex.get(k);
                             if(/*!(lastIndexEmpty && */ki <elements.length) v = elements[ki];
-                            if ((v!=null) && (!v.isEmpty()))
-                            {
-                                if (k.equals(tag_defs.OSM_ROUTE_TYPE_KEY))
-                                {
+                            if ((v!=null) && (!v.isEmpty())) {
+                                if (k.equals(tag_defs.OSM_ROUTE_TYPE_KEY)) {
                                     String route_value;
-                                    switch(Integer.parseInt(v))
-                                    {
+                                    switch(Integer.parseInt(v)) {
                                         // TODO allow drop down finetuning selection on report viewer
                                         // https://developers.google.com/transit/gtfs/reference/routes-file
                                         // https://wiki.openstreetmap.org/wiki/Relation:route#Route_types_.28route.29
@@ -342,9 +301,9 @@ public class GTFSReadIn {
                                         case 2: route_value = "train";      break;	// Rail. Used for intercity or long-distance travel.
                                         case 3: route_value = "bus";        break;	// Bus. Used for short- and long-distance bus routes.
                                         case 4: route_value = "ferry";      break;	// Ferry. Used for short- and long-distance boat service.
-                                        case 5: route_value = "tram";  break;	// Cable car. Used for street-level cable cars where the cable runs beneath the car.
+                                        case 5: route_value = "tram";       break;	// Cable car. Used for street-level cable cars where the cable runs beneath the car.
                                         case 6: k = "aerialway";
-                                                route_value = "yes";    break;	// Gondola, Suspended cable car. Typically used for aerial cable cars where the car is suspended from the cable.
+                                                route_value = "yes";        break;	// Gondola, Suspended cable car. Typically used for aerial cable cars where the car is suspended from the cable.
                                         // TODO use railway=funicular
                                         case 7: k = "railway";
                                                 route_value = "funicular";  break;	// Funicular. Any rail system designed for steep inclines.
@@ -355,12 +314,9 @@ public class GTFSReadIn {
                                 //prepend hex colours
 //                                if (k.equals(tag_defs.OSM_COLOUR_KEY))
 //                                    System.out.println(tag_defs.OSM_COLOUR_KEY + " "+ v + " #"+v);
-                                if (k.equals(tag_defs.OSM_COLOUR_KEY) && ((v.length() == 3 || v.length() == 6) && colourPattern.matcher(v).matches()))//"^[a-fA-F0-9]+$")) )
-                                {
+                                if (k.equals(tag_defs.OSM_COLOUR_KEY) && ((v.length() == 3 || v.length() == 6) && colourPattern.matcher(v).matches()))/*^[a-fA-F0-9]+$")))*/ {
                                     v = "#".concat(v);
                                 }
-
-
                                 r.addTag(k, v);
                             }
                         }
@@ -381,16 +337,11 @@ public class GTFSReadIn {
 
     public Hashtable<String, HashSet<Route>> matchRouteToStop(String routes_fName, String trips_fName, String stop_times_fName){
         allRoutes.putAll(readRoutes(routes_fName));
-        String thisLine;
-        String [] elements;
-        // hashtable String vs. String
         HashMap<String,String> tripIDs = new HashMap<String,String>();
 
         // trips.txt read-in
         try {
-            int tripIdKey=-1, routeIdKey=-1;
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(trips_fName),"UTF-8"));
-            boolean isFirstLine = true;
             CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader());
             for (CSVRecord csvRecord : parser) {
 
@@ -409,7 +360,6 @@ public class GTFSReadIn {
         // hashtable String(stop_id) vs. HashSet(routes)
         Hashtable<String, HashSet<Route>> stopIDs = new Hashtable<String, HashSet<Route>>();
         // stop_times.txt read-in
-        int stopIdKey=-1, tripIdKey = -1;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(stop_times_fName), "UTF-8"));
 
@@ -443,8 +393,7 @@ public class GTFSReadIn {
         if (r!=null) {
             //convert from hashset to arraylist
             ArrayList<Route> routes = new ArrayList<Route>(r);
-            for (Route rr:routes)
-            {
+            for (Route rr:routes) {
                 if (rr.containsKey(tag_defs.OSM_ROUTE_TYPE_KEY)) {
                     keys.put(rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY), "yes");
                     if (rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY) == "ferry")
@@ -452,8 +401,7 @@ public class GTFSReadIn {
                 }
                 if (rr.containsKey("aerialway"))
                      keys.put("aerialway","station");
-                if (rr.containsKey("railway") && rr.getTag("railway") == "funicular")
-                {
+                if (rr.containsKey("railway") && rr.getTag("railway") == "funicular") {
                     keys.put("railway","station");
                     keys.put("station","funicular");
                 }
@@ -477,15 +425,11 @@ public class GTFSReadIn {
             TreeSet<String> routeRefSet = new TreeSet<String>(new hashCodeCompare());
             //convert from hashset to arraylist
             ArrayList<Route> routes = new ArrayList<Route>(r);
-            for (Route rr:routes)
-            {
+            for (Route rr:routes) {
                 routeRefSet.add(rr.getRouteRef());
             }
             text = String.join(";",routeRefSet);
         }
         return text;
     }
-
-
-
 }

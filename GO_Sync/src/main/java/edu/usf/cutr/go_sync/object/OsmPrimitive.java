@@ -18,6 +18,8 @@ Copyright 2010 University of South Florida
 package edu.usf.cutr.go_sync.object;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -49,6 +51,17 @@ public class OsmPrimitive {
      * since we don't want the new data overwrite the old one. Use addAndOverwriteTags instead
      * */
     public void addTags(Hashtable h){
+        ArrayList<String> keys = new ArrayList<String>();
+        keys.addAll(h.keySet());
+        for (int i=0; i<keys.size(); i++){
+            String k = keys.get(i);
+            if(!osmTags.containsKey(k)) {
+                osmTags.put(k,h.get(k));
+            }
+        }
+    }
+
+    public void addTags(Map h){
         ArrayList<String> keys = new ArrayList<String>();
         keys.addAll(h.keySet());
         for (int i=0; i<keys.size(); i++){

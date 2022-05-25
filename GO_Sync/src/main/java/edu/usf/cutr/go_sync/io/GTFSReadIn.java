@@ -28,12 +28,12 @@ import edu.usf.cutr.go_sync.tools.OsmFormatter;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.input.BOMInputStream;
 
 public class GTFSReadIn {
     private static Hashtable<String, Route> allRoutes;
     private static final String ROUTE_KEY = "route_ref";
     private static final String NTD_ID_KEY = "ntd_id";
-    private static final String UTF8_BOM = "\uFEFF";
 
     private List<Stop> stops;
 
@@ -79,7 +79,7 @@ public class GTFSReadIn {
         String [] elements;
         int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fName),"UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(fName)),"UTF-8"));
             HashMap<String,Integer> keysIndex = new HashMap<String,Integer> ();
             thisLine = br.readLine();
             StringReader sr = new StringReader(thisLine);
@@ -224,7 +224,7 @@ public class GTFSReadIn {
         int routeIdKey=-1, routeShortNameKey=-1,routeLongNameKey=-1;
 
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(routes_fName),"UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(routes_fName)), "UTF-8"));
             HashMap<String,Integer> keysIndex = new HashMap<String,Integer> ();
             thisLine = br.readLine();
             StringReader sr = new StringReader(thisLine);
@@ -341,7 +341,7 @@ public class GTFSReadIn {
 
         // trips.txt read-in
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(trips_fName),"UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(trips_fName)),"UTF-8"));
             CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader());
             for (CSVRecord csvRecord : parser) {
 
@@ -361,7 +361,7 @@ public class GTFSReadIn {
         Hashtable<String, HashSet<Route>> stopIDs = new Hashtable<String, HashSet<Route>>();
         // stop_times.txt read-in
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(stop_times_fName), "UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(stop_times_fName)), "UTF-8"));
 
             CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader());
 

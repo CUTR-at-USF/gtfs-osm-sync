@@ -131,6 +131,7 @@ public class GTFSReadIn {
                 Map<String,String> hm = csvRecord.toMap();
                 elements =  new String[hm.size()];
                 elements = hm.values().toArray(elements);
+                String public_transport_type = "";
                  //add leading 0's to gtfs_id
                     String tempStopId = OsmFormatter.getValidBusStopId(elements[stopIdKey]);
                     Stop s = new Stop(tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey]);
@@ -147,8 +148,12 @@ public class GTFSReadIn {
                                 if (k.equals(tag_defs.OSM_STOP_TYPE_KEY)) {
                                     switch(Integer.parseInt(v)) {
                                         // https://developers.google.com/transit/gtfs/reference/stops-file
-                                        case 0: v="platform";break;
-                                        case 1: v="station"; break;
+                                        case 0:
+                                            v = public_transport_type = "platform";
+                                            break;
+                                        case 1:
+                                            v = public_transport_type = "station";
+                                            break;
                                         default: break;
                                     }
                                 }
@@ -202,7 +207,7 @@ public class GTFSReadIn {
 
                     stops.add(s);
 
-                    HashMap<String,String> modes = getModeTagsByBusStop(stopIDs.get(tempStopId));
+                    HashMap<String, String> modes = getModeTagsByBusStop(stopIDs.get(tempStopId), public_transport_type);
                     if (!r.isEmpty()) s.addTags(modes);
 //                    System.out.println(thisLine);
                 }
@@ -385,22 +390,59 @@ public class GTFSReadIn {
 
     //TODO implement  this
     // https://wiki.openstreetmap.org/wiki/Public_transport
-    public HashMap<String,String> getModeTagsByBusStop(HashSet<Route> r) {
+    public HashMap<String,String> getModeTagsByBusStop(HashSet<Route> r, String public_transport_type) {
         HashMap<String,String> keys = new HashMap<String,String>();
         if (r!=null) {
             //convert from hashset to arraylist
             ArrayList<Route> routes = new ArrayList<Route>(r);
-            for (Route rr:routes) {
-                if (rr.containsKey(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+            for (Route rr : routes) {
+                if (public_transport_type.equals("platform")) {
+                    if (rr.containsKey(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                        switch (rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                            case "bus":
+                            case "trolley_bus":
+                            case "share_taxi":
+                                keys.put("highway", "bus_stop");
+                                break;
+                            case "railway":
+                            case "tram":
+                            case "subway":
+                            case "light_rail":
+                                keys.put("railway", "paltform");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                } else if (public_transport_type.equals("stop_position")) {
                     keys.put(rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY), "yes");
-                    if (rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY) == "ferry")
-                        keys.put("amenity","ferry_terminal");
-                }
-                if (rr.containsKey("aerialway"))
-                     keys.put("aerialway","station");
-                if (rr.containsKey("railway") && rr.getTag("railway") == "funicular") {
-                    keys.put("railway","station");
-                    keys.put("station","funicular");
+                } else if (public_transport_type.equals("station")) {
+                    if (rr.containsKey(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                        switch (rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                            case "bus":
+                                keys.put("amenity", "bus_station");
+                                break;
+                            case "railway":
+                            case "tram":
+                            case "subway":
+                            case "light_rail":
+                                keys.put("railway", "station");
+                                break;
+                            case "ferry":
+                                keys.put("amenity", "ferry_terminal");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (rr.containsKey("railway") && rr.getTag("railway").equals("funicular")) {
+                        keys.put("railway", "station");
+                        keys.put("station", "funicular");
+                    }
+                    if (rr.containsKey("aerialway")) {
+                        keys.put("aerialway", "station");
+                    }
                 }
             }
         }

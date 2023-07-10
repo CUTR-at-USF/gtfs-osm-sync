@@ -17,11 +17,14 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.object;
 
+import java.util.List;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import edu.usf.cutr.go_sync.tools.OsmDistance;
 import edu.usf.cutr.go_sync.tag_defs;
+import java.util.ArrayList;
+import java.util.Arrays;
 /**
  *
  * @author Khoa Tran
@@ -31,7 +34,8 @@ public class Stop extends OsmPrimitive implements Comparable{
 	private final double ERROR_TO_ZERO = 0.5;	
     private String lat, lon;
     private HashSet<Route> routes;
-    public Stop(String osmPrimitiveType, String stopID, String operatorName, String stopName, String lat, String lon) {
+    public Stop(String osmPrimitiveType, String stopID, String operatorName, String stopName, String lat, String lon,
+            NetexStopElement netexStopElement) {
         super(osmPrimitiveType);
         osmTags = new Hashtable();
         if (operatorName == null || operatorName.equals("")) operatorName="none";
@@ -40,7 +44,25 @@ public class Stop extends OsmPrimitive implements Comparable{
 //        osmTags.put("highway", "bus_stop");
         osmTags.put(tag_defs.OSM_STOP_ID_KEY, stopID);
         osmTags.put(tag_defs.OSM_NETWORK_KEY, operatorName);
-        osmTags.put(tag_defs.OSM_STOP_NAME_KEY, stopName);
+
+        //System.out.println("Creating stop " + stopID.toString());
+        // Use Quay Name of NetEx instead of GTFS (netexQuayName is null if not created with GTFSReadIn)
+        if (netexStopElement != null) {
+            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, netexStopElement.getLogicalName());
+            // Get alt_names
+            List<String> altNames = netexStopElement.getLogicalAltNames();
+            // Add gtfs stop name to alt_name if it is different than the logicalName from Netex
+            if (!stopName.equals(netexStopElement.getLogicalName()) && !netexStopElement.getLogicalAltNames().isEmpty()) {
+                if (!altNames.contains(stopName)) {
+                    altNames.add(stopName.replace(";", "_"));
+                }
+            }
+            if (!altNames.isEmpty()) {
+                osmTags.put("alt_name", String.join(";", altNames));
+            }
+        } else {
+            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, stopName);
+        }
 
         //        osmTags.put("bus", "yes");
 //        osmTags.put("public_transport", "plaform");
@@ -65,6 +87,9 @@ public class Stop extends OsmPrimitive implements Comparable{
         this.osmTags.put(tag_defs.OSM_STOP_ID_KEY, s.getStopID());
         this.osmTags.put(tag_defs.OSM_NETWORK_KEY, s.getOperatorName());
         this.osmTags.put(tag_defs.OSM_STOP_NAME_KEY, s.getStopName());
+        if (s.getStopAltName() != null) {
+            this.osmTags.put("alt_name", s.getStopAltName());
+        }
         
 //        this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID());
 //        if (!s.getStopID().contains("place")) this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID()); 
@@ -115,6 +140,18 @@ public class Stop extends OsmPrimitive implements Comparable{
 
     public String getStopName(){
         return (String)osmTags.get(tag_defs.OSM_STOP_NAME_KEY);
+    }
+
+    public String getStopAltName(){
+        return (String)osmTags.get("alt_name");
+    }
+
+    public static List<String> stopAltNamesToList(String alt_names) {
+        if (alt_names == null)
+            return null;
+
+        String[] altNamesArray = alt_names.split(";");
+        return new ArrayList<>(Arrays.asList(altNamesArray));
     }
 
     public String getLat(){

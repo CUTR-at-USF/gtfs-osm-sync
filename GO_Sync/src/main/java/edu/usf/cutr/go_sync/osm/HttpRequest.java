@@ -56,6 +56,7 @@ import edu.usf.cutr.go_sync.tools.parser.OsmVersionParser;
 import edu.usf.cutr.go_sync.tools.parser.RouteParser;
 import edu.usf.cutr.go_sync.tools.parser.NodeWayAttr;
 import edu.usf.cutr.go_sync.tag_defs;
+import java.util.Arrays;
 /**
  *
  * @author Khoa Tran
@@ -308,8 +309,9 @@ public class HttpRequest {
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             NodeWayAttr attImplNode = par.getOneNode();
             Hashtable tags = par.getTagsOneNode();
+            
             st = new Stop("node", null,(String)tags.get(tag_defs.OSM_NETWORK_KEY),(String)tags.get("name"),
-                    attImplNode.getValue("lat"),attImplNode.getValue("lon"));
+                    attImplNode.getValue("lat"),attImplNode.getValue("lon"), null);
             st.addTags(tags);
             if (!isNew) {
                 st.setOsmId(attImplNode.getValue("id"));

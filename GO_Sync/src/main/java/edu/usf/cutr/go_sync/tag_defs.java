@@ -35,6 +35,9 @@ public class tag_defs {
     public final static String GTFS_STOP_TYPE_KEY = "location_type";
     public final static String OSM_STOP_TYPE_KEY = "public_transport";
 
+    public final static String GTFS_PARENT_STATION_KEY = "parent_station";
+    public final static String OSM_PARENT_STATION_KEY = "gtfs_parent_station";
+
     public final static String GTFS_PLATFORM_CODE_KEY = "platform_code";
     public final static String OSM_PLATFORM_CODE_KEY = "local_ref";
 

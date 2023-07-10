@@ -157,7 +157,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         RANGE= newRange;
         DELTA = RANGE/100000;
     }
-
+/*
     public List<Stop> convertToStopObject(List<AttributesImpl> eNodes, String agencyName){
         List<Stop> stops = new ArrayList<Stop>(eNodes.size());
         for (int i=0; i<eNodes.size(); i++){
@@ -166,7 +166,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         }
         return stops;
     }
-
+*/
     public void getBoundingBox(){
         // Get bound
         Iterator<Stop> it = GTFSstops.iterator();
@@ -212,8 +212,8 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         System.out.println("Lon, Lat format = "+minLon+","+minLat + "      " + maxLon + "," + maxLat);
 
         List<Stop> boundList = new ArrayList<Stop>(2);
-        boundList.add(new Stop("node", "-1","Min Lat Min Lon", "UNKNOWN", Double.toString(minLat),Double.toString(minLon)));
-        boundList.add(new Stop("node", "-1","Max Lat Max Lon", "UNKNOWN",Double.toString(maxLat),Double.toString(maxLon)));
+        boundList.add(new Stop("node", "-1","Min Lat Min Lon", "UNKNOWN", Double.toString(minLat),Double.toString(minLon), null));
+        boundList.add(new Stop("node", "-1","Max Lat Max Lon", "UNKNOWN",Double.toString(maxLat),Double.toString(maxLon), null));
 
     }
 
@@ -701,7 +701,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                 osmActiveUsers.add(node.getValue("user"));
 
-                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
+                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon(), null);
                                 es.addTags(osmtag);
                                 es.setWayNdRefs(node.getWayNds());
                                 es.setOsmId(node.getValue("id"));
@@ -736,7 +736,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                 osmActiveUsers.add(node.getValue("user"));
 
-                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
+                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon(), null);
                                 es.addTags(osmtag);
                                 es.setWayNdRefs(node.getWayNds());
                                 es.setOsmId(node.getValue("id"));
@@ -778,7 +778,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                 osmActiveUsers.add(node.getValue("user"));
 
-                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
+                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon(), null);
                                 es.addTags(osmtag);
                                 es.setWayNdRefs(node.getWayNds());
                                 es.setOsmId(node.getValue("id"));
@@ -850,7 +850,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                     noUpload.add(ns);
                                     osmIdToGtfsId.put(node.getValue("id"), gtfsStop.getStopID());
-                                    Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
+                                    Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon(), null);
                                     es.addTags(osmtag);
                                     es.setWayNdRefs(node.getWayNds());
                                     es.setOsmId(node.getValue("id"));

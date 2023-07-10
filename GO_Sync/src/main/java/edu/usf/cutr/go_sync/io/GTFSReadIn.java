@@ -25,6 +25,10 @@ import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Stop;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
+import edu.usf.cutr.go_sync.object.NetexQuay;
+import edu.usf.cutr.go_sync.object.NetexStopElement;
+import edu.usf.cutr.go_sync.object.NetexStopPlace;
+import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -36,13 +40,33 @@ public class GTFSReadIn {
     private static final String NTD_ID_KEY = "ntd_id";
 
     private List<Stop> stops;
+    HashMap <String, NetexQuay> netexQuaysByGtfsId;
+    HashMap <String, NetexQuay> netexQuaysByQuayId;
+    HashMap <String, NetexStopPlace> netexLogicalSites;
+    HashMap <String, NetexStopPlace> netexParentSitesByGtfsId;
+    HashMap <String, NetexStopPlace> netexAllStopPlacesByGtfsId;
+    HashMap <String, NetexStopPlace> netexAllStopPlacesByStopPlaceId;
 
     public GTFSReadIn() {
         stops = new ArrayList<Stop>();
         allRoutes = new Hashtable<String, Route>();
 //        readBusStop("C:\\Users\\Khoa Tran\\Desktop\\Summer REU\\Khoa_transit\\stops.txt");
-    }
+        try {
+            String pathToNetex = "/mnt/packages/downloads/fluo-grand-est-fluo68-netex/Arrets.xml";
+            File nextFile = new File(pathToNetex);
+            NetexParser netexParser = new NetexParser();
+            SAXParserFactory.newInstance().newSAXParser().parse(nextFile, netexParser);
+            netexQuaysByGtfsId = netexParser.getQuayListByGtfsId();
+            netexQuaysByQuayId = netexParser.getQuayListByQuayId();
+            netexLogicalSites = netexParser.getLogicalSiteListByGtfsId();
+            netexParentSitesByGtfsId = netexParser.getParentSiteListByGtfsId();
+            netexAllStopPlacesByGtfsId = netexParser.getAllStopPlaceListByGtfsId();
+            netexAllStopPlacesByStopPlaceId = netexParser.getAllStopPlaceListByStopPlaceId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
     public static Set<String> getAllRoutesID(){
         return allRoutes.keySet();
     }
@@ -77,7 +101,7 @@ public class GTFSReadIn {
 
         String thisLine;
         String [] elements;
-        int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1;
+        int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1, locationTypeKey=-1, parentStationKey=-1;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(fName)),"UTF-8"));
             HashMap<String,Integer> keysIndex = new HashMap<String,Integer> ();
@@ -112,7 +136,12 @@ public class GTFSReadIn {
                                 keysIndex.put(tag_defs.OSM_ZONE_KEY, i);
                                 break;
                             case tag_defs.GTFS_STOP_TYPE_KEY:
+                                locationTypeKey = i;
                                 keysIndex.put(tag_defs.OSM_STOP_TYPE_KEY, i);
+                                break;
+                            case tag_defs.GTFS_PARENT_STATION_KEY:
+                                parentStationKey = i;
+                                keysIndex.put(tag_defs.OSM_PARENT_STATION_KEY, i);
                                 break;
                             case tag_defs.GTFS_WHEELCHAIR_KEY:
                                 keysIndex.put(tag_defs.OSM_WHEELCHAIR_KEY, i);
@@ -134,7 +163,9 @@ public class GTFSReadIn {
                 String public_transport_type = "";
                  //add leading 0's to gtfs_id
                     String tempStopId = OsmFormatter.getValidBusStopId(elements[stopIdKey]);
-                    Stop s = new Stop("node", tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey]);
+                    //System.out.println("Reading stop from gtfs: " + tempStopId.toString());
+                    NetexStopElement netexObject = getMatchingNetexObject(elements[locationTypeKey], elements[stopIdKey], elements[parentStationKey], elements[stopLatKey],elements[stopLonKey], elements[stopNameKey]);
+                    Stop s = new Stop("node", tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey], netexObject);
                     HashSet<String> keysn = new HashSet<String>(keysIndex.keySet());
                     Iterator it = keysn.iterator();
                     try {
@@ -470,5 +501,147 @@ public class GTFSReadIn {
             text = String.join(";",routeRefSet);
         }
         return text;
+    }
+
+    private NetexStopElement getMatchingNetexObject(String gtfsLocationType, String gtfsId, String parentSite, String lat, String lon, String gtfsStopName) {
+        NetexStopElement matchingObject = null;
+        if (gtfsLocationType == null) {
+            return null;
+        }
+
+        if (gtfsLocationType.isEmpty() || gtfsLocationType.equals("0")) {
+            // 0: Stop (or Platform) in gtfs, corresponds to a Quay in Netex
+            matchingObject = getMatchingNetexQuay(gtfsId, parentSite, lat, lon, gtfsStopName);
+        }
+
+        if (gtfsLocationType.isEmpty() || gtfsLocationType.equals("1")) {
+            // 1: station in gtfs, corresponds to a StopPlace in Netex
+            matchingObject = getMatchingNetexStopPlace(gtfsId, parentSite, lat, lon, gtfsStopName);
+        }
+
+        return matchingObject;
+    }
+
+    private NetexStopPlace getMatchingNetexStopPlace(String gtfsId, String parentSite, String lat, String lon, String gtfsStopName) {
+        if (netexAllStopPlacesByGtfsId == null) {
+            return null;
+        }
+
+        // Check if there is a <StopPlace id=""> matching the gtfsId
+        // If it exists, return this value.
+        NetexStopPlace stopPlace = netexAllStopPlacesByGtfsId.get(gtfsId);
+        if (stopPlace != null) {
+            return stopPlace;
+        }
+
+        // TODO: implement the case where nothing was found.
+        //   iterate on all stopPlaces to find the ones with the same lat/lon
+        //     if only one, return that one
+        //     if more that one, check by name
+        //       if only one with that name, return that one
+        //       else return the first one with that name
+        ArrayList<NetexStopPlace> stopPlaceMatchingLatLon = new ArrayList<>();
+        for (NetexStopPlace sp : netexAllStopPlacesByGtfsId.values()) {
+            if (lat.equals(sp.getLat()) && lon.equals(sp.getLon())) {
+                stopPlaceMatchingLatLon.add(sp);
+            }
+        }
+        if (stopPlaceMatchingLatLon.size() == 1) {
+            return stopPlaceMatchingLatLon.get(0);
+        }
+
+        ArrayList<NetexStopPlace> stopPlaceMatchingName = new ArrayList<>();
+        if (stopPlaceMatchingLatLon.size() > 1) {
+            for (NetexStopPlace sp : stopPlaceMatchingLatLon) {
+                if (gtfsStopName.equals(sp.getName())) {
+                    stopPlaceMatchingName.add(sp);
+                }
+            }
+        }
+        if (!stopPlaceMatchingName.isEmpty()) {
+            return stopPlaceMatchingName.get(0);
+        }
+
+        // if there is no match found, return null
+        System.out.println("Warning: No matching StopPlace found in netex for gtfs stop_id: " + gtfsId);
+        return null;
+    }
+
+    private NetexQuay getMatchingNetexQuay(String gtfsId, String parentSite, String lat, String lon, String gtfsStopName) {
+        if (netexQuaysByGtfsId == null) {
+            return null;
+        }
+
+        // Check if there is a <Quay id=""> matching the gtfsId
+        // If it exists, return this value.
+        NetexQuay quay = netexQuaysByGtfsId.get(gtfsId);
+        if (quay != null) {
+            return quay;
+        }
+
+        // Find the "parent StopPlace" that matches the parentSite and determine the StopPlace holding the Quays
+        // Then, with these "child StopPlace"s:
+        //   get all the Quay the refer to (QuayRef)
+        //     if there is only one Quay, return that one.
+        //     if there are more than one, return the one that matches the lat/lon.
+        //       if more than one matches the lat/lon return the one whose name is same as gtfs' stop_name
+        //         if more than one matches the gtfs stop_name return the 1st one
+        // If still not found, search all the Quays for a match (by lat/lon)
+        ArrayList<NetexQuay> quayMatches = new ArrayList<>();
+
+        NetexStopPlace parentStopPlace = netexParentSitesByGtfsId.get(parentSite);
+        ArrayList<NetexStopPlace> childStopPlaces = new ArrayList<>();
+        if (parentStopPlace != null) {
+            for (String childSiteRef : parentStopPlace.getChildSiteRef()) {
+                childStopPlaces.add(netexAllStopPlacesByStopPlaceId.get(childSiteRef));
+            }
+            for (NetexStopPlace childStopPlace : childStopPlaces) {
+                for (String quayRef : childStopPlace.getQuayRefs()) {
+                    quayMatches.add(netexQuaysByQuayId.get(quayRef));
+                }
+            }
+        }
+
+        if (quayMatches.size() == 1) {
+            return quayMatches.get(0);
+        }
+
+        ArrayList<NetexQuay> quayMatchingLatLon = new ArrayList<>();
+        if (quayMatches.size() > 1) {
+            for (NetexQuay q : quayMatches) {
+                if (lat.equals(q.getLat()) && lon.equals(q.getLon())) {
+                    quayMatchingLatLon.add(q);
+                }
+            }
+        }
+
+        if (quayMatchingLatLon.isEmpty()) {
+            // Finally search in all Quays if any matches lat/lon
+            for (NetexQuay q : netexQuaysByQuayId.values()) {
+                if (lat.equals(q.getLat()) && lon.equals(q.getLon())) {
+                    quayMatchingLatLon.add(q);
+                }
+            }
+        }
+
+        if (quayMatchingLatLon.size() == 1) {
+            return quayMatchingLatLon.get(0);
+        }
+
+        ArrayList<NetexQuay> quayMatchingName = new ArrayList<>();
+        if (quayMatchingLatLon.size() > 1) {
+            for (NetexQuay qmll : quayMatchingLatLon) {
+                if (gtfsStopName.equals(qmll.getName())) {
+                    quayMatchingName.add(qmll);
+                }
+            }
+        }
+        if (!quayMatchingName.isEmpty()) {
+            return quayMatchingName.get(0);
+        }
+
+        // if there is no match found, return null
+        System.out.println("Warning: No matching Quay found in netex for gtfs stop_id: " + gtfsId);
+        return null;
     }
 }

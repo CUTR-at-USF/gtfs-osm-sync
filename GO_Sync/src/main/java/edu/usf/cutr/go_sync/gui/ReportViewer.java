@@ -400,7 +400,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 unci++;*/
             if ((category.equals("MODIFY") || category.equals("NOTHING_NEW")) && numEquiv==1) {
                 //String stopID, String operatorName, String stopName, String lat, String lon
-                Stop stopWithSelectedTags = new Stop(osmStop.getPrimitiveType(), newStop.getStopID(), newStop.getOperatorName(), osmStop.getStopName(), osmStop.getLat(), osmStop.getLon());
+                List<String> osmStopAltNamesList = Stop.stopAltNamesToList((String) osmStop.getStopAltName());
+                Stop stopWithSelectedTags = new Stop(osmStop.getPrimitiveType(), newStop.getStopID(), newStop.getOperatorName(), osmStop.getStopName(), osmStop.getLat(), osmStop.getLon(), null);
                 Stop agencyStop = agencyStops.get(newStop.getStopID());
                 Hashtable<String, String> agencyTags = agencyStop.getTags();
                 Hashtable<String, String> osmTags = osmStop.getTags();
@@ -760,7 +761,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         updateStopTable(st, null);
                     }
                 if (st.getReportCategory().equals("UPLOAD_CONFLICT")) {
-                    osmStops[osmStops.length - 1] = new Stop("node", "New", "", "", "", ""); // Set a null stop, which will be interpreted as "create a new stop, don't use an existing one"
+                    osmStops[osmStops.length - 1] = new Stop("node", "New", "", "", "", "", null); // Set a null stop, which will be interpreted as "create a new stop, don't use an existing one"
                 }
             } else {
                 updateStopTable(st, null);

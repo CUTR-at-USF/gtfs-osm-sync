@@ -552,7 +552,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             Hashtable osmtag = new Hashtable();
             osmtag.putAll(OSMRelationTags.get(osm));
             String routeLongName = (String)osmtag.get("name");
-            String routeId = (String)osmtag.get("gtfs_route_id");
+            String routeId = (String)osmtag.get(tag_defs.OSM_ROUTE_ID_KEY);
             String routeShortName = (String)osmtag.get("ref");
             String operator = (String)osmtag.get("operator");  //tag_defs.GTFS_OPERATOR_KEY); //FIXME use tag_defs
             String network = (String)osmtag.get("network"); //(tag_defs.GTFS_NETWORK_KEY);    //FIXME use tag_defs

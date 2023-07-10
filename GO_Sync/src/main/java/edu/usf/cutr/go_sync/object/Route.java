@@ -17,6 +17,7 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.object;
 
+import edu.usf.cutr.go_sync.tag_defs;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -29,13 +30,12 @@ import java.util.Iterator;
 public class Route extends OsmPrimitive implements Comparable{
     private String routeId, routeRef, operatorName;
     private HashSet<RelationMember> osmMembers;
-    private final String route_id_key = "gtfs_route_id";
 
     public Route(String rId, String rRef, String op) {
         osmTags = new Hashtable();
         osmMembers = new HashSet<RelationMember>();
         routeId = rId;
-        if(rId!=null) this.osmTags.put(route_id_key, rId);
+        if(rId!=null) this.osmTags.put(tag_defs.OSM_ROUTE_ID_KEY, rId);
         routeRef = rRef;
         operatorName = op;
     }
@@ -46,8 +46,8 @@ public class Route extends OsmPrimitive implements Comparable{
         this.osmMembers = new HashSet<RelationMember>();
         if(r.getOsmMembers()!=null) this.osmMembers.addAll(r.getOsmMembers());
         this.routeId = r.getRouteId();
-        String ori = (String)r.getTags().get(route_id_key);
-        if(ori==null) this.osmTags.put(route_id_key, routeId);
+        String ori = (String)r.getTags().get(tag_defs.OSM_ROUTE_ID_KEY);
+        if(ori==null) this.osmTags.put(tag_defs.OSM_ROUTE_ID_KEY, routeId);
         this.routeRef = r.getRouteRef();
         this.operatorName = r.getOperatorName();
         if(r.getOsmId()!=null) this.setOsmId(r.getOsmId());

@@ -903,7 +903,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             String category = s.getReportCategory();
             if(category.equals("MODIFY")){
                 TreeSet<Stop> arr = report.get(s);
-                if(arr.size()==1) {
+                if(arr != null && arr.size()==1) {
                     String tempStopId=null;
                     report.remove(s);
                     // empty all the value of the tags

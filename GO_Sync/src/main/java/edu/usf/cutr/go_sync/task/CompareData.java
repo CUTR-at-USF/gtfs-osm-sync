@@ -653,6 +653,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             osmtag.putAll(OSMTags.get(osmindex));
             String osmOperator = (String)osmtag.get(tag_defs.OSM_NETWORK_KEY);
             String osmStopID = (String)osmtag.get("gtfs_id");
+            String osmPlatformType = (String)osmtag.get(tag_defs.OSM_STOP_TYPE_KEY);
             //add leading 0's
             if(osmStopID!=null) {
                 if (!osmStopID.equals("missing")) {
@@ -837,30 +838,32 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                             }
                             // if same lat and lon --> possible same exact stop --> add gtfs_id, operator, stop_name
                             else {
-                                Stop ns = new Stop(gtfsStop);
-                                ns.addTags(osmtag);
-                                ns.setOsmId(node.getValue("id"));
-                                ns.setOsmVersion(version);
+                                if (osmPlatformType.equals(gtfsStop.getOsmPublicTransportType())) {
+                                    Stop ns = new Stop(gtfsStop);
+                                    ns.addTags(osmtag);
+                                    ns.setOsmId(node.getValue("id"));
+                                    ns.setOsmVersion(version);
 
-                                modify.add(ns);
+                                    modify.add(ns);
 
-                                osmActiveUsers.add(node.getValue("user"));
+                                    osmActiveUsers.add(node.getValue("user"));
 
-                                noUpload.add(ns);
-                                osmIdToGtfsId.put(node.getValue("id"), gtfsStop.getStopID());
-                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
-                                es.addTags(osmtag);
-                                es.setWayNdRefs(node.getWayNds());
-                                es.setOsmId(node.getValue("id"));
-                                es.setOsmVersion(version);
-                                es.setReportText("Possible redundant stop with gtfs_id = "+gtfsStop.getStopID() +
-                                        "\n ACTION: Modify OSM stop["+node.getValue("id")+"] with expected gtfs_id and operator!");
-                                es.setLastEditedOsmUser(node.getValue("user"));
-                                es.setLastEditedOsmDate(node.getValue("timestamp"));
+                                    noUpload.add(ns);
+                                    osmIdToGtfsId.put(node.getValue("id"), gtfsStop.getStopID());
+                                    Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
+                                    es.addTags(osmtag);
+                                    es.setWayNdRefs(node.getWayNds());
+                                    es.setOsmId(node.getValue("id"));
+                                    es.setOsmVersion(version);
+                                    es.setReportText("Possible redundant stop with gtfs_id = " + gtfsStop.getStopID()
+                                            + "\n ACTION: Modify OSM stop[" + node.getValue("id") + "] with expected gtfs_id and operator!");
+                                    es.setLastEditedOsmUser(node.getValue("user"));
+                                    es.setLastEditedOsmDate(node.getValue("timestamp"));
 
-                                ns.setReportCategory("MODIFY");
-                                addToReport(ns, es, true);
-                                break;
+                                    ns.setReportCategory("MODIFY");
+                                    addToReport(ns, es, true);
+                                    break;
+                                }
                             }
                         }
                     }

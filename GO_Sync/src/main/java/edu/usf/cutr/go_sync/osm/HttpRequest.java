@@ -127,6 +127,12 @@ public class HttpRequest {
     			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
     			"</query>"+
 
+    			"<query type='way'>" +
+    			"<has-kv k='public_transport' v='platform'/>"+
+    			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
+    			"</query>"+
+                        "<union><item/><recurse type='down'/></union>"+
+
     			"<query type='node'>" +
     			"<has-kv k='public_transport' v='station'/>"+
     			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+

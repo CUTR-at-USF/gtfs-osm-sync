@@ -47,6 +47,8 @@ import org.xml.sax.helpers.AttributesImpl;
 import edu.usf.cutr.go_sync.tools.OsmDistance;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
 import edu.usf.cutr.go_sync.tag_defs;
+import edu.usf.cutr.go_sync.tools.parser.NodeWayAttr;
+
 
 /**
  *
@@ -73,7 +75,7 @@ public class CompareData extends OsmTask{
     long tStart = System.currentTimeMillis();
     private List<Stop> GTFSstops = new ArrayList<Stop>();
     private List<String> GTFSstopsIDs = new ArrayList<String>();
-    private ArrayList<AttributesImpl> OSMNodes = new ArrayList<AttributesImpl>();
+    private ArrayList<NodeWayAttr> OSMNodes = new ArrayList<NodeWayAttr>();
 //    private ArrayList<Hashtable<String, String>> OSMTags = new ArrayList<Hashtable<String, String>>();
     private ArrayList<Hashtable> OSMTags = new ArrayList<Hashtable>();
     private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
@@ -160,7 +162,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         List<Stop> stops = new ArrayList<Stop>(eNodes.size());
         for (int i=0; i<eNodes.size(); i++){
             AttributesImpl s = eNodes.get(i);
-            stops.add(new Stop(s.getValue("id"), agencyName, s.getValue("user"), s.getValue("lat"), s.getValue("lon")));
+            stops.add(new Stop("node", s.getValue("id"), agencyName, s.getValue("user"), s.getValue("lat"), s.getValue("lon")));
         }
         return stops;
     }
@@ -210,8 +212,8 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         System.out.println("Lon, Lat format = "+minLon+","+minLat + "      " + maxLon + "," + maxLat);
 
         List<Stop> boundList = new ArrayList<Stop>(2);
-        boundList.add(new Stop("-1","Min Lat Min Lon", "UNKNOWN", Double.toString(minLat),Double.toString(minLon)));
-        boundList.add(new Stop("-1","Max Lat Max Lon", "UNKNOWN",Double.toString(maxLat),Double.toString(maxLon)));
+        boundList.add(new Stop("node", "-1","Min Lat Min Lon", "UNKNOWN", Double.toString(minLat),Double.toString(minLon)));
+        boundList.add(new Stop("node", "-1","Max Lat Max Lon", "UNKNOWN",Double.toString(maxLat),Double.toString(maxLon)));
 
     }
 
@@ -246,6 +248,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             if(gtfsStop.getReportCategory().equals("MODIFY")){
                 gtfsStop.setLat(osmStop.getLat());
                 gtfsStop.setLon(osmStop.getLon());
+                gtfsStop.setWayNdRefs(osmStop.getWayNdRefs());
                 gtfsStop.addAndOverwriteTags(osmStop.getTags());
                 // some stops id are accidentally overwritten. We need to keep the original stop_id
                 gtfsStop.addAndOverwriteTag("gtfs_id", gtfs.toString());
@@ -676,13 +679,13 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                 osmOperator = "missing";
             }
             String osmStopName = (String)osmtag.get("name");
-            AttributesImpl node = OSMNodes.get(osmindex);
+            NodeWayAttr node = OSMNodes.get(osmindex);
             String version = Integer.toString(Integer.parseInt(node.getValue("version")));
             if (isOp) {
                 for (int gtfsindex=0; gtfsindex<GTFSstops.size(); gtfsindex++){
                     if(this.flagIsDone) return;
                     Stop gtfsStop = GTFSstops.get(gtfsindex);
-                    double distance = OsmDistance.distVincenty(node.getValue("lat"), node.getValue("lon"),
+                    double distance = OsmDistance.distVincenty(node.getLat(), node.getLon(),
                             gtfsStop.getLat(), gtfsStop.getLon());
                     if ((distance<RANGE) && !(noUpload.contains(gtfsStop)) ){//&& (!matched.contains(gtfsStop))){
                         // if has same stop_id
@@ -697,8 +700,9 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                 osmActiveUsers.add(node.getValue("user"));
 
-                                Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
+                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
                                 es.addTags(osmtag);
+                                es.setWayNdRefs(node.getWayNds());
                                 es.setOsmId(node.getValue("id"));
                                 es.setLastEditedOsmUser(node.getValue("user"));
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
@@ -731,8 +735,9 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                 osmActiveUsers.add(node.getValue("user"));
 
-                                Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
+                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
                                 es.addTags(osmtag);
+                                es.setWayNdRefs(node.getWayNds());
                                 es.setOsmId(node.getValue("id"));
                                 es.setLastEditedOsmUser(node.getValue("user"));
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
@@ -772,8 +777,9 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                 osmActiveUsers.add(node.getValue("user"));
 
-                                Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
+                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
                                 es.addTags(osmtag);
+                                es.setWayNdRefs(node.getWayNds());
                                 es.setOsmId(node.getValue("id"));
                                 es.setLastEditedOsmUser(node.getValue("user"));
                                 es.setLastEditedOsmDate(node.getValue("timestamp"));
@@ -842,8 +848,9 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 
                                 noUpload.add(ns);
                                 osmIdToGtfsId.put(node.getValue("id"), gtfsStop.getStopID());
-                                Stop es = new Stop(osmStopID, osmOperator, osmStopName, node.getValue("lat"), node.getValue("lon"));
+                                Stop es = new Stop(node.geOsmPrimitiveType(), osmStopID, osmOperator, osmStopName, node.getLat(), node.getLon());
                                 es.addTags(osmtag);
+                                es.setWayNdRefs(node.getWayNds());
                                 es.setOsmId(node.getValue("id"));
                                 es.setOsmVersion(version);
                                 es.setReportText("Possible redundant stop with gtfs_id = "+gtfsStop.getStopID() +
@@ -945,7 +952,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             updateProgress(5);
             this.setMessage("Getting existing bus stops...");
             progressMonitor.setNote("This might take several minutes...");
-            ArrayList<AttributesImpl> tempOSMNodes = osmRequest.getExistingBusStops(Double.toString(minLon), Double.toString(minLat),
+            ArrayList<NodeWayAttr> tempOSMNodes = osmRequest.getExistingBusStops(Double.toString(minLon), Double.toString(minLat),
                     Double.toString(maxLon), Double.toString(maxLat));
             if(this.flagIsDone) return;
             progressMonitor.setNote("");

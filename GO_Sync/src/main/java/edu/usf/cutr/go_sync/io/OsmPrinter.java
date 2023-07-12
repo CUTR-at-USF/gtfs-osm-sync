@@ -87,20 +87,42 @@ public class OsmPrinter {
             changesetText = "changeset='" + changeSetID+ "'";
         String text="";
         Stop s = new Stop(st);
+        String geoAddress;
+        String primitiveType;
+        switch (st.getPrimitiveType()) {
+            case "way":
+                primitiveType = "way";
+                geoAddress = "";
+                break;
+            case "node":
+            default:
+                primitiveType = "node";
+                geoAddress = "lat='" + st.getLat() + "' lon='" + st.getLon() + "'";
+                break;
+        }
+
         // if modify, we need version number
         if(st.getOsmVersion()!=null) {
-            text += "<node " + changesetText + " id='" + nodeID
-                    + "' lat='" + st.getLat() + "' lon='" + st.getLon()
-                    + "' version='"+st.getOsmVersion() + "' action='modify'>\n";
+            text += "<" + primitiveType + " " + changesetText + " id='" + nodeID + "' "
+                    + geoAddress
+                    + " version='"+st.getOsmVersion() + "' action='modify'>\n";
         }
         // mainly for create new node
         else {
-            text += "<node " + changesetText + " id='" + nodeID
-                    + "' lat='" + st.getLat() + "' lon='" + st.getLon() + " action='modify'>\n";
+            text += "<" + primitiveType + " " + changesetText + " id='" + nodeID + "' "
+                    + geoAddress + " action='modify'>\n";
             if(st.getTag(APPLICATION_CREATOR_KEY)!=null && !st.getTag(APPLICATION_CREATOR_KEY).equals("none")) {
                 text += "<tag k='"+APPLICATION_CREATOR_KEY+"' v='"+APPLICATION_CREATOR_NAME+"' />\n";
             }
         }
+        // Ad <nd> tags for ways
+        if (st.getPrimitiveType().equals("way")) {
+            //System.out.println("Adding " + st.getWayNdRefs().size() + "<nd> tag to ways...: Count: st ");
+            for (String ref : st.getWayNdRefs()) {
+                text += "<nd ref='" + ref + "'/>\n";
+            }
+        }
+
         //add tag
         HashSet<String> keys = new HashSet<String>(s.keySet().size());
         keys.addAll(s.keySet());
@@ -111,7 +133,7 @@ public class OsmPrinter {
                 text += "<tag k='"+OsmFormatter.getValidXmlText(k)+"' v='"+OsmFormatter.getValidXmlText(s.getTag(k))+"' />\n";
             }
         }
-        text += "</node>\n";
+        text += "</" + primitiveType + ">\n";
         return text;
     }
 

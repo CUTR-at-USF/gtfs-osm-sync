@@ -400,7 +400,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 unci++;*/
             if ((category.equals("MODIFY") || category.equals("NOTHING_NEW")) && numEquiv==1) {
                 //String stopID, String operatorName, String stopName, String lat, String lon
-                Stop stopWithSelectedTags = new Stop(newStop.getStopID(), newStop.getOperatorName(), osmStop.getStopName(), osmStop.getLat(), osmStop.getLon());
+                Stop stopWithSelectedTags = new Stop(osmStop.getPrimitiveType(), newStop.getStopID(), newStop.getOperatorName(), osmStop.getStopName(), osmStop.getLat(), osmStop.getLon());
                 Stop agencyStop = agencyStops.get(newStop.getStopID());
                 Hashtable<String, String> agencyTags = agencyStop.getTags();
                 Hashtable<String, String> osmTags = osmStop.getTags();
@@ -576,8 +576,13 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         ArrayList<Boolean> finalCB = finalCheckboxes.get(selectedNewStop.getStopID());
 
         if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New")) {
+          if (selectedOsmStop.getPrimitiveType().equals("way")) {
+            stopTableModel.setRowValueAt(new Object[] {"lat", agencyStop.getLat(), finalCB.get(0), "Item part of 'way'. Node of it has: " + selectedOsmStop.getLat(), finalCB.get(1), "Item part of 'way'. Value will not be set."}, 0);
+            stopTableModel.setRowValueAt(new Object[] {"lon", agencyStop.getLon(), finalCB.get(2), "Item part of 'way'. Node of it has: " + selectedOsmStop.getLon(), finalCB.get(3), "Item part of 'way'. Value will not be set."}, 1);
+          } else {
             stopTableModel.setRowValueAt(new Object[] {"lat", agencyStop.getLat(), finalCB.get(0), selectedOsmStop.getLat(), finalCB.get(1), finalSt.getLat()}, 0);
             stopTableModel.setRowValueAt(new Object[] {"lon", agencyStop.getLon(), finalCB.get(2), selectedOsmStop.getLon(), finalCB.get(3), finalSt.getLon()}, 1);
+          }
         } else {
             stopTableModel.setRowValueAt(new Object[] {"lat", agencyStop.getLat(), finalCB.get(0), "",finalCB.get(1), finalSt.getLat()}, 0);
             stopTableModel.setRowValueAt(new Object[] {"lon", agencyStop.getLon(), finalCB.get(2), "", finalCB.get(3), finalSt.getLon()}, 1);
@@ -755,7 +760,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                         updateStopTable(st, null);
                     }
                 if (st.getReportCategory().equals("UPLOAD_CONFLICT")) {
-                    osmStops[osmStops.length - 1] = new Stop("New", "", "", "", ""); // Set a null stop, which will be interpreted as "create a new stop, don't use an existing one"
+                    osmStops[osmStops.length - 1] = new Stop("node", "New", "", "", "", ""); // Set a null stop, which will be interpreted as "create a new stop, don't use an existing one"
                 }
             } else {
                 updateStopTable(st, null);
@@ -2675,6 +2680,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 //broken
 //                int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
 //                st.setOsmVersion(Integer.toString(newOSMVersion + 1));
+                st.setPrimitiveType(selectedOSMStop.getPrimitiveType());
+                st.setWayNdRefs(selectedOSMStop.getWayNdRefs());
             }
             generateStopsToUploadFlag=false;
             //finalStopsAccepted.put(selectedGtfs,selectedGtfsStop);
@@ -2691,6 +2698,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 selectedGtfsStop.setOsmId(selectedOSMStop.getOsmId());
                 int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
                 selectedGtfsStop.setOsmVersion(Integer.toString(newOSMVersion + 1));
+                selectedGtfsStop.setPrimitiveType(selectedOSMStop.getPrimitiveType());
+                selectedGtfsStop.setWayNdRefs(selectedOSMStop.getWayNdRefs());
             }// stops to finish
             if(stopsToFinish.contains(selectedGtfsStop.toString()))
             {
@@ -2727,6 +2736,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //                    int newOSMVersion = Integer.parseInt(selectedOSMStop.getOsmVersion());
                         st.setOsmVersion(selectedOsmStop.getOsmVersion());
                     }
+                    st.setPrimitiveType(selectedOsmStop.getPrimitiveType());
+                    st.setWayNdRefs(selectedOsmStop.getWayNdRefs());
                     st.setReportCategory("MODIFY");
                     usedOSMstops.put(selectedOSMStop.getOsmId(),st); //TODO do this properly
                 }

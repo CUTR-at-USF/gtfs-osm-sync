@@ -46,7 +46,13 @@ public class TagReportTableCellRenderer implements TableCellRenderer {
             if ((osm != null && gtfs != null && osm.equalsIgnoreCase(gtfs))) {
                 tableRenderer.setBackground(Color.LIGHT_GRAY);
             } else {
-                tableRenderer.setBackground(table.getBackground());
+                // For lat/lon, in case of a 'way' display with different color
+                if ((((String) model.getValueAt(row, 0)).equals("lat") || ((String) model.getValueAt(row, 0)).equals("lon"))
+                        && osm != null && osm.matches("(?i).*way.*")) {
+                    tableRenderer.setBackground(new Color(0xCCFFCC));
+                } else {
+                    tableRenderer.setBackground(table.getBackground());
+                }
             }
         }
         tableRenderer.setHorizontalAlignment(SwingConstants.CENTER);

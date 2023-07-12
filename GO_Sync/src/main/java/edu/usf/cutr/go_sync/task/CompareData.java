@@ -493,7 +493,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                         //Route rt = (Route)routes.get(routeArray[j]);
                         r.addOsmMembers(rios.getOsmMembers());
                         String osmNodeId = st.getOsmId();
-                        RelationMember rm = new RelationMember(osmNodeId,"node","stop");
+                        RelationMember rm = new RelationMember(osmNodeId,"node","platform");
                         rm.setStatus("GTFS dataset");
                         rm.setGtfsId(st.getStopID());
                         r.addOsmMember(rm);

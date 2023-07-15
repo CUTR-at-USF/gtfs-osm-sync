@@ -23,6 +23,7 @@ import edu.usf.cutr.go_sync.io.GTFSReadIn;
 
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -40,6 +41,7 @@ import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.OsmPrimitive;
 import edu.usf.cutr.go_sync.object.RelationMember;
 import edu.usf.cutr.go_sync.object.Route;
+import edu.usf.cutr.go_sync.object.RouteVariant;
 import edu.usf.cutr.go_sync.object.Stop;
 
 import org.xml.sax.helpers.AttributesImpl;
@@ -49,7 +51,6 @@ import edu.usf.cutr.go_sync.tools.OsmFormatter;
 import edu.usf.cutr.go_sync.tag_defs;
 import edu.usf.cutr.go_sync.tools.parser.NodeWayAttr;
 import java.io.File;
-
 
 /**
  *
@@ -1022,7 +1023,16 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             System.out.println("Agency Name: " + aName);
             if (aName!= null)
                 OperatorInfo.setFullName(aName);
+
             List<Stop> st = data.readBusStop(fileNameInStops, OperatorInfo.getFullName(), fileNameInRoutes, fileNameInTrips, fileNameInStopTimes, fileNameNetexStops);
+
+            HashMap<String, RouteVariant> allRouteVariants = data.readRouteVariants(fileNameInStopTimes, fileNameInTrips, fileNameInRoutes);
+            //for (HashMap.Entry<String, RouteVariant> rv : allRouteVariants.entrySet()) {
+            //    String key = rv.getKey();
+            //    RouteVariant value = rv.getValue();
+            //    System.out.println(value.toText());
+            //}
+
             if(this.flagIsDone){
                 updateProgress(100);
                 done();

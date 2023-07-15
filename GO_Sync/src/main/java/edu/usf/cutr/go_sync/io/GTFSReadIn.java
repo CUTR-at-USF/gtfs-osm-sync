@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 import edu.usf.cutr.go_sync.tag_defs;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Route;
+import edu.usf.cutr.go_sync.object.RouteVariant;
 import edu.usf.cutr.go_sync.object.Stop;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
 import edu.usf.cutr.go_sync.object.NetexQuay;
@@ -40,6 +41,7 @@ public class GTFSReadIn {
     private static final String NTD_ID_KEY = "ntd_id";
 
     private List<Stop> stops;
+    private HashMap<String, Stop> stopsMap;
     HashMap <String, NetexQuay> netexQuaysByGtfsId;
     HashMap <String, NetexQuay> netexQuaysByQuayId;
     HashMap <String, NetexStopPlace> netexLogicalSites;
@@ -49,6 +51,7 @@ public class GTFSReadIn {
 
     public GTFSReadIn() {
         stops = new ArrayList<Stop>();
+        stopsMap = new HashMap<String, Stop>();
         allRoutes = new Hashtable<String, Route>();
 //        readBusStop("C:\\Users\\Khoa Tran\\Desktop\\Summer REU\\Khoa_transit\\stops.txt");
     }
@@ -226,6 +229,7 @@ public class GTFSReadIn {
                     if(asdf!=null)s.addRoutes(stopIDs.get(tempStopId));
 
                     stops.add(s);
+                    stopsMap.put(tempStopId,s);
 
                     HashMap<String, String> modes = getModeTagsByBusStop(stopIDs.get(tempStopId), public_transport_type);
                     if (!r.isEmpty()) s.addTags(modes);
@@ -357,9 +361,107 @@ public class GTFSReadIn {
         return routes;
     }
 
-    public Hashtable<String, HashSet<Route>> matchRouteToStop(String routes_fName, String trips_fName, String stop_times_fName){
-        allRoutes.putAll(readRoutes(routes_fName));
-        HashMap<String,String> tripIDs = new HashMap<String,String>();
+    private void insertRouteVariantToAllRouteVariants(String prev_trip_id, RouteVariant rv, HashMap<String, RouteVariant> allRouteVariants) {
+        String duplicate_route = null;
+        // If we start reading a new trip, save the previous trip to allRouteVariants
+
+        // Search if there is any RouteVariant in allRouteVariants having the same sequence.
+        for (HashMap.Entry<String, RouteVariant> rv_check : allRouteVariants.entrySet()) {
+            String key = rv_check.getKey();
+            RouteVariant value = rv_check.getValue();
+
+            if (value.equalsSequenceOf(rv)) {
+                duplicate_route = key;
+                //System.out.println(String.format("Duplicate trips: Existing:%s vs New:%s", key, rv.getTrip_id()));
+                break;
+            }
+        }
+        if (duplicate_route == null) {
+            allRouteVariants.put(prev_trip_id, rv);
+        } else {
+            //System.out.println(String.format("Adding equal %s to existing trip %s", rv.getTrip_id(), duplicate_route));
+            allRouteVariants.get(duplicate_route).addSame_trip_sequence(rv.getTrip_id());
+        }
+    }
+
+    public HashMap<String, RouteVariant> readRouteVariants(String stop_times_fName, String trips_fName, String routes_fName) {
+        //assert (!stopsMap.isEmpty()) : "no stops. Is this called after having read the stops.txt file?";
+
+        HashMap<String, RouteVariant> allRouteVariants = new HashMap<String, RouteVariant>();
+        String thisLine;
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(stop_times_fName)), "UTF-8"));
+            HashMap<String, Integer> keysIndex = new HashMap<String, Integer>();
+            thisLine = br.readLine();
+            StringReader sr = new StringReader(thisLine);
+            CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader( //"route_id","route_short_name","route_long_name","route_desc","route_type","route_url","color","route_text_color"
+                    ));
+            List<String> CSVkeysList = headerParser.getHeaderNames();
+            String[] keysn = new String[CSVkeysList.size()];
+            keysn = CSVkeysList.toArray(keysn);
+            for (int i = 0; i < keysn.length; i++) {
+                //read keys
+                switch (keysn[i]) {
+                    default:
+                        keysIndex.put(keysn[i], i);
+                        break;
+                }
+            }
+
+            String prev_trip_id = null;
+            String trip_id = null;
+            RouteVariant rv = null;
+
+            CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader(keysn));
+            for (CSVRecord csvRecord : parser) {
+                // Create route variant if it doesn't exist, or fetch the existing one.
+                trip_id = csvRecord.get(keysIndex.get("trip_id"));
+
+                if (prev_trip_id == null) {
+                    rv = new RouteVariant(trip_id);
+                } else {
+                    if (!trip_id.equals(prev_trip_id)) {
+                        insertRouteVariantToAllRouteVariants(prev_trip_id, rv, allRouteVariants);
+                        rv = new RouteVariant(trip_id);
+                    }
+                }
+
+                prev_trip_id = trip_id;
+
+                Integer sequence_id = Integer.valueOf(csvRecord.get(keysIndex.get("stop_sequence")));
+                String stop_id = csvRecord.get(keysIndex.get("stop_id"));
+                String arrival_time = csvRecord.get(keysIndex.get("arrival_time"));
+                String departure_time = csvRecord.get(keysIndex.get("departure_time"));
+                String pickup_type = csvRecord.get(keysIndex.get("pickup_type"));
+                String drop_off_type = csvRecord.get(keysIndex.get("drop_off_type"));
+
+                rv.addStop(sequence_id, stop_id, stopsMap.get(stop_id).getStopName(), arrival_time, departure_time, pickup_type, drop_off_type);
+            }
+            // We finished reading the file, save the last trip we read.
+            insertRouteVariantToAllRouteVariants(prev_trip_id, rv, allRouteVariants);
+
+            // Read trips & routes files
+            Hashtable<String, Route> routes = readRoutes(routes_fName);
+            HashMap<String, String> tripIDs = getTripIDs(trips_fName);
+
+            // Now fill the routeVariants with the route_id & route_short_name
+            for (HashMap.Entry<String, RouteVariant> rv_entry : allRouteVariants.entrySet()) {
+                RouteVariant current_rv = rv_entry.getValue();
+                String route_id = tripIDs.get(current_rv.getTrip_id());
+                current_rv.setRoute_id(route_id);
+                current_rv.setRoute(routes.get(route_id));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error: " + e);
+        }
+
+        return allRouteVariants;
+    }
+
+    public HashMap<String, String> getTripIDs(String trips_fName) {
+        HashMap<String, String> tripIDs = new HashMap<>();
 
         // trips.txt read-in
         try {
@@ -378,6 +480,12 @@ public class GTFSReadIn {
         catch (IOException e) {
             System.err.println("Error: " + e);
         }
+        return tripIDs;
+    }
+
+    public Hashtable<String, HashSet<Route>> matchRouteToStop(String routes_fName, String trips_fName, String stop_times_fName){
+        allRoutes.putAll(readRoutes(routes_fName));
+        HashMap<String,String> tripIDs = getTripIDs(trips_fName);
 
         // hashtable String(stop_id) vs. HashSet(routes)
         Hashtable<String, HashSet<Route>> stopIDs = new Hashtable<String, HashSet<Route>>();

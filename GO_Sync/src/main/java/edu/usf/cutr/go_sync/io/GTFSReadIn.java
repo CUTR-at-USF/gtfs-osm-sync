@@ -264,7 +264,7 @@ public class GTFSReadIn {
                 }
             }
             if (routeLongNameKey != -1)
-                keysIndex.put("name",routeLongNameKey);
+                keysIndex.put(tag_defs.OSM_ROUTE_NAME_KEY,routeLongNameKey);
 //                    System.out.println(stopIdKey+","+stopNameKey+","+stopLatKey+","+stopLonKey);
 
             {

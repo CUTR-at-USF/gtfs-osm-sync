@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -67,7 +68,7 @@ public class HttpRequest {
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> existingBusTags = new ArrayList<Hashtable>();
     private ArrayList<Hashtable> existingRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<HashSet<RelationMember>> existingRelationMembers = new ArrayList<HashSet<RelationMember>>();
+    private ArrayList<LinkedHashSet <RelationMember>> existingRelationMembers = new ArrayList<LinkedHashSet <RelationMember>>();
 
     private HashSet<Stop> revertDelete = new HashSet<Stop>();
     private HashSet<Stop> revertModify = new HashSet<Stop>();
@@ -225,7 +226,7 @@ public class HttpRequest {
     }
 
     // this method needs to be invoked after getExistingBusRelations
-    public ArrayList<HashSet<RelationMember>> getExistingBusRelationMembers(){
+    public ArrayList<LinkedHashSet <RelationMember>> getExistingBusRelationMembers(){
         System.out.println("tags = "+existingRelationMembers.size());
         if (!existingRelationMembers.isEmpty() )
             return existingRelationMembers;

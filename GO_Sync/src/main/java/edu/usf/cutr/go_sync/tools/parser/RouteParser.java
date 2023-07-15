@@ -18,9 +18,9 @@ Copyright 2010 University of South Florida
 package edu.usf.cutr.go_sync.tools.parser;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
 import edu.usf.cutr.go_sync.object.RelationMember;
+import java.util.LinkedHashSet;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -32,22 +32,22 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 public class RouteParser extends DefaultHandler {
     private Hashtable tempTag;
-    private HashSet<RelationMember> tempMembers;
+    private LinkedHashSet<RelationMember> tempMembers;
     private ArrayList<AttributesImpl> xmlRelations;
     //xmlTags<String, String> ----------- xmlMembers<String(refID), AttributesImpl>
     private ArrayList<Hashtable> xmlTags;
-    private ArrayList<HashSet<RelationMember>> xmlMembers;
+    private ArrayList<LinkedHashSet<RelationMember>> xmlMembers;
     public RouteParser(){
         xmlRelations = new ArrayList<AttributesImpl>();
         xmlTags = new ArrayList<Hashtable>();
-        xmlMembers = new ArrayList<HashSet<RelationMember>>();
+        xmlMembers = new ArrayList<LinkedHashSet<RelationMember>>();
     }
     @Override public void startElement(String namespaceURI, String localName, String qname, Attributes attributes) throws SAXException {
         if (qname.equals("relation")) {
             AttributesImpl attImpl = new AttributesImpl(attributes);
             xmlRelations.add(attImpl);
             tempTag = new Hashtable();      // start to collect tags of that relation
-            tempMembers = new HashSet<RelationMember>();
+            tempMembers = new LinkedHashSet<RelationMember>();
         }
         if (tempTag!=null && qname.equals("tag")) {
             AttributesImpl attImpl = new AttributesImpl(attributes);
@@ -78,7 +78,7 @@ public class RouteParser extends DefaultHandler {
         return xmlTags;
     }
 
-    public ArrayList<HashSet<RelationMember>> getMembers(){
+    public ArrayList<LinkedHashSet<RelationMember>> getMembers(){
         return xmlMembers;
     }
 }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Comparator;
 import java.util.SortedSet;
@@ -78,7 +79,7 @@ public class CompareData extends OsmTask{
     private ArrayList<AttributesImpl> OSMRelations = new ArrayList<AttributesImpl>();
 //    private ArrayList<Hashtable<String, String>> OSMRelationTags = new ArrayList<Hashtable<String, String>>();
 private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<HashSet<RelationMember>> OSMRelationMembers = new ArrayList<HashSet<RelationMember>>();
+    private ArrayList<LinkedHashSet <RelationMember>> OSMRelationMembers = new ArrayList<LinkedHashSet <RelationMember>>();
     // key is gtfs, value is container of potential osm matches, sorted by distance from gtfs stop
     private Hashtable<Stop, TreeSet<Stop>> report =
         new Hashtable<Stop, TreeSet<Stop>>();
@@ -564,7 +565,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             )
                     ) {
 //                System.out.println(routeId +"\t" + operator);
-                HashSet<RelationMember> em = OSMRelationMembers.get(osm);
+                LinkedHashSet <RelationMember> em = OSMRelationMembers.get(osm);
                 Route r;
                 String ostring,idstring,refstring;
 

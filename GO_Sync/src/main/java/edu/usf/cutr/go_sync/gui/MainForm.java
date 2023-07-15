@@ -640,7 +640,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 System.out.println(zipstr + " " );
                 zip = new ZipInputStream(new BufferedInputStream(zipstr));
             } else {
-            	if (!(Files.probeContentType(zipFile.toPath())).equals("application/zip"))
+                String fileContentType = Files.probeContentType(zipFile.toPath());
+                if (!(fileContentType.equals("application/zip") || fileContentType.equals("application/x-zip-compressed")))
             		{System.out.println((Files.probeContentType(zipFile.toPath())));
             		return false;}
                 System.out.println("Unzipping " + zipFile.getAbsolutePath() + " to " + unzipLocation);

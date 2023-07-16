@@ -1947,7 +1947,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 mapJXMapKit.setDefaultProvider(org.jdesktop.swingx.JXMapKit.DefaultProviders.Custom);
                 mapJXMapKit.setFont(new java.awt.Font("Tahoma", 0, 14));
                 mapJXMapKit.setName("mapJXMapKit"); // NOI18N
-                //mapJXMapKit.setScrollableTracksViewportWidth(false);
                 GridBagConstraints gbc_mapJXMapKit = new GridBagConstraints();
                 gbc_mapJXMapKit.fill = GridBagConstraints.BOTH;
                 gbc_mapJXMapKit.gridwidth = 8;

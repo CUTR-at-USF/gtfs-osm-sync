@@ -328,7 +328,6 @@
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="mapJXMapKit" noResource="true"/>
-                <Property name="scrollableTracksViewportWidth" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="final int osmMaxZoom = 19;&#xa;        TileFactoryInfo osmInfo = new TileFactoryInfo(1,osmMaxZoom-2,osmMaxZoom,&#xa;                256, true, true, // tile size is 256 and x/y orientation is normal&#xa;                &quot;http://tile.openstreetmap.org&quot;,//5/15/10.png&quot;,&#xa;                &quot;x&quot;,&quot;y&quot;,&quot;z&quot;) {&#xa;            public String getTileUrl(int x, int y, int zoom) {&#xa;                zoom = osmMaxZoom-zoom;&#xa;                String url = this.baseURL +&quot;/&quot;+zoom+&quot;/&quot;+x+&quot;/&quot;+y+&quot;.png&quot;;&#xa;                return url;&#xa;            }&#xa;            };&#xa;            osmTf = new DefaultTileFactory(osmInfo);&#xa;        mapJXMapKit.setTileFactory(osmTf);"/>

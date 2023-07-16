@@ -223,6 +223,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private JButton dontuploadAllBtn;
     private JButton dontupremainButton;
     private JButton nextButton;
+    // End of variables declaration//GEN-END:variables
     /** Creates new form ReportViewer */
 
 
@@ -3078,6 +3079,5 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         JOptionPane.showMessageDialog(this, "No stop found!\nPlease check your spelling!");
     }//GEN-LAST:event_searchButtonActionPerformed
-    // End of variables declaration//GEN-END:variables
 
 }

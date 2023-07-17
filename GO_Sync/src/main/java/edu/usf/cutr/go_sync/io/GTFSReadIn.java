@@ -40,6 +40,10 @@ public class GTFSReadIn {
     private static final String ROUTE_KEY = "route_ref";
     private static final String NTD_ID_KEY = "ntd_id";
 
+    // Since we don't save all trip_id in RouteVariant, we have to maintain a list that says which RouteVariant
+    // has the same trip as the Gtfs trip_id in file
+    HashMap<String, String> gtfsTripIdToRouteVariantMap = new HashMap<>();
+
     private List<Stop> stops;
     private HashMap<String, Stop> stopsMap;
     HashMap <String, NetexQuay> netexQuaysByGtfsId;
@@ -378,9 +382,11 @@ public class GTFSReadIn {
         }
         if (duplicate_route == null) {
             allRouteVariants.put(prev_trip_id, rv);
+            gtfsTripIdToRouteVariantMap.put(prev_trip_id, prev_trip_id);
         } else {
             //System.out.println(String.format("Adding equal %s to existing trip %s", rv.getTrip_id(), duplicate_route));
             allRouteVariants.get(duplicate_route).addSame_trip_sequence(rv.getTrip_id());
+            gtfsTripIdToRouteVariantMap.put(prev_trip_id, duplicate_route);
         }
     }
 
@@ -458,6 +464,29 @@ public class GTFSReadIn {
         }
 
         return allRouteVariants;
+    }
+
+    public static HashMap<String, ArrayList<RouteVariant>> getAllRouteVariantsByRoute(HashMap<String, RouteVariant> allRouteVariants) {
+        HashMap<String, ArrayList<RouteVariant>> allRouteVariantsByRoute = new HashMap<>();
+
+        for (HashMap.Entry<String, RouteVariant> rv_entry : allRouteVariants.entrySet()) {
+            RouteVariant current_rv = rv_entry.getValue();
+            String route_id = current_rv.getRoute_id();
+
+            if (allRouteVariantsByRoute.containsKey(route_id)) {
+                allRouteVariantsByRoute.get(route_id).add(current_rv);
+            } else {
+                ArrayList rvlist = new ArrayList<>();
+                rvlist.add(current_rv);
+                allRouteVariantsByRoute.put(route_id, rvlist);
+            }
+        }
+        return allRouteVariantsByRoute;
+    }
+
+    public HashMap<String, String> getGtfsTripIdToRouteVariantMap() {
+        //System.out.println(String.format("gtfsTripIdToRouteVariantMap content: %s", gtfsTripIdToRouteVariantMap.toString()));
+        return gtfsTripIdToRouteVariantMap;
     }
 
     public HashMap<String, String> getTripIDs(String trips_fName) {

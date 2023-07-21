@@ -48,6 +48,7 @@ import edu.usf.cutr.go_sync.tools.OsmDistance;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
 import edu.usf.cutr.go_sync.tag_defs;
 import edu.usf.cutr.go_sync.tools.parser.NodeWayAttr;
+import java.io.File;
 
 
 /**
@@ -111,6 +112,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     private String fileNameInRoutes;
     private String fileNameInStopTimes;
     private String fileNameInAngency;
+    private String fileNameNetexStops;
 
     private ProgressMonitor progressMonitor;
     private JTextArea taskOutput;
@@ -139,16 +141,20 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         }
     }
 
-    public CompareData(ProgressMonitor pm, JTextArea to){
+    public CompareData(ProgressMonitor pm, JTextArea to, String netexStopFile){
         super(pm);
         taskOutput = to;
         osmRequest = new HttpRequest(taskOutput);
         String fileSeparator = System.getProperty("file.separator");
-        fileNameInStops = OperatorInfo.getFileDirectory()+ fileSeparator + "stops.txt";
-        fileNameInTrips = OperatorInfo.getFileDirectory()+ fileSeparator + "trips.txt";
-        fileNameInRoutes = OperatorInfo.getFileDirectory()+ fileSeparator + "routes.txt";
-        fileNameInStopTimes = OperatorInfo.getFileDirectory()+ fileSeparator + "stop_times.txt";
-        fileNameInAngency = OperatorInfo.getFileDirectory()+ fileSeparator + "agency.txt";
+        fileNameInStops = OperatorInfo.getFileDirectory()+ fileSeparator + "GTFS" + fileSeparator + "/stops.txt";
+        fileNameInTrips = OperatorInfo.getFileDirectory()+ fileSeparator + "GTFS" + fileSeparator + "/trips.txt";
+        fileNameInRoutes = OperatorInfo.getFileDirectory()+ fileSeparator + "GTFS" + fileSeparator + "/routes.txt";
+        fileNameInStopTimes = OperatorInfo.getFileDirectory()+ fileSeparator + "GTFS" + fileSeparator + "/stop_times.txt";
+        fileNameInAngency = OperatorInfo.getFileDirectory()+ fileSeparator + "GTFS" + fileSeparator + "/agency.txt";
+        fileNameNetexStops = OperatorInfo.getFileDirectory() + fileSeparator + "Netex" + fileSeparator + netexStopFile;
+        if (!(new File(fileNameNetexStops).exists())) {
+            fileNameNetexStops = null;
+        }
         progressMonitor = pm;
     }
 
@@ -1016,7 +1022,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             System.out.println("Agency Name: " + aName);
             if (aName!= null)
                 OperatorInfo.setFullName(aName);
-            List<Stop> st = data.readBusStop(fileNameInStops, OperatorInfo.getFullName(), fileNameInRoutes, fileNameInTrips, fileNameInStopTimes);
+            List<Stop> st = data.readBusStop(fileNameInStops, OperatorInfo.getFullName(), fileNameInRoutes, fileNameInTrips, fileNameInStopTimes, fileNameNetexStops);
             if(this.flagIsDone){
                 updateProgress(100);
                 done();

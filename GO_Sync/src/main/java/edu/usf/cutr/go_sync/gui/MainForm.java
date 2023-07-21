@@ -165,27 +165,34 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         compareDataPanel = new javax.swing.JPanel();
+        operatorPanel = new javax.swing.JPanel();
         operatorNameLabel = new javax.swing.JLabel();
         operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
         OperatorAbbLabel = new javax.swing.JLabel();
         operatorNameAbbField = new javax.swing.JTextField();
-        compareButton = new javax.swing.JButton();
-        operatorNTDIDLabel = new javax.swing.JLabel();
-        operatorNTDIDField = new javax.swing.JTextField();
-        gtfsIdDigitLabel = new javax.swing.JLabel();
-        gtfsIdDigitField = new javax.swing.JTextField();
         operatorAliasLabel = new javax.swing.JLabel();
         operatorAliasField = new javax.swing.JTextField();
+        operatorNTDIDLabel = new javax.swing.JLabel();
+        operatorNTDIDField = new javax.swing.JTextField();
+        optionsPanel = new javax.swing.JPanel();
+        gtfsIdDigitLabel = new javax.swing.JLabel();
+        gtfsIdDigitField = new javax.swing.JTextField();
+        threshold_label = new javax.swing.JLabel();
+        distanceThreshold = new javax.swing.JSpinner();
         gtfsDataPanel = new javax.swing.JPanel();
         rbURL = new javax.swing.JRadioButton();
         rbFileFolder = new javax.swing.JRadioButton();
         fileNameLabel = new javax.swing.JLabel();
         fileDirTextField = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
+        netexPanel = new javax.swing.JPanel();
+        netexZipFileLabel = new javax.swing.JLabel();
+        netexZipFile = new javax.swing.JTextField();
+        netexBrowseButton = new javax.swing.JButton();
+        netexStopFilenameLabel = new javax.swing.JLabel();
+        netexStopFilename = new javax.swing.JTextField();
         requiredFieldsLabel = new javax.swing.JLabel();
-        jPanel1DistThreshold = new javax.swing.JPanel();
-        threshold_label = new javax.swing.JLabel();
-        distanceThreshold = new javax.swing.JSpinner();
+        compareButton = new javax.swing.JButton();
         revertChangesetPanel = new javax.swing.JPanel();
         changesetLabel = new javax.swing.JLabel();
         revertChangesetField = new javax.swing.JTextField();
@@ -203,107 +210,129 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         getContentPane().setLayout(layout1);
 
         java.awt.GridBagLayout compareDataPanelLayout = new java.awt.GridBagLayout();
-        compareDataPanelLayout.columnWeights = new double[] {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5};
+        compareDataPanelLayout.columnWeights = new double[] {0.1, 0.1, 0.1, 0.1, 0.5};
         compareDataPanelLayout.rowWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0};
         compareDataPanel.setLayout(compareDataPanelLayout);
 
-        operatorNameLabel.setText("Operator Full Name (*)");
+        operatorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Operator"));
+        java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
+        jPanel1Layout.columnWidths = new int[] {50, 50, 50, 50};
+        jPanel1Layout.columnWeights = new double[] {0.1, 0.5, 0.1, 0.5};
+        operatorPanel.setLayout(jPanel1Layout);
+
+        operatorNameLabel.setFont(new java.awt.Font("Sans Serif", 0, 13)); // NOI18N
+        operatorNameLabel.setForeground(java.awt.Color.blue);
+        operatorNameLabel.setText("Op. Full Name (*)");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = -10.0;
-        compareDataPanel.add(operatorNameLabel, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorNameLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
-        compareDataPanel.add(operatorNameField, gridBagConstraints);
+        operatorPanel.add(operatorNameField, gridBagConstraints);
 
-        OperatorAbbLabel.setText("Operator Abbreviation (*)");
+        OperatorAbbLabel.setFont(new java.awt.Font("Sans Serif", 0, 13)); // NOI18N
+        OperatorAbbLabel.setForeground(java.awt.Color.blue);
+        OperatorAbbLabel.setText("Op. Abbreviation (*)");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = -10.0;
-        compareDataPanel.add(OperatorAbbLabel, gridBagConstraints);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(OperatorAbbLabel, gridBagConstraints);
 
         operatorNameAbbField.setName("usernameField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        compareDataPanel.add(operatorNameAbbField, gridBagConstraints);
-        operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
-
-        compareButton.setText("Run");
-        compareButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compareButtonActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        compareDataPanel.add(compareButton, gridBagConstraints);
-
-        operatorNTDIDLabel.setText("Operator NTD ID");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = -10.0;
-        compareDataPanel.add(operatorNTDIDLabel, gridBagConstraints);
-
-        operatorNTDIDField.setName("usernameField"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        compareDataPanel.add(operatorNTDIDField, gridBagConstraints);
-        operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
-
-        gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = -10.0;
-        compareDataPanel.add(gtfsIdDigitLabel, gridBagConstraints);
-
-        gtfsIdDigitField.setName("usernameField"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        compareDataPanel.add(gtfsIdDigitField, gridBagConstraints);
-
-        operatorAliasLabel.setText("Operator Alias");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = -10.0;
-        compareDataPanel.add(operatorAliasLabel, gridBagConstraints);
-
-        operatorAliasField.setName("usernameField"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorNameAbbField, gridBagConstraints);
+        operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
+
+        operatorAliasLabel.setText("Op. Aliases (separated by ';')");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorAliasLabel, gridBagConstraints);
+
+        operatorAliasField.setName("usernameField"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorAliasField, gridBagConstraints);
+
+        operatorNTDIDLabel.setText("Op. NTD ID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorNTDIDLabel, gridBagConstraints);
+
+        operatorNTDIDField.setName("usernameField"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorNTDIDField, gridBagConstraints);
+        operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        compareDataPanel.add(operatorAliasField, gridBagConstraints);
+        compareDataPanel.add(operatorPanel, gridBagConstraints);
+
+        optionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Options"));
+        java.awt.GridBagLayout optionsPanelLayout = new java.awt.GridBagLayout();
+        optionsPanelLayout.columnWeights = new double[] {0.1, 0.4, 0.1, 0.4};
+        optionsPanel.setLayout(optionsPanelLayout);
+
+        gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        optionsPanel.add(gtfsIdDigitLabel, gridBagConstraints);
+
+        gtfsIdDigitField.setName("usernameField"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        optionsPanel.add(gtfsIdDigitField, gridBagConstraints);
+
+        threshold_label.setText("Approximate Comparision Distance Threshold (m)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        optionsPanel.add(threshold_label, gridBagConstraints);
+
+        distanceThreshold.setValue(400);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        optionsPanel.add(distanceThreshold, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        compareDataPanel.add(optionsPanel, gridBagConstraints);
 
         gtfsDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
         gtfsDataPanel.setName("pnlGTFSData"); // NOI18N
@@ -327,6 +356,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         });
 
+        fileNameLabel.setFont(new java.awt.Font("Sans Serif", 0, 13)); // NOI18N
+        fileNameLabel.setForeground(java.awt.Color.blue);
         fileNameLabel.setText("Folder or Zip File (*)");
 
         browseButton.setText("Browse");
@@ -352,7 +383,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseButton))
                     .addComponent(rbURL))
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(289, Short.MAX_VALUE))
         );
 
         gtfsDataPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {rbFileFolder, rbURL});
@@ -383,27 +414,74 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         compareDataPanel.add(gtfsDataPanel, gridBagConstraints);
 
-        requiredFieldsLabel.setText("Fields marked with an asterisk(*) are required");
+        netexPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Netex Data (for Stops label improvement)"));
+        java.awt.GridBagLayout netexPanelLayout = new java.awt.GridBagLayout();
+        netexPanelLayout.columnWeights = new double[] {0.1, 0.8, 0.1};
+        netexPanel.setLayout(netexPanelLayout);
+
+        netexZipFileLabel.setText("NetEx Zip file");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        netexPanel.add(netexZipFileLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        netexPanel.add(netexZipFile, gridBagConstraints);
+
+        netexBrowseButton.setText("Browse");
+        netexBrowseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                netexBrowseButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        netexPanel.add(netexBrowseButton, gridBagConstraints);
+
+        netexStopFilenameLabel.setText("NetEx Stops filename");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        netexPanel.add(netexStopFilenameLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        netexPanel.add(netexStopFilename, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        compareDataPanel.add(requiredFieldsLabel, gridBagConstraints);
+        compareDataPanel.add(netexPanel, gridBagConstraints);
 
-        threshold_label.setText("Approximate Comparision Distance Threshold (m)");
-        jPanel1DistThreshold.add(threshold_label);
-
-        distanceThreshold.setValue(400);
-        jPanel1DistThreshold.add(distanceThreshold);
-
+        requiredFieldsLabel.setFont(new java.awt.Font("Sans Serif", 0, 13)); // NOI18N
+        requiredFieldsLabel.setForeground(java.awt.Color.blue);
+        requiredFieldsLabel.setText("Fields marked with an asterisk(*) are required");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        compareDataPanel.add(jPanel1DistThreshold, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        compareDataPanel.add(requiredFieldsLabel, gridBagConstraints);
+
+        compareButton.setText("Run");
+        compareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        compareDataPanel.add(compareButton, gridBagConstraints);
 
         jTabbedPane1.addTab("Compare Data", compareDataPanel);
 
@@ -434,7 +512,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                     .addGroup(revertChangesetPanelLayout.createSequentialGroup()
                         .addGap(277, 277, 277)
                         .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(473, Short.MAX_VALUE))
         );
         revertChangesetPanelLayout.setVerticalGroup(
             revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,7 +521,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 .addGroup(revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changesetLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
                 .addComponent(revertButton)
                 .addContainerGap())
         );
@@ -497,7 +575,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         if (rbURL.isSelected()) { //if user selected a URL
             try {
-                if (!UnzipGTFS(null, new URL(fileDirTextField.getText()))) { //try to unzip from the URL
+                if (!UnzipGTFS(null, new URL(fileDirTextField.getText()), "GTFS")) { //try to unzip from the URL
                     JOptionPane.showMessageDialog(this, "Unable to unzip from URL. Please try again with another URL.");
                     return;
                 }
@@ -506,14 +584,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 System.err.println("Error: " + ex.getLocalizedMessage());
                 return;
             }
-            _fileDir = new File("GTFS_Temp").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
+            _fileDir = new File("TempUnzip").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
         } else if (rbFileFolder.isSelected()) { //else user selected a local file/folder
             if (fileDirTextField.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
-                if (!UnzipGTFS(chooser.getSelectedFile(), null)) { //unzip it to a temporary folder
+                if (!UnzipGTFS(chooser.getSelectedFile(), null, "GTFS")) { //unzip it to a temporary folder
                     JOptionPane.showMessageDialog(this, "Unable to unzip from file. Please try again with another file.");
                     return;
                 }
-                _fileDir = new File("GTFS_Temp").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
+                _fileDir = new File("TempUnzip").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
             } else {
                 _fileDir = fileDirTextField.getText().replace("file://",""); //else use the folder selected with GTFS files in it
                 if (!(Files.isDirectory(new File(_fileDir).toPath())))
@@ -522,6 +600,23 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                     return;
                 }
                 //TODO - validate that a folder does have GTFS files
+            }
+        }
+
+        // unzip netex zip
+        if (!netexZipFile.getText().isEmpty()) {
+            if (netexZipFile.getText().toLowerCase().contains(".zip")) { //if a zip file was selected
+                if (!UnzipGTFS(new File(netexZipFile.getText()), null, "Netex")) { //unzip it to a temporary folder
+                    JOptionPane.showMessageDialog(this, "Unable to unzip netex file. Please try again with another file.");
+                    return;
+                }
+                _fileDir = new File("TempUnzip").getAbsolutePath() + System.getProperty("file.separator");//"\\"; //set the actual location to the GTFS_Temp folder
+            }
+        } else {
+            if (new File("TempUnzip").listFiles().length > 0) { //if the folder has old files in it
+                for (File f : new File("TempUnzip").listFiles()) {
+                    f.delete(); //delete all the old files
+                }
             }
         }
 
@@ -550,7 +645,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data", "", 0, 100);
                 progressMonitor.setProgress(0);
                 compareButton.setEnabled(false);
-                compareTask = new CompareData(progressMonitor, taskOutput);
+                compareTask = new CompareData(progressMonitor, taskOutput, netexStopFilename.getText());
                 compareTask.setRangeThreshold(Double.parseDouble(distanceThreshold.getValue().toString()));
                 task = compareTask;
                 task.addPropertyChangeListener(this);
@@ -605,13 +700,13 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
      * Pass either a file or URL and NULL for the other - do not send both
      * Returns true if it successfully unzipped the file
      */
-    private boolean UnzipGTFS(File zipFile, URL zipURL) {
+    private boolean UnzipGTFS(File zipFile, URL zipURL, String tempDirBasename) {
         //TODO display a progress bar to user so they know a file is being unzipped
 
-        File unzipFolder = new File("GTFS_Temp");
+        File unzipFolder = new File("TempUnzip" + File.separator + tempDirBasename);
         String unzipLocation = unzipFolder.getAbsolutePath() + System.getProperty("file.separator"); //"\\"; //temporary folder to store unzipped files
         try {
-            unzipFolder.mkdir(); //create the directory if not already created
+            unzipFolder.mkdirs(); //create the directory if not already created
         } catch (SecurityException ex) {
             System.err.println("Unable to create temporary directory to unzip the GTFS data to. \n" + ex.getLocalizedMessage());
             return false;
@@ -704,6 +799,18 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         }
     }//GEN-LAST:event_rbURLItemStateChanged
 
+    private void netexBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_netexBrowseButtonActionPerformed
+        netexChooser = new JFileChooser();
+        netexChooser.setCurrentDirectory(new java.io.File("."));
+        netexChooser.setDialogTitle("Browse for Netex file...");
+        netexChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        netexChooser.setMultiSelectionEnabled(true);
+        netexChooser.showOpenDialog(this);
+        if (netexChooser.getSelectedFile() != null) {
+            netexZipFile.setText(netexChooser.getSelectedFile().getAbsolutePath());
+        }
+    }//GEN-LAST:event_netexBrowseButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -752,6 +859,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         taskOutput.setCaretPosition(taskOutput.getText().length());
     }
     private javax.swing.JFileChooser chooser;
+    private javax.swing.JFileChooser netexChooser;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel OperatorAbbLabel;
     private javax.swing.JButton browseButton;
@@ -766,9 +874,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JPanel gtfsDataPanel;
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JLabel gtfsIdDigitLabel;
-    private javax.swing.JPanel jPanel1DistThreshold;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton netexBrowseButton;
+    private javax.swing.JPanel netexPanel;
+    private javax.swing.JTextField netexStopFilename;
+    private javax.swing.JLabel netexStopFilenameLabel;
+    private javax.swing.JTextField netexZipFile;
+    private javax.swing.JLabel netexZipFileLabel;
     private javax.swing.JTextField operatorAliasField;
     private javax.swing.JLabel operatorAliasLabel;
     private javax.swing.JTextField operatorNTDIDField;
@@ -776,6 +889,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTextField operatorNameAbbField;
     private javax.swing.JTextField operatorNameField;
     private javax.swing.JLabel operatorNameLabel;
+    private javax.swing.JPanel operatorPanel;
+    private javax.swing.JPanel optionsPanel;
     private javax.swing.JRadioButton rbFileFolder;
     private javax.swing.JRadioButton rbURL;
     private javax.swing.JLabel requiredFieldsLabel;

@@ -255,7 +255,7 @@ public class GTFSReadIn {
                         routeShortNameKey = i;
                         break;
                     case tag_defs.GTFS_ROUTE_NAME_KEY:
-                        routeLongNameKey = i;
+                        keysIndex.put(tag_defs.OSM_ROUTE_NAME_KEY, i);
                         break;
                     default:
                         String t = "gtfs_" + keysn[i];
@@ -263,9 +263,6 @@ public class GTFSReadIn {
                         break;
                 }
             }
-            if (routeLongNameKey != -1)
-                keysIndex.put(tag_defs.OSM_ROUTE_NAME_KEY,routeLongNameKey);
-//                    System.out.println(stopIdKey+","+stopNameKey+","+stopLatKey+","+stopLonKey);
 
             {
                 final Pattern colourPattern = Pattern.compile("^[a-fA-F0-9]+$");

@@ -174,6 +174,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorAliasField = new javax.swing.JTextField();
         operatorNTDIDLabel = new javax.swing.JLabel();
         operatorNTDIDField = new javax.swing.JTextField();
+        operatorRegexLabel = new javax.swing.JLabel();
+        operatorRegexField = new javax.swing.JTextField();
         optionsPanel = new javax.swing.JPanel();
         gtfsIdDigitLabel = new javax.swing.JLabel();
         gtfsIdDigitField = new javax.swing.JTextField();
@@ -284,6 +286,20 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         operatorPanel.add(operatorNTDIDField, gridBagConstraints);
         operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
+
+        operatorRegexLabel.setText("Op. Alias Regex");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorRegexLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        operatorPanel.add(operatorRegexField, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -637,7 +653,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             _operatorName = operatorNameField.getText();
             
             _operatorNameAbbreviate = operatorNameAbbField.getText();
-            _operatorRegex = null;
+            _operatorRegex = operatorRegexField.getText();
 
             if (!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty()) {
                 new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorRegex, _operatorNtdId, _gtfsIdDigit, _fileDir);
@@ -890,6 +906,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTextField operatorNameField;
     private javax.swing.JLabel operatorNameLabel;
     private javax.swing.JPanel operatorPanel;
+    private javax.swing.JTextField operatorRegexField;
+    private javax.swing.JLabel operatorRegexLabel;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JRadioButton rbFileFolder;
     private javax.swing.JRadioButton rbURL;

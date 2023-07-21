@@ -65,6 +65,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private String _operatorName;
     private String _operatorNameAbbreviate;
     private String _operatorAlias;
+    private String _operatorRegex;
     private String _operatorNtdId = "";
     private int _gtfsIdDigit;
     private String _revertChangesetId;
@@ -537,9 +538,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             _operatorName = operatorNameField.getText();
             
             _operatorNameAbbreviate = operatorNameAbbField.getText();
+            _operatorRegex = null;
 
             if (!_operatorName.isEmpty() && !_operatorNameAbbreviate.isEmpty() && !_fileDir.isEmpty()) {
-                new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorNtdId, _gtfsIdDigit, _fileDir);
+                new OperatorInfo(_operatorName, _operatorNameAbbreviate, _operatorAlias, _operatorRegex, _operatorNtdId, _gtfsIdDigit, _fileDir);
 
                 progressMonitor = new ProgressMonitor(MainForm.this, "Comparing GTFS and OSM data", "", 0, 100);
                 progressMonitor.setProgress(0);

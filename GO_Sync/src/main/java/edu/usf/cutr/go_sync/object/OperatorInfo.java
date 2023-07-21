@@ -18,6 +18,8 @@ package edu.usf.cutr.go_sync.object;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -26,15 +28,17 @@ import java.util.List;
 public class OperatorInfo {
 
     private static List<String> possibleOperatorName = new ArrayList<String>();
+    private static List<Pattern> possibleOperatorRegexPattern = new ArrayList<Pattern>();
     
     private static String ntdID, fullName, abbreviate, fileDir, aliasName, gtfsFields;
 
     private static int gtfs_id_digit;
 
-    public OperatorInfo(String fName, String abbr, String aName, String id, int digit, String fDir){
+    public OperatorInfo(String fName, String abbr, String aName, String regex, String id, int digit, String fDir){
         fullName = fName;
         abbreviate = abbr;
         aliasName = aName;
+        addRegex(regex);
         addName(fullName);
         addName(abbreviate);
         if(aliasName!=null && !aliasName.equals("")){
@@ -97,10 +101,24 @@ public class OperatorInfo {
         }
     }
 
+    public static void addRegex(String regex) {
+        // generate possible name for operator fields e.g. HART / Hillsborough Area Regional Transit
+        if (regex != null && !regex.equals("")) {
+            Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            possibleOperatorRegexPattern.add(p);
+        }
+    }
+
     public static boolean isTheSameOperator(String osmOperator) {
         for (int i=0; i<possibleOperatorName.size(); i++) {
             if (osmOperator.toUpperCase().contains(possibleOperatorName.get(i)) ||
                     possibleOperatorName.get(i).contains(osmOperator.toUpperCase())) {
+                return true;
+            }
+        }
+        for (int i = 0; i < possibleOperatorRegexPattern.size(); i++) {
+            Matcher m = possibleOperatorRegexPattern.get(i).matcher(osmOperator);
+            if (m.matches()) {
                 return true;
             }
         }

@@ -24,6 +24,8 @@ public enum ProcessingOptions {
 
     // For Routes
     DONT_REPLACE_EXISING_OSM_ROUTE_COLOR,
+    DONT_ADD_GTFS_ROUTE_TEXT_COLOR_TO_ROUTE,
+    DONT_ADD_GTFS_AGENCY_ID_TO_ROUTE,
 
     // For Route Members
     SKIP_NODES_WITH_ROLE_EMPTY,

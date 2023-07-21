@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import edu.usf.cutr.go_sync.gui.MainForm;
 import edu.usf.cutr.go_sync.tag_defs;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Route;
@@ -29,6 +30,7 @@ import edu.usf.cutr.go_sync.tools.OsmFormatter;
 import edu.usf.cutr.go_sync.object.NetexQuay;
 import edu.usf.cutr.go_sync.object.NetexStopElement;
 import edu.usf.cutr.go_sync.object.NetexStopPlace;
+import edu.usf.cutr.go_sync.object.ProcessingOptions;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -346,6 +348,16 @@ public class GTFSReadIn {
 //                                    System.out.println(tag_defs.OSM_COLOUR_KEY + " "+ v + " #"+v);
                                 if (k.equals(tag_defs.OSM_COLOUR_KEY) && ((v.length() == 3 || v.length() == 6) && colourPattern.matcher(v).matches()))/*^[a-fA-F0-9]+$")))*/ {
                                     v = "#".concat(v);
+                                }
+                                if (k.equals("gtfs_route_text_color")) {
+                                    if (MainForm.processingOptions.contains(ProcessingOptions.DONT_ADD_GTFS_ROUTE_TEXT_COLOR_TO_ROUTE)) {
+                                        continue;
+                                    }
+                                }
+                                if (k.equals("gtfs_agency_id")) {
+                                    if (MainForm.processingOptions.contains(ProcessingOptions.DONT_ADD_GTFS_AGENCY_ID_TO_ROUTE)) {
+                                        continue;
+                                    }
                                 }
                                 r.addTag(k, v.replace("  ", " ").trim());
                             }

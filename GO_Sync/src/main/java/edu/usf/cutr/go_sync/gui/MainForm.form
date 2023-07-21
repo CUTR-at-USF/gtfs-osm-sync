@@ -1127,6 +1127,16 @@
                         <Property name="text" type="java.lang.String" value="Remove platforms not in Gtfs from OSM route"/>
                       </Properties>
                     </Component>
+                    <Component class="javax.swing.JCheckBox" name="dontAddGtfsRouteTextColorCb">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Don&apos;t add Gtfs &apos;route_text_color&apos; to OSM"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="dontAddGtfsAgencyIdCb">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Don&apos;t add Gtfs &apos;agency_id&apos; to OSM"/>
+                      </Properties>
+                    </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>
@@ -2314,7 +2324,7 @@
                           <Component id="revertChangesetField" alignment="3" min="-2" max="-2" attributes="1"/>
                           <Component id="changesetLabel" alignment="3" min="-2" max="-2" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="281" max="32767" attributes="0"/>
+                      <EmptySpace pref="323" max="32767" attributes="0"/>
                       <Component id="revertButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>

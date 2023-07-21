@@ -175,7 +175,7 @@ public class GTFSReadIn {
                                         s.addTag(k, v);
                                     }
                                 } else
-                                    s.addTag(k, v);
+                                    s.addTag(k, v.replace("  ", " ").trim());
                             }
                             //System.out.print(k+":" + v +" ");
                         }
@@ -317,7 +317,7 @@ public class GTFSReadIn {
                                 if (k.equals(tag_defs.OSM_COLOUR_KEY) && ((v.length() == 3 || v.length() == 6) && colourPattern.matcher(v).matches()))/*^[a-fA-F0-9]+$")))*/ {
                                     v = "#".concat(v);
                                 }
-                                r.addTag(k, v);
+                                r.addTag(k, v.replace("  ", " ").trim());
                             }
                         }
                     } catch(Exception e){

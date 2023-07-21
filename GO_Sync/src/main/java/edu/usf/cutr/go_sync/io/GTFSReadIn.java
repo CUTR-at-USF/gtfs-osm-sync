@@ -55,10 +55,10 @@ public class GTFSReadIn {
 
             for (CSVRecord csvRecord : parser) {
                 String agencyName;
-                if (csvRecord.get(tag_defs.GTFS_NETWORK_KEY) == null ||
-                    csvRecord.get(tag_defs.GTFS_NETWORK_KEY).isEmpty())
-                    agencyName = csvRecord.get(tag_defs.GTFS_NETWORK_ID_KEY);
-                else agencyName = csvRecord.get(tag_defs.GTFS_NETWORK_KEY);
+                if (csvRecord.get(tag_defs.GTFS_AGENCY_NAME_KEY) == null ||
+                    csvRecord.get(tag_defs.GTFS_AGENCY_NAME_KEY).isEmpty())
+                    agencyName = csvRecord.get(tag_defs.GTFS_AGENCY_ID_KEY);
+                else agencyName = csvRecord.get(tag_defs.GTFS_AGENCY_NAME_KEY);
                 br.close();
                 return agencyName;
             }
@@ -106,7 +106,7 @@ public class GTFSReadIn {
                                 stopLonKey = i;
                                 break;
                             case tag_defs.GTFS_STOP_URL_KEY:
-                                keysIndex.put(tag_defs.OSM_URL_KEY, i);
+                                keysIndex.put(tag_defs.OSM_STOP_URL_KEY, i);
                                 break;
                             case tag_defs.GTFS_ZONE_KEY:
                                 keysIndex.put(tag_defs.OSM_ZONE_KEY, i);
@@ -242,7 +242,7 @@ public class GTFSReadIn {
                         routeIdKey = i;
                         break;
                     case tag_defs.GTFS_ROUTE_URL_KEY:
-                        keysIndex.put(tag_defs.OSM_URL_KEY, i);
+                        keysIndex.put(tag_defs.OSM_ROUTE_URL_KEY, i);
                         break;
                     case "route_type":
                         keysIndex.put(tag_defs.OSM_ROUTE_TYPE_KEY, i);
@@ -251,10 +251,10 @@ public class GTFSReadIn {
                     case tag_defs.GTFS_COLOR_KEY:
                         keysIndex.put(tag_defs.OSM_COLOUR_KEY, i);
                         break;
-                    case tag_defs.GTFS_ROUTE_NUM:
+                    case tag_defs.GTFS_ROUTE_NUM_KEY:
                         routeShortNameKey = i;
                         break;
-                    case tag_defs.GTFS_ROUTE_NAME:
+                    case tag_defs.GTFS_ROUTE_NAME_KEY:
                         routeLongNameKey = i;
                         break;
                     default:
@@ -372,7 +372,7 @@ public class GTFSReadIn {
                 Route tr = null;
                 if (tripIDs.get(trip) != null) tr = allRoutes.get(tripIDs.get(trip));
                 if (tr != null) routes.add(tr);
-                String sid = OsmFormatter.getValidBusStopId(csvRecord.get(tag_defs.GTFS_TRIPS_STOP_ID_KEY));
+                String sid = OsmFormatter.getValidBusStopId(csvRecord.get(tag_defs.GTFS_STOP_ID_KEY));
                 if (stopIDs.containsKey(sid)) {
                     routes.addAll(stopIDs.get(sid));
                     stopIDs.remove(sid);

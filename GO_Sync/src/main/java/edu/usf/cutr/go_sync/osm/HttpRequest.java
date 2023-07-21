@@ -300,7 +300,7 @@ public class HttpRequest {
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
             AttributesImpl attImplNode = par.getOneNode();
             Hashtable tags = par.getTagsOneNode();
-            st = new Stop(null,(String)tags.get(tag_defs.GTFS_OPERATOR_KEY),(String)tags.get("name"),
+            st = new Stop(null,(String)tags.get(tag_defs.OSM_NETWORK_KEY),(String)tags.get("name"),
                     attImplNode.getValue("lat"),attImplNode.getValue("lon"));
             st.addTags(tags);
             if (!isNew) {

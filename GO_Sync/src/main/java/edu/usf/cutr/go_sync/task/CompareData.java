@@ -459,6 +459,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         reportKeys.addAll(report.keySet());
         HashSet<String> gtfsRoutes = new HashSet<String>();
         gtfsRoutes.addAll(GTFSReadIn.getAllRoutesID());
+
         for (int i=0; i<reportKeys.size(); i++) {
             if(this.flagIsDone) return;
             Stop st = reportKeys.get(i);
@@ -477,7 +478,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                             //add tag
                             r.addTag("name", OperatorInfo.getAbbreviateName()+
                                     " Route "+ r.getRouteRef()); //TODO use long route name instead of creating own
-                            r.addTag(tag_defs.GTFS_OPERATOR_KEY,OperatorInfo.getFullName());
+                            r.addTag(tag_defs.OSM_NETWORK_KEY,OperatorInfo.getFullName());
 //                            r.addTag("network",OperatorInfo.getFullName());
                             r.addTag("ref", r.getRouteRef());
 //                            r.addTag("route", "bus"); //TODO handle type from gtfs value
@@ -646,7 +647,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             }
             Hashtable<String,String> osmtag = new Hashtable<String,String>();
             osmtag.putAll(OSMTags.get(osmindex));
-            String osmOperator = (String)osmtag.get(tag_defs.GTFS_OPERATOR_KEY);
+            String osmOperator = (String)osmtag.get(tag_defs.OSM_NETWORK_KEY);
             String osmStopID = (String)osmtag.get("gtfs_id");
             //add leading 0's
             if(osmStopID!=null) {
@@ -799,7 +800,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                                         es.addTag("FIXME", "This bus stop could be redundant");
                                         if (osmOperator==null || osmOperator.equals("missing")) {
                                             es.addTag("note", "Please add gtfs_id and operator after removing FIXME");
-                                            if (osmOperator==null) es.addTag(tag_defs.GTFS_OPERATOR_KEY,"missing");
+                                            if (osmOperator==null) es.addTag(tag_defs.OSM_NETWORK_KEY,"missing");
 //                                            if (osmOperator==null) es.addTag("network","missing");
                                         }
                                         else {

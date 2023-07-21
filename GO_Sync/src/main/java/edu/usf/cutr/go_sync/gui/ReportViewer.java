@@ -406,7 +406,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 Hashtable<String, String> osmTags = osmStop.getTags();
                 ArrayList<String> osmTagKeys = new ArrayList<String>();
                 osmTagKeys.addAll(osmStop.keySet());
-                osmTagKeys.remove(tag_defs.GTFS_OPERATOR_KEY);
+                osmTagKeys.remove(tag_defs.OSM_NETWORK_KEY);
 //                osmTagKeys.remove("highway");
                 osmTagKeys.remove("source");
                 boolean isDiff = false;

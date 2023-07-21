@@ -22,41 +22,38 @@ limitations under the License.
  */
 package edu.usf.cutr.go_sync.gui;
 
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.*;
-
+import edu.usf.cutr.go_sync.io.DefaultOperatorReader;
+import edu.usf.cutr.go_sync.object.DefaultOperator;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
-
-import java.io.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import edu.usf.cutr.go_sync.io.DefaultOperatorReader;
-import edu.usf.cutr.go_sync.object.DefaultOperator;
-
-import java.awt.event.ItemEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Dimension;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.ProgressMonitor;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 //TODO add radius selection
 /**
@@ -77,6 +74,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private ProgressMonitor progressMonitor;
     private OsmTask task;
     private List<DefaultOperator> ops;
+    List<String> l;
 
 
     /** Creates new form MainForm */
@@ -93,14 +91,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         //TODO Fix textfield with ops is null (operators.csv doesn't exist)
         
-        List<String> l = new ArrayList<String>(); //create a new list to store operator names
+        l = new ArrayList<String>(); //create a new list to store operator names
         l.add(""); //first entry in the list will be blank
         if (ops != null) {
             for (DefaultOperator op : ops) { //for each operator
                 l.add(op.getOperatorName()); //add their name to the list for autocompletion
             }
         }
-        initComponents(l);
+        initComponents();
+        //operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
+        operatorNameField.requestFocusInWindow();
 
         if (ops != null) {
             KeyListener listener = new KeyListener() { //create key listener for autocomple text field
@@ -154,20 +154,315 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents(List<String> l) {
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        exitButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         compareDataPanel = new javax.swing.JPanel();
+        operatorNameLabel = new javax.swing.JLabel();
+        operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
+        OperatorAbbLabel = new javax.swing.JLabel();
+        operatorNameAbbField = new javax.swing.JTextField();
+        compareButton = new javax.swing.JButton();
+        operatorNTDIDLabel = new javax.swing.JLabel();
+        operatorNTDIDField = new javax.swing.JTextField();
+        gtfsIdDigitLabel = new javax.swing.JLabel();
+        gtfsIdDigitField = new javax.swing.JTextField();
+        operatorAliasLabel = new javax.swing.JLabel();
+        operatorAliasField = new javax.swing.JTextField();
+        gtfsDataPanel = new javax.swing.JPanel();
+        rbURL = new javax.swing.JRadioButton();
+        rbFileFolder = new javax.swing.JRadioButton();
+        fileNameLabel = new javax.swing.JLabel();
+        fileDirTextField = new javax.swing.JTextField();
+        browseButton = new javax.swing.JButton();
+        requiredFieldsLabel = new javax.swing.JLabel();
+        jPanel1DistThreshold = new javax.swing.JPanel();
+        threshold_label = new javax.swing.JLabel();
+        distanceThreshold = new javax.swing.JSpinner();
         revertChangesetPanel = new javax.swing.JPanel();
+        changesetLabel = new javax.swing.JLabel();
+        revertChangesetField = new javax.swing.JTextField();
+        revertButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         taskOutput = new javax.swing.JTextArea();
+        exitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GO-Sync");
         setName("mainForm"); // NOI18N
-        setResizable(true); //false);
+        java.awt.GridBagLayout layout1 = new java.awt.GridBagLayout();
+        layout1.columnWeights = new double[] {1.0};
+        layout1.rowWeights = new double[] {0.0, 0.0, 0.0};
+        getContentPane().setLayout(layout1);
+
+        java.awt.GridBagLayout compareDataPanelLayout = new java.awt.GridBagLayout();
+        compareDataPanelLayout.columnWeights = new double[] {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5};
+        compareDataPanelLayout.rowWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0};
+        compareDataPanel.setLayout(compareDataPanelLayout);
+
+        operatorNameLabel.setText("Operator Full Name (*)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = -10.0;
+        compareDataPanel.add(operatorNameLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        compareDataPanel.add(operatorNameField, gridBagConstraints);
+
+        OperatorAbbLabel.setText("Operator Abbreviation (*)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = -10.0;
+        compareDataPanel.add(OperatorAbbLabel, gridBagConstraints);
+
+        operatorNameAbbField.setName("usernameField"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        compareDataPanel.add(operatorNameAbbField, gridBagConstraints);
+        operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
+
+        compareButton.setText("Run");
+        compareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        compareDataPanel.add(compareButton, gridBagConstraints);
+
+        operatorNTDIDLabel.setText("Operator NTD ID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = -10.0;
+        compareDataPanel.add(operatorNTDIDLabel, gridBagConstraints);
+
+        operatorNTDIDField.setName("usernameField"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        compareDataPanel.add(operatorNTDIDField, gridBagConstraints);
+        operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
+
+        gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = -10.0;
+        compareDataPanel.add(gtfsIdDigitLabel, gridBagConstraints);
+
+        gtfsIdDigitField.setName("usernameField"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        compareDataPanel.add(gtfsIdDigitField, gridBagConstraints);
+
+        operatorAliasLabel.setText("Operator Alias");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = -10.0;
+        compareDataPanel.add(operatorAliasLabel, gridBagConstraints);
+
+        operatorAliasField.setName("usernameField"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        compareDataPanel.add(operatorAliasField, gridBagConstraints);
+
+        gtfsDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
+        gtfsDataPanel.setName("pnlGTFSData"); // NOI18N
+
+        buttonGroup1.add(rbURL);
+        rbURL.setText("URL");
+        rbURL.setName("rbURL"); // NOI18N
+        rbURL.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbURLItemStateChanged(evt);
+            }
+        });
+
+        buttonGroup1.add(rbFileFolder);
+        rbFileFolder.setSelected(true);
+        rbFileFolder.setText("Folder or Zip File");
+        rbFileFolder.setName("rbFolderFile"); // NOI18N
+        rbFileFolder.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbFileFolderItemStateChanged(evt);
+            }
+        });
+
+        fileNameLabel.setText("Folder or Zip File (*)");
+
+        browseButton.setText("Browse");
+        browseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout gtfsDataPanelLayout = new javax.swing.GroupLayout(gtfsDataPanel);
+        gtfsDataPanel.setLayout(gtfsDataPanelLayout);
+        gtfsDataPanelLayout.setHorizontalGroup(
+            gtfsDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gtfsDataPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(gtfsDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbFileFolder)
+                    .addComponent(fileNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(gtfsDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(gtfsDataPanelLayout.createSequentialGroup()
+                        .addComponent(fileDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(browseButton))
+                    .addComponent(rbURL))
+                .addContainerGap(131, Short.MAX_VALUE))
+        );
+
+        gtfsDataPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {rbFileFolder, rbURL});
+
+        gtfsDataPanelLayout.setVerticalGroup(
+            gtfsDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gtfsDataPanelLayout.createSequentialGroup()
+                .addGroup(gtfsDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbFileFolder)
+                    .addComponent(rbURL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(gtfsDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fileNameLabel)
+                    .addComponent(fileDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browseButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        fileNameLabel.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
+        fileDirTextField.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
+        browseButton.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        compareDataPanel.add(gtfsDataPanel, gridBagConstraints);
+
+        requiredFieldsLabel.setText("Fields marked with an asterisk(*) are required");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        compareDataPanel.add(requiredFieldsLabel, gridBagConstraints);
+
+        threshold_label.setText("Approximate Comparision Distance Threshold (m)");
+        jPanel1DistThreshold.add(threshold_label);
+
+        distanceThreshold.setValue(400);
+        jPanel1DistThreshold.add(distanceThreshold);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        compareDataPanel.add(jPanel1DistThreshold, gridBagConstraints);
+
+        jTabbedPane1.addTab("Compare Data", compareDataPanel);
+
+        revertChangesetPanel.setName(""); // NOI18N
+
+        changesetLabel.setText("Changeset ID");
+
+        revertChangesetField.setName("usernameField"); // NOI18N
+
+        revertButton.setText("Run");
+        revertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revertButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout revertChangesetPanelLayout = new javax.swing.GroupLayout(revertChangesetPanel);
+        revertChangesetPanel.setLayout(revertChangesetPanelLayout);
+        revertChangesetPanelLayout.setHorizontalGroup(
+            revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(revertChangesetPanelLayout.createSequentialGroup()
+                .addGroup(revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(revertChangesetPanelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(changesetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(revertChangesetPanelLayout.createSequentialGroup()
+                        .addGap(277, 277, 277)
+                        .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(315, Short.MAX_VALUE))
+        );
+        revertChangesetPanelLayout.setVerticalGroup(
+            revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(revertChangesetPanelLayout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addGroup(revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changesetLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addComponent(revertButton)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Revert Changeset", revertChangesetPanel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        getContentPane().add(jTabbedPane1, gridBagConstraints);
+
+        taskOutput.setColumns(20);
+        taskOutput.setRows(5);
+        jScrollPane1.setViewportView(taskOutput);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 0.5;
+        getContentPane().add(jScrollPane1, gridBagConstraints);
 
         exitButton.setText("Exit");
         exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -175,322 +470,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 exitButtonMouseClicked(evt);
             }
         });
-        GridBagLayout gbl_compareDataPanel = new GridBagLayout();
-        gbl_compareDataPanel.columnWidths = new int[]{151, 20, 161, 3, 126, 70, 57, 0, 0, 150, 0, 150, 0, 0};
-        gbl_compareDataPanel.rowHeights = new int[]{19, 19, 95, 25, 0, 0};
-        gbl_compareDataPanel.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-        gbl_compareDataPanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-        compareDataPanel.setLayout(gbl_compareDataPanel);
-        operatorNameLabel = new javax.swing.JLabel();
-        
-                operatorNameLabel.setText("Operator Full Name (*)");
-                GridBagConstraints gbc_operatorNameLabel = new GridBagConstraints();
-                gbc_operatorNameLabel.anchor = GridBagConstraints.EAST;
-                gbc_operatorNameLabel.insets = new Insets(0, 0, 5, 5);
-                gbc_operatorNameLabel.gridwidth = 2;
-                gbc_operatorNameLabel.gridx = 0;
-                gbc_operatorNameLabel.gridy = 0;
-                compareDataPanel.add(operatorNameLabel, gbc_operatorNameLabel);
-        
-        //create a new textfield with autocomplete for operator names
-        operatorNameField = new edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField(l);
-        //add the textfield to the panel
-        GridBagConstraints gbc_operatorNameField = new GridBagConstraints();
-        gbc_operatorNameField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_operatorNameField.insets = new Insets(0, 0, 5, 5);
-        gbc_operatorNameField.gridwidth = 4;
-        gbc_operatorNameField.gridx = 2;
-        gbc_operatorNameField.gridy = 0;
-        compareDataPanel.add(operatorNameField, gbc_operatorNameField);
-        
-                operatorNameField.requestFocusInWindow(); //set the cursor in the operator name autocomplete text field
-        OperatorAbbLabel = new javax.swing.JLabel();
-        
-                OperatorAbbLabel.setText("Operator Abbreviation (*)");
-                GridBagConstraints gbc_OperatorAbbLabel = new GridBagConstraints();
-                gbc_OperatorAbbLabel.anchor = GridBagConstraints.EAST;
-                gbc_OperatorAbbLabel.insets = new Insets(0, 0, 5, 5);
-                gbc_OperatorAbbLabel.gridwidth = 3;
-                gbc_OperatorAbbLabel.gridx = 6;
-                gbc_OperatorAbbLabel.gridy = 0;
-                compareDataPanel.add(OperatorAbbLabel, gbc_OperatorAbbLabel);
-        operatorNameAbbField = new javax.swing.JTextField();
-        
-                operatorNameAbbField.setName("usernameField");
-                GridBagConstraints gbc_operatorNameAbbField = new GridBagConstraints();
-                gbc_operatorNameAbbField.gridwidth = 3;
-                gbc_operatorNameAbbField.fill = GridBagConstraints.HORIZONTAL;
-                gbc_operatorNameAbbField.insets = new Insets(0, 0, 5, 5);
-                gbc_operatorNameAbbField.gridx = 9;
-                gbc_operatorNameAbbField.gridy = 0;
-                compareDataPanel.add(operatorNameAbbField, gbc_operatorNameAbbField);
-                operatorNameAbbField.getAccessibleContext().setAccessibleName("operatorNameAbbField");
-        operatorAliasField = new javax.swing.JTextField();
-        
-                operatorAliasField.setName("usernameField"); // NOI18N
-                GridBagConstraints gbc_operatorAliasField = new GridBagConstraints();
-                gbc_operatorAliasField.fill = GridBagConstraints.HORIZONTAL;
-                gbc_operatorAliasField.insets = new Insets(0, 0, 5, 5);
-                gbc_operatorAliasField.gridwidth = 3;
-                gbc_operatorAliasField.gridx = 1;
-                gbc_operatorAliasField.gridy = 1;
-                compareDataPanel.add(operatorAliasField, gbc_operatorAliasField);
-        operatorAliasLabel = new javax.swing.JLabel();
-        
-                operatorAliasLabel.setText("Operator Alias");
-                GridBagConstraints gbc_operatorAliasLabel = new GridBagConstraints();
-                gbc_operatorAliasLabel.anchor = GridBagConstraints.EAST;
-                gbc_operatorAliasLabel.insets = new Insets(0, 0, 5, 5);
-                gbc_operatorAliasLabel.gridx = 0;
-                gbc_operatorAliasLabel.gridy = 1;
-                compareDataPanel.add(operatorAliasLabel, gbc_operatorAliasLabel);
-        gtfsDataPanel = new javax.swing.JPanel();
-        
-                gtfsDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("GTFS Data"));
-                gtfsDataPanel.setName("pnlGTFSData"); // NOI18N
-                                                        operatorNTDIDLabel = new javax.swing.JLabel();
-                                                        
-                                                                operatorNTDIDLabel.setText("Operator NTD ID");
-                                                                GridBagConstraints gbc_operatorNTDIDLabel = new GridBagConstraints();
-                                                                gbc_operatorNTDIDLabel.gridwidth = 2;
-                                                                gbc_operatorNTDIDLabel.anchor = GridBagConstraints.WEST;
-                                                                gbc_operatorNTDIDLabel.insets = new Insets(0, 0, 5, 5);
-                                                                gbc_operatorNTDIDLabel.gridx = 4;
-                                                                gbc_operatorNTDIDLabel.gridy = 1;
-                                                                compareDataPanel.add(operatorNTDIDLabel, gbc_operatorNTDIDLabel);
-                                                        operatorNTDIDField = new javax.swing.JTextField();
-                                                        
-                                                                operatorNTDIDField.setName("usernameField"); // NOI18N
-                                                                GridBagConstraints gbc_operatorNTDIDField = new GridBagConstraints();
-                                                                gbc_operatorNTDIDField.fill = GridBagConstraints.HORIZONTAL;
-                                                                gbc_operatorNTDIDField.insets = new Insets(0, 0, 5, 5);
-                                                                gbc_operatorNTDIDField.gridx = 6;
-                                                                gbc_operatorNTDIDField.gridy = 1;
-                                                                compareDataPanel.add(operatorNTDIDField, gbc_operatorNTDIDField);
-                                                                operatorNTDIDField.getAccessibleContext().setAccessibleName("OperatorNTDIDField");
-                                                        gtfsIdDigitLabel = new javax.swing.JLabel();
-                                                        
-                                                                gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
-                                                                GridBagConstraints gbc_gtfsIdDigitLabel = new GridBagConstraints();
-                                                                gbc_gtfsIdDigitLabel.gridwidth = 3;
-                                                                gbc_gtfsIdDigitLabel.anchor = GridBagConstraints.EAST;
-                                                                gbc_gtfsIdDigitLabel.insets = new Insets(0, 0, 5, 5);
-                                                                gbc_gtfsIdDigitLabel.gridx = 7;
-                                                                gbc_gtfsIdDigitLabel.gridy = 1;
-                                                                compareDataPanel.add(gtfsIdDigitLabel, gbc_gtfsIdDigitLabel);
-                                                        gtfsIdDigitField = new javax.swing.JTextField();
-                                                        gtfsIdDigitField.setMinimumSize(new Dimension(25, 19));
-                                                        
-                                                                gtfsIdDigitField.setName("usernameField"); // NOI18N
-                                                                GridBagConstraints gbc_gtfsIdDigitField = new GridBagConstraints();
-                                                                gbc_gtfsIdDigitField.fill = GridBagConstraints.HORIZONTAL;
-                                                                gbc_gtfsIdDigitField.insets = new Insets(0, 0, 5, 5);
-                                                                gbc_gtfsIdDigitField.gridx = 11;
-                                                                gbc_gtfsIdDigitField.gridy = 1;
-                                                                compareDataPanel.add(gtfsIdDigitField, gbc_gtfsIdDigitField);
-                                                                                
-                                                                                        GridBagConstraints gbc_gtfsDataPanel = new GridBagConstraints();
-                                                                                        gbc_gtfsDataPanel.fill = GridBagConstraints.HORIZONTAL;
-                                                                                        gbc_gtfsDataPanel.insets = new Insets(0, 0, 5, 5);
-                                                                                        gbc_gtfsDataPanel.gridwidth = 12;
-                                                                                        gbc_gtfsDataPanel.gridx = 0;
-                                                                                        gbc_gtfsDataPanel.gridy = 2;
-                                                                                        compareDataPanel.add(gtfsDataPanel, gbc_gtfsDataPanel);
-                                                                                        GridBagLayout gbl_gtfsDataPanel = new GridBagLayout();
-                                                                                        gbl_gtfsDataPanel.columnWidths = new int[]{100, 187, 158, 74, 0};
-                                                                                        gbl_gtfsDataPanel.rowHeights = new int[]{23, 25, 0};
-                                                                                        gbl_gtfsDataPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-                                                                                        gbl_gtfsDataPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-                                                                                        gtfsDataPanel.setLayout(gbl_gtfsDataPanel);
-                                                                                        browseButton = new javax.swing.JButton();
-                                                                                        
-                                                                                                browseButton.setText("Browse");
-                                                                                                browseButton.addActionListener(new java.awt.event.ActionListener() {
-                                                                                                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                                                                                        browseButtonActionPerformed(evt);
-                                                                                                    }
-                                                                                                });
-                                                                                                browseButton.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
-                                                                                                fileNameLabel = new javax.swing.JLabel();
-                                                                                                
-                                                                                                        fileNameLabel.setText("Folder or Zip File (*)");
-                                                                                                        
-                                                                                                                fileNameLabel.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
-                                                                                                                rbURL = new javax.swing.JRadioButton();
-                                                                                                                
-                                                                                                                        buttonGroup1.add(rbURL);
-                                                                                                                        rbURL.setText("URL");
-                                                                                                                        rbURL.setName("rbURL"); // NOI18N
-                                                                                                                        rbURL.addItemListener(new java.awt.event.ItemListener() {
-                                                                                                                            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                                                                                                                                rbURLItemStateChanged(evt);
-                                                                                                                            }
-                                                                                                                        });
-                                                                                                                        rbFileFolder = new javax.swing.JRadioButton();
-                                                                                                                        
-                                                                                                                                buttonGroup1.add(rbFileFolder);
-                                                                                                                                rbFileFolder.setSelected(true);
-                                                                                                                                rbFileFolder.setText("Folder or Zip File");
-                                                                                                                                rbFileFolder.setName("rbFolderFile"); // NOI18N
-                                                                                                                                rbFileFolder.addItemListener(new java.awt.event.ItemListener() {
-                                                                                                                                    public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                                                                                                                                        rbFileFolderItemStateChanged(evt);
-                                                                                                                                    }
-                                                                                                                                });
-                                                                                                                                GridBagConstraints gbc_rbFileFolder = new GridBagConstraints();
-                                                                                                                                gbc_rbFileFolder.anchor = GridBagConstraints.NORTHEAST;
-                                                                                                                                gbc_rbFileFolder.insets = new Insets(0, 0, 5, 5);
-                                                                                                                                gbc_rbFileFolder.gridx = 1;
-                                                                                                                                gbc_rbFileFolder.gridy = 0;
-                                                                                                                                gtfsDataPanel.add(rbFileFolder, gbc_rbFileFolder);
-                                                                                                                        GridBagConstraints gbc_rbURL = new GridBagConstraints();
-                                                                                                                        gbc_rbURL.anchor = GridBagConstraints.NORTHWEST;
-                                                                                                                        gbc_rbURL.insets = new Insets(0, 0, 5, 5);
-                                                                                                                        gbc_rbURL.gridx = 2;
-                                                                                                                        gbc_rbURL.gridy = 0;
-                                                                                                                        gtfsDataPanel.add(rbURL, gbc_rbURL);
-                                                                                                                GridBagConstraints gbc_fileNameLabel = new GridBagConstraints();
-                                                                                                                gbc_fileNameLabel.fill = GridBagConstraints.HORIZONTAL;
-                                                                                                                gbc_fileNameLabel.insets = new Insets(0, 0, 0, 5);
-                                                                                                                gbc_fileNameLabel.gridx = 0;
-                                                                                                                gbc_fileNameLabel.gridy = 1;
-                                                                                                                gtfsDataPanel.add(fileNameLabel, gbc_fileNameLabel);
-                                                                                                fileDirTextField = new javax.swing.JTextField();
-                                                                                                fileDirTextField.getAccessibleContext().setAccessibleParent(gtfsDataPanel);
-                                                                                                GridBagConstraints gbc_fileDirTextField = new GridBagConstraints();
-                                                                                                gbc_fileDirTextField.fill = GridBagConstraints.HORIZONTAL;
-                                                                                                gbc_fileDirTextField.insets = new Insets(0, 0, 0, 5);
-                                                                                                gbc_fileDirTextField.gridwidth = 2;
-                                                                                                gbc_fileDirTextField.gridx = 1;
-                                                                                                gbc_fileDirTextField.gridy = 1;
-                                                                                                gtfsDataPanel.add(fileDirTextField, gbc_fileDirTextField);
-                                                                                                GridBagConstraints gbc_browseButton = new GridBagConstraints();
-                                                                                                gbc_browseButton.anchor = GridBagConstraints.NORTH;
-                                                                                                gbc_browseButton.fill = GridBagConstraints.HORIZONTAL;
-                                                                                                gbc_browseButton.gridx = 3;
-                                                                                                gbc_browseButton.gridy = 1;
-                                                                                                gtfsDataPanel.add(browseButton, gbc_browseButton);
-
-        jTabbedPane1.addTab("Compare Data", compareDataPanel);
-                jLabel1 = new javax.swing.JLabel();
-                
-                        jLabel1.setText("Fields marked with an asterisk(*) are required");
-                        GridBagConstraints gbc_jLabel1 = new GridBagConstraints();
-                        gbc_jLabel1.fill = GridBagConstraints.HORIZONTAL;
-                        gbc_jLabel1.insets = new Insets(0, 0, 5, 5);
-                        gbc_jLabel1.gridwidth = 12;
-                        gbc_jLabel1.gridx = 0;
-                        gbc_jLabel1.gridy = 3;
-
-                        compareDataPanel.add(jLabel1, gbc_jLabel1);
-
-
-        distanceThreshold = new JSpinner();
-        distanceThreshold.setValue(400);
-        GridBagConstraints gbc_threshold = new GridBagConstraints();
-        JLabel threshold_label = new JLabel("Approximate Comparision Distance Threshold (m)");
-//        gbc_threshold.fill = GridBagConstraints.HORIZONTAL;
-        gbc_threshold.insets = new Insets(0, 0, 5, 5);
-        gbc_threshold.gridwidth = 12;
-
-        gbc_threshold.gridy = 4;
-        gbc_threshold.gridx = 0;
-        compareDataPanel.add(threshold_label,gbc_threshold);
-        gbc_threshold.gridx = 6;
-        compareDataPanel.add(distanceThreshold, gbc_threshold);
-
-                compareButton = new javax.swing.JButton();
-                
-                        compareButton.setText("Run");
-                        compareButton.addActionListener(new java.awt.event.ActionListener() {
-                            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                compareButtonActionPerformed(evt);
-                            }
-                        });
-                        GridBagConstraints gbc_compareButton = new GridBagConstraints();
-                        gbc_compareButton.insets = new Insets(0, 0, 0, 5);
-                        gbc_compareButton.gridwidth = 12;
-                        gbc_compareButton.gridx = 0;
-                        gbc_compareButton.gridy = 5;
-                        compareDataPanel.add(compareButton, gbc_compareButton);
-
-        revertChangesetPanel.setName(""); // NOI18N
-
-        jTabbedPane1.addTab("Revert Changeset", revertChangesetPanel);
-        GridBagLayout gbl_revertChangesetPanel = new GridBagLayout();
-        gbl_revertChangesetPanel.columnWidths = new int[]{120, 225, 0};
-        gbl_revertChangesetPanel.rowHeights = new int[]{78, 19, 110, 25, 0};
-        gbl_revertChangesetPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-        gbl_revertChangesetPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        revertChangesetPanel.setLayout(gbl_revertChangesetPanel);
-        changesetLabel = new javax.swing.JLabel();
-        
-                changesetLabel.setText("Changeset ID");
-                GridBagConstraints gbc_changesetLabel = new GridBagConstraints();
-                gbc_changesetLabel.anchor = GridBagConstraints.EAST;
-                gbc_changesetLabel.insets = new Insets(0, 0, 5, 5);
-                gbc_changesetLabel.gridx = 0;
-                gbc_changesetLabel.gridy = 1;
-                revertChangesetPanel.add(changesetLabel, gbc_changesetLabel);
-        revertChangesetField = new javax.swing.JTextField();
-        
-                revertChangesetField.setName("usernameField"); // NOI18N
-                GridBagConstraints gbc_revertChangesetField = new GridBagConstraints();
-                gbc_revertChangesetField.anchor = GridBagConstraints.NORTH;
-                gbc_revertChangesetField.fill = GridBagConstraints.HORIZONTAL;
-                gbc_revertChangesetField.insets = new Insets(0, 0, 5, 0);
-                gbc_revertChangesetField.gridx = 1;
-                gbc_revertChangesetField.gridy = 1;
-                revertChangesetPanel.add(revertChangesetField, gbc_revertChangesetField);
-        revertButton = new javax.swing.JButton();
-        
-                revertButton.setText("Run");
-                revertButton.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        revertButtonActionPerformed(evt);
-                    }
-                });
-                GridBagConstraints gbc_revertButton = new GridBagConstraints();
-                gbc_revertButton.gridwidth = 2;
-                gbc_revertButton.anchor = GridBagConstraints.NORTH;
-                gbc_revertButton.gridx = 0;
-                gbc_revertButton.gridy = 3;
-                revertChangesetPanel.add(revertButton, gbc_revertButton);
-
-        taskOutput.setColumns(20);
-        taskOutput.setRows(5);
-        jScrollPane1.setViewportView(taskOutput);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        layout.setHorizontalGroup(
-        	layout.createParallelGroup(Alignment.TRAILING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addContainerGap()
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-        						.addComponent(jTabbedPane1, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-        						.addComponent(jScrollPane1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE))
-        					.addGap(12))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(279)
-        					.addComponent(exitButton, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-        					.addGap(280)))
-        			.addContainerGap())
-        );
-        layout.setVerticalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(exitButton)
-        			.addContainerGap())
-        );
-        getContentPane().setLayout(layout);
-
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        getContentPane().add(exitButton, gridBagConstraints);
         exitButton.getAccessibleContext().setAccessibleName("exitButton");
 
         pack();
@@ -761,7 +744,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         }
         taskOutput.setCaretPosition(taskOutput.getText().length());
     }
-    private edu.usf.cutr.go_sync.gui.object.AutoCompleteTextField operatorNameField;
     private javax.swing.JFileChooser chooser;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel OperatorAbbLabel;
@@ -769,28 +751,31 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel changesetLabel;
     private javax.swing.JButton compareButton;
+    private javax.swing.JPanel compareDataPanel;
+    private javax.swing.JSpinner distanceThreshold;
     private javax.swing.JButton exitButton;
     private javax.swing.JTextField fileDirTextField;
     private javax.swing.JLabel fileNameLabel;
-    private javax.swing.JTextField gtfsIdDigitField;
-    private javax.swing.JLabel jLabel1;
-    private JSpinner distanceThreshold;
-    private javax.swing.JPanel compareDataPanel;
-    private javax.swing.JPanel revertChangesetPanel;
     private javax.swing.JPanel gtfsDataPanel;
+    private javax.swing.JTextField gtfsIdDigitField;
+    private javax.swing.JLabel gtfsIdDigitLabel;
+    private javax.swing.JPanel jPanel1DistThreshold;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField operatorAliasField;
-    private javax.swing.JTextField operatorNTDIDField;
-    private javax.swing.JTextField operatorNameAbbField;
-    private javax.swing.JLabel operatorNameLabel;
     private javax.swing.JLabel operatorAliasLabel;
+    private javax.swing.JTextField operatorNTDIDField;
+    private javax.swing.JLabel operatorNTDIDLabel;
+    private javax.swing.JTextField operatorNameAbbField;
+    private javax.swing.JTextField operatorNameField;
+    private javax.swing.JLabel operatorNameLabel;
     private javax.swing.JRadioButton rbFileFolder;
     private javax.swing.JRadioButton rbURL;
+    private javax.swing.JLabel requiredFieldsLabel;
     private javax.swing.JButton revertButton;
     private javax.swing.JTextField revertChangesetField;
+    private javax.swing.JPanel revertChangesetPanel;
     private javax.swing.JTextArea taskOutput;
-    private javax.swing.JLabel operatorNTDIDLabel;
-    private javax.swing.JLabel gtfsIdDigitLabel;
+    private javax.swing.JLabel threshold_label;
     // End of variables declaration//GEN-END:variables
 }

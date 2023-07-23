@@ -25,6 +25,7 @@ package edu.usf.cutr.go_sync.gui;
 import edu.usf.cutr.go_sync.io.DefaultOperatorReader;
 import edu.usf.cutr.go_sync.object.DefaultOperator;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
+import edu.usf.cutr.go_sync.object.ProcessingOptions;
 import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
@@ -46,6 +47,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -61,6 +63,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author Khoa Tran and Marcy Gordon
  */
 public class MainForm extends javax.swing.JFrame implements PropertyChangeListener {
+
+    public static EnumSet<ProcessingOptions> processingOptions = EnumSet.noneOf(ProcessingOptions.class);
 
     private String _operatorName;
     private String _operatorNameAbbreviate;

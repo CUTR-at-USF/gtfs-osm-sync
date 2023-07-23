@@ -23,6 +23,7 @@ import edu.usf.cutr.go_sync.io.GTFSReadIn;
 
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -31,6 +32,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Comparator;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Map;
 
@@ -42,6 +44,7 @@ import edu.usf.cutr.go_sync.object.OsmPrimitive;
 import edu.usf.cutr.go_sync.object.RelationMember;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.RouteVariant;
+import edu.usf.cutr.go_sync.object.RouteVariantStop;
 import edu.usf.cutr.go_sync.object.Stop;
 
 import org.xml.sax.helpers.AttributesImpl;
@@ -94,6 +97,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     private Hashtable<String, Route> routes = new Hashtable<String, Route>();
     private Hashtable<String, Route> agencyRoutes = new Hashtable<String, Route>();
     private Hashtable<String, Route> existingRoutes = new Hashtable<String, Route>();
+    private HashMap<Route, TreeMap<Integer, Route>> reportRoute = new HashMap<Route, TreeMap<Integer, Route>>();
     HashMap<String, ArrayList<RouteVariant>> allRouteVariantsByRoute;
     HashMap<String, RouteVariant> allRouteVariants;
     HashMap<String, String> gtfsTripIdToRouteVariantMap = new HashMap<>();
@@ -101,6 +105,12 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
     private HttpRequest osmRequest;
     private HashSet<String> osmActiveUsers = new HashSet<String>();
     private Hashtable<String,String> osmIdToGtfsId = new Hashtable<String,String>();
+
+    private HashMap <String, TreeMap> osmRouteVariantScoreByGtfsRoute = new HashMap<>();;
+    // OsmIndex - List of GtfsMatches
+    HashMap <Integer,ArrayList<String>> gtfsTripIdByOsmIndex = new HashMap<>();;
+    // Since we don't save all trip_id in RouteVariant, we have to maintain a list that says which RouteVariant
+    // has the same trip as the Gtfs route_id
 
     private final double ERROR_TO_ZERO = 0.5;       // acceptable error while calculating distance ~= consider as 0
     private /*final*/ double DELTA = 0.004;   // ~400m in Lat and 400m in Lon       0.00001 ~= 1.108m in Lat and 0.983 in Lon
@@ -275,6 +285,99 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                 report.remove(gtfsStop);
             }
             report.put(gtfsStop, new TreeSet<Stop>(new CompareStopDistance(gtfsStop)));
+        }
+    }
+
+    /**
+      * add osm route to list of potential matches
+      * by using TreeSort, each tree is sorted by distance from potentially match osm stop
+      * @param gtfs GTFS route
+      * @param osm add this route to array of potential matches to gtfs
+      * @param osmIndex The index of the osm route, in OSMRelations
+      * @param found if true, then osm is only match
+      *                        otherwise, append stop to list
+      */
+    public void addToReportRoute(Route gtfs, Route osm, Integer osmIndex, boolean found) {
+        Route gtfsRoute = new Route(gtfs);
+        if (osm != null) {
+            //System.out.println(String.format("Adding to reportRoute: %s",gtfsRoute.getRouteId()));
+            Route osmRoute = new Route(osm);
+            TreeMap<Integer, Route> tree = null;
+
+            if (reportRoute.containsKey(gtfsRoute)) {
+                tree = reportRoute.get(gtfsRoute);
+                if (found) {
+                    tree.clear();
+                }
+                reportRoute.remove(gtfsRoute);
+            }
+
+            if (tree == null) {
+                //tree = new TreeSet<Route>(new CompareGtfsOsmRouteScore(gtfsStop));
+                tree = new TreeMap<Integer, Route>(Collections.reverseOrder());
+            }
+
+            // 1st value = Score (higher=best match), 2nd value = index of relation in OSMRelations
+            String gtfsTripId = gtfs.getRouteId();
+            String gtfsRouteId = gtfs.getTag("gtfs:route_id");
+            String gtfsRouteShortName = gtfs.getRouteRef();
+
+            Integer score = 0;
+
+            HashMap osmtag = new HashMap();
+            osmtag.putAll(OSMRelationTags.get(osmIndex));
+
+            String osmTripId = (String) osmtag.get("gtfs:trip_id:sample");
+            String osmRouteId = (String) osmtag.get("gtfs:route_id");
+            if (osmRouteId == null) {
+                osmRouteId = (String) osmtag.get("gtfs_route_id");
+            }
+            String osmRouteShortName = (String) osmtag.get("ref");
+
+            if (osmTripId != null && !osmTripId.isEmpty()) {
+                if (gtfsTripId.equals(osmTripId)) {
+                    // Matched by TripId = Score 1000
+                    score = 1000;
+                } else if (gtfsTripIdToRouteVariantMap.containsKey(osmTripId)) {
+                    // Trip id didn't match to the ones we saved as RouteVariant, but there is a matching trip
+                    // in the RouteVariant that is equivalent (it is in the same_sequence_list). Use that one.
+                    score = 900;
+                }
+            } else if (osmRouteId != null && !osmRouteId.isEmpty()) {
+                if (gtfsRouteId.equals(osmRouteId)) {
+                    // Matched by routeId. In that case, there can be more that one relation for the same routeId in OSM (ie. one relation per route variant)
+                    score = 600;
+                }
+            } else if (osmRouteShortName != null && !osmRouteShortName.isEmpty()) {
+                if (gtfsRouteShortName.equals(osmRouteShortName)) {
+                    // Matched by routeShortName. In that case, there can be more that one relation for the same shortName in OSM (ie. one relation per route variant)
+                    score = 300;
+                }
+            } else {
+                // These have no match per tripId, RouteId or RouteShortName. Skip for now
+            }
+
+            while (tree.containsKey(score)) {
+                score--;
+            }
+            //System.out.println(String.format("Adding %s with score %d",osmRoute.getOsmId(), score));
+
+            tree.put(score, osmRoute);
+
+            gtfsRoute.addAndOverwriteTags(osmRoute.getTags());
+            gtfsRoute.addAndOverwriteTag("gtfs:trip_id:sample", gtfs.toString());
+            if (gtfsRoute.toString().equals("none") || gtfsRoute.getRouteId().equals("") || gtfsRoute.getTag("gtfs:trip_id:sample").equals("none")) {
+                System.out.println();
+            }
+
+            reportRoute.put(gtfsRoute, tree);
+            //System.out.println(String.format("Adding reportRoute: %s: %s",gtfsRoute.getRouteId(), tree.toString()));
+        } else {
+            // OSM route is null
+            if (reportRoute.containsKey(gtfsRoute)) {
+                reportRoute.remove(gtfsRoute);
+            }
+            reportRoute.put(gtfsRoute, new TreeMap<>());
         }
     }
 
@@ -474,49 +577,73 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         HashSet<String> gtfsRoutes = new HashSet<String>();
         gtfsRoutes.addAll(GTFSReadIn.getAllRoutesID());
 
-        for (int i=0; i<reportKeys.size(); i++) {
-            if(this.flagIsDone) return;
-            Stop st = reportKeys.get(i);
-            String category = st.getReportCategory();
-            if (category.equals("MODIFY") || category.equals("NOTHING_NEW")) {
-                ArrayList<Route> routeInOneStop = new ArrayList<Route>();
-                if(st.getRoutes()!=null) {
-                    routeInOneStop.addAll(st.getRoutes());
-//                    for(int j=0; j<routeInOneStop.size(); j++){
-                    for(Route rios :routeInOneStop){
-                        if(this.flagIsDone) return;
-//                        Route rios = routeInOneStop.get(j);
-                        Route r;
-                        if(!routes.containsKey(rios.getRouteId())){
-                            r = new Route(rios);
-                            //add tag
-                            r.addTag(tag_defs.OSM_ROUTE_NAME_KEY, OperatorInfo.getAbbreviateName()+
-                                    " Route "+ r.getRouteRef()); //TODO use long route name instead of creating own
-                            r.addTag(tag_defs.OSM_NETWORK_KEY,OperatorInfo.getFullName());
-//                            r.addTag("network",OperatorInfo.getFullName());
-                            r.addTag("ref", r.getRouteRef());
-//                            r.addTag("route", "bus"); //TODO handle type from gtfs value
-                            r.addTag("type", "route");
-                        }
-                        else {
-                            r = new Route((Route)routes.get(rios.getRouteId()));
-                            routes.remove(rios.getRouteId());
-                        }
-                        //add member
-                        //Route rt = (Route)routes.get(routeArray[j]);
-                        r.addOsmMembers(rios.getOsmMembers());
-                        String osmNodeId = st.getOsmId();
-                        RelationMember rm = new RelationMember(osmNodeId,"node","platform");
-                        rm.setStatus("GTFS dataset");
-                        rm.setGtfsId(st.getStopID());
-                        r.addOsmMember(rm);
-                        r.setStatus("n");
-                        routes.put(rios.getRouteId(), r);
-                    }
-                }
+        // Map: gtfs_stop_id -> osm id
+        HashMap<String, String> osmStopIdByGtfsStopId = new HashMap<>();
+        // Map: gtfs_stop_id -> osm type (ie. node or way)
+        HashMap<String, String> osmStopTypeByGtfsStopId = new HashMap<>();
+        for (int i = 0; i < OSMNodes.size(); i++) {
+            Object gtfs_id = OSMTags.get(i).get("gtfs_id");
+            if (gtfs_id != null) {
+                osmStopIdByGtfsStopId.put(gtfs_id.toString(), OSMNodes.get(i).getValue("id"));
+                osmStopTypeByGtfsStopId.put(gtfs_id.toString(), OSMNodes.get(i).geOsmPrimitiveType());
             }
         }
 
+        for (HashMap.Entry<String, RouteVariant> rv_entry : allRouteVariants.entrySet()) {
+            RouteVariant rv = rv_entry.getValue();
+            //Route r = new Route(rv.getOsmValue("gtfs:route_id"), rv.getOsmValue("ref"), OperatorInfo.getFullName());
+            Route r = new Route(rv.getOsmValue("gtfs:trip_id:sample"), rv.getOsmValue("ref"), OperatorInfo.getFullName());
+            //add tag
+            r.addTag("type", "route");
+            r.addTag("route", rv.getOsmValue("route"));
+            r.addTag("gtfs:name", rv.getOsmValue("gtfs:name"));
+            r.addTag("gtfs:trip_id:sample", rv.getOsmValue("gtfs:trip_id:sample"));
+            r.addTag("gtfs:route_id", rv.getOsmValue("gtfs:route_id"));
+            r.addTag(tag_defs.OSM_NETWORK_KEY, OperatorInfo.getFullName());
+            r.addTag("ref", rv.getOsmValue("ref"));
+            r.addTag("name", rv.getOsmValue("name"));
+            r.addTag("from", rv.getOsmValue("from"));
+            r.addTag("to", rv.getOsmValue("to"));
+            r.addTag("public_transport:version", "2");
+            r.addTag("duration", rv.getDuration());
+            r.addTag(tag_defs.OSM_COLOUR_KEY, rv.getOsmValue(tag_defs.OSM_COLOUR_KEY));
+
+            //add member
+            int count = 0;
+            for (HashMap.Entry<Integer, RouteVariantStop> rvstop : rv.getStops().entrySet()) {
+                count++;
+                // Add gtfs stops as members
+                String OsmNodeId = String.valueOf(-count);
+                String gtfsStopId = rvstop.getValue().getStop_id();
+                if (osmStopIdByGtfsStopId.containsKey(gtfsStopId)) {
+                    OsmNodeId = osmStopIdByGtfsStopId.get(rvstop.getValue().getStop_id());
+                } else {
+
+                }
+                String role;
+                if (!rvstop.getValue().getDrop_off_type().equals("1")
+                        && rvstop.getValue().getPickup_type().equals("1")) {
+                    role = "platform_exit_only";
+                } else if (rvstop.getValue().getDrop_off_type().equals("1")
+                        && !rvstop.getValue().getPickup_type().equals("1")) {
+                    role = "platform_entry_only";
+                } else {
+                    role = "platform";
+                }
+
+                RelationMember rm = new RelationMember(
+                        OsmNodeId,
+                        osmStopTypeByGtfsStopId.get(gtfsStopId),
+                        role);
+                rm.setStatus("GTFS dataset");
+                rm.setGtfsId(gtfsStopId);
+                r.addOsmMember(rm);
+            }
+
+            // Save to routes
+            r.setStatus("n");
+            routes.put(rv.getTrip_id(), r);
+        }
         agencyRoutes.putAll(routes);
 
         updateProgress(10);
@@ -560,6 +687,12 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         ArrayList<String> routeNameKeys = new ArrayList<String>();
         routeNameKeys.addAll(routesByShortName.keySet());
 
+        HashSet<String> gtfsTripList = new HashSet<String>();
+        for (HashMap.Entry<String, RouteVariant> rv_entry : allRouteVariants.entrySet()) {
+            gtfsTripList.add(rv_entry.getValue().getTrip_id());
+            gtfsTripList.addAll(rv_entry.getValue().getSame_trip_sequence());
+        }
+
         for(int osm=0; osm<OSMRelations.size(); osm++){
             if(this.flagIsDone) return;
             AttributesImpl osmRelation = OSMRelations.get(osm);
@@ -567,52 +700,124 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             osmtag.putAll(OSMRelationTags.get(osm));
             String routeLongName = (String)osmtag.get("name");
             String routeId = (String)osmtag.get(tag_defs.OSM_ROUTE_ID_KEY);
+            String tripId = (String)osmtag.get("gtfs:trip_id:sample");
             String routeShortName = (String)osmtag.get("ref");
             String operator = (String)osmtag.get("operator");  //tag_defs.GTFS_OPERATOR_KEY); //FIXME use tag_defs
             String network = (String)osmtag.get("network"); //(tag_defs.GTFS_NETWORK_KEY);    //FIXME use tag_defs
-//            System.out.println(osm + " routeId " + routeId + routeKeys.contains(routeId) +  "routeShortName " + routeShortName + routeNameKeys.contains(routeShortName) + operator + network);
-            if((routeKeys.contains(routeId) ||routeNameKeys.contains(routeShortName))
+            //System.out.println(osm + " osmId: " + osmRelation.getValue("id") + " routeId " + routeId + routeKeys.contains(routeId) +  "routeShortName " + routeShortName + routeNameKeys.contains(routeShortName) + operator + network);
+            if((routeKeys.contains(tripId) || allRouteVariantsByRoute.keySet().contains(routeId) || routeNameKeys.contains(routeShortName))
                     && (
                     (operator!=null && OperatorInfo.isTheSameOperator(operator))||
                             (network!=null && OperatorInfo.isTheSameOperator(network))
             )
                     ) {
 //                System.out.println(routeId +"\t" + operator);
-                LinkedHashSet <RelationMember> em = OSMRelationMembers.get(osm);
+
                 Route r;
                 String ostring,idstring,refstring;
 
                 if (network != null)
                     ostring = network;
                 else ostring = operator;
-                if (routeKeys.contains(routeId))
-                    r = new Route(routes.get(routeId));
-                else
+ 
+                Route er;
+                er = new Route(tripId, routeShortName, ostring);
 
-                {
-                    r = new Route(routesByShortName	.get(routeShortName));
-                    routeId = r.getRouteId();
-                }
-                Route er = new Route(routeId, routeShortName, ostring);
-                ArrayList<RelationMember> tempem = new ArrayList<RelationMember>();
+                LinkedHashSet<RelationMember> em = OSMRelationMembers.get(osm);
+                LinkedHashSet<RelationMember> tempem = new LinkedHashSet<RelationMember>();
                 tempem.addAll(em);
-                for(int i=0; i<em.size(); i++) {
+                for (RelationMember m : tempem) {
                     if(this.flagIsDone) return;
-                    RelationMember m = tempem.get(i);
                     m.setGtfsId((String)osmIdToGtfsId.get(m.getRef()));
                     er.addOsmMember(m);
+                }
 
-                    RelationMember matchMember = r.getOsmMember(m.getRef());
+                er.addTags(osmtag);
+                er.setOsmVersion(osmRelation.getValue("version"));
+                er.setOsmId(osmRelation.getValue("id"));
+
+                buildGtfsTripIdByOsmIndex();
+                ArrayList<String> matchingTrips = gtfsTripIdByOsmIndex.get(osm);
+                for (String matchingTrip : matchingTrips) {
+                    r = new Route(routes.get(gtfsTripIdToRouteVariantMap.get(matchingTrip)));
+
+                    for (RelationMember m : tempem) {
+                        if (this.flagIsDone) {
+                            return;
+                        }
+                        m.setGtfsId((String) osmIdToGtfsId.get(m.getRef()));
+
+                        RelationMember matchMember = r.getOsmMember(m.getRef());
+                        if (matchMember != null) {
+                            matchMember.setStatus("both GTFS dataset and OSM server");
+                        } else {
+                            //r.addOsmMember(new RelationMember(m));
+                        }
+                    }
+                    Hashtable diff = compareOsmTags(osmtag, r);
+                    if (!em.containsAll(r.getOsmMembers()) || diff.size() != 0) {
+                        r.setStatus("m");
+                        r.addTags(osmtag);
+                    } else {
+                        r.setStatus("e");
+                    }
+
+                    // Put the new
+                    routes.remove(r.getRouteId());
+                    routes.put(r.getRouteId(), r);
+                    existingRoutes.put(r.getRouteId(), er);
+                    addToReportRoute(r, er, osm, false);
+                }
+
+            }
+        }
+        System.out.println("There are "+routeKeys.size()+" routeKeys in total!");
+    }
+
+    public TreeMap<Integer, Route> getOsmRouteMatchesForGtfsRoute(String tripId) {
+        TreeMap<Integer, Integer> routeVariantScores = osmRouteVariantScoreByGtfsRoute.get(tripId);
+        TreeMap<Integer, Route> osmRouteMatches = new TreeMap<>();
+
+        for (Map.Entry<Integer, Integer> scoreEntry : routeVariantScores.entrySet()) {
+            Integer score = scoreEntry.getKey();
+            Integer osmRouteIndex = scoreEntry.getValue();
+
+            String osmTripId = (String) OSMRelationTags.get(osmRouteIndex).get("gtfs:trip_id:sample");
+            String osmRouteRef = (String) OSMRelationTags.get(osmRouteIndex).get("ref");
+            String operator = (String) OSMRelationTags.get(osmRouteIndex).get("operator");  //tag_defs.GTFS_OPERATOR_KEY); //FIXME use tag_defs
+            String network = (String) OSMRelationTags.get(osmRouteIndex).get("network"); //(tag_defs.GTFS_NETWORK_KEY);    //FIXME use tag_defs
+
+            String ostring;
+
+            if (network != null) {
+                ostring = network;
+            } else {
+                ostring = operator;
+            }
+
+            Route er = new Route(osmTripId, osmRouteRef, ostring);
+
+            LinkedHashSet<RelationMember> tempem = new LinkedHashSet<RelationMember>();
+            LinkedHashSet<RelationMember> em = OSMRelationMembers.get(osmRouteIndex);
+
+            tempem.addAll(em);
+
+            for (RelationMember m : tempem) {
+                m.setGtfsId((String) osmIdToGtfsId.get(m.getRef()));
+                er.addOsmMember(m);
+
+                /*RelationMember matchMember = r.getOsmMember(m.getRef());
                     if(matchMember!=null) {
                         matchMember.setStatus("both GTFS dataset and OSM server");
                     } else {
                         r.addOsmMember(new RelationMember(m));
-                    }
-                }
-                er.addTags(osmtag);
-                er.setOsmVersion(osmRelation.getValue("version"));
-
-                Hashtable diff = compareOsmTags(osmtag, r);
+                    }*/
+            }
+            er.addTags(OSMRelationTags.get(osmRouteIndex));
+            er.setOsmVersion(OSMRelations.get(osmRouteIndex).getValue("version"));
+            er.setOsmId(OSMRelations.get(osmRouteIndex).getValue("id"));
+            /*
+                Hashtable diff = compareOsmTags(OSMRelationTags.get(osmRouteIndex), r);
                 if(!em.containsAll(r.getOsmMembers()) || diff.size()!=0){
                     r.setStatus("m");
                     r.setOsmVersion(osmRelation.getValue("version"));
@@ -622,16 +827,88 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                 }
                 else {
                     r.setStatus("e");
+                }*/
+
+            osmRouteMatches.put(score, er);
+        }
+        return osmRouteMatches;
+    }
+
+    public void buildGtfsTripIdByOsmIndex() {
+        if (!osmRouteVariantScoreByGtfsRoute.isEmpty() && !gtfsTripIdByOsmIndex.isEmpty()) {
+            return;
+        } else {
+            osmRouteVariantScoreByGtfsRoute.clear();
+            gtfsTripIdByOsmIndex.clear();
+        }
+
+        assert !agencyRoutes.isEmpty() : "agencyRoutes is empty. Is this called after having populated it?";
+
+        for (HashMap.Entry<String, Route> gtfsRouteEntry : agencyRoutes.entrySet()) {
+
+            // 1st value = Score (higher=best match), 2nd value = index of relation in OSMRelations
+            TreeMap<Integer, Integer> scores = new TreeMap<>();
+
+            String gtfsTripId = gtfsRouteEntry.getValue().getRouteId();
+            String gtfsRouteId = gtfsRouteEntry.getValue().getTag("gtfs:route_id");
+            String gtfsRouteShortName = gtfsRouteEntry.getValue().getRouteRef();
+
+            int countOfRelationsWithSameRouteId = 0;
+            int countOfRelationsWithSameRouteShortName = 0;
+            int countOfRelationsWithEquivalentTripId = 0;
+
+            for (int osm = 0; osm < OSMRelations.size(); osm++) {
+                if (!gtfsTripIdByOsmIndex.containsKey(osm)) {
+                    gtfsTripIdByOsmIndex.put(osm, new ArrayList<String>());
                 }
 
-                routes.remove((String)r.getRouteId());
-                routes.put(r.getRouteId(), r);
+                AttributesImpl osmRelation = OSMRelations.get(osm);
+                Hashtable osmtag = new Hashtable();
+                osmtag.putAll(OSMRelationTags.get(osm));
 
-                existingRoutes.put(routeId, er);
+                String osmTripId = (String) osmtag.get("gtfs:trip_id:sample");
+                String osmRouteId = (String) osmtag.get("gtfs:route_id");
+                if (osmRouteId == null) {
+                    osmRouteId = (String) osmtag.get("gtfs_route_id");
+                }
+                String osmRouteShortName = (String) osmtag.get("ref");
 
+                if (osmTripId != null && !osmTripId.isEmpty()) {
+                    if (gtfsTripId.equals(osmTripId)) {
+                        // Matched by TripId = Score 1000
+                        scores.put(1000, osm);
+                        gtfsTripIdByOsmIndex.get(osm).add(gtfsTripId);
+                    } else if (gtfsTripIdToRouteVariantMap.containsKey(osmTripId)) {
+                        // Trip id didn't match to the ones we saved as RouteVariant, but there is a matching trip
+                        // in the RouteVariant that is equivalent (it is in the same_sequence_list). Use that one.
+                        countOfRelationsWithEquivalentTripId++;
+                        scores.put(900 - countOfRelationsWithEquivalentTripId, osm);
+                    }
+                } else if (osmRouteId != null && !osmRouteId.isEmpty()) {
+                    if (gtfsRouteId.equals(osmRouteId)) {
+                        // Matched by routeId. In that case, there can be more that one relation for the same routeId in OSM (ie. one relation per route variant)
+                        countOfRelationsWithSameRouteId++;
+                        scores.put(600 - countOfRelationsWithSameRouteId, osm);
+                        gtfsTripIdByOsmIndex.get(osm).add(gtfsTripId);
+                    }
+                } else if (osmRouteShortName != null && !osmRouteShortName.isEmpty()) {
+                    if (gtfsRouteShortName.equals(osmRouteShortName)) {
+                        // Matched by routeShortName. In that case, there can be more that one relation for the same shortName in OSM (ie. one relation per route variant)
+                        countOfRelationsWithSameRouteShortName++;
+                        scores.put(300 - countOfRelationsWithSameRouteShortName, osm);
+                        gtfsTripIdByOsmIndex.get(osm).add(gtfsTripId);
+                    }
+                } else {
+                    // These have no match per tripId, RouteId or RouteShortName. Skip for now
+                }
             }
+            //System.out.println(String.format("TripId: %s: Scores: %s", gtfsTripId, scores.toString()));
+            osmRouteVariantScoreByGtfsRoute.put(gtfsTripId, scores);
         }
-        System.out.println("There are "+routeKeys.size()+" routeKeys in total!");
+
+        //for (HashMap.Entry<Integer, ArrayList<String>> osmRel : gtfsTripIdByOsmIndex.entrySet()) {
+        //    System.out.println(String.format("OsmIndex %d references trips: %s", osmRel.getKey(), osmRel.getValue().toString()));
+        //}
     }
 
     /**

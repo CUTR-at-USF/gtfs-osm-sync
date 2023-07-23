@@ -177,10 +177,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorRegexLabel = new javax.swing.JLabel();
         operatorRegexField = new javax.swing.JTextField();
         optionsPanel = new javax.swing.JPanel();
+        stopOptionsPanel = new javax.swing.JPanel();
+        gtfsStopIdLengthPanel = new javax.swing.JPanel();
         gtfsIdDigitLabel = new javax.swing.JLabel();
         gtfsIdDigitField = new javax.swing.JTextField();
+        distanceThresholdPanel = new javax.swing.JPanel();
         threshold_label = new javax.swing.JLabel();
         distanceThreshold = new javax.swing.JSpinner();
+        routeOptionsPanel = new javax.swing.JPanel();
         gtfsDataPanel = new javax.swing.JPanel();
         rbURL = new javax.swing.JRadioButton();
         rbFileFolder = new javax.swing.JRadioButton();
@@ -206,10 +210,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GO-Sync");
         setName("mainForm"); // NOI18N
-        java.awt.GridBagLayout layout1 = new java.awt.GridBagLayout();
-        layout1.columnWeights = new double[] {1.0};
-        layout1.rowWeights = new double[] {0.0, 0.0, 0.0};
-        getContentPane().setLayout(layout1);
+        java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
+        layout.columnWeights = new double[] {1.0};
+        layout.rowWeights = new double[] {0.0, 0.0, 0.0};
+        getContentPane().setLayout(layout);
 
         java.awt.GridBagLayout compareDataPanelLayout = new java.awt.GridBagLayout();
         compareDataPanelLayout.columnWeights = new double[] {0.1, 0.1, 0.1, 0.1, 0.5};
@@ -309,44 +313,42 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         compareDataPanel.add(operatorPanel, gridBagConstraints);
 
-        optionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Options"));
-        java.awt.GridBagLayout optionsPanelLayout = new java.awt.GridBagLayout();
-        optionsPanelLayout.columnWeights = new double[] {0.1, 0.4, 0.1, 0.4};
-        optionsPanel.setLayout(optionsPanelLayout);
+        optionsPanel.setLayout(new java.awt.GridLayout(1, 2));
+
+        stopOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stop options"));
+        stopOptionsPanel.setLayout(new javax.swing.BoxLayout(stopOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        gtfsStopIdLengthPanel.setLayout(new javax.swing.BoxLayout(gtfsStopIdLengthPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        optionsPanel.add(gtfsIdDigitLabel, gridBagConstraints);
+        gtfsStopIdLengthPanel.add(gtfsIdDigitLabel);
 
         gtfsIdDigitField.setName("usernameField"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        optionsPanel.add(gtfsIdDigitField, gridBagConstraints);
+        gtfsStopIdLengthPanel.add(gtfsIdDigitField);
+
+        stopOptionsPanel.add(gtfsStopIdLengthPanel);
+
+        distanceThresholdPanel.setToolTipText("routeOptions");
+        distanceThresholdPanel.setLayout(new javax.swing.BoxLayout(distanceThresholdPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         threshold_label.setText("Approximate Comparision Distance Threshold (m)");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        optionsPanel.add(threshold_label, gridBagConstraints);
+        distanceThresholdPanel.add(threshold_label);
 
         distanceThreshold.setValue(400);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        optionsPanel.add(distanceThreshold, gridBagConstraints);
+        distanceThresholdPanel.add(distanceThreshold);
+
+        stopOptionsPanel.add(distanceThresholdPanel);
+
+        optionsPanel.add(stopOptionsPanel);
+
+        routeOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Route options"));
+        routeOptionsPanel.setLayout(new javax.swing.BoxLayout(routeOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
+        optionsPanel.add(routeOptionsPanel);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         compareDataPanel.add(optionsPanel, gridBagConstraints);
 
@@ -399,7 +401,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseButton))
                     .addComponent(rbURL))
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         gtfsDataPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {rbFileFolder, rbURL});
@@ -528,7 +530,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                     .addGroup(revertChangesetPanelLayout.createSequentialGroup()
                         .addGap(277, 277, 277)
                         .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(473, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
         revertChangesetPanelLayout.setVerticalGroup(
             revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -884,12 +886,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JButton compareButton;
     private javax.swing.JPanel compareDataPanel;
     private javax.swing.JSpinner distanceThreshold;
+    private javax.swing.JPanel distanceThresholdPanel;
     private javax.swing.JButton exitButton;
     private javax.swing.JTextField fileDirTextField;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JPanel gtfsDataPanel;
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JLabel gtfsIdDigitLabel;
+    private javax.swing.JPanel gtfsStopIdLengthPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton netexBrowseButton;
@@ -915,6 +919,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JButton revertButton;
     private javax.swing.JTextField revertChangesetField;
     private javax.swing.JPanel revertChangesetPanel;
+    private javax.swing.JPanel routeOptionsPanel;
+    private javax.swing.JPanel stopOptionsPanel;
     private javax.swing.JTextArea taskOutput;
     private javax.swing.JLabel threshold_label;
     // End of variables declaration//GEN-END:variables

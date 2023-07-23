@@ -185,6 +185,11 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         threshold_label = new javax.swing.JLabel();
         distanceThreshold = new javax.swing.JSpinner();
         routeOptionsPanel = new javax.swing.JPanel();
+        dontReplaceExistingOSMRouteColorCb = new javax.swing.JCheckBox();
+        skipNodesWithRoleEmptyCb = new javax.swing.JCheckBox();
+        skipNodesWithRoleStopCb = new javax.swing.JCheckBox();
+        moveNodesBeforeWaysCb = new javax.swing.JCheckBox();
+        removePlatformsNotInGtfsFromOSMRelationCb = new javax.swing.JCheckBox();
         gtfsDataPanel = new javax.swing.JPanel();
         rbURL = new javax.swing.JRadioButton();
         rbFileFolder = new javax.swing.JRadioButton();
@@ -313,7 +318,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         compareDataPanel.add(operatorPanel, gridBagConstraints);
 
-        optionsPanel.setLayout(new java.awt.GridLayout(1, 2));
+        optionsPanel.setLayout(new java.awt.GridBagLayout());
 
         stopOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stop options"));
         stopOptionsPanel.setLayout(new javax.swing.BoxLayout(stopOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
@@ -339,11 +344,30 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         stopOptionsPanel.add(distanceThresholdPanel);
 
-        optionsPanel.add(stopOptionsPanel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        optionsPanel.add(stopOptionsPanel, gridBagConstraints);
 
         routeOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Route options"));
         routeOptionsPanel.setLayout(new javax.swing.BoxLayout(routeOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
-        optionsPanel.add(routeOptionsPanel);
+
+        dontReplaceExistingOSMRouteColorCb.setText("Don't replace existing route color in OSM");
+        routeOptionsPanel.add(dontReplaceExistingOSMRouteColorCb);
+
+        skipNodesWithRoleEmptyCb.setText("Don't keep node members with empty role");
+        routeOptionsPanel.add(skipNodesWithRoleEmptyCb);
+
+        skipNodesWithRoleStopCb.setText("Don't keep node members with role 'stop'");
+        routeOptionsPanel.add(skipNodesWithRoleStopCb);
+
+        moveNodesBeforeWaysCb.setText("Move node members before ways");
+        routeOptionsPanel.add(moveNodesBeforeWaysCb);
+
+        removePlatformsNotInGtfsFromOSMRelationCb.setText("Remove platforms not in Gtfs from OSM route");
+        routeOptionsPanel.add(removePlatformsNotInGtfsFromOSMRelationCb);
+
+        optionsPanel.add(routeOptionsPanel, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -401,7 +425,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseButton))
                     .addComponent(rbURL))
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         gtfsDataPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {rbFileFolder, rbURL});
@@ -530,7 +554,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                     .addGroup(revertChangesetPanelLayout.createSequentialGroup()
                         .addGap(277, 277, 277)
                         .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addContainerGap(269, Short.MAX_VALUE))
         );
         revertChangesetPanelLayout.setVerticalGroup(
             revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,7 +563,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 .addGroup(revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changesetLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
                 .addComponent(revertButton)
                 .addContainerGap())
         );
@@ -894,6 +918,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JPanel compareDataPanel;
     private javax.swing.JSpinner distanceThreshold;
     private javax.swing.JPanel distanceThresholdPanel;
+    private javax.swing.JCheckBox dontReplaceExistingOSMRouteColorCb;
     private javax.swing.JButton exitButton;
     private javax.swing.JTextField fileDirTextField;
     private javax.swing.JLabel fileNameLabel;
@@ -903,6 +928,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JPanel gtfsStopIdLengthPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JCheckBox moveNodesBeforeWaysCb;
     private javax.swing.JButton netexBrowseButton;
     private javax.swing.JPanel netexPanel;
     private javax.swing.JTextField netexStopFilename;
@@ -922,11 +948,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JRadioButton rbFileFolder;
     private javax.swing.JRadioButton rbURL;
+    private javax.swing.JCheckBox removePlatformsNotInGtfsFromOSMRelationCb;
     private javax.swing.JLabel requiredFieldsLabel;
     private javax.swing.JButton revertButton;
     private javax.swing.JTextField revertChangesetField;
     private javax.swing.JPanel revertChangesetPanel;
     private javax.swing.JPanel routeOptionsPanel;
+    private javax.swing.JCheckBox skipNodesWithRoleEmptyCb;
+    private javax.swing.JCheckBox skipNodesWithRoleStopCb;
     private javax.swing.JPanel stopOptionsPanel;
     private javax.swing.JTextArea taskOutput;
     private javax.swing.JLabel threshold_label;

@@ -23,7 +23,12 @@ public enum ProcessingOptions {
     // For Stops
 
     // For Routes
+    DONT_REPLACE_EXISING_OSM_ROUTE_COLOR,
 
     // For Route Members
+    SKIP_NODES_WITH_ROLE_EMPTY,
+    SKIP_NODES_WITH_ROLE_STOP,
+    MOVE_NODES_BEFORE_WAYS,
+    REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION;
 
 }

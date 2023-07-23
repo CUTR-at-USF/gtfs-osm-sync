@@ -15,6 +15,7 @@ import edu.usf.cutr.go_sync.gui.object.BooleanMouseListener;
 import edu.usf.cutr.go_sync.gui.object.RouteMemberTableModel;
 import edu.usf.cutr.go_sync.gui.object.TagReportTableModel;
 import edu.usf.cutr.go_sync.io.WriteFile;
+import edu.usf.cutr.go_sync.object.ProcessingOptions;
 import edu.usf.cutr.go_sync.object.RelationMember;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Stop;
@@ -40,12 +41,18 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
@@ -79,7 +86,6 @@ import org.jdesktop.swingx.painter.Painter;
  */
 public class ReportViewer extends javax.swing.JFrame implements TableModelListener, PropertyChangeListener {
 
-
     protected static Color matchColor, selectedOSMColor, selectedGTFSColor;
     protected String[] tagReportColumnHeaderToolTips = {
             "Tag name",
@@ -108,6 +114,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private Stop[] gtfsStops, gtfsAll, gtfsUploadConflict, gtfsUploadNoConflict, gtfsModify, gtfsNoUpload;
     private Stop[] osmStops = new Stop[0];
     private Route[] gtfsRoutes, gtfsRouteAll, gtfsRouteUploadNoConflict, gtfsRouteModify, gtfsRouteNoUpload;
+    private Route[] osmRoutes = new Route[0];
+    HashMap<Route, TreeMap<Integer, Route>> reportRoutes = new HashMap<>();
+    HashMap<String, LinkedHashSet<RelationMember>> relMembersForGtfsOsmPair = new HashMap<>();
     private JXMapViewer mainMap;
     private Hashtable<GeoPosition, Stop> newStopsByGeoPos = new Hashtable<GeoPosition, Stop>();  // to interact with user on the map
     private HashSet<GeoPosition> allStopsGeo;
@@ -168,10 +177,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -195,6 +204,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JRadioButton newWithMatchStopsRadioButton;
     private javax.swing.JButton nextButton;
     private javax.swing.JRadioButton osmMembersRadioButton;
+    private javax.swing.JComboBox osmRoutesComboBox;
+    private javax.swing.JLabel osmRoutesLabel;
     private javax.swing.JComboBox osmStopsComboBox;
     private javax.swing.JLabel osmStopsComboBoxLabel;
     private javax.swing.JTable routeTable;
@@ -228,7 +239,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
      * @param eRoutes existingRoutes
      * @param to taskOutput
      */
-    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable<String, Route> routes, Hashtable<String, Route> nRoutes, Hashtable<String, Route> eRoutes, JTextArea to) {
+    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop> u, HashSet<Stop> m, HashSet<Stop> d, HashMap<Route, TreeMap<Integer, Route>> reportRoute, Hashtable<String, Route> routes, Hashtable<String, Route> nRoutes, Hashtable<String, Route> eRoutes, JTextArea to) {
 
 //    public ReportViewer(List<Stop> aData, Hashtable<Stop, ArrayList<Stop>> r, HashSet<Stop>u, HashSet<Stop>m, HashSet<Stop>d, Hashtable routes, Hashtable nRoutes, Hashtable eRoutes, JTextArea to) {
         super("GO-Sync: Report");
@@ -272,6 +283,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         delete = new HashSet<Stop>();
         delete.addAll(d);
 
+        this.reportRoutes.putAll(reportRoute);
 
         finalCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
         finalRouteCheckboxes = new Hashtable<String, ArrayList<Boolean>>();
@@ -1019,25 +1031,32 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         memberTable.setModel(memberTableModel);
     }
 
-    private void updateRouteTable(Route selectedNewRoute){
+    private void updateRouteTable(Route selectedNewRoute, Route selectedOsmRoute) {
 
         // get all the possible tag names from gtfs data and osm data
         Set<String> tagKeys = new TreeSet<String>();
         Hashtable<String, String> aTags = new Hashtable<String, String>();
         Hashtable<String, String> eTags= new Hashtable<String, String>();
         Route aRoute = null, eRoute=null;
+        String finalRouteCheckboxesId;
         if(selectedNewRoute!=null) {
             tagKeys.addAll(selectedNewRoute.keySet());
             aRoute = agencyRoutes.get(selectedNewRoute.getRouteId());
+            finalRouteCheckboxesId = selectedNewRoute.getRouteId();
+        } else
+            return;
+
+        if (selectedOsmRoute != null) {
+            eRoute = selectedOsmRoute;
+            finalRouteCheckboxesId = finalRouteCheckboxesId + ";" + selectedOsmRoute.getOsmId();
+        } else {
             eRoute = existingRoutes.get(selectedNewRoute.getRouteId());
-
-            if(aRoute!=null) aTags.putAll(aRoute.getTags());
-            if(eRoute!=null) eTags.putAll(eRoute.getTags());
-
-            tagKeys.addAll(aTags.keySet());
-            tagKeys.addAll(eTags.keySet());
         }
-        else return;
+
+        if(aRoute!=null) aTags.putAll(aRoute.getTags());
+        if(eRoute!=null) eTags.putAll(eRoute.getTags());
+        tagKeys.addAll(aTags.keySet());
+        tagKeys.addAll(eTags.keySet());
 
         // set new size to the table
         routeTableModel = new TagReportTableModel(tagKeys.size());
@@ -1050,8 +1069,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // add data to table
         // first, add lat and lon
         Route finalRt = finalRoutes.get(selectedNewRoute.getRouteId());
-        ArrayList<Boolean> finalCB = finalRouteCheckboxes.get(selectedNewRoute.getRouteId());
-        for(int i=0; i<tkeys.size(); i++){
+        ArrayList<Boolean> finalCB = finalRouteCheckboxes.get(finalRouteCheckboxesId);
+        boolean isFinalRouteAccepted;
+        if (selectedOsmRoute != null) {
+            isFinalRouteAccepted = finalRoutesAccepted.containsKey(selectedNewRoute.getRouteId())
+                    && finalRoutesAccepted.get(selectedNewRoute.getRouteId()).getOsmId().equals(selectedOsmRoute.getOsmId());
+        } else {
+            isFinalRouteAccepted = finalRoutesAccepted.containsKey(selectedNewRoute.getRouteId());
+        }
+        for (int i = 0; i < tkeys.size(); i++) {
             String k = tkeys.get(i);
             boolean osmCB = false, gtfsCB = false;
             //make sure there's null pointer
@@ -1063,7 +1089,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
 
             //add tag to table TODO finish
-            if (finalRoutesAccepted.containsKey(selectedNewRoute.getRouteId())) {
+            if (isFinalRouteAccepted) {
                 routeTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get(i * 2), osmValue, finalCB.get(i * 2 + 1), finalRt.getTag(k)}, i);
 
                 // stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
@@ -1071,6 +1097,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 routeTableModel.setRowValueAt(new Object[]{k, gtfsValue, true, osmValue, false, newValue}, i);
                 //   stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i + 2);
             }
+        }
+
+        if (finalRoutesAccepted.containsKey(selectedNewRoute.getRouteId())) {
+            if (selectedOsmRoute != null
+                    && finalRoutesAccepted.get(selectedNewRoute.getRouteId()).getOsmId().equals(selectedOsmRoute.getOsmId())) {
+                saveChangeRouteButton.setEnabled(false);
+            } else {
+                saveChangeRouteButton.setEnabled(true);
+            }
+        } else {
+            saveChangeRouteButton.setEnabled(true);
         }
 
         //set the column width with checkbox to minimum size
@@ -1094,26 +1131,144 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         routeTable.getModel().addTableModelListener(this);
 
         allMembersRadioButton.setSelected(true);
-        updateMemberList(selectedNewRoute, "all");
+        updateMemberList(selectedNewRoute, selectedOsmRoute, "all");
     }
 
-    private void updateMemberList(Route selectedNewRoute, String criteria){
+    private void updateMemberList(Route selectedNewRoute, Route selectedOsmRoute, String criteria) {
         Route aRoute = null, eRoute=null;
         if(selectedNewRoute!=null) {
             aRoute = agencyRoutes.get(selectedNewRoute.getRouteId());
-            eRoute = existingRoutes.get(selectedNewRoute.getRouteId());
         }
         else return;
 
-        // Member Table
-        ArrayList<RelationMember> newMembers = new ArrayList<RelationMember>();
-        newMembers.addAll(selectedNewRoute.getOsmMembers());
+        if (selectedOsmRoute != null) {
+            eRoute = selectedOsmRoute;
+        } else {
+            eRoute = existingRoutes.get(selectedNewRoute.getRouteId());
+        }
 
-        ArrayList<RelationMember> gtfsMembers = new ArrayList<RelationMember>();
+        // Member Table
+        LinkedHashSet<RelationMember> gtfsMembers = new LinkedHashSet<RelationMember>();
         if(aRoute!=null) gtfsMembers.addAll(aRoute.getOsmMembers());
 
-        ArrayList<RelationMember> osmMembers = new ArrayList<RelationMember>();
+        LinkedHashSet<RelationMember> osmMembers = new LinkedHashSet<RelationMember>();
         if(eRoute!=null) osmMembers.addAll(eRoute.getOsmMembers());
+
+        LinkedHashSet<RelationMember> newMembers = new LinkedHashSet<RelationMember>();
+        LinkedHashSet<RelationMember> newMembersNodesOnly = new LinkedHashSet<RelationMember>();
+        LinkedHashSet<RelationMember> newMembersWaysOnly = new LinkedHashSet<RelationMember>();
+        LinkedHashSet<RelationMember> tempem = new LinkedHashSet<RelationMember>();
+        ArrayList<Integer> skippedMembersIndex = new ArrayList<>();
+        ArrayList<Integer> skippedMembersIndexNodes = new ArrayList<>();
+        newMembers.addAll(aRoute.getOsmMembers());
+        tempem.addAll(osmMembers);
+
+        EnumSet<ProcessingOptions> strategy = MainForm.processingOptions;
+
+        int indexInNewMember = newMembers.size();
+        int indexInNewMemberNodes = newMembers.size();
+
+        for (RelationMember m : tempem) {
+            RelationMember matchMember = aRoute.getOsmMember(m.getRef());
+            if (matchMember != null) {
+                matchMember.setStatus("both GTFS dataset and OSM server");
+            } else {
+                if (strategy.contains(ProcessingOptions.MOVE_NODES_BEFORE_WAYS)) {
+                    if (m.getType().equals("node")) {
+                        if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY)) {
+                            if (m.getRole().isEmpty()) {
+                                skippedMembersIndexNodes.add(indexInNewMemberNodes);
+                            }
+                        }
+                        if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_STOP)) {
+                            if (m.getRole().equals("stop") || m.getRole().equals("stop_exit_only") || m.getRole().equals("stop_entry_only")) {
+                                skippedMembersIndexNodes.add(indexInNewMemberNodes);
+                            }
+                        }
+                        if (strategy.contains(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
+                            if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
+                                skippedMembersIndexNodes.add(indexInNewMemberNodes);
+                            }
+                        }
+                        newMembersNodesOnly.add(m);
+                        indexInNewMemberNodes++;
+                    }
+                    if (m.getType().equals("way")) {
+                        if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
+                            // Ways can also be set as platforms. Support this case too. They should be at the top with the other platforms/stops.
+                            if (strategy.contains(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
+                                if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
+                                    skippedMembersIndexNodes.add(indexInNewMemberNodes);
+                                }
+                            }
+                            newMembersNodesOnly.add(m);
+                            indexInNewMemberNodes++;
+                        } else {
+                            // roles "backward", "forward" & "reverse" should not be used anymore on public transport routes
+                            // https://wiki.openstreetmap.org/wiki/Relation:route
+                            if (m.getRole().equals("backward") || m.getRole().equals("forward") || m.getRole().equals("reverse")) {
+                                m.setRole("");
+                            }
+                            newMembersWaysOnly.add(m);
+                        }
+                    }
+                } else {
+                    newMembers.add(m);
+                    indexInNewMember++;
+                }
+            }
+        }
+
+        if (strategy.contains(ProcessingOptions.MOVE_NODES_BEFORE_WAYS)) {
+            newMembers.addAll(newMembersNodesOnly);
+            newMembers.addAll(newMembersWaysOnly);
+            skippedMembersIndex.addAll(skippedMembersIndexNodes);
+        }
+
+        indexInNewMember = newMembers.size();
+        if (!osmMembers.containsAll(newMembers)) {
+            for (RelationMember m : osmMembers) {
+                boolean addToSkippedMembersIndex = false;
+                if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY)) {
+                    if (m.getType().equals("node") && m.getRole().isEmpty()) {
+                        addToSkippedMembersIndex = true;
+                    }
+                }
+                if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_STOP)) {
+                    if (m.getType().equals("node") && m.getRole().isEmpty()) {
+                        addToSkippedMembersIndex = true;
+                    }
+                }
+                if (strategy.contains(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
+                    if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
+                        addToSkippedMembersIndex = true;
+                    }
+                }
+                if (newMembers.add(m)) {
+                    if (addToSkippedMembersIndex) {
+                        skippedMembersIndex.add(indexInNewMember);
+                    }
+                    indexInNewMember++;
+                }
+            }
+        }
+
+        String id;
+        if (selectedOsmRoute != null) {
+            id = aRoute.getRouteId() + ";" + eRoute.getOsmId();
+        } else {
+            id = aRoute.getRouteId();
+        }
+        relMembersForGtfsOsmPair.remove(id);
+        LinkedHashSet<RelationMember> newMembersForSave = new LinkedHashSet<RelationMember>();
+        int count = 0;
+        for (RelationMember mb : newMembers) {
+            if (!skippedMembersIndex.contains(count)) {
+                newMembersForSave.add(mb);
+            }
+            count++;
+        }
+        relMembersForGtfsOsmPair.put(id, newMembersForSave);
 
         // set new size to the table
         memberTableModel = new RouteMemberTableModel(newMembers.size());
@@ -1122,47 +1277,64 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // create map
         // hashGtfs stores all the relation members with the key of the gtfs id.
         // if any relation member does not have gtfs id, the type would be taken as the key
-        Hashtable<RelationMember, String> hashGtfs = new Hashtable<RelationMember, String>();
-        for(int i=0; i<gtfsMembers.size(); i++){
-            RelationMember t = gtfsMembers.get(i);
+        LinkedHashMap<RelationMember, String> hashGtfs = new LinkedHashMap<RelationMember, String>();
+        for (RelationMember t : gtfsMembers) {
             String v = t.getGtfsId();
-            if (v!=null && !v.equals("none") && !v.equals("")) hashGtfs.put(t, v);
-//            else hashGtfs.put(t, t.getType() + " (" + t.getRef()+")");
+            String suffix = " (" + t.getType() + "/" + t.getRole() + "/" + t.getRef() + ")";
+            if (v != null && !v.equals("none") && !v.equals("")) {
+                hashGtfs.put(t, v + suffix);
+            } else {
+                hashGtfs.put(t, suffix.trim());
+            }
         }
 
-        Hashtable<RelationMember, String> hashOsm = new Hashtable<RelationMember, String>();
-        for(int i=0; i<osmMembers.size(); i++){
-            RelationMember t = osmMembers.get(i);
+        LinkedHashMap<RelationMember, String> hashOsm = new LinkedHashMap<RelationMember, String>();
+        for (RelationMember t : osmMembers) {
             String v = t.getGtfsId();
-            if (v!=null && !v.equals("none") && !v.equals("")) hashOsm.put(t, v);
-//            else hashOsm.put(t, t.getType() + " (" + t.getRef()+")");
+            String suffix = " (" + t.getType() + "/" + t.getRole() + "/" + t.getRef() + ")";
+            if (v != null && !v.equals("none") && !v.equals("")) {
+                hashOsm.put(t, v + suffix);
+            } else {
+                hashOsm.put(t, suffix.trim());
+            }
         }
 
         int memberNewIndex = 0;
         int memberGtfsIndex = 0, memberOsmIndex = 0;
-        for(int i=0; i<newMembers.size(); i++){
-            RelationMember t = newMembers.get(i);
+        indexInNewMember = 0;
+        for (RelationMember t : newMembers) {
             String status = t.getStatus();
             if(status.equals(criteria) || criteria.equals("all")) {
                 String v = t.getGtfsId();
-//                if (v==null || v.equals("none") || v.equals("")) v = t.getType() + " (" + t.getRef() +")";
+                String suffix = " (" + t.getType() + "/" + t.getRole() + "/" + t.getRef() + ")";
+                if (v == null || v.equals("none") || v.equals("")) {
+                    v = suffix.trim();
+                } else {
+                    v = v + suffix;
+                }
 
                 if(hashGtfs.get(t)!=null) memberGtfsIndex++;
                 if(hashOsm.get(t)!=null) memberOsmIndex++;
 
                 if (v!=null && !v.equals("none") && !v.equals("")) {
-                    memberTableModel.setRowValueAt(new Object[] {hashGtfs.get(t), hashOsm.get(t), v}, memberNewIndex);
+                    if (skippedMembersIndex.contains(indexInNewMember)) {
+                        memberTableModel.setRowValueAt(new Object[]{hashGtfs.get(t), hashOsm.get(t), ""}, memberNewIndex);
+                    } else {
+                        memberTableModel.setRowValueAt(new Object[]{hashGtfs.get(t), hashOsm.get(t), v}, memberNewIndex);
+                    }
                     memberNewIndex++;
                 }
             }
+            indexInNewMember++;
         }
         totalGtfsMembersLabel.setText(Integer.toString(memberGtfsIndex));
         totalOsmMembersLabel.setText(Integer.toString(memberOsmIndex));
-        totalNewMembersLabel.setText(Integer.toString(memberNewIndex));
+        totalNewMembersLabel.setText(Integer.toString(newMembersForSave.size()));
     }
 
     private void updateRouteCategory(Route[] selectedCategory){
         gtfsRoutes = selectedCategory;
+        Arrays.sort(gtfsRoutes);
         gtfsRoutesComboBox.setModel(new DefaultComboBoxModel(gtfsRoutes));
         totalGtfsRoutesLabel.setText(Integer.toString(gtfsRoutes.length));
         if(gtfsRoutes.length!=0) updateBusRoute(gtfsRoutes[0]);
@@ -1171,11 +1343,37 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     // When user click on gtfs combobox
     private void updateBusRoute(Route rt) {
-        if (rt!=null) {
-            updateRouteTable(rt);
+        osmRoutes = new Route[0];
+        if (rt != null) {
+            TreeMap<Integer, Route> scoreRoute = reportRoutes.get(rt);
+
+            if (scoreRoute != null) {
+                osmRoutes = new Route[scoreRoute.size()];
+
+                int i = 0;
+                for (Map.Entry<Integer, Route> route : scoreRoute.entrySet()) {
+                    osmRoutes[i] = route.getValue();
+                    i++;
+                }
+            }
+
+            if (osmRoutes.length == 0) {
+                updateRouteTable(rt, null);
+            } else {
+                updateRouteTable(rt, osmRoutes[0]);
+            }
         } else {
             clearRouteTable();
         }
+
+        Route selectedGtfsRoute = (Route) gtfsRoutesComboBox.getSelectedItem();
+        if (selectedGtfsRoute != null && finalRoutesAccepted.containsKey(selectedGtfsRoute.getRouteId())) {
+            saveChangeRouteButton.setText("Accept & Save Change");
+        } else {
+            saveChangeRouteButton.setText("Accept");
+        }
+
+        osmRoutesComboBox.setModel(new DefaultComboBoxModel(osmRoutes));
     }
 
     /*
@@ -1202,7 +1400,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         }
     }
 
-
+    @Override
     public void tableChanged(TableModelEvent e){
         TableModel model = (TableModel)e.getSource();
         int row = e.getFirstRow();
@@ -1215,8 +1413,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
         }
         if (model.equals(routeTableModel) && (data instanceof Boolean)) {
-            if (!tableStopButton.isEnabled() || tableStopButton.getText().equals("Accept")) {
-//                Stop selectedGtfsStop = (Stop)gtfsStopsComboBox.getSelectedItem();
+            if (!saveChangeRouteButton.isEnabled() || saveChangeRouteButton.getText().equals("Accept")) {
                 saveChangeRouteButton.setEnabled(true);
                 saveChangeRouteButton.setText("Accept & Save Change");
             }
@@ -1452,8 +1649,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         dontuploadAllBtn = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         busRoutePanel = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        gtfsRoutesComboBox = new javax.swing.JComboBox(gtfsStops);
+        osmRoutesLabel = new javax.swing.JLabel();
+        gtfsRoutesComboBox = new javax.swing.JComboBox(gtfsRoutes);
         jLabel8 = new javax.swing.JLabel();
         totalGtfsRoutesLabel = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -1510,6 +1707,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         totalOsmMembersLabel = new javax.swing.JLabel();
         totalNewMembersLabel = new javax.swing.JLabel();
         saveChangeRouteButton = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        osmRoutesComboBox = new javax.swing.JComboBox(osmRoutes);
         dummyUploadButton = new javax.swing.JButton();
         uploadDataButton = new javax.swing.JButton();
         stopsCheckbox = new javax.swing.JCheckBox();
@@ -1527,6 +1726,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         exportOsmValueStopsWithConflictsMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 600));
 
         jTabbedPane1.setName("jTabbedPane1"); // NOI18N
 
@@ -1535,8 +1735,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         busStopPanel.setName("busStopPanel"); // NOI18N
         busStopPanel.setPreferredSize(new java.awt.Dimension(750, 617));
         java.awt.GridBagLayout busStopPanelLayout = new java.awt.GridBagLayout();
-        busStopPanelLayout.columnWidths = new int[] {4, 0, 133, 15, 75, 64, 6, 20, 40, 59, 110, 70, 0};
-        busStopPanelLayout.rowHeights = new int[] {30, 28, 22, 17, 17, 25, 10, 20, 260, 0};
+        busStopPanelLayout.columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        busStopPanelLayout.rowHeights = new int[] {0, 28, 0, 28, 0, 28, 0, 28, 0};
         busStopPanelLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.9E-324};
         busStopPanelLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.9E-324};
         busStopPanel.setLayout(busStopPanelLayout);
@@ -1990,22 +2190,21 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         busRoutePanel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         busRoutePanel.setName("busRoutePanel"); // NOI18N
         java.awt.GridBagLayout busRoutePanelLayout = new java.awt.GridBagLayout();
-        busRoutePanelLayout.columnWidths = new int[] {216, 46, 23, 22, 3, 120, 3};
-        busRoutePanelLayout.rowHeights = new int[] {21, 23, 25, 25, 25, 85, 25, 34, 25, 25, 223};
+        busRoutePanelLayout.columnWidths = new int[] {0, 46, 0, 46, 0, 46, 0, 46, 0};
+        busRoutePanelLayout.rowHeights = new int[] {0, 23, 0, 23, 0, 23, 0, 23, 0, 23, 0, 23, 0};
         busRoutePanelLayout.columnWeights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.9E-324};
         busRoutePanelLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.9E-324};
         busRoutePanel.setLayout(busRoutePanelLayout);
 
-        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel6.setText("GTFS Routes");
-        jLabel6.setName("jLabel6"); // NOI18N
+        osmRoutesLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        osmRoutesLabel.setText("OSM Routes");
+        osmRoutesLabel.setName("osmRoutesLabel"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        busRoutePanel.add(jLabel6, gridBagConstraints);
+        busRoutePanel.add(osmRoutesLabel, gridBagConstraints);
 
         gtfsRoutesComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         gtfsRoutesComboBox.setMinimumSize(new java.awt.Dimension(200, 20));
@@ -2160,6 +2359,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         busRoutePanel.add(jScrollPane4, gridBagConstraints);
 
@@ -2174,8 +2375,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         busRoutePanel.add(jMemberScrollPane5, gridBagConstraints);
 
@@ -2308,6 +2510,32 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         busRoutePanel.add(saveChangeRouteButton, gridBagConstraints);
 
+        jLabel20.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel20.setText("GTFS Routes");
+        jLabel20.setName("jLabel20"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        busRoutePanel.add(jLabel20, gridBagConstraints);
+
+        osmRoutesComboBox.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        osmRoutesComboBox.setMinimumSize(new java.awt.Dimension(150, 20));
+        osmRoutesComboBox.setName("osmRoutesComboBox"); // NOI18N
+        osmRoutesComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                osmRoutesComboBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        busRoutePanel.add(osmRoutesComboBox, gridBagConstraints);
+
         jTabbedPane1.addTab("Bus Route", busRoutePanel);
 
         dummyUploadButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -2426,7 +2654,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(uploadDataButton)
                 .addGap(257, 257, 257))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2602,7 +2830,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     }//GEN-LAST:event_osmStopsComboBoxActionPerformed
 
     private void gtfsRoutesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsRoutesComboBoxActionPerformed
-        updateRouteTable((Route)gtfsRoutesComboBox.getSelectedItem());
+        updateBusRoute((Route) gtfsRoutesComboBox.getSelectedItem());
 }//GEN-LAST:event_gtfsRoutesComboBoxActionPerformed
 
     private void allRoutesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allRoutesRadioButtonActionPerformed
@@ -2622,19 +2850,19 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 }//GEN-LAST:event_existingRoutesRadioButtonActionPerformed
 
     private void allMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allMembersRadioButtonActionPerformed
-        updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"all");
+        updateMemberList((Route) gtfsRoutesComboBox.getSelectedItem(), (Route) osmRoutesComboBox.getSelectedItem(), "all");
 }//GEN-LAST:event_allMembersRadioButtonActionPerformed
 
     private void osmMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_osmMembersRadioButtonActionPerformed
-        updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"OSM server");
+        updateMemberList((Route) gtfsRoutesComboBox.getSelectedItem(), (Route) osmRoutesComboBox.getSelectedItem(), "OSM server");
 }//GEN-LAST:event_osmMembersRadioButtonActionPerformed
 
     private void gtfsMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gtfsMembersRadioButtonActionPerformed
-        updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"GTFS dataset");
+        updateMemberList((Route) gtfsRoutesComboBox.getSelectedItem(), (Route) osmRoutesComboBox.getSelectedItem(), "GTFS dataset");
 }//GEN-LAST:event_gtfsMembersRadioButtonActionPerformed
 
     private void bothMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bothMembersRadioButtonActionPerformed
-        updateMemberList((Route)gtfsRoutesComboBox.getSelectedItem(),"both GTFS dataset and OSM server");
+        updateMemberList((Route) gtfsRoutesComboBox.getSelectedItem(), (Route) osmRoutesComboBox.getSelectedItem(), "both GTFS dataset and OSM server");
 }//GEN-LAST:event_bothMembersRadioButtonActionPerformed
 
     /** Use modified stop data to save data into finalStops
@@ -2789,6 +3017,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         saveChangeRouteButton.setEnabled(false);
 
         Route selectedGtfsRoute = (Route) gtfsRoutesComboBox.getSelectedItem();
+        Route selectedOsmRoute = (Route) osmRoutesComboBox.getSelectedItem();
         String selectedGtfs = selectedGtfsRoute.getRouteId();
         if (saveChangeRouteButton.getText().contains("Save Change") || !finalRoutesAccepted.contains(selectedGtfs)) {
 
@@ -2799,10 +3028,14 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 saveValues.add((Boolean) routeTableModel.getValueAt(i, 2)); //gtfs
                 saveValues.add((Boolean) routeTableModel.getValueAt(i, 4)); //osm
             }
-            finalRouteCheckboxes.put(selectedGtfs, saveValues);
+            if (selectedOsmRoute != null) {
+                finalRouteCheckboxes.put(selectedGtfs + ";" + selectedOsmRoute.getOsmId(), saveValues);
+            } else {
+                finalRouteCheckboxes.put(selectedGtfs, saveValues);
+            }
 
             // Save to final Stops
-            Route rt = finalRoutes.get(selectedGtfs);     //not creating new object
+            Route rt = new Route(finalRoutes.get(selectedGtfs));
 /*            if (selectedOSMStop!= null) {
                 st.setOsmId(selectedOSMStop.getOsmId());
                 //broken
@@ -2816,6 +3049,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //                else if(tagName.equals("lon")) st.setLon(tagValue);
 //                else {
                 rt.addAndOverwriteTag(tagName, tagValue);
+                String id;
+                if (selectedOsmRoute != null) {
+                    id = selectedGtfsRoute.getRouteId() + ";" + selectedOsmRoute.getOsmId();
+                    rt.setOsmId(selectedOsmRoute.getOsmId());
+                    rt.setOsmVersion(selectedOsmRoute.getOsmVersion());
+                    rt.addOsmMembers(relMembersForGtfsOsmPair.get(id));
+                    rt.setStatus("m");
+                } else {
+                    id = selectedGtfsRoute.getRouteId();
+                    rt.setStatus("n");
+                }
 //                }
             }
             generateStopsToUploadFlag = false;
@@ -2824,6 +3068,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             if (!saveChangeRouteButton.getText().contains("Accept"))
                 JOptionPane.showMessageDialog(this, "Changes have been made!");
         }
+
+        // Move to next route.
+        if (gtfsRoutesComboBox.getSelectedIndex() < gtfsRoutesComboBox.getItemCount() - 1) {
+            gtfsRoutesComboBox.setSelectedIndex(gtfsRoutesComboBox.getSelectedIndex() + 1);
+        }
+
 }//GEN-LAST:event_saveChangeRouteButtonActionPerformed
 
     private void exportGtfsValueGtfsDataOnlyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportGtfsValueGtfsDataOnlyMenuItemActionPerformed
@@ -3046,6 +3296,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             gtfsStopsComboBox.setSelectedIndex(gtfsStopsComboBox.getSelectedIndex() + 1);
         }
     }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void osmRoutesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_osmRoutesComboBoxActionPerformed
+        updateRouteTable((Route) gtfsRoutesComboBox.getSelectedItem(), (Route) osmRoutesComboBox.getSelectedItem());
+    }//GEN-LAST:event_osmRoutesComboBoxActionPerformed
 
     javax.swing.AbstractAction tableStopButtonActionListener = new javax.swing.AbstractAction() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {

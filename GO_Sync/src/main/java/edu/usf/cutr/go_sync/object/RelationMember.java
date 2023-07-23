@@ -49,6 +49,10 @@ public class RelationMember {
         return role;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public void setGtfsId(String v){
         gtfsId = v;
     }

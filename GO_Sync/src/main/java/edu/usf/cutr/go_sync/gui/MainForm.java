@@ -649,6 +649,13 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             }
         }
 
+        // Processing options
+        // TODO: Make them available through GUI.
+        processingOptions.add(ProcessingOptions.MOVE_NODES_BEFORE_WAYS);
+        processingOptions.add(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY);
+        processingOptions.add(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION);
+        processingOptions.add(ProcessingOptions.DONT_REPLACE_EXISING_OSM_ROUTE_COLOR);
+
         //can't leave blank
         try {
             _operatorAlias = operatorAliasField.getText();

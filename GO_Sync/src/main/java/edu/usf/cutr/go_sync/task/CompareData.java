@@ -17,6 +17,7 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.task;
 
+import edu.usf.cutr.go_sync.gui.MainForm;
 import edu.usf.cutr.go_sync.gui.ReportViewer;
 import edu.usf.cutr.go_sync.osm.*;
 import edu.usf.cutr.go_sync.io.GTFSReadIn;
@@ -24,6 +25,7 @@ import edu.usf.cutr.go_sync.io.GTFSReadIn;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -41,6 +43,7 @@ import javax.swing.ProgressMonitor;
 
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.OsmPrimitive;
+import edu.usf.cutr.go_sync.object.ProcessingOptions;
 import edu.usf.cutr.go_sync.object.RelationMember;
 import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.RouteVariant;
@@ -762,6 +765,14 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                         r.setStatus("e");
                     }
 
+                    EnumSet<ProcessingOptions> strategy = MainForm.processingOptions;
+                    if (strategy.contains(ProcessingOptions.DONT_REPLACE_EXISING_OSM_ROUTE_COLOR)) {
+                        String osmColor = (String) osmtag.get(tag_defs.OSM_COLOUR_KEY);
+                        if (osmColor != null && !osmColor.isEmpty()) {
+                            r.addAndOverwriteTag(tag_defs.OSM_COLOUR_KEY, osmColor);
+                        }
+                    }
+
                     // Put the new
                     routes.remove(r.getRouteId());
                     routes.put(r.getRouteId(), r);
@@ -1377,7 +1388,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             arr.addAll(entry.getValue());
             reportArrays.put(key, arr);
         }
-    	ReportViewer rv = new ReportViewer(GTFSstops, reportArrays, upload, modify, delete, routes, agencyRoutes, existingRoutes, taskOutput);
+        ReportViewer rv = new ReportViewer(GTFSstops, reportArrays, upload, modify, delete, reportRoute, routes, agencyRoutes, existingRoutes, taskOutput);
         String info = "Active OSM bus stop mappers:\n"+osmActiveUsers.toString()+"\n\n";
         info += "There are currently "+OSMNodes.size()+" OSM stops in the region\n\n";
         info += "Transit agency GTFS dataset has "+GTFSstops.size()+" stops";

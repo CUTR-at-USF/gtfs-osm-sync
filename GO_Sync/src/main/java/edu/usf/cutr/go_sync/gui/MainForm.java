@@ -320,7 +320,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         compareDataPanel.add(operatorPanel, gridBagConstraints);
 
-        optionsPanel.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout optionsPanelLayout = new java.awt.GridBagLayout();
+        optionsPanelLayout.columnWeights = new double[] {0.5, 0.5};
+        optionsPanel.setLayout(optionsPanelLayout);
 
         stopOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stop options"));
         stopOptionsPanel.setLayout(new javax.swing.BoxLayout(stopOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
@@ -348,7 +350,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         optionsPanel.add(stopOptionsPanel, gridBagConstraints);
 
         routeOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Route options"));
@@ -375,7 +377,10 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         dontAddGtfsAgencyIdCb.setText("Don't add Gtfs 'agency_id' to OSM");
         routeOptionsPanel.add(dontAddGtfsAgencyIdCb);
 
-        optionsPanel.add(routeOptionsPanel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        optionsPanel.add(routeOptionsPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

@@ -184,6 +184,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         distanceThresholdPanel = new javax.swing.JPanel();
         threshold_label = new javax.swing.JLabel();
         distanceThreshold = new javax.swing.JSpinner();
+        skipGtfsStationsCb = new javax.swing.JCheckBox();
         routeOptionsPanel = new javax.swing.JPanel();
         dontReplaceExistingOSMRouteColorCb = new javax.swing.JCheckBox();
         dontAddGtfsRouteTextColorCb = new javax.swing.JCheckBox();
@@ -350,6 +351,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         distanceThresholdPanel.add(distanceThreshold);
 
         stopOptionsPanel.add(distanceThresholdPanel);
+
+        skipGtfsStationsCb.setText("Skip GTFS stops of location_type 'station'");
+        stopOptionsPanel.add(skipGtfsStationsCb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -704,6 +708,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         }
 
         // Processing options
+        if (skipGtfsStationsCb.isSelected()) {
+            processingOptions.add(ProcessingOptions.SKIP_GTFS_STATIONS);
+        }
         if (skipNodesWithRoleEmptyCb.isSelected()) {
             processingOptions.add(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY);
         }
@@ -1003,6 +1010,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JPanel revertChangesetPanel;
     private javax.swing.JPanel routeMemberOptionPanel;
     private javax.swing.JPanel routeOptionsPanel;
+    private javax.swing.JCheckBox skipGtfsStationsCb;
     private javax.swing.JCheckBox skipNodesWithRoleEmptyCb;
     private javax.swing.JCheckBox skipNodesWithRoleStopCb;
     private javax.swing.JPanel stopOptionsPanel;

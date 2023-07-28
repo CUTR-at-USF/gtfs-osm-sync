@@ -42,10 +42,12 @@ public class TagReportTableCellRenderer implements TableCellRenderer {
         String gtfs = (String)model.getValueAt(row, 1);
         String osm = (String)model.getValueAt(row, 3);
 //        if((gtfs==null) || (gtfs.equals("")) || (osm!=null && osm.contains(gtfs))) {
-        if ((osm != null && gtfs != null && osm.equalsIgnoreCase(gtfs))) {
-            tableRenderer.setBackground(Color.LIGHT_GRAY);
-        } else {
-            tableRenderer.setBackground(Color.WHITE);
+        if (!isSelected) {
+            if ((osm != null && gtfs != null && osm.equalsIgnoreCase(gtfs))) {
+                tableRenderer.setBackground(Color.LIGHT_GRAY);
+            } else {
+                tableRenderer.setBackground(table.getBackground());
+            }
         }
         tableRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 

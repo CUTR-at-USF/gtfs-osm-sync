@@ -1538,7 +1538,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         dataTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         dataTable.setModel(stopTableModel);
         dataTable.setName("dataTable"); // NOI18N
-        dataTable.setSelectionForeground(java.awt.Color.BLACK);
         dataTable.getTableHeader().setReorderingAllowed(false);
         jStopsScrollPane1.setViewportView(dataTable);
 
@@ -2127,7 +2126,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         routeTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         routeTable.setModel(routeTableModel);
         routeTable.setName("routeTable"); // NOI18N
-        routeTable.setSelectionForeground(java.awt.Color.BLACK);
         routeTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(routeTable);
 
@@ -2145,7 +2143,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         memberTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         memberTable.setModel(stopTableModel);
         memberTable.setName("memberTable"); // NOI18N
-        memberTable.setSelectionForeground(java.awt.Color.BLACK);
         memberTable.getTableHeader().setReorderingAllowed(false);
         jMemberScrollPane5.setViewportView(memberTable);
 

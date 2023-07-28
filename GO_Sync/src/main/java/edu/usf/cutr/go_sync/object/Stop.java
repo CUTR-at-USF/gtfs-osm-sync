@@ -17,6 +17,7 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.object;
 
+import static edu.usf.cutr.go_sync.gui.MainForm.processingParams;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -48,11 +49,11 @@ public class Stop extends OsmPrimitive implements Comparable{
         //System.out.println("Creating stop " + stopID.toString());
         // Use Quay Name of NetEx instead of GTFS (netexQuayName is null if not created with GTFSReadIn)
         if (netexStopElement != null) {
-            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, netexStopElement.getLogicalName(null));
+            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, netexStopElement.getLogicalName(processingParams.getStopCities()));
             // Get alt_names
-            List<String> altNames = netexStopElement.getLogicalAltNames(null);
+            List<String> altNames = netexStopElement.getLogicalAltNames(processingParams.getStopCities());
             // Add gtfs stop name to alt_name if it is different than the logicalName from Netex
-            if (!stopName.equals(netexStopElement.getLogicalName(null)) && !netexStopElement.getLogicalAltNames(null).isEmpty()) {
+            if (!stopName.equals(netexStopElement.getLogicalName(processingParams.getStopCities())) && !netexStopElement.getLogicalAltNames(processingParams.getStopCities()).isEmpty()) {
                 if (!altNames.contains(stopName)) {
                     altNames.add(stopName.replace(";", "_"));
                 }

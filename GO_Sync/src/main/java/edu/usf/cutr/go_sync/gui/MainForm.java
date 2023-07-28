@@ -26,6 +26,7 @@ import edu.usf.cutr.go_sync.io.DefaultOperatorReader;
 import edu.usf.cutr.go_sync.object.DefaultOperator;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.ProcessingOptions;
+import edu.usf.cutr.go_sync.object.ProcessingParams;
 import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.OsmTask;
 import edu.usf.cutr.go_sync.task.RevertChangeset;
@@ -47,6 +48,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -65,6 +67,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class MainForm extends javax.swing.JFrame implements PropertyChangeListener {
 
     public static EnumSet<ProcessingOptions> processingOptions = EnumSet.noneOf(ProcessingOptions.class);
+    public static ProcessingParams processingParams = new ProcessingParams();
 
     private String _operatorName;
     private String _operatorNameAbbreviate;
@@ -206,6 +209,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         netexBrowseButton = new javax.swing.JButton();
         netexStopFilenameLabel = new javax.swing.JLabel();
         netexStopFilename = new javax.swing.JTextField();
+        citiesWithoutTownPrefixPanel = new javax.swing.JPanel();
+        citiesWithoutTownPrefixLabel = new javax.swing.JLabel();
+        citiesWithoutTownPrefixField = new javax.swing.JTextField();
         requiredFieldsLabel = new javax.swing.JLabel();
         compareButton = new javax.swing.JButton();
         revertChangesetPanel = new javax.swing.JPanel();
@@ -528,6 +534,20 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         netexPanel.add(netexStopFilename, gridBagConstraints);
 
+        citiesWithoutTownPrefixPanel.setAlignmentX(0.0F);
+        citiesWithoutTownPrefixPanel.setLayout(new javax.swing.BoxLayout(citiesWithoutTownPrefixPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        citiesWithoutTownPrefixLabel.setText("Cities for which station name should not be prefixed by town (separate names by ';')");
+        citiesWithoutTownPrefixPanel.add(citiesWithoutTownPrefixLabel);
+        citiesWithoutTownPrefixPanel.add(citiesWithoutTownPrefixField);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        netexPanel.add(citiesWithoutTownPrefixPanel, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -597,7 +617,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 .addGroup(revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changesetLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 360, Short.MAX_VALUE)
                 .addComponent(revertButton)
                 .addContainerGap())
         );
@@ -731,6 +751,12 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         }
         if (dontAddGtfsAgencyIdCb.isSelected()) {
             processingOptions.add(ProcessingOptions.DONT_ADD_GTFS_AGENCY_ID_TO_ROUTE);
+        }
+        if (!citiesWithoutTownPrefixField.getText().isEmpty()) {
+            String[] citiesArray = citiesWithoutTownPrefixField.getText().split(";");
+            ArrayList<String> cities = new ArrayList<>(Arrays.asList(citiesArray));
+            cities.replaceAll(String::trim);
+            processingParams.setStopCities(cities);
         }
 
         //can't leave blank
@@ -967,6 +993,9 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel changesetLabel;
+    private javax.swing.JTextField citiesWithoutTownPrefixField;
+    private javax.swing.JLabel citiesWithoutTownPrefixLabel;
+    private javax.swing.JPanel citiesWithoutTownPrefixPanel;
     private javax.swing.JButton compareButton;
     private javax.swing.JPanel compareDataPanel;
     private javax.swing.JSpinner distanceThreshold;

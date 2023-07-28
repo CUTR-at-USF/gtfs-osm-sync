@@ -163,8 +163,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1412,9 +1410,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         tableStopButton = new javax.swing.JButton();
         StopLabelPanel = new java.awt.Panel();
         newWithMatchStopsRadioButton = new javax.swing.JRadioButton();
-        jLabel14 = new javax.swing.JLabel();
         newNoMatchStopsRadioButton = new javax.swing.JRadioButton();
-        jLabel13 = new javax.swing.JLabel();
         updateStopsRadioButton = new javax.swing.JRadioButton();
         existingStopRadioButton = new javax.swing.JRadioButton();
         allStopsRadioButton = new javax.swing.JRadioButton();
@@ -1746,7 +1742,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
         stopsButtonGroup.add(newWithMatchStopsRadioButton);
         newWithMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        newWithMatchStopsRadioButton.setText("New GTFS stops with"); // NOI18N
+        newWithMatchStopsRadioButton.setText("<html>New GTFS stops with Potential Matches in OSM</html>"); // NOI18N
         newWithMatchStopsRadioButton.setToolTipText("<html>\nNew GTFS stops to be added to OpenStreetMap.<br>\nHowever, there are some existing stops in OSM within 400 meters that could be this GTFS stop.<br>\nPlease verify if the stop is already in OSM by clicking the Match button.<br>\nOtherwise, these GTFS stops would be uploaded with a FIXME tag.\n</html>"); // NOI18N
         newWithMatchStopsRadioButton.setName("newWithMatchStopsRadioButton"); // NOI18N
         newWithMatchStopsRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1756,15 +1752,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         });
         StopLabelPanel.add(newWithMatchStopsRadioButton);
 
-        jLabel14.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel14.setText("Potential Matches in OSM");
-        jLabel14.setToolTipText("<html>\nNew GTFS stops to be added to OpenStreetMap.<br>\nHowever, there are some existing stops in OSM within 400 meters that could be this GTFS stop.<br>\nPlease verify if the stop is already in OSM by clicking the Match button.<br>\nOtherwise, these GTFS stops would be uploaded with a FIXME tag.\n</html>"); // NOI18N
-        jLabel14.setName("jLabel14"); // NOI18N
-        StopLabelPanel.add(jLabel14);
-
         stopsButtonGroup.add(newNoMatchStopsRadioButton);
         newNoMatchStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        newNoMatchStopsRadioButton.setText("New GTFS stops with");
+        newNoMatchStopsRadioButton.setText("<html>New GTFS stops with No OSM Matches</html>");
         newNoMatchStopsRadioButton.setToolTipText("New GTFS stops to be added to OpenStreetMap."); // NOI18N
         newNoMatchStopsRadioButton.setName("newNoMatchStopsRadioButton"); // NOI18N
         newNoMatchStopsRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1773,12 +1763,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
         });
         StopLabelPanel.add(newNoMatchStopsRadioButton);
-
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel13.setText("No OSM Matches");
-        jLabel13.setToolTipText("New GTFS stops to be added to OpenStreetMap."); // NOI18N
-        jLabel13.setName("jLabel13"); // NOI18N
-        StopLabelPanel.add(jLabel13);
 
         stopsButtonGroup.add(updateStopsRadioButton);
         updateStopsRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -1964,7 +1948,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         busStopPanel.add(dontuploadAllBtn, gridBagConstraints);
 
         nextButton.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        nextButton.setText("?");
+        nextButton.setText("next");
         nextButton.setName("nextButton"); // NOI18N
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

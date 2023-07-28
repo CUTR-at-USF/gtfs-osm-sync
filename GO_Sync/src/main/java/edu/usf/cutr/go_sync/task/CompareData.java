@@ -196,6 +196,17 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         boolean isFirst = true;
         while (it.hasNext()) {
             Stop tempStop = it.next();
+            // Skip unexpected values:
+            if (MainForm.processingParams.getStopMinLat() != null && Double.parseDouble(tempStop.getLat()) < MainForm.processingParams.getStopMinLat()
+                    || MainForm.processingParams.getStopMaxLat() != null && Double.parseDouble(tempStop.getLat()) > MainForm.processingParams.getStopMaxLat()) {
+                System.err.println(String.format("Unexpected latitude for stop_id: %s. Skipping it to build OSM Bounding Box.", tempStop.getStopID()));
+                continue;
+            }
+            if (MainForm.processingParams.getStopMinLon() != null && Double.parseDouble(tempStop.getLon()) < MainForm.processingParams.getStopMinLon()
+                    || MainForm.processingParams.getStopMaxLon() != null && Double.parseDouble(tempStop.getLon()) > MainForm.processingParams.getStopMaxLon()) {
+                System.err.println(String.format("Unexpected longitude for stop_id: %s. Skipping it to build OSM Bounding Box.", tempStop.getStopID()));
+                continue;
+            }
             if (isFirst) {
                 isFirst = false;
                 minLat = Double.parseDouble(tempStop.getLat());

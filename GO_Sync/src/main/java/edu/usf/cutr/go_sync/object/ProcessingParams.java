@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 public class ProcessingParams {
     ArrayList<String> stopCities;
+    Double stopMinLat, stopMaxLat;
+    Double stopMinLon, stopMaxLon;
 
     public ArrayList<String> getStopCities() {
         return stopCities;
@@ -28,5 +30,37 @@ public class ProcessingParams {
 
     public void setStopCities(ArrayList<String> stopCities) {
         this.stopCities = stopCities;
+    }
+
+    public Double getStopMinLat() {
+        return stopMinLat;
+    }
+
+    public void setStopMinLat(String stopMinLat) {
+        this.stopMinLat = Double.valueOf(stopMinLat);
+    }
+
+    public Double getStopMaxLat() {
+        return stopMaxLat;
+    }
+
+    public void setStopMaxLat(String stopMaxLat) {
+        this.stopMaxLat = Double.valueOf(stopMaxLat);
+    }
+
+    public Double getStopMinLon() {
+        return stopMinLon;
+    }
+
+    public void setStopMinLon(String stopMinLon) {
+        this.stopMinLon = Double.valueOf(stopMinLon);
+    }
+
+    public Double getStopMaxLon() {
+        return stopMaxLon;
+    }
+
+    public void setStopMaxLon(String stopMaxLon) {
+        this.stopMaxLon = Double.valueOf(stopMaxLon);
     }
 }

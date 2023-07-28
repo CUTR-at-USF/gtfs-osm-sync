@@ -180,6 +180,18 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         operatorRegexLabel = new javax.swing.JLabel();
         operatorRegexField = new javax.swing.JTextField();
         optionsPanel = new javax.swing.JPanel();
+        geoZonePanel = new javax.swing.JPanel();
+        ignoreStopsHavintLatLonLabel = new javax.swing.JLabel();
+        lonPanel = new javax.swing.JPanel();
+        LonGTLabel = new javax.swing.JLabel();
+        LonGTField = new javax.swing.JTextField();
+        LonLTLabel = new javax.swing.JLabel();
+        LonLTField = new javax.swing.JTextField();
+        latPanel = new javax.swing.JPanel();
+        LatGTLabel = new javax.swing.JLabel();
+        LatGTField = new javax.swing.JTextField();
+        LatLTLabel = new javax.swing.JLabel();
+        LatLTField = new javax.swing.JTextField();
         stopOptionsPanel = new javax.swing.JPanel();
         gtfsStopIdLengthPanel = new javax.swing.JPanel();
         gtfsIdDigitLabel = new javax.swing.JLabel();
@@ -332,6 +344,45 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         optionsPanelLayout.columnWeights = new double[] {0.5, 0.5};
         optionsPanel.setLayout(optionsPanelLayout);
 
+        geoZonePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Geographical zone query"));
+        geoZonePanel.setLayout(new javax.swing.BoxLayout(geoZonePanel, javax.swing.BoxLayout.Y_AXIS));
+
+        ignoreStopsHavintLatLonLabel.setText("Ignore stops having (automatic if none is set, otherwise set one or more to filter by lat/lon):");
+        geoZonePanel.add(ignoreStopsHavintLatLonLabel);
+
+        lonPanel.setAlignmentX(0.0F);
+        lonPanel.setLayout(new javax.swing.BoxLayout(lonPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        LonGTLabel.setText("Longitude >");
+        lonPanel.add(LonGTLabel);
+        lonPanel.add(LonGTField);
+
+        LonLTLabel.setText("Lon. <");
+        lonPanel.add(LonLTLabel);
+        lonPanel.add(LonLTField);
+
+        geoZonePanel.add(lonPanel);
+
+        latPanel.setAlignmentX(0.0F);
+        latPanel.setLayout(new javax.swing.BoxLayout(latPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        LatGTLabel.setText("Latitude >");
+        latPanel.add(LatGTLabel);
+        latPanel.add(LatGTField);
+
+        LatLTLabel.setText("Lat. <");
+        latPanel.add(LatLTLabel);
+        latPanel.add(LatLTField);
+
+        geoZonePanel.add(latPanel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        optionsPanel.add(geoZonePanel, gridBagConstraints);
+
         stopOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stop options"));
         stopOptionsPanel.setLayout(new javax.swing.BoxLayout(stopOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
 
@@ -362,6 +413,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         stopOptionsPanel.add(skipGtfsStationsCb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         optionsPanel.add(stopOptionsPanel, gridBagConstraints);
@@ -379,6 +432,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         routeOptionsPanel.add(dontAddGtfsAgencyIdCb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         optionsPanel.add(routeOptionsPanel, gridBagConstraints);
@@ -617,7 +672,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 .addGroup(revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changesetLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 360, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 373, Short.MAX_VALUE)
                 .addComponent(revertButton)
                 .addContainerGap())
         );
@@ -757,6 +812,18 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             ArrayList<String> cities = new ArrayList<>(Arrays.asList(citiesArray));
             cities.replaceAll(String::trim);
             processingParams.setStopCities(cities);
+        }
+        if (!LatGTField.getText().isEmpty()) {
+            processingParams.setStopMinLat(LatGTField.getText());
+        }
+        if (!LatLTField.getText().isEmpty()) {
+            processingParams.setStopMaxLat(LatLTField.getText());
+        }
+        if (!LonGTField.getText().isEmpty()) {
+            processingParams.setStopMinLon(LonGTField.getText());
+        }
+        if (!LonLTField.getText().isEmpty()) {
+            processingParams.setStopMaxLon(LonLTField.getText());
         }
 
         //can't leave blank
@@ -989,6 +1056,14 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JFileChooser chooser;
     private javax.swing.JFileChooser netexChooser;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField LatGTField;
+    private javax.swing.JLabel LatGTLabel;
+    private javax.swing.JTextField LatLTField;
+    private javax.swing.JLabel LatLTLabel;
+    private javax.swing.JTextField LonGTField;
+    private javax.swing.JLabel LonGTLabel;
+    private javax.swing.JTextField LonLTField;
+    private javax.swing.JLabel LonLTLabel;
     private javax.swing.JLabel OperatorAbbLabel;
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1006,12 +1081,16 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JButton exitButton;
     private javax.swing.JTextField fileDirTextField;
     private javax.swing.JLabel fileNameLabel;
+    private javax.swing.JPanel geoZonePanel;
     private javax.swing.JPanel gtfsDataPanel;
     private javax.swing.JTextField gtfsIdDigitField;
     private javax.swing.JLabel gtfsIdDigitLabel;
     private javax.swing.JPanel gtfsStopIdLengthPanel;
+    private javax.swing.JLabel ignoreStopsHavintLatLonLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel latPanel;
+    private javax.swing.JPanel lonPanel;
     private javax.swing.JCheckBox moveNodesBeforeWaysCb;
     private javax.swing.JButton netexBrowseButton;
     private javax.swing.JPanel netexPanel;

@@ -18,6 +18,7 @@
 package edu.usf.cutr.go_sync.object;
 
 import java.util.ArrayList;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 public class NetexStopElement {
@@ -90,11 +91,23 @@ public class NetexStopElement {
         this.altNames.add(altName.replace(';', '_'));
     }
 
-    public String getLogicalName() {
+    public String getLogicalName(ArrayList<String> cities) {
+        // cities contains the list of cities for which we don't wan't to prefix the station name with the town name.
+        if (cities != null) {
+            cities.replaceAll(String::toLowerCase);
+        }
+        if (cities != null && cities.contains(town.toLowerCase())) {
+            return getLogicalNameWithoutTown(cities);
+        } else {
+            return getLogicalNameWithTown(cities);
+        }
+    }
+
+    public String getLogicalNameWithTown(ArrayList<String> cities) {
         // Return the logical name as format: "TOWN - Name (without town prefix)"
 
         if (town == null || town.isEmpty()) {
-            return name.replace("  ", " ").trim();
+            return nameCleanup(name);
         } else {
             String nameWithoutTown = removeLeadingTownFromName(name, town);
             nameWithoutTown = removeTrailingTownFromName(nameWithoutTown, town);
@@ -102,32 +115,81 @@ public class NetexStopElement {
 
             return logicalName;
         }
-
     }
 
-    public ArrayList<String> getLogicalAltNames() {
+    public String getLogicalNameWithoutTown(ArrayList<String> cities) {
+        // Return the logical name as format: "Name" (with TOWN prefix or suffix removed"
+
+        if (town == null || town.isEmpty()) {
+            return nameCleanup(name);
+        } else {
+            String nameWithoutTown = removeLeadingTownFromName(name, town);
+            nameWithoutTown = removeTrailingTownFromName(nameWithoutTown, town);
+
+            return nameCleanup(nameWithoutTown);
+        }
+    }
+
+    public ArrayList<String> getLogicalAltNames(ArrayList<String> cities) {
+        if (cities != null) {
+            cities.replaceAll(String::toLowerCase);
+        }
+        if (cities != null && cities.contains(town.toLowerCase())) {
+            return getLogicalAltNamesWithTown(cities);
+        } else {
+            return getLogicalAltNamesWithoutTown(cities);
+        }
+    }
+
+    public ArrayList<String> getLogicalAltNamesWithoutTown(ArrayList<String> cities) {
         ArrayList<String> _altNames = new ArrayList<>();
 
         // Add the name of the stop to _altNames if it doesn't match the logicalName
-        if (!name.equals(getLogicalName())) {
+        if (!name.equals(getLogicalName(cities))) {
             _altNames.add(name);
         }
 
         for (String altName : altNames) {
             if (town == null || town.isEmpty()) {
-                if (!nameCleanup(altName).equals(getLogicalName())) {
+                if (!nameCleanup(altName).equals(getLogicalName(cities))) {
                     _altNames.add(nameCleanup(altName));
                 }
             } else {
                 // Cleanup alternativeName: remove TOWN (since we added it in getLogiclName())
                 String nameWithoutTown = removeLeadingTownFromName(altName, town);
                 nameWithoutTown = removeTrailingTownFromName(nameWithoutTown, town);
-                if (!nameWithoutTown.equals(getLogicalName()) && !_altNames.contains(nameWithoutTown)) {
+                if (!nameWithoutTown.equals(getLogicalName(cities)) && !_altNames.contains(nameWithoutTown)) {
                     _altNames.add(nameWithoutTown);
                 }
             }
         }
 
+        return _altNames;
+    }
+
+    public ArrayList<String> getLogicalAltNamesWithTown(ArrayList<String> cities) {
+        ArrayList<String> _altNames = new ArrayList<>();
+
+        // Add the name of the stop to _altNames if it doesn't match the logicalName
+        if (!name.equals(getLogicalName(cities))) {
+            _altNames.add(name);
+        }
+
+        for (String altName : altNames) {
+            if (town == null || town.isEmpty()) {
+                if (!nameCleanup(altName).equals(getLogicalName(cities))) {
+                    _altNames.add(nameCleanup(altName));
+                }
+            } else {
+                // Cleanup alternativeName: remove TOWN (since we added it in getLogiclName())
+                String nameWithoutTown = removeLeadingTownFromName(altName, town);
+                nameWithoutTown = removeTrailingTownFromName(nameWithoutTown, town);
+                nameWithoutTown = nameCleanup(prependTown(nameWithoutTown, town));
+                if (!nameWithoutTown.equals(getLogicalName(cities)) && !_altNames.contains(nameWithoutTown)) {
+                    _altNames.add(nameWithoutTown);
+                }
+            }
+        }
         return _altNames;
     }
 

@@ -48,11 +48,11 @@ public class Stop extends OsmPrimitive implements Comparable{
         //System.out.println("Creating stop " + stopID.toString());
         // Use Quay Name of NetEx instead of GTFS (netexQuayName is null if not created with GTFSReadIn)
         if (netexStopElement != null) {
-            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, netexStopElement.getLogicalName());
+            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, netexStopElement.getLogicalName(null));
             // Get alt_names
-            List<String> altNames = netexStopElement.getLogicalAltNames();
+            List<String> altNames = netexStopElement.getLogicalAltNames(null);
             // Add gtfs stop name to alt_name if it is different than the logicalName from Netex
-            if (!stopName.equals(netexStopElement.getLogicalName()) && !netexStopElement.getLogicalAltNames().isEmpty()) {
+            if (!stopName.equals(netexStopElement.getLogicalName(null)) && !netexStopElement.getLogicalAltNames(null).isEmpty()) {
                 if (!altNames.contains(stopName)) {
                     altNames.add(stopName.replace(";", "_"));
                 }

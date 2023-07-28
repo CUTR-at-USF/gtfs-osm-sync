@@ -35,6 +35,8 @@ public class Stop extends OsmPrimitive implements Comparable{
 	private final double ERROR_TO_ZERO = 0.5;	
     private String lat, lon;
     private HashSet<Route> routes;
+    private String stopNameWithTown;
+
     public Stop(String osmPrimitiveType, String stopID, String operatorName, String stopName, String lat, String lon,
             NetexStopElement netexStopElement) {
         super(osmPrimitiveType);
@@ -50,6 +52,7 @@ public class Stop extends OsmPrimitive implements Comparable{
         // Use Quay Name of NetEx instead of GTFS (netexQuayName is null if not created with GTFSReadIn)
         if (netexStopElement != null) {
             osmTags.put(tag_defs.OSM_STOP_NAME_KEY, netexStopElement.getLogicalName(processingParams.getStopCities()));
+            stopNameWithTown = netexStopElement.getLogicalNameWithTown(null);
             // Get alt_names
             List<String> altNames = netexStopElement.getLogicalAltNames(processingParams.getStopCities());
             // Add gtfs stop name to alt_name if it is different than the logicalName from Netex
@@ -103,6 +106,7 @@ public class Stop extends OsmPrimitive implements Comparable{
 //        this.osmTags.put(tag_defs.OSM_NETWORK_KEY, "");
         this.lat = s.lat;
         this.lon = s.lon;
+        this.stopNameWithTown = s.stopNameWithTown;
         this.setOsmId(s.getOsmId());
         this.setOsmVersion(s.getOsmVersion());
         this.setReportCategory(s.getReportCategory());
@@ -141,6 +145,13 @@ public class Stop extends OsmPrimitive implements Comparable{
 
     public String getStopName(){
         return (String)osmTags.get(tag_defs.OSM_STOP_NAME_KEY);
+    }
+
+    public String getStopNameWithTown(){
+        if (stopNameWithTown != null)
+            return stopNameWithTown;
+        else
+            return getStopName();
     }
 
     public String getStopAltName(){

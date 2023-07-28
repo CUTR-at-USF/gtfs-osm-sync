@@ -458,7 +458,7 @@ public class GTFSReadIn {
                 String pickup_type = csvRecord.get(keysIndex.get("pickup_type"));
                 String drop_off_type = csvRecord.get(keysIndex.get("drop_off_type"));
 
-                rv.addStop(sequence_id, stop_id, stopsMap.get(stop_id).getStopName(), arrival_time, departure_time, pickup_type, drop_off_type);
+                rv.addStop(sequence_id, stop_id, stopsMap.get(stop_id).getStopNameWithTown(), arrival_time, departure_time, pickup_type, drop_off_type);
             }
             // We finished reading the file, save the last trip we read.
             insertRouteVariantToAllRouteVariants(prev_trip_id, rv, allRouteVariants);

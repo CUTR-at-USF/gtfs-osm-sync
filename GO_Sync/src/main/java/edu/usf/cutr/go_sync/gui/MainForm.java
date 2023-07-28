@@ -328,6 +328,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         stopOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Stop options"));
         stopOptionsPanel.setLayout(new javax.swing.BoxLayout(stopOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
 
+        gtfsStopIdLengthPanel.setAlignmentX(0.0F);
         gtfsStopIdLengthPanel.setLayout(new javax.swing.BoxLayout(gtfsStopIdLengthPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         gtfsIdDigitLabel.setText("Length of GTFS Stop IDs");
@@ -339,6 +340,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         stopOptionsPanel.add(gtfsStopIdLengthPanel);
 
         distanceThresholdPanel.setToolTipText("routeOptions");
+        distanceThresholdPanel.setAlignmentX(0.0F);
         distanceThresholdPanel.setLayout(new javax.swing.BoxLayout(distanceThresholdPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         threshold_label.setText("Approximate Comparision Distance Threshold (m)");

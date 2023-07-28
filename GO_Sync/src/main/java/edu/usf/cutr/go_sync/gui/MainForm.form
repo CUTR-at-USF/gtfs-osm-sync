@@ -1044,6 +1044,9 @@
                   </Layout>
                   <SubComponents>
                     <Container class="javax.swing.JPanel" name="gtfsStopIdLengthPanel">
+                      <Properties>
+                        <Property name="alignmentX" type="float" value="0.0"/>
+                      </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                       <SubComponents>
@@ -1062,6 +1065,7 @@
                     <Container class="javax.swing.JPanel" name="distanceThresholdPanel">
                       <Properties>
                         <Property name="toolTipText" type="java.lang.String" value="routeOptions"/>
+                        <Property name="alignmentX" type="float" value="0.0"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>

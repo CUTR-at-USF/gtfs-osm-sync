@@ -2017,7 +2017,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         busRoutePanel.add(gtfsRoutesComboBox, gridBagConstraints);
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel8.setText("Total Stops:");
+        jLabel8.setText("Total Routes:");
         jLabel8.setName("jLabel8"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;

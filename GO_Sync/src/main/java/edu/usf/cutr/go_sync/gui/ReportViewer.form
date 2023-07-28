@@ -3598,7 +3598,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="18" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Total Stops:"/>
+                <Property name="text" type="java.lang.String" value="Total Routes:"/>
                 <Property name="name" type="java.lang.String" value="jLabel8" noResource="true"/>
               </Properties>
               <Constraints>

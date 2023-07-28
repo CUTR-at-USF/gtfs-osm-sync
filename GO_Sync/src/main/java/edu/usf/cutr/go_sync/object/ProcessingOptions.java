@@ -21,6 +21,7 @@ public enum ProcessingOptions {
     // General
 
     // For Stops
+    SKIP_GTFS_STATIONS,
 
     // For Routes
     DONT_REPLACE_EXISING_OSM_ROUTE_COLOR,

@@ -986,6 +986,10 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                 for (int gtfsindex=0; gtfsindex<GTFSstops.size(); gtfsindex++){
                     if(this.flagIsDone) return;
                     Stop gtfsStop = GTFSstops.get(gtfsindex);
+                    // Skip gtfs "stations"
+                    if (MainForm.processingOptions.contains(ProcessingOptions.SKIP_GTFS_STATIONS) && gtfsStop.getTag("public_transport").equals("station")) {
+                        continue;
+                    }
                     double distance = OsmDistance.distVincenty(node.getLat(), node.getLon(),
                             gtfsStop.getLat(), gtfsStop.getLon());
                     if ((distance<RANGE) && !(noUpload.contains(gtfsStop)) ){//&& (!matched.contains(gtfsStop))){
@@ -1196,6 +1200,10 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 //            if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportKeys.contains(GTFSstops.get(i))) ) {
             if ((!noUpload.contains((GTFSstops.get(i)))) && (!reportIDs.contains(GTFSstops.get(i).getStopID())) ) {
                 Stop n = new Stop(GTFSstops.get(i));
+                // Skip gtfs "stations"
+                if (MainForm.processingOptions.contains(ProcessingOptions.SKIP_GTFS_STATIONS) && n.getTag("public_transport").equals("station")) {
+                    continue;
+                }
                 n.setReportText("New upload with no conflicts");
                 n.setReportCategory("UPLOAD_NO_CONFLICT");
                 upload.add(n);

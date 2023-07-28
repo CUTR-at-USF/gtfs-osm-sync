@@ -22,6 +22,8 @@ import java.awt.event.MouseListener;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 import edu.usf.cutr.go_sync.gui.object.StopTableInfo;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -62,7 +64,7 @@ public class BooleanMouseListener implements MouseListener{
                 otherCheckBox = (Boolean)dataTable.getValueAt(row, otherCheckColumn);
                 otherData = (String)dataTable.getValueAt(row, otherDataColumn);
                 if(otherData!=null && !(otherData.equals("")))
-                    insertData = dataValue+";"+otherData;
+                    insertData = addToOSMMultiValue(dataValue, otherData);
             } else { // column == StopTableInfo.OSM_CHECK_COL
                 otherCheckColumn = StopTableInfo.GTFS_CHECK_COL;
                 otherDataColumn = otherCheckColumn - 1;
@@ -70,7 +72,7 @@ public class BooleanMouseListener implements MouseListener{
                 otherData = (String)dataTable.getValueAt(row, otherDataColumn);
                 if(otherCheckBox) {
                     if (otherData!=null && !(otherData.equals("")))
-                        insertData = otherData+";"+dataValue;
+                        insertData = addToOSMMultiValue(dataValue, otherData);
                     else {
                         insertData = dataValue;
                         otherCheckBox = false;
@@ -138,5 +140,18 @@ public class BooleanMouseListener implements MouseListener{
 
     public void mouseReleased(MouseEvent e) {
 //        checkBoxEvent(e);
+    }
+
+    private String addToOSMMultiValue(String dataValue, String otherData) {
+        ArrayList<String> dataValueList = new ArrayList<>(Arrays.asList(dataValue.split(";")));
+        ArrayList<String> otherDataList = new ArrayList<>(Arrays.asList(otherData.split(";")));
+        dataValueList.replaceAll(String::trim);
+        otherDataList.replaceAll(String::trim);
+        for (String data : otherDataList) {
+            if (!dataValueList.contains(data)) {
+                dataValueList.add(data);
+            }
+        }
+        return String.join(";", dataValueList);
     }
 }

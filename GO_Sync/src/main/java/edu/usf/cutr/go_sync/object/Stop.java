@@ -135,17 +135,22 @@ public class Stop extends OsmPrimitive implements Comparable{
 
     public int compareTo(Object o){
         Stop s = (Stop) o;
-        double distance = OsmDistance.distVincenty(this.getLat(), this.getLon(),
-                            s.getLat(), s.getLon());
         if (!(this.getStopID().equals("none")) && !(this.getStopID().equals("missing"))
                 && (!(s.getStopID().equals("none"))) && (!(s.getStopID().equals("missing")))
+                && (!(this.getStopID().equals("New"))) && (!(s.getStopID().equals("New")))
                 && (!this.getOperatorName().equals("none")) && (!s.getOperatorName().equals("none"))
                 && (!this.getOperatorName().equals("missing")) && (!s.getOperatorName().equals("missing"))) {
             if ((s.getStopID().equals(this.getStopID())) && (this.compareOperatorName(s))) {
                 return 0;
             }
-        }
-        else {
+        } else if (this.getStopID().equals("New") || s.getStopID().equals("New")) {
+            if ((s.getStopID().equals(this.getStopID()))) {
+                return 0;
+            }
+            return 1;
+        } else {
+            double distance = OsmDistance.distVincenty(this.getLat(), this.getLon(),
+                    s.getLat(), s.getLon());
             if (distance < ERROR_TO_ZERO) {
                 return 0;
             }

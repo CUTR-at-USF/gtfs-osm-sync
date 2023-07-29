@@ -558,7 +558,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 tagKeys.addAll(aTags.keySet());
             }
         }
-        if(selectedOsmStop!=null) tagKeys.addAll(selectedOsmStop.keySet());
+        if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New")) {
+            tagKeys.addAll(selectedOsmStop.keySet());
+        }
 
         // set new size to the table
         stopTableModel = new TagReportTableModel(tagKeys.size()+2);
@@ -573,13 +575,16 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         Stop finalSt = finalStops.get(selectedNewStop.getStopID());
         ArrayList<Boolean> finalCB = finalCheckboxes.get(selectedNewStop.getStopID());
 
-        if(selectedOsmStop!=null) {
+        if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New")) {
             stopTableModel.setRowValueAt(new Object[] {"lat", agencyStop.getLat(), finalCB.get(0), selectedOsmStop.getLat(), finalCB.get(1), finalSt.getLat()}, 0);
             stopTableModel.setRowValueAt(new Object[] {"lon", agencyStop.getLon(), finalCB.get(2), selectedOsmStop.getLon(), finalCB.get(3), finalSt.getLon()}, 1);
         } else {
             stopTableModel.setRowValueAt(new Object[] {"lat", agencyStop.getLat(), finalCB.get(0), "",finalCB.get(1), finalSt.getLat()}, 0);
             stopTableModel.setRowValueAt(new Object[] {"lon", agencyStop.getLon(), finalCB.get(2), "", finalCB.get(3), finalSt.getLon()}, 1);
         }
+
+        //tableIndex in index+2 because of lat and lon
+        int tableIndex = 2;
         for(int i=0; i<tkeys.size(); i++){
             String k = tkeys.get(i);
             boolean osmCB = false, gtfsCB = false;
@@ -590,7 +595,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 newValue = selectedNewStop.getTag(k);
                 gtfsValue = (String)aTags.get(k);
             }
-            if(selectedOsmStop!=null) osmValue = selectedOsmStop.getTag(k);
+            if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New")) {
+                osmValue = selectedOsmStop.getTag(k);
+            }
             //don't wipe extra tags for UPLOAD_CONFLICT, use GTFS values for missing tags for MODIFY;
             if (!(osmValue == null || osmValue.isEmpty()) &&
                     (gtfsValue == null || gtfsValue.isEmpty()))
@@ -603,10 +610,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                                 	gtfsCB = true;
                         	newValue = gtfsValue;
                         }
-            //add tag to table, index+2 because of lat and lon
-            if (finalStopsAccepted.containsKey(selectedNewStop.getStopID()) && selectedOsmStop!=null
-                    &&  finalStopsAccepted.get(selectedNewStop.getStopID()).getOsmId().equals(selectedOsmStop.getOsmId())) {
-                stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((i + 2) * 2), osmValue, finalCB.get((i + 2) * 2 + 1), finalSt.getTag(k)}, i + 2);
+            // add tag to table
+            if (finalStopsAccepted.containsKey(selectedNewStop.getStopID())
+                    && selectedOsmStop != null
+                    && finalStopsAccepted.get(selectedNewStop.getStopID()).getOsmId() != null && finalStopsAccepted.get(selectedNewStop.getStopID()).getOsmId().equals(selectedOsmStop.getOsmId())) {
+                stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, finalCB.get((tableIndex) * 2), osmValue, finalCB.get((tableIndex) * 2 + 1), finalSt.getTag(k)}, tableIndex);
 //            if(selectedOsmStop!=null) osmValue = (String)selectedOsmStop.getTag(k);
 //
 //            /* default to GTFS checked
@@ -626,17 +634,18 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //            }
 //            //add tag to table, index+2 because of lat and lon
 //            if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
-//                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, gtfsCheckValue, osmValue, osmCheckValue, newValue}, i+2);
+//                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, gtfsCheckValue, osmValue, osmCheckValue, newValue}, tableIndex);
 //>>>>>>> 1a58b026a52d1271696dac9c53450d65f773cf06
             } else {
-                stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, i + 2);
+                stopTableModel.setRowValueAt(new Object[]{k, gtfsValue, gtfsCB, osmValue, osmCB, newValue}, tableIndex);
             }
             /*
             if(selectedNewStop.getReportCategory().equals("UPLOAD_CONFLICT")) {
-                  stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, i+2);
+                  stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, true, osmValue, false, newValue}, tableIndex);
             } else {
-                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((i+2)*2), osmValue, finalCB.get((i+2)*2+1), finalSt.getTag(k)}, i+2);
+                stopTableModel.setRowValueAt(new Object[] {k, gtfsValue, finalCB.get((tableIndex)*2), osmValue, finalCB.get((tableIndex)*2+1), finalSt.getTag(k)}, tableIndex);
             }*/
+            tableIndex++;
         }
 
         //set the column width with checkbox to minimum size
@@ -661,10 +670,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         dataTable.getModel().addTableModelListener(this);
 
         if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
-            updateButtonTableStop("Accept", true, "Add", true);
+                updateButtonTableStop("Accept", true, "Add", true);
         else
             updateButtonTableStop("Accept", true, "Save Change", false);
-        if (selectedOsmStop!= null && usedOSMstops.containsKey(selectedOsmStop.getOsmId() )
+        if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New") && usedOSMstops.containsKey(selectedOsmStop.getOsmId())
                 && !usedOSMstops.get(selectedOsmStop.getOsmId()).getStopID().equals(agencyStop))
 //                && !finalStopsAccepted.get(selectedNewStop.getStopID()).getOsmId().equals(selectedOsmStop.getOsmId())) // TODO allow changing osm matches
             updateButtonTableStop("Already Matched", false, "Already Matched", false);
@@ -673,7 +682,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // set last edited information
         String lastEditedUser = "N/A";
         String lastEditedDate = "N/A";
-        if(selectedOsmStop!=null) {
+        if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New") && usedOSMstops.containsKey(selectedOsmStop.getOsmId())) {
             if(selectedOsmStop.getLastEditedOsmUser()!=null && !selectedOsmStop.getLastEditedOsmUser().equals(""))
                 lastEditedUser = selectedOsmStop.getLastEditedOsmUser();
             if(selectedOsmStop.getLastEditedOsmDate()!=null && !selectedOsmStop.getLastEditedOsmDate().equals(""))
@@ -721,7 +730,13 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     tableStopButton.setVisible(true);
                 }
 */
-                osmStops = new Stop[osmEquiv.size()];
+                if (st.getReportCategory().equals("UPLOAD_CONFLICT")) {
+                    // Add an entry that can be selected to create a new stop instead of using an existing OSM stop
+                    osmStops = new Stop[osmEquiv.size() + 1];
+                } else {
+                    osmStops = new Stop[osmEquiv.size()];
+                }
+
                 for(int i=0; i<osmEquiv.size(); i++){
                     osmStops[i] = osmEquiv.get(i);
                     tempStopsGeo.add(new GeoPosition(Double.parseDouble(osmStops[i].getLat()), Double.parseDouble(osmStops[i].getLon())));
@@ -739,6 +754,9 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                     } else {
                         updateStopTable(st, null);
                     }
+                if (st.getReportCategory().equals("UPLOAD_CONFLICT")) {
+                    osmStops[osmStops.length - 1] = new Stop("New", "", "", "", ""); // Set a null stop, which will be interpreted as "create a new stop, don't use an existing one"
+                }
             } else {
                 updateStopTable(st, null);
             }
@@ -902,7 +920,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private void addSelectedStopsOverlay(Stop gtfsStop, Stop osmStop){
         boolean isOverlapped=false;
-        if(gtfsStop!=null && osmStop!=null){
+        if (gtfsStop != null && osmStop != null && !osmStop.getStopID().equals("New")) {
             if(OsmDistance.distVincenty(gtfsStop.getLat(), gtfsStop.getLon(), osmStop.getLat(), osmStop.getLon())<10){
                 isOverlapped=true;
             }
@@ -937,7 +955,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             selectedGtfsOverlayPainter = null;
         }*/
 
-        if(osmStop!=null){
+        if (osmStop != null && !osmStop.getStopID().equals("New")) {
             final Stop tempStop = new Stop(osmStop);
             selectedOsmOverlayPainter = new Painter<JXMapViewer>() {
                 public void paint(Graphics2D g, JXMapViewer map, int w, int h) {
@@ -1259,12 +1277,13 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         for(int i=0; i<stopIds.size(); i++){
             Stop s = stops.get(stopIds.get(i));
             String category = s.getReportCategory();
-            if(category.equals("UPLOAD_NO_CONFLICT")){
+            if (s.getOsmId() == null) {
+                upload.add(s);
+            } else if (category.equals("UPLOAD_NO_CONFLICT")) {
                 upload.add(s);
             }
             else if(category.equals("UPLOAD_CONFLICT") && acceptedOnlyCheckbox.isSelected()){
                 modify.add(s);
-
             }
             else if(category.equals("UPLOAD_CONFLICT")){
                 // upload the new stop
@@ -2650,7 +2669,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
             // Save to final Stops
             Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
-            if (selectedOSMStop!= null) {
+            if (selectedOSMStop != null && !selectedOSMStop.getStopID().equals("New")) {
                 st.setOsmId(selectedOSMStop.getOsmId());
                 usedOSMstops.put(selectedOSMStop.getOsmId(),st); //TODO do this properly
                 //broken
@@ -2665,7 +2684,8 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         if(tableStopButtonText.contains("Accept") || tableStopButtonText.contains("Add"))
         {
             if (       !selectedGtfsStop.getReportCategory().equals("MODIFY")
-                    && !selectedGtfsStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") )
+                    && !selectedGtfsStop.getReportCategory().equals("UPLOAD_NO_CONFLICT")
+                    && selectedOSMStop!= null && !selectedOSMStop.getStopID().equals("New"))
             {
 
                 selectedGtfsStop.setOsmId(selectedOSMStop.getOsmId());
@@ -2698,7 +2718,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 Stop st = saveAcceptedDataToFinalStops(selectedGtfs);
                 Stop selectedOsmStop = (Stop) osmStopsComboBox.getSelectedItem();
                 // set osmId and version number
-                if (selectedOsmStop != null) {
+                if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New")) {
                     if (st.getOsmId() == null) {
                         st.setOsmId(selectedOsmStop.getOsmId());
                     }
@@ -2744,7 +2764,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
                 updateButtonTableStop("Accept", true, "Add", true);
         } else */if(selectedNewStop.getReportCategory().equals("UPLOAD_NO_CONFLICT") && !finalStopsAccepted.containsKey(selectedNewStop.getStopID()))
-            updateButtonTableStop("Accept", true, "Add", true);
+                updateButtonTableStop("Accept", true, "Add", true);
         else
         {
             updateButtonTableStop("Accept", true, "Save Change", false);

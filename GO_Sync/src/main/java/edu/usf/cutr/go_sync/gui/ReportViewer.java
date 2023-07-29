@@ -1160,13 +1160,21 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         LinkedHashSet<RelationMember> tempem = new LinkedHashSet<RelationMember>();
         ArrayList<Integer> skippedMembersIndex = new ArrayList<>();
         ArrayList<Integer> skippedMembersIndexNodes = new ArrayList<>();
-        newMembers.addAll(aRoute.getOsmMembers());
+
+        int indexInNewMember = 0;
+        for (RelationMember m : aRoute.getOsmMembers()) {
+            if (m.getRef().startsWith("-")) {
+                skippedMembersIndex.add(indexInNewMember);
+            }
+            newMembers.add(m);
+            indexInNewMember++;
+        }
+
         tempem.addAll(osmMembers);
 
         EnumSet<ProcessingOptions> strategy = MainForm.processingOptions;
 
-        int indexInNewMember = newMembers.size();
-        int indexInNewMemberNodes = newMembers.size();
+        int indexInNewMemberNodes = indexInNewMember;
 
         for (RelationMember m : tempem) {
             RelationMember matchMember = aRoute.getOsmMember(m.getRef());
@@ -3049,19 +3057,24 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 //                else if(tagName.equals("lon")) st.setLon(tagValue);
 //                else {
                 rt.addAndOverwriteTag(tagName, tagValue);
-                String id;
-                if (selectedOsmRoute != null) {
-                    id = selectedGtfsRoute.getRouteId() + ";" + selectedOsmRoute.getOsmId();
-                    rt.setOsmId(selectedOsmRoute.getOsmId());
-                    rt.setOsmVersion(selectedOsmRoute.getOsmVersion());
-                    rt.addOsmMembers(relMembersForGtfsOsmPair.get(id));
-                    rt.setStatus("m");
-                } else {
-                    id = selectedGtfsRoute.getRouteId();
-                    rt.setStatus("n");
-                }
 //                }
             }
+
+            // Add OSM attributes and replace existing members with the new ones.
+            String id;
+            if (selectedOsmRoute != null) {
+                id = selectedGtfsRoute.getRouteId() + ";" + selectedOsmRoute.getOsmId();
+                rt.setOsmId(selectedOsmRoute.getOsmId());
+                rt.setOsmVersion(selectedOsmRoute.getOsmVersion());
+
+                rt.setOsmMembers(relMembersForGtfsOsmPair.get(id));
+
+                rt.setStatus("m");
+            } else {
+                id = selectedGtfsRoute.getRouteId();
+                rt.setStatus("n");
+            }
+
             generateStopsToUploadFlag = false;
             finalRoutes.put(selectedGtfs, rt);
             finalRoutesAccepted.put(selectedGtfs, rt);

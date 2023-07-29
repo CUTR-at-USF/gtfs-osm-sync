@@ -70,6 +70,11 @@ public class Route extends OsmPrimitive implements Comparable{
         osmMembers.addAll(oMembers);
     }
 
+    public void setOsmMembers(LinkedHashSet <RelationMember> oMembers){
+        osmMembers.clear();
+        osmMembers = oMembers;
+    }
+
     public void removeOsmMember(RelationMember rm){
         if(rm!=null){
             osmMembers.remove(rm);

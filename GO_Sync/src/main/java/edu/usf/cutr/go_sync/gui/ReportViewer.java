@@ -1147,6 +1147,15 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             eRoute = existingRoutes.get(selectedNewRoute.getRouteId());
         }
 
+        // Get PT version
+        String PTversion = "";
+        for (int i = 0; i < routeTableModel.getRowCount(); i++) {
+            String tagName = (String)routeTableModel.getValueAt(i, 0);
+            if (tagName.equals("public_transport:version")) {
+                PTversion = (String)routeTableModel.getValueAt(i, 5);
+            }
+        }
+
         // Member Table
         LinkedHashSet<RelationMember> gtfsMembers = new LinkedHashSet<RelationMember>();
         if(aRoute!=null) gtfsMembers.addAll(aRoute.getOsmMembers());
@@ -1181,7 +1190,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             if (matchMember != null) {
                 matchMember.setStatus("both GTFS dataset and OSM server");
             } else {
-                if (strategy.contains(ProcessingOptions.MOVE_NODES_BEFORE_WAYS)) {
+                if (PTversion !=  null && PTversion.equals("2")) {
                     if (m.getType().equals("node")) {
                         if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY)) {
                             if (m.getRole().isEmpty()) {
@@ -1227,7 +1236,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
         }
 
-        if (strategy.contains(ProcessingOptions.MOVE_NODES_BEFORE_WAYS)) {
+        if (PTversion !=  null && PTversion.equals("2")) {
             newMembers.addAll(newMembersNodesOnly);
             newMembers.addAll(newMembersWaysOnly);
             skippedMembersIndex.addAll(skippedMembersIndexNodes);
@@ -1701,7 +1710,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             }
         };
         routeTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());
-        routeTable.addMouseListener(new BooleanMouseListener(routeTable));
+        routeTable.addMouseListener(new BooleanMouseListener(routeTable, this));
         jMemberScrollPane5 = new javax.swing.JScrollPane();
         memberTable = new javax.swing.JTable();
         memberTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.RouteMemberTableCellRenderer());
@@ -2404,6 +2413,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         allMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         allMembersRadioButton.setSelected(true);
         allMembersRadioButton.setText("All");
+        allMembersRadioButton.setActionCommand("all");
         allMembersRadioButton.setName("allMembersRadioButton"); // NOI18N
         allMembersRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2420,6 +2430,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         membersButtonGroup.add(osmMembersRadioButton);
         osmMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         osmMembersRadioButton.setText("From OSM only"); // NOI18N
+        osmMembersRadioButton.setActionCommand("OSM server");
         osmMembersRadioButton.setName("osmMembersRadioButton"); // NOI18N
         osmMembersRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2437,6 +2448,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         membersButtonGroup.add(gtfsMembersRadioButton);
         gtfsMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         gtfsMembersRadioButton.setText("From GTFS only");
+        gtfsMembersRadioButton.setActionCommand("GTFS dataset");
         gtfsMembersRadioButton.setName("gtfsMembersRadioButton"); // NOI18N
         gtfsMembersRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2453,6 +2465,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         membersButtonGroup.add(bothMembersRadioButton);
         bothMembersRadioButton.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         bothMembersRadioButton.setText("From both dataset");
+        bothMembersRadioButton.setActionCommand("both GTFS dataset and OSM server");
         bothMembersRadioButton.setName("bothMembersRadioButton"); // NOI18N
         bothMembersRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2872,6 +2885,10 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private void bothMembersRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bothMembersRadioButtonActionPerformed
         updateMemberList((Route) gtfsRoutesComboBox.getSelectedItem(), (Route) osmRoutesComboBox.getSelectedItem(), "both GTFS dataset and OSM server");
 }//GEN-LAST:event_bothMembersRadioButtonActionPerformed
+
+    public void PTVersionChanged() {
+        updateMemberList((Route) gtfsRoutesComboBox.getSelectedItem(), (Route) osmRoutesComboBox.getSelectedItem(), membersButtonGroup.getSelection().getActionCommand());
+    }
 
     /** Use modified stop data to save data into finalStops
       *  Does not create new object

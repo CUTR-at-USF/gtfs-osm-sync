@@ -3770,7 +3770,7 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){&#xd;&#xa;    public String getToolTipText(MouseEvent e){&#xd;&#xa;        String tip = null;&#xd;&#xa;        java.awt.Point p = e.getPoint();&#xd;&#xa;        int rowIndex = rowAtPoint(p);&#xd;&#xa;        int colIndex = columnAtPoint(p);&#xd;&#xa;        int realColumnIndex = convertColumnIndexToModel(colIndex);&#xd;&#xa;        int realRowIndex = convertRowIndexToModel(rowIndex);&#xd;&#xa;&#xd;&#xa;        TableModel model = this.getModel();&#xd;&#xa;        if((model instanceof TagReportTableModel) &amp;&amp; (realRowIndex&gt;=0) &amp;&amp; (realColumnIndex&gt;=0)){&#xd;&#xa;            Object o = model.getValueAt(realRowIndex, realColumnIndex);&#xd;&#xa;            if(o instanceof String) tip = (String)o;&#xd;&#xa;        }&#xd;&#xa;        return tip;//&quot;&lt;html&gt;This is the first line&lt;br&gt;This is the second line&lt;/html&gt;&quot;;&#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    protected JTableHeader createDefaultTableHeader() {&#xd;&#xa;        return new JTableHeader(columnModel) {&#xd;&#xa;            public String getToolTipText(MouseEvent e) {&#xd;&#xa;                String tip = null;&#xd;&#xa;                java.awt.Point p = e.getPoint();&#xd;&#xa;                int index = columnModel.getColumnIndexAtX(p.x);&#xd;&#xa;                int realIndex = &#xd;&#xa;                        columnModel.getColumn(index).getModelIndex();&#xd;&#xa;                return tagReportColumnHeaderToolTips[realIndex];&#xd;&#xa;            }&#xd;&#xa;        };&#xd;&#xa;    }&#xd;&#xa;}"/>
-                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="        routeTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());&#xd;        routeTable.addMouseListener(new BooleanMouseListener(routeTable));"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="        routeTable.setDefaultRenderer(Object.class, new edu.usf.cutr.go_sync.gui.object.TagReportTableCellRenderer());&#xd;        routeTable.addMouseListener(new BooleanMouseListener(routeTable, this));"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -3836,6 +3836,7 @@
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="All"/>
+                <Property name="actionCommand" type="java.lang.String" value="all"/>
                 <Property name="name" type="java.lang.String" value="allMembersRadioButton" noResource="true"/>
               </Properties>
               <Events>
@@ -3856,6 +3857,7 @@
                   <Font name="Times New Roman" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="From OSM only" noResource="true"/>
+                <Property name="actionCommand" type="java.lang.String" value="OSM server"/>
                 <Property name="name" type="java.lang.String" value="osmMembersRadioButton" noResource="true"/>
               </Properties>
               <Events>
@@ -3876,6 +3878,7 @@
                   <Font name="Times New Roman" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="From GTFS only"/>
+                <Property name="actionCommand" type="java.lang.String" value="GTFS dataset"/>
                 <Property name="name" type="java.lang.String" value="gtfsMembersRadioButton" noResource="true"/>
               </Properties>
               <Events>
@@ -3896,6 +3899,7 @@
                   <Font name="Times New Roman" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="From both dataset"/>
+                <Property name="actionCommand" type="java.lang.String" value="both GTFS dataset and OSM server"/>
                 <Property name="name" type="java.lang.String" value="bothMembersRadioButton" noResource="true"/>
               </Properties>
               <Events>

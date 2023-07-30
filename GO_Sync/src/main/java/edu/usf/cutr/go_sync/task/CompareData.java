@@ -619,10 +619,12 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             r.addTag("name", rv.getOsmValue("name"));
             r.addTag("from", rv.getOsmValue("from"));
             r.addTag("to", rv.getOsmValue("to"));
-            r.addTag("public_transport:version", "2");
             r.addTag("duration", rv.getDuration());
             if (rv.getOsmValue(tag_defs.OSM_COLOUR_KEY) != null) {
                 r.addTag(tag_defs.OSM_COLOUR_KEY, rv.getOsmValue(tag_defs.OSM_COLOUR_KEY));
+            }
+            if (MainForm.processingOptions.contains(ProcessingOptions.CREATE_ROUTE_AS_PTV2)) {
+                r.addTag("public_transport:version", "2");
             }
 
             //add member

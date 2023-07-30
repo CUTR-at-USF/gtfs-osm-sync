@@ -17,6 +17,7 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.gui.object;
 
+import edu.usf.cutr.go_sync.gui.ReportViewer;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JTable;
@@ -31,6 +32,7 @@ import java.util.Arrays;
  */
 public class BooleanMouseListener implements MouseListener{
     private JTable dataTable;
+    private ReportViewer reportViewer;
 
     private void checkBoxEvent(MouseEvent e) {
         TableColumnModel columnModel = dataTable.getColumnModel();
@@ -115,10 +117,20 @@ public class BooleanMouseListener implements MouseListener{
                 }
             }
         }
+
+        String tagName = (String)dataTable.getValueAt(row, 0);
+        if (tagName.equals("public_transport:version")) {
+            reportViewer.PTVersionChanged();
+        }
     }
 
     public BooleanMouseListener(JTable table) {
         dataTable = table;
+    }
+
+    public BooleanMouseListener(JTable table, ReportViewer rviewer) {
+        dataTable = table;
+        reportViewer = rviewer;
     }
 
     public void mouseClicked(MouseEvent e) {

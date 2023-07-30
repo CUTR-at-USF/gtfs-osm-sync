@@ -201,11 +201,11 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         distanceThreshold = new javax.swing.JSpinner();
         skipGtfsStationsCb = new javax.swing.JCheckBox();
         routeOptionsPanel = new javax.swing.JPanel();
+        createAsPTv2Cb = new javax.swing.JCheckBox();
         dontReplaceExistingOSMRouteColorCb = new javax.swing.JCheckBox();
         dontAddGtfsRouteTextColorCb = new javax.swing.JCheckBox();
         dontAddGtfsAgencyIdCb = new javax.swing.JCheckBox();
         routeMemberOptionPanel = new javax.swing.JPanel();
-        moveNodesBeforeWaysCb = new javax.swing.JCheckBox();
         skipNodesWithRoleEmptyCb = new javax.swing.JCheckBox();
         skipNodesWithRoleStopCb = new javax.swing.JCheckBox();
         removePlatformsNotInGtfsFromOSMRelationCb = new javax.swing.JCheckBox();
@@ -422,6 +422,11 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         routeOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Route options"));
         routeOptionsPanel.setLayout(new javax.swing.BoxLayout(routeOptionsPanel, javax.swing.BoxLayout.Y_AXIS));
 
+        createAsPTv2Cb.setSelected(true);
+        createAsPTv2Cb.setText("Default to PTv2 route");
+        createAsPTv2Cb.setActionCommand("Move nodes before ways");
+        routeOptionsPanel.add(createAsPTv2Cb);
+
         dontReplaceExistingOSMRouteColorCb.setText("Don't replace existing route color in OSM");
         routeOptionsPanel.add(dontReplaceExistingOSMRouteColorCb);
 
@@ -441,20 +446,15 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         routeMemberOptionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Route members options"));
         routeMemberOptionPanel.setLayout(new javax.swing.BoxLayout(routeMemberOptionPanel, javax.swing.BoxLayout.Y_AXIS));
 
-        moveNodesBeforeWaysCb.setSelected(true);
-        moveNodesBeforeWaysCb.setText("Move node members before ways (required for PTv2)");
-        moveNodesBeforeWaysCb.setActionCommand("Move nodes before ways");
-        routeMemberOptionPanel.add(moveNodesBeforeWaysCb);
-
         skipNodesWithRoleEmptyCb.setSelected(true);
         skipNodesWithRoleEmptyCb.setText("Remove nodes with empty role (required for PTv2)");
         routeMemberOptionPanel.add(skipNodesWithRoleEmptyCb);
 
-        skipNodesWithRoleStopCb.setText("Remove nodes with role 'stop'");
+        skipNodesWithRoleStopCb.setText("Remove nodes with role 'stop' (only if PTv2 is enabled)");
         skipNodesWithRoleStopCb.setActionCommand("Remove nodes with 'stop' role");
         routeMemberOptionPanel.add(skipNodesWithRoleStopCb);
 
-        removePlatformsNotInGtfsFromOSMRelationCb.setText("Remove platform nodes without Gtfs match");
+        removePlatformsNotInGtfsFromOSMRelationCb.setText("Remove platform nodes without Gtfs match (only if PTv2 is enabled)");
         routeMemberOptionPanel.add(removePlatformsNotInGtfsFromOSMRelationCb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -789,8 +789,8 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         if (skipNodesWithRoleEmptyCb.isSelected()) {
             processingOptions.add(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY);
         }
-        if (moveNodesBeforeWaysCb.isSelected()) {
-            processingOptions.add(ProcessingOptions.MOVE_NODES_BEFORE_WAYS);
+        if (createAsPTv2Cb.isSelected()) {
+            processingOptions.add(ProcessingOptions.CREATE_ROUTE_AS_PTV2);
         }
         if (removePlatformsNotInGtfsFromOSMRelationCb.isSelected()) {
             processingOptions.add(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION);
@@ -1073,6 +1073,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JPanel citiesWithoutTownPrefixPanel;
     private javax.swing.JButton compareButton;
     private javax.swing.JPanel compareDataPanel;
+    private javax.swing.JCheckBox createAsPTv2Cb;
     private javax.swing.JSpinner distanceThreshold;
     private javax.swing.JPanel distanceThresholdPanel;
     private javax.swing.JCheckBox dontAddGtfsAgencyIdCb;
@@ -1091,7 +1092,6 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel latPanel;
     private javax.swing.JPanel lonPanel;
-    private javax.swing.JCheckBox moveNodesBeforeWaysCb;
     private javax.swing.JButton netexBrowseButton;
     private javax.swing.JPanel netexPanel;
     private javax.swing.JTextField netexStopFilename;

@@ -51,27 +51,33 @@ public class BooleanMouseListener implements MouseListener{
 
         // add appropriate data to New Values
         String dataValue = (String)dataTable.getValueAt(row, column-1);
-        if((dataValue!=null) && !(dataValue.equals(""))){
-            Boolean otherCheckBox;
-            String otherData, insertData=dataValue;
-            int otherCheckColumn;
-            int dataColumn = column - 1;
-            int otherDataColumn;
 
+        Boolean otherCheckBox;
+        String otherData, insertData = dataValue;
+        int otherCheckColumn;
+        int otherDataColumn;
+
+        // look at data, checkBox info for other columns
+        // FIXME: needs some cleaning up for better readability
+        if (column == StopTableInfo.GTFS_CHECK_COL) {
+            otherCheckColumn = StopTableInfo.OSM_CHECK_COL;
+            otherDataColumn = otherCheckColumn - 1;
+            otherCheckBox = (Boolean) dataTable.getValueAt(row, otherCheckColumn);
+            otherData = (String) dataTable.getValueAt(row, otherDataColumn);
+        } else { // column == StopTableInfo.OSM_CHECK_COL
+            otherCheckColumn = StopTableInfo.GTFS_CHECK_COL;
+            otherDataColumn = otherCheckColumn - 1;
+            otherCheckBox = (Boolean) dataTable.getValueAt(row, otherCheckColumn);
+            otherData = (String) dataTable.getValueAt(row, otherDataColumn);
+        }
+
+        if((dataValue!=null) && !(dataValue.equals(""))){
             // look at data, checkBox info for other columns
             // FIXME: needs some cleaning up for better readability
             if(column==StopTableInfo.GTFS_CHECK_COL) {
-                otherCheckColumn = StopTableInfo.OSM_CHECK_COL;
-                otherDataColumn = otherCheckColumn - 1;
-                otherCheckBox = (Boolean)dataTable.getValueAt(row, otherCheckColumn);
-                otherData = (String)dataTable.getValueAt(row, otherDataColumn);
                 if(otherData!=null && !(otherData.equals("")))
                     insertData = addToOSMMultiValue(dataValue, otherData);
             } else { // column == StopTableInfo.OSM_CHECK_COL
-                otherCheckColumn = StopTableInfo.GTFS_CHECK_COL;
-                otherDataColumn = otherCheckColumn - 1;
-                otherCheckBox = (Boolean)dataTable.getValueAt(row, otherCheckColumn);
-                otherData = (String)dataTable.getValueAt(row, otherDataColumn);
                 if(otherCheckBox) {
                     if (otherData!=null && !(otherData.equals("")))
                         insertData = addToOSMMultiValue(dataValue, otherData);
@@ -116,6 +122,11 @@ public class BooleanMouseListener implements MouseListener{
                     }
                 }
             }
+        }
+
+        if ((dataValue == null || dataValue.isEmpty()) && (otherData == null || otherData.isEmpty())) {
+            insertData = null;
+            dataTable.setValueAt(insertData, row, StopTableInfo.NEW_VALUE_DATA_COL);
         }
 
         String tagName = (String)dataTable.getValueAt(row, 0);

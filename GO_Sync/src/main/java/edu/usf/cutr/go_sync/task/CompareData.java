@@ -609,7 +609,9 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
             r.addTag("to", rv.getOsmValue("to"));
             r.addTag("public_transport:version", "2");
             r.addTag("duration", rv.getDuration());
-            r.addTag(tag_defs.OSM_COLOUR_KEY, rv.getOsmValue(tag_defs.OSM_COLOUR_KEY));
+            if (rv.getOsmValue(tag_defs.OSM_COLOUR_KEY) != null) {
+                r.addTag(tag_defs.OSM_COLOUR_KEY, rv.getOsmValue(tag_defs.OSM_COLOUR_KEY));
+            }
 
             //add member
             int count = 0;
@@ -768,7 +770,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                     EnumSet<ProcessingOptions> strategy = MainForm.processingOptions;
                     if (strategy.contains(ProcessingOptions.DONT_REPLACE_EXISING_OSM_ROUTE_COLOR)) {
                         String osmColor = (String) osmtag.get(tag_defs.OSM_COLOUR_KEY);
-                        if (osmColor != null && !osmColor.isEmpty()) {
+                        if (osmColor != null && !osmColor.isEmpty() && !osmColor.equals("none")) {
                             r.addAndOverwriteTag(tag_defs.OSM_COLOUR_KEY, osmColor);
                         }
                     }

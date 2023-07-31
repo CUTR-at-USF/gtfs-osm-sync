@@ -347,6 +347,10 @@ public class GTFSReadIn {
 //                                if (k.equals(tag_defs.OSM_COLOUR_KEY))
 //                                    System.out.println(tag_defs.OSM_COLOUR_KEY + " "+ v + " #"+v);
                                 if (k.equals(tag_defs.OSM_COLOUR_KEY) && ((v.length() == 3 || v.length() == 6) && colourPattern.matcher(v).matches()))/*^[a-fA-F0-9]+$")))*/ {
+                                    if (v.equalsIgnoreCase("FFFFFF")) {
+                                        // If value is not set, it defaults to FFFFFF (ie. white). If value is set to FFFFFF, we consider that color is not set.
+                                        continue;
+                                    }
                                     v = "#".concat(v);
                                 }
                                 if (k.equals("gtfs_route_text_color")) {

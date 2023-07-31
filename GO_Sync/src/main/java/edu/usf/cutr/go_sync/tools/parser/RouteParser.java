@@ -20,6 +20,7 @@ package edu.usf.cutr.go_sync.tools.parser;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import edu.usf.cutr.go_sync.object.RelationMember;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
@@ -37,11 +38,23 @@ public class RouteParser extends DefaultHandler {
     //xmlTags<String, String> ----------- xmlMembers<String(refID), AttributesImpl>
     private ArrayList<Hashtable> xmlTags;
     private ArrayList<LinkedHashSet<RelationMember>> xmlMembers;
-    public RouteParser(){
+    private HashMap<String, String> nodes, ways, nodeWayPtValue;
+    boolean inWay, inNode;
+    String nodeWayId;
+    int ndcount;
+
+    public RouteParser() {
         xmlRelations = new ArrayList<AttributesImpl>();
         xmlTags = new ArrayList<Hashtable>();
         xmlMembers = new ArrayList<LinkedHashSet<RelationMember>>();
+        nodes = new HashMap<>();
+        ways = new HashMap<>();
+        nodeWayPtValue = new HashMap<>();
+        inWay = false;
+        inNode = false;
+        ndcount = 0;
     }
+
     @Override public void startElement(String namespaceURI, String localName, String qname, Attributes attributes) throws SAXException {
         if (qname.equals("relation")) {
             AttributesImpl attImpl = new AttributesImpl(attributes);
@@ -49,15 +62,39 @@ public class RouteParser extends DefaultHandler {
             tempTag = new Hashtable();      // start to collect tags of that relation
             tempMembers = new LinkedHashSet<RelationMember>();
         }
-        if (tempTag!=null && qname.equals("tag")) {
-            AttributesImpl attImpl = new AttributesImpl(attributes);
-            tempTag.put(attImpl.getValue("k"), attImpl.getValue("v"));         // insert key and value of that tag into Hashtable
+        if (qname.equals("tag")) {
+            if (tempTag != null) {
+                AttributesImpl attImpl = new AttributesImpl(attributes);
+                tempTag.put(attImpl.getValue("k"), attImpl.getValue("v"));         // insert key and value of that tag into Hashtable
+            }
+            if (inNode || inWay) {
+                AttributesImpl attImpl = new AttributesImpl(attributes);
+                if (attImpl.getValue("k").equals("public_transport")) {
+                    nodeWayPtValue.put(nodeWayId, attImpl.getValue("v"));
+                }
+            }
         }
         if (tempMembers!=null && qname.equals("member")) {
             AttributesImpl attImpl = new AttributesImpl(attributes);
-            RelationMember rm = new RelationMember(attImpl.getValue("ref"),attImpl.getValue("type"),attImpl.getValue("role"));
+            RelationMember rm = new RelationMember(attImpl.getValue("ref"), attImpl.getValue("type"), attImpl.getValue("role"), "", "", "unknown");
             rm.setStatus("OSM server");
             tempMembers.add(rm);
+        }
+        if (qname.equals("node")) {
+            inNode = true;
+            AttributesImpl attImpl = new AttributesImpl(attributes);
+            nodeWayId = attImpl.getValue("id");
+            nodes.put(attImpl.getValue("id"), attImpl.getValue("lat") + ";" + attImpl.getValue("lon"));
+        }
+        if (qname.equals("way")) {
+            inWay = true;
+            AttributesImpl attImpl = new AttributesImpl(attributes);
+            nodeWayId = attImpl.getValue("id");
+        }
+        if (qname.equals("nd") && inWay && ndcount == 0) {
+            ndcount++;
+            AttributesImpl attImpl = new AttributesImpl(attributes);
+            ways.put(nodeWayId, attImpl.getValue("ref"));
         }
     }
 
@@ -67,6 +104,44 @@ public class RouteParser extends DefaultHandler {
             xmlMembers.add(tempMembers);
             tempTag = null;
             tempMembers = null;
+        }
+        if (qName.equals("way")) {
+            inWay = false;
+            ndcount = 0;
+        }
+        if (qName.equals("node")) {
+            inNode = false;
+            ndcount = 0;
+        }
+    }
+
+    @Override
+    public void endDocument() throws SAXException {
+        super.endDocument();
+        HashMap<String, String> waysWithGeo = new HashMap<>();
+        for (HashMap.Entry<String, String> way : ways.entrySet()) {
+            waysWithGeo.put(way.getKey(), nodes.get(way.getValue()));
+        }
+
+        for (LinkedHashSet<RelationMember> hs : xmlMembers) {
+            for (RelationMember m : hs) {
+                String nodeId = nodes.get(m.getRef());
+                //System.out.println(String.format("Id: %s / nodeId: %s", m.getRef(), nodeId));
+                if (nodeId != null) {
+                    m.setLat(nodeId.split(";")[0]);
+                    m.setLon(nodeId.split(";")[1]);
+                } else {
+                    String wayId = waysWithGeo.get(m.getRef());
+                    //System.out.println(String.format("Id: %s / wayId: %s", m.getRef(), wayId));
+                    if (wayId != null) {
+                        m.setLat(wayId.split(";")[0]);
+                        m.setLon(wayId.split(";")[1]);
+                    }
+                }
+                if (nodeWayPtValue.containsKey(m.getRef())) {
+                    m.setRefOsmPublicTransportType(nodeWayPtValue.get(m.getRef()));
+                }
+            }
         }
     }
 

@@ -26,7 +26,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class RouteMemberTableModel extends AbstractTableModel {
     private String[] columnNames = {"GTFS Member List",
-    "OSM Member List",
+    "OSM Member List (ordered by 'New Member List' if PTv2)",
     "New Member List"};
     private Object[][] data;
 

@@ -208,6 +208,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         routeMemberOptionPanel = new javax.swing.JPanel();
         skipNodesWithRoleEmptyCb = new javax.swing.JCheckBox();
         skipNodesWithRoleStopCb = new javax.swing.JCheckBox();
+        skipNodesWithRoleStopWithoutMatchinPlatformCb = new javax.swing.JCheckBox();
         removePlatformsNotInGtfsFromOSMRelationCb = new javax.swing.JCheckBox();
         gtfsDataPanel = new javax.swing.JPanel();
         rbURL = new javax.swing.JRadioButton();
@@ -443,18 +444,24 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         optionsPanel.add(routeOptionsPanel, gridBagConstraints);
 
-        routeMemberOptionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Route members options"));
+        routeMemberOptionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Route members options (applies only to PTv2 relations)"));
         routeMemberOptionPanel.setLayout(new javax.swing.BoxLayout(routeMemberOptionPanel, javax.swing.BoxLayout.Y_AXIS));
 
         skipNodesWithRoleEmptyCb.setSelected(true);
-        skipNodesWithRoleEmptyCb.setText("Remove nodes with empty role (required for PTv2)");
+        skipNodesWithRoleEmptyCb.setText("Remove nodes having empty role (mandatory for PTv2)");
+        skipNodesWithRoleEmptyCb.setEnabled(false);
         routeMemberOptionPanel.add(skipNodesWithRoleEmptyCb);
 
-        skipNodesWithRoleStopCb.setText("Remove nodes with role 'stop' (only if PTv2 is enabled)");
+        skipNodesWithRoleStopCb.setText("Remove all nodes having role 'stop'");
         skipNodesWithRoleStopCb.setActionCommand("Remove nodes with 'stop' role");
         routeMemberOptionPanel.add(skipNodesWithRoleStopCb);
 
-        removePlatformsNotInGtfsFromOSMRelationCb.setText("Remove platform nodes without Gtfs match (only if PTv2 is enabled)");
+        skipNodesWithRoleStopWithoutMatchinPlatformCb.setSelected(true);
+        skipNodesWithRoleStopWithoutMatchinPlatformCb.setText("Remove nodes having role 'stop' that don't match a platform (recommended)");
+        routeMemberOptionPanel.add(skipNodesWithRoleStopWithoutMatchinPlatformCb);
+
+        removePlatformsNotInGtfsFromOSMRelationCb.setSelected(true);
+        removePlatformsNotInGtfsFromOSMRelationCb.setText("Remove platforms without Gtfs match (recommended)");
         routeMemberOptionPanel.add(removePlatformsNotInGtfsFromOSMRelationCb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -672,7 +679,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
                 .addGroup(revertChangesetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(revertChangesetField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changesetLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 373, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 376, Short.MAX_VALUE)
                 .addComponent(revertButton)
                 .addContainerGap())
         );
@@ -787,19 +794,23 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
             processingOptions.add(ProcessingOptions.SKIP_GTFS_STATIONS);
         }
         if (skipNodesWithRoleEmptyCb.isSelected()) {
-            processingOptions.add(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY);
+            processingOptions.add(ProcessingOptions.SKIP_NODES_HAVING_ROLE_EMPTY);
         }
         if (createAsPTv2Cb.isSelected()) {
             processingOptions.add(ProcessingOptions.CREATE_ROUTE_AS_PTV2);
+            processingOptions.add(ProcessingOptions.SKIP_NODES_HAVING_ROLE_EMPTY);
         }
         if (removePlatformsNotInGtfsFromOSMRelationCb.isSelected()) {
-            processingOptions.add(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION);
+            processingOptions.add(ProcessingOptions.SKIP_NODES_HAVING_ROLE_PLATFORM_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION);
         }
         if (dontReplaceExistingOSMRouteColorCb.isSelected()) {
             processingOptions.add(ProcessingOptions.DONT_REPLACE_EXISING_OSM_ROUTE_COLOR);
         }
         if (skipNodesWithRoleStopCb.isSelected()) {
-            processingOptions.add(ProcessingOptions.SKIP_NODES_WITH_ROLE_STOP);
+            processingOptions.add(ProcessingOptions.SKIP_NODES_HAVING_ROLE_STOP_ALL);
+        }
+        if (skipNodesWithRoleStopWithoutMatchinPlatformCb.isSelected()) {
+            processingOptions.add(ProcessingOptions.SKIP_NODES_HAVING_ROLE_STOP_WITHOUT_MATCHING_PLATFORM);
         }
         if (dontAddGtfsRouteTextColorCb.isSelected()) {
             processingOptions.add(ProcessingOptions.DONT_ADD_GTFS_ROUTE_TEXT_COLOR_TO_ROUTE);
@@ -1121,6 +1132,7 @@ public class MainForm extends javax.swing.JFrame implements PropertyChangeListen
     private javax.swing.JCheckBox skipGtfsStationsCb;
     private javax.swing.JCheckBox skipNodesWithRoleEmptyCb;
     private javax.swing.JCheckBox skipNodesWithRoleStopCb;
+    private javax.swing.JCheckBox skipNodesWithRoleStopWithoutMatchinPlatformCb;
     private javax.swing.JPanel stopOptionsPanel;
     private javax.swing.JTextArea taskOutput;
     private javax.swing.JLabel threshold_label;

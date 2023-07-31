@@ -21,6 +21,7 @@ import edu.usf.cutr.go_sync.object.Route;
 import edu.usf.cutr.go_sync.object.Stop;
 import edu.usf.cutr.go_sync.osm.HttpRequest;
 import edu.usf.cutr.go_sync.tag_defs;
+import edu.usf.cutr.go_sync.task.CompareData;
 import edu.usf.cutr.go_sync.task.UploadData;
 import edu.usf.cutr.go_sync.tools.OsmDistance;
 import java.awt.Color;
@@ -1168,22 +1169,11 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         LinkedHashSet<RelationMember> newMembersWaysOnly = new LinkedHashSet<RelationMember>();
         LinkedHashSet<RelationMember> tempem = new LinkedHashSet<RelationMember>();
         ArrayList<Integer> skippedMembersIndex = new ArrayList<>();
-        ArrayList<Integer> skippedMembersIndexNodes = new ArrayList<>();
 
         int indexInNewMember = 0;
-        for (RelationMember m : aRoute.getOsmMembers()) {
-            if (m.getRef().startsWith("-")) {
-                skippedMembersIndex.add(indexInNewMember);
-            }
-            newMembers.add(m);
-            indexInNewMember++;
-        }
+        newMembers.addAll(aRoute.getOsmMembers());
 
         tempem.addAll(osmMembers);
-
-        EnumSet<ProcessingOptions> strategy = MainForm.processingOptions;
-
-        int indexInNewMemberNodes = indexInNewMember;
 
         for (RelationMember m : tempem) {
             RelationMember matchMember = aRoute.getOsmMember(m.getRef());
@@ -1191,76 +1181,133 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
                 matchMember.setStatus("both GTFS dataset and OSM server");
             } else {
                 if (PTversion !=  null && PTversion.equals("2")) {
+                    // Rearrange nodes & ways so that nodes (platforms, stops...)  come before ways (ways with empty role)
                     if (m.getType().equals("node")) {
-                        if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY)) {
-                            if (m.getRole().isEmpty()) {
-                                skippedMembersIndexNodes.add(indexInNewMemberNodes);
-                            }
-                        }
-                        if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_STOP)) {
-                            if (m.getRole().equals("stop") || m.getRole().equals("stop_exit_only") || m.getRole().equals("stop_entry_only")) {
-                                skippedMembersIndexNodes.add(indexInNewMemberNodes);
-                            }
-                        }
-                        if (strategy.contains(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
-                            if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
-                                skippedMembersIndexNodes.add(indexInNewMemberNodes);
-                            }
-                        }
                         newMembersNodesOnly.add(m);
-                        indexInNewMemberNodes++;
                     }
                     if (m.getType().equals("way")) {
-                        if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
-                            // Ways can also be set as platforms. Support this case too. They should be at the top with the other platforms/stops.
-                            if (strategy.contains(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
-                                if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
-                                    skippedMembersIndexNodes.add(indexInNewMemberNodes);
-                                }
-                            }
+                        // Ways can also be set as platforms. Support this case too. They should be at the top with the other platforms/stops.
+                        if (m.getRoleForFinalOutput().equals("platform") || m.getRoleForFinalOutput().equals("platform_exit_only") || m.getRoleForFinalOutput().equals("platform_entry_only")) {
                             newMembersNodesOnly.add(m);
-                            indexInNewMemberNodes++;
                         } else {
-                            // roles "backward", "forward" & "reverse" should not be used anymore on public transport routes
-                            // https://wiki.openstreetmap.org/wiki/Relation:route
-                            if (m.getRole().equals("backward") || m.getRole().equals("forward") || m.getRole().equals("reverse")) {
-                                m.setRole("");
-                            }
                             newMembersWaysOnly.add(m);
                         }
                     }
                 } else {
                     newMembers.add(m);
-                    indexInNewMember++;
                 }
             }
         }
 
         if (PTversion !=  null && PTversion.equals("2")) {
-            newMembers.addAll(newMembersNodesOnly);
+            // For PTv2 group platform/stops together
+            int index = 0;
+            LinkedHashSet<RelationMember> platforms = new LinkedHashSet<RelationMember>();
+            platforms.addAll(newMembers);
+            LinkedHashSet<RelationMember> stops = new LinkedHashSet<RelationMember>();
+            for (RelationMember m : newMembersNodesOnly) {
+
+                // Fix member role in case it doesn't match the real public_transport value of the member (eg. member having role stop, while it actually is a platform).
+                String roleSuffix = "";
+                if (m.getRole().endsWith("_exit_only")) {
+                    roleSuffix = "_exit_only";
+                } else if (m.getRole().endsWith("_entry_only")) {
+                    roleSuffix = "_entry_only";
+                }
+                switch (m.getRefOsmPublicTransportType()) {
+                    case "stop_position":
+                        if (!m.getRole().startsWith("stop")) {
+                            m.setRole("stop" + roleSuffix);
+                        }
+                        break;
+                    case "platform":
+                        if (!m.getRole().startsWith("platform")) {
+                            m.setRole("platform" + roleSuffix);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                if (m.getRoleForFinalOutput().equals("platform") || m.getRoleForFinalOutput().equals("platform_exit_only") || m.getRoleForFinalOutput().equals("platform_entry_only")) {
+                    platforms.add(m);
+                }
+                if (m.getRoleForFinalOutput().equals("stop") || m.getRoleForFinalOutput().equals("stop_exit_only") || m.getRoleForFinalOutput().equals("stop_entry_only")) {
+                    stops.add(m);
+                }
+                index++;
+            }
+
+            LinkedHashSet<RelationMember> newMembersNodesOnlyGrouped = new LinkedHashSet<RelationMember>();
+            LinkedHashSet<RelationMember> addedStops = new LinkedHashSet<RelationMember>();
+            for (RelationMember p : platforms) {
+                newMembersNodesOnlyGrouped.add(p);
+                if (shouldSkipMember(PTversion, p, null, aRoute.getOsmMembers())) {
+                    // if p will be skipped (eg. if it is platform not in gtfs) don't proceed with trying to add the nearby stop.
+                    // Otherwise if the stop matches a platform that is not part of the gtfs trip but currently present in the OSM relation,
+                    // it will be kept, even if the platform is not in the final relation for upload (which is not wanted).
+                    continue;
+                }
+                for (RelationMember s : stops) {
+                    double dist = OsmDistance.distVincenty(p.getLat(), p.getLon(), s.getLat(), s.getLon());
+                    if (dist < CompareData.MAX_PLATFORM_STOP_DISTANCE) {
+                        newMembersNodesOnlyGrouped.add(s);
+                        switch (p.getRole()) {
+                            case "platform":
+                                s.setRole("stop");
+                                break;
+                            case "platform_exit_only":
+                                s.setRole("stop_exit_only");
+                                break;
+                            case "platform_entry_only":
+                                s.setRole("stop_entry_only");
+                                break;
+                            default:
+                                break;
+                        }
+                        addedStops.add(s);
+                    }
+                }
+            }
+
+            LinkedHashSet<RelationMember> remainingStops = new LinkedHashSet<RelationMember>();
+            remainingStops.addAll(stops);
+            remainingStops.removeAll(addedStops);
+
+            // For PTv2: we must have first the nodes, then the ways.
+            newMembers.clear();
+            newMembers.addAll(newMembersNodesOnlyGrouped);
+            newMembers.addAll(remainingStops);
             newMembers.addAll(newMembersWaysOnly);
-            skippedMembersIndex.addAll(skippedMembersIndexNodes);
+
+            // Mark members to be removed & apply other modifications as asked in processingOptions.
+            for (RelationMember m : newMembers) {
+                if (m.getType().equals("way") && (m.getRole().equals("backward") || m.getRole().equals("forward") || m.getRole().equals("reverse"))) {
+                    // roles "backward", "forward" & "reverse" should not be used anymore on public transport PTv2 routes
+                    // https://wiki.openstreetmap.org/wiki/Relation:route
+                    m.setRole("");
+                }
+                if (shouldSkipMember(PTversion, m, remainingStops, aRoute.getOsmMembers())) {
+                    skippedMembersIndex.add(indexInNewMember);
+                }
+                indexInNewMember++;
+            }
+        }
+
+        // Skip members the OSM id of which is negative
+        indexInNewMember = 0;
+        for (RelationMember m : newMembers) {
+            if (m.getRef().startsWith("-")) {
+                skippedMembersIndex.add(indexInNewMember);
+            }
+            indexInNewMember++;
         }
 
         indexInNewMember = newMembers.size();
-        if (!osmMembers.containsAll(newMembers)) {
+        if (!newMembers.containsAll(osmMembers)) {
+            //System.out.println("Adding osm members not yet in new Members.");
             for (RelationMember m : osmMembers) {
-                boolean addToSkippedMembersIndex = false;
-                if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_EMPTY)) {
-                    if (m.getType().equals("node") && m.getRole().isEmpty()) {
-                        addToSkippedMembersIndex = true;
-                    }
-                }
-                if (strategy.contains(ProcessingOptions.SKIP_NODES_WITH_ROLE_STOP)) {
-                    if (m.getType().equals("node") && m.getRole().isEmpty()) {
-                        addToSkippedMembersIndex = true;
-                    }
-                }
-                if (strategy.contains(ProcessingOptions.REMOVE_PLATFORMS_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
-                    if (m.getRole().equals("platform") || m.getRole().equals("platform_exit_only") || m.getRole().equals("platform_entry_only")) {
-                        addToSkippedMembersIndex = true;
-                    }
-                }
+                boolean addToSkippedMembersIndex = shouldSkipMember(PTversion, m, null, aRoute.getOsmMembers());
                 if (newMembers.add(m)) {
                     if (addToSkippedMembersIndex) {
                         skippedMembersIndex.add(indexInNewMember);
@@ -1323,7 +1370,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
             String status = t.getStatus();
             if(status.equals(criteria) || criteria.equals("all")) {
                 String v = t.getGtfsId();
-                String suffix = " (" + t.getType() + "/" + t.getRole() + "/" + t.getRef() + ")";
+                String suffix = " (" + t.getType() + "/" + t.getRoleForFinalOutput() + "/" + t.getRef() + ")";
                 if (v == null || v.equals("none") || v.equals("")) {
                     v = suffix.trim();
                 } else {
@@ -1347,6 +1394,47 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         totalGtfsMembersLabel.setText(Integer.toString(memberGtfsIndex));
         totalOsmMembersLabel.setText(Integer.toString(memberOsmIndex));
         totalNewMembersLabel.setText(Integer.toString(newMembersForSave.size()));
+    }
+
+    private boolean shouldSkipMember(String PTversion, RelationMember m, LinkedHashSet<RelationMember> remainingStops, LinkedHashSet<RelationMember> agencyMembers) {
+        if (!PTversion.equals("2")) {
+            return false;
+        }
+
+        if (remainingStops != null && remainingStops.contains(m)) {
+            if (MainForm.processingOptions.contains(ProcessingOptions.SKIP_NODES_HAVING_ROLE_STOP_WITHOUT_MATCHING_PLATFORM)) {
+                return true;
+            }
+        }
+        if (m.getType().equals("node")) {
+            if (MainForm.processingOptions.contains(ProcessingOptions.SKIP_NODES_HAVING_ROLE_EMPTY)) {
+                if (m.getRole().isEmpty()) {
+                    return true;
+                }
+            }
+            if (MainForm.processingOptions.contains(ProcessingOptions.SKIP_NODES_HAVING_ROLE_STOP_ALL)) {
+                if (m.getRoleForFinalOutput().equals("stop") || m.getRoleForFinalOutput().equals("stop_exit_only") || m.getRoleForFinalOutput().equals("stop_entry_only")) {
+                    return true;
+                }
+            }
+            if (MainForm.processingOptions.contains(ProcessingOptions.SKIP_NODES_HAVING_ROLE_PLATFORM_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
+                if (!agencyMembers.contains(m)
+                        && (m.getRoleForFinalOutput().equals("platform") || m.getRoleForFinalOutput().equals("platform_exit_only") || m.getRoleForFinalOutput().equals("platform_entry_only"))) {
+                    return true;
+                }
+            }
+        }
+        if (m.getType().equals("way")) {
+            if (m.getRoleForFinalOutput().equals("platform") || m.getRoleForFinalOutput().equals("platform_exit_only") || m.getRoleForFinalOutput().equals("platform_entry_only")) {
+                if (MainForm.processingOptions.contains(ProcessingOptions.SKIP_NODES_HAVING_ROLE_PLATFORM_NOT_IN_GTFS_TRIP_FROM_OSM_RELATION)) {
+                    if (!agencyMembers.contains(m)
+                            && (m.getRoleForFinalOutput().equals("platform") || m.getRoleForFinalOutput().equals("platform_exit_only") || m.getRoleForFinalOutput().equals("platform_entry_only"))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private void updateRouteCategory(Route[] selectedCategory){

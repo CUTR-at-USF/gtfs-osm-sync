@@ -199,11 +199,27 @@ public class HttpRequest {
     public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) throws InterruptedException{
 //        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
 //        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
-    	String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String[] hosts = {"http://www.overpass-api.de/api/xapi_meta","http://overpass.openstreetmap.ru/cgi/xapi_meta"};
+
+        String content = "";
+        content += "<query type='relation'>";
+        content += "<bbox-query w='left' e='right' s='bottom' n='north'/>";
+        content += "<has-kv k='route' v='bus'/>";
+        content += "</query>";
+        content += "<union>";
+        content += "<item/>";
+        content += "<recurse type='down'/>";
+        content += "</union>";
+        content += "<print mode='meta'/>";
+        content = content.replace("left", left).replace("right", right).replace("bottom", bottom).replace("north", top);
+        System.out.println(content);
+
+        //String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
+        //String[] hosts = {"http://www.overpass-api.de/api/xapi_meta","http://overpass.openstreetmap.ru/cgi/xapi_meta"};
+        String[] hosts = {"http://overpass-api.de/api/interpreter", "http://api.openstreetmap.fr/oapi/interpreter", "http://overpass.osm.rambler.ru/cgi/interpreter",};
         try {
             // get data from server
-            String s = sendRequest(hosts, urlSuffix, "GET", "");
+            //String s = sendRequest(hosts, urlSuffix, "GET", "");
+            String s = sendRequest(hosts, "", "POST", content);
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");

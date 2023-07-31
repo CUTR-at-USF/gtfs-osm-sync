@@ -123,7 +123,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
 //    private final double DELTA = 0.001;   // ~400m in Lat and 400m in Lon       0.00001 ~= 1.108m in Lat and 0.983 in Lon
 //    private final double RANGE = 100;         // FIXME bus stop is within 400 meters
 
-
+    public static final double MAX_PLATFORM_STOP_DISTANCE = 30.0; // in meters.
 
     private String fileNameInStops;
     private String fileNameInTrips;
@@ -634,11 +634,14 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                 // Add gtfs stops as members
                 String OsmNodeId = String.valueOf(-count);
                 String gtfsStopId = rvstop.getValue().getStop_id();
+                String type;
                 if (osmStopIdByGtfsStopId.containsKey(gtfsStopId)) {
                     OsmNodeId = osmStopIdByGtfsStopId.get(rvstop.getValue().getStop_id());
+                    type = osmStopTypeByGtfsStopId.get(gtfsStopId);
                 } else {
-
+                    type = "node";
                 }
+
                 String role;
                 if (!rvstop.getValue().getDrop_off_type().equals("1")
                         && rvstop.getValue().getPickup_type().equals("1")) {
@@ -650,10 +653,24 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                     role = "platform";
                 }
 
+                String lat, lon, publicTransportType;
+                if (osmIdToOSMNodexIndex.get(OsmNodeId) == null) {
+                    lat = "0";
+                    lon = "0";
+                    publicTransportType = "platform";
+                } else {
+                    lat = OSMNodes.get(osmIdToOSMNodexIndex.get(OsmNodeId)).getLat();
+                    lon = OSMNodes.get(osmIdToOSMNodexIndex.get(OsmNodeId)).getLon();
+                    publicTransportType = (String) OSMTags.get(osmIdToOSMNodexIndex.get(OsmNodeId)).get(tag_defs.OSM_STOP_TYPE_KEY);
+                }
+
                 RelationMember rm = new RelationMember(
                         OsmNodeId,
-                        osmStopTypeByGtfsStopId.get(gtfsStopId),
-                        role);
+                        type,
+                        role,
+                        lat,
+                        lon,
+                        publicTransportType);
                 rm.setStatus("GTFS dataset");
                 rm.setGtfsId(gtfsStopId);
                 r.addOsmMember(rm);

@@ -1208,7 +1208,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Route members options"/>
+                        <TitledBorder title="Route members options (applies only to PTv2 relations)"/>
                       </Border>
                     </Property>
                   </Properties>
@@ -1225,18 +1225,26 @@
                     <Component class="javax.swing.JCheckBox" name="skipNodesWithRoleEmptyCb">
                       <Properties>
                         <Property name="selected" type="boolean" value="true"/>
-                        <Property name="text" type="java.lang.String" value="Remove nodes with empty role (required for PTv2)"/>
+                        <Property name="text" type="java.lang.String" value="Remove nodes having empty role (mandatory for PTv2)"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="skipNodesWithRoleStopCb">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Remove nodes with role &apos;stop&apos; (only if PTv2 is enabled)"/>
+                        <Property name="text" type="java.lang.String" value="Remove all nodes having role &apos;stop&apos;"/>
                         <Property name="actionCommand" type="java.lang.String" value="Remove nodes with &apos;stop&apos; role"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="skipNodesWithRoleStopWithoutMatchinPlatformCb">
+                      <Properties>
+                        <Property name="selected" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" value="Remove nodes having role &apos;stop&apos; that don&apos;t match a platform (recommended)"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="removePlatformsNotInGtfsFromOSMRelationCb">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Remove platform nodes without Gtfs match (only if PTv2 is enabled)"/>
+                        <Property name="selected" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" value="Remove platforms without Gtfs match (recommended)"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -2896,7 +2904,7 @@
                           <Component id="revertChangesetField" alignment="3" min="-2" max="-2" attributes="1"/>
                           <Component id="changesetLabel" alignment="3" min="-2" max="-2" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="373" max="32767" attributes="0"/>
+                      <EmptySpace pref="376" max="32767" attributes="0"/>
                       <Component id="revertButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>

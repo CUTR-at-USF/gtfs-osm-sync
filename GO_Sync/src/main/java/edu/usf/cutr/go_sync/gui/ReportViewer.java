@@ -200,6 +200,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private org.jdesktop.swingx.JXMapKit mapJXMapKit;
     private javax.swing.JTable memberTable;
     private javax.swing.ButtonGroup membersButtonGroup;
+    private javax.swing.JLabel membersWarningLabel;
     private javax.swing.JRadioButton newNoMatchStopsRadioButton;
     private javax.swing.JRadioButton newRoutesRadioButton;
     private javax.swing.JRadioButton newWithMatchStopsRadioButton;
@@ -1814,6 +1815,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         saveChangeRouteButton = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         osmRoutesComboBox = new javax.swing.JComboBox(osmRoutes);
+        membersWarningLabel = new javax.swing.JLabel();
         dummyUploadButton = new javax.swing.JButton();
         uploadDataButton = new javax.swing.JButton();
         stopsCheckbox = new javax.swing.JCheckBox();
@@ -2644,6 +2646,18 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         busRoutePanel.add(osmRoutesComboBox, gridBagConstraints);
+
+        membersWarningLabel.setForeground(java.awt.Color.magenta);
+        membersWarningLabel.setText("For members correctness, required GTFS stops must be present in OSM prior to using this feature.");
+        membersWarningLabel.setToolTipText("");
+        membersWarningLabel.setName("membersWarningLabel"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        busRoutePanel.add(membersWarningLabel, gridBagConstraints);
 
         jTabbedPane1.addTab("Bus Route", busRoutePanel);
 

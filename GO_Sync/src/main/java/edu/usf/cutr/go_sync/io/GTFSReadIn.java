@@ -798,6 +798,8 @@ public class GTFSReadIn {
             netexParentSitesByGtfsId = netexParser.getParentSiteListByGtfsId();
             netexAllStopPlacesByGtfsId = netexParser.getAllStopPlaceListByGtfsId();
             netexAllStopPlacesByStopPlaceId = netexParser.getAllStopPlaceListByStopPlaceId();
+        } catch (UnsupportedOperationException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
         }

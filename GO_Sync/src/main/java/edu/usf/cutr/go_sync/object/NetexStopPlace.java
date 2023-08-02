@@ -38,18 +38,62 @@ public class NetexStopPlace extends NetexStopElement {
     }
 
     public String getGtfsEquivalentId() {
+        String return_value = null;
+        switch (OperatorInfo.getFullName()) {
+            case "Fluo Grand Est 67":
+            case "FLUO 68":
+            case "Fluo88":
+                return_value = getGtfsEquivalentIdFRFluo();
+                break;
+            case "MOBIGO (58)":
+                return_value = getGtfsEquivalentIdFRMobigo();
+                break;
+            default:
+                throw new UnsupportedOperationException(String.format("Method to extract gtfs id inside netex file not set for %s. Please set it in code nearby the NO_METHOD_TO_FIND_GTFSID_IN_NETEX_STOP_PLACE_ID or don't use the netex file.", OperatorInfo.getFullName()));
+        }
+        return return_value;
+    }
+
+    private String getGtfsEquivalentIdFRFluo() {
+        // Example: <StopPlace id="FR:68247:StopPlace:log140712:GRANDEST2" version="1">
         String[] base_id;
         if (parentSiteRef != null) {
             base_id = parentSiteRef.split(":");
-            return base_id[3].replace("log", "S");
+            if (base_id.length >= 4) {
+                return base_id[3].replace("log", "S");
+            }
         } else {
             //if (childSiteRef != null) {
             // Case when we are on a logical StopPlace or a parentStopPlace
             base_id = id.split(":");
-            return base_id[3].replace("log", "S");
+            if (base_id.length >= 4) {
+                return base_id[3].replace("log", "S");
+            }
             //}
         }
-        //return "Unexpected case: TODO";
+        System.out.println(String.format("Unexpected format for StopPlace id %s", id));
+        return null;
+    }
+
+    private String getGtfsEquivalentIdFRMobigo() {
+        // Example: <StopPlace id="FR:StopPlace:Navitia_300714_bus:" version="any">
+        String[] base_id;
+        if (parentSiteRef != null) {
+            base_id = parentSiteRef.split(":");
+            if (base_id.length >= 3) {
+                return base_id[2].replace("Navitia_", "");
+            }
+        } else {
+            //if (childSiteRef != null) {
+            // Case when we are on a logical StopPlace or a parentStopPlace
+            base_id = id.split(":");
+            if (base_id.length >= 3) {
+                return base_id[2].replace("Navitia_", "");
+            }
+            //}
+        }
+        System.out.println(String.format("Unexpected format for StopPlace id %s", id));
+        return null;
     }
 
     public void setParentSiteRef(String parentSiteRef) {

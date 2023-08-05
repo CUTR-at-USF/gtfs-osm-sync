@@ -816,6 +816,7 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                         r.addTags(osmtag);
                     } else {
                         r.setStatus("e");
+                        r.addTags(osmtag);
                     }
 
                     EnumSet<ProcessingOptions> strategy = MainForm.processingOptions;

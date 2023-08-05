@@ -458,6 +458,33 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
         return diff;
     }
 
+    public static boolean areMembersEqual(LinkedHashSet<RelationMember> left, LinkedHashSet<RelationMember> right) {
+        if (left.equals(right)) {
+            // Also check that they are in the same order
+            // Because of equals, we are sure to have the same count of items in each collection
+            Iterator rightMemberIter = right.iterator();
+            for (RelationMember leftMember : left) {
+                if (!rightMemberIter.next().equals(leftMember)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean areMembersEqualForPlatforms(LinkedHashSet<RelationMember> left, LinkedHashSet<RelationMember> right) {
+        // First keep only members of OSM (left) that are of role "platform*"
+        // This is because the right part is what is provided by GTFS and it will only contain platforms
+        LinkedHashSet<RelationMember> leftWithoutWays = new LinkedHashSet<>();
+        for (RelationMember leftMember : left) {
+            if (leftMember.getRole().startsWith("platform")) {
+                leftWithoutWays.add(leftMember);
+            }
+        }
+        return areMembersEqual(leftWithoutWays, right);
+    }
+
     /**
      * Only consider uploaded bus stops
      * e.g., stops in noUpload and (modify sets - modified stops in osm)
@@ -811,7 +838,13 @@ private ArrayList<Hashtable> OSMRelationTags = new ArrayList<Hashtable>();
                         }
                     }
                     Hashtable diff = compareOsmTags(osmtag, r);
-                    if (!em.containsAll(r.getOsmMembers()) || diff.size() != 0) {
+                    boolean areMembersEqual = false;
+                    if (MainForm.processingOptions.contains(ProcessingOptions.CREATE_ROUTE_AS_PTV2)) {
+                        areMembersEqual = areMembersEqualForPlatforms(em, r.getOsmMembers());
+                    } else {
+                        areMembersEqual = em.containsAll(r.getOsmMembers());
+                    }
+                    if (!areMembersEqual || diff.size() != 0) {
                         r.setStatus("m");
                         r.addTags(osmtag);
                     } else {

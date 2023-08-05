@@ -201,6 +201,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
     private javax.swing.JTable memberTable;
     private javax.swing.ButtonGroup membersButtonGroup;
     private javax.swing.JLabel membersWarningLabel;
+    private javax.swing.JLabel newMemberListHasUpdatesLabel;
     private javax.swing.JRadioButton newNoMatchStopsRadioButton;
     private javax.swing.JRadioButton newRoutesRadioButton;
     private javax.swing.JRadioButton newWithMatchStopsRadioButton;
@@ -1395,6 +1396,12 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         totalGtfsMembersLabel.setText(Integer.toString(memberGtfsIndex));
         totalOsmMembersLabel.setText(Integer.toString(memberOsmIndex));
         totalNewMembersLabel.setText(Integer.toString(newMembersForSave.size()));
+
+        if (CompareData.areMembersEqual(osmMembers, newMembersForSave)) {
+            newMemberListHasUpdatesLabel.setVisible(false);
+        } else {
+            newMemberListHasUpdatesLabel.setVisible(true);
+        }
     }
 
     private boolean shouldSkipMember(String PTversion, RelationMember m, LinkedHashSet<RelationMember> remainingStops, LinkedHashSet<RelationMember> agencyMembers) {
@@ -1816,6 +1823,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         jLabel20 = new javax.swing.JLabel();
         osmRoutesComboBox = new javax.swing.JComboBox(osmRoutes);
         membersWarningLabel = new javax.swing.JLabel();
+        newMemberListHasUpdatesLabel = new javax.swing.JLabel();
         dummyUploadButton = new javax.swing.JButton();
         uploadDataButton = new javax.swing.JButton();
         stopsCheckbox = new javax.swing.JCheckBox();
@@ -2494,7 +2502,6 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         busRoutePanel.add(jLabel11, gridBagConstraints);
@@ -2658,6 +2665,17 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         busRoutePanel.add(membersWarningLabel, gridBagConstraints);
+
+        newMemberListHasUpdatesLabel.setForeground(java.awt.Color.red);
+        newMemberListHasUpdatesLabel.setText("'New Member List' differs from OSM member list.");
+        newMemberListHasUpdatesLabel.setName("newMemberListHasUpdatesLabel"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        busRoutePanel.add(newMemberListHasUpdatesLabel, gridBagConstraints);
 
         jTabbedPane1.addTab("Bus Route", busRoutePanel);
 

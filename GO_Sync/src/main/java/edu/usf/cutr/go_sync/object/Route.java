@@ -36,7 +36,7 @@ public class Route extends OsmPrimitive implements Comparable{
         osmTags = new Hashtable();
         osmMembers = new LinkedHashSet <RelationMember>();
         routeId = rId;
-        if(rId!=null) this.osmTags.put(tag_defs.OSM_ROUTE_ID_KEY, rId);
+        if(rId!=null) this.osmTags.put(tag_defs.OSM_TRIP_ID_KEY, rId);
         routeRef = rRef;
         operatorName = op;
     }
@@ -49,8 +49,8 @@ public class Route extends OsmPrimitive implements Comparable{
         if(r.getOsmMembers()!=null) this.osmMembers.addAll(r.getOsmMembers());
         this.routeId = r.getRouteId();
         if (routeId == null) routeId = "missing";
-        String ori = (String)r.getTags().get(tag_defs.OSM_ROUTE_ID_KEY);
-        if(ori==null) this.osmTags.put(tag_defs.OSM_ROUTE_ID_KEY, routeId);
+        String ori = (String)r.getTags().get(tag_defs.OSM_TRIP_ID_KEY);
+        if(ori==null) this.osmTags.put(tag_defs.OSM_TRIP_ID_KEY, routeId);
         this.routeRef = r.getRouteRef();
         this.operatorName = r.getOperatorName();
         if(r.getOsmId()!=null) this.setOsmId(r.getOsmId());

@@ -145,20 +145,20 @@ public class NetexStopElement {
         ArrayList<String> _altNames = new ArrayList<>();
 
         // Add the name of the stop to _altNames if it doesn't match the logicalName
-        if (!name.equals(getLogicalName(cities))) {
+        if (!equalsAfterSimplify(name, getLogicalName(cities))) {
             _altNames.add(name);
         }
 
         for (String altName : altNames) {
             if (town == null || town.isEmpty()) {
-                if (!nameCleanup(altName).equals(getLogicalName(cities))) {
+                if (!equalsAfterSimplify(nameCleanup(altName), getLogicalName(cities))) {
                     _altNames.add(nameCleanup(altName));
                 }
             } else {
                 // Cleanup alternativeName: remove TOWN (since we added it in getLogiclName())
                 String nameWithoutTown = removeLeadingTownFromName(altName, town);
                 nameWithoutTown = removeTrailingTownFromName(nameWithoutTown, town);
-                if (!nameWithoutTown.equals(getLogicalName(cities)) && !_altNames.contains(nameWithoutTown)) {
+                if (!equalsAfterSimplify(nameWithoutTown, getLogicalName(cities)) && !_altNames.contains(nameWithoutTown)) {
                     _altNames.add(nameWithoutTown);
                 }
             }
@@ -171,13 +171,13 @@ public class NetexStopElement {
         ArrayList<String> _altNames = new ArrayList<>();
 
         // Add the name of the stop to _altNames if it doesn't match the logicalName
-        if (!name.equals(getLogicalName(cities))) {
+        if (!equalsAfterSimplify(name, getLogicalName(cities))) {
             _altNames.add(name);
         }
 
         for (String altName : altNames) {
             if (town == null || town.isEmpty()) {
-                if (!nameCleanup(altName).equals(getLogicalName(cities))) {
+                if (!equalsAfterSimplify(nameCleanup(altName), getLogicalName(cities))) {
                     _altNames.add(nameCleanup(altName));
                 }
             } else {
@@ -185,7 +185,7 @@ public class NetexStopElement {
                 String nameWithoutTown = removeLeadingTownFromName(altName, town);
                 nameWithoutTown = removeTrailingTownFromName(nameWithoutTown, town);
                 nameWithoutTown = nameCleanup(prependTown(nameWithoutTown, town));
-                if (!nameWithoutTown.equals(getLogicalName(cities)) && !_altNames.contains(nameWithoutTown)) {
+                if (!equalsAfterSimplify(nameWithoutTown, getLogicalName(cities)) && !_altNames.contains(nameWithoutTown)) {
                     _altNames.add(nameWithoutTown);
                 }
             }
@@ -198,6 +198,7 @@ public class NetexStopElement {
         String n_name = removeAccents(name);
 
         String nameWithoutTown = n_name.replaceAll("(?i)^\\s*" + Pattern.quote(n_town), "");
+        nameWithoutTown = nameWithoutTown.replaceAll("(?i)^\\s*" + Pattern.quote(n_town.replace("œ", "oe").replace("Œ", "OE")), "");
         nameWithoutTown = nameWithoutTown.replaceAll("^\\s*-\\s*", "");
 
         // To preserve accents of the initial string, rebuild the name with a substring.
@@ -212,6 +213,7 @@ public class NetexStopElement {
         String n_name = removeAccents(name);
 
         String nameWithoutTown = n_name.replaceAll("(?i)\\s*" + Pattern.quote(n_town) + "$", "");
+        nameWithoutTown = nameWithoutTown.replaceAll("(?i)\\s*" + Pattern.quote(n_town.replace("œ", "oe").replace("Œ", "OE")) + "$", "");
         nameWithoutTown = nameWithoutTown.replaceAll("^\\s*-\\s*", "");
 
         // To preserve accents of the initial string, rebuild the name with a substring.
@@ -242,5 +244,11 @@ public class NetexStopElement {
 
     private static String nameCleanup(String label) {
         return label.replace("  ", " ").trim();
+    }
+
+    private static boolean equalsAfterSimplify(String a, String b) {
+        String na = nameCleanup(removeAccents(a).replace("œ", "oe").replace("Œ", "OE"));
+        String nb = nameCleanup(removeAccents(b).replace("œ", "oe").replace("Œ", "OE"));
+        return na.equals(nb);
     }
 }

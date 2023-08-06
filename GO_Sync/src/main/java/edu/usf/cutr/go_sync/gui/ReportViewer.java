@@ -941,13 +941,29 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
 
     private void addSelectedStopsOverlay(Stop gtfsStop, Stop osmStop){
         boolean isOverlapped=false;
+
+        String gtfsLat, gtfsLon;
+        if (gtfsStop != null && gtfsStop.getReportCategory().equals("MODIFY")) {
+            // in CompareData.addToReport the gtfs lat/lon is set to the one of Osm for the MODIFY category.
+            // Here we want the one from GTFS
+            gtfsLat = agencyStops.get(gtfsStop.toString()).getLat();
+            gtfsLon = agencyStops.get(gtfsStop.toString()).getLon();
+        } else {
+            gtfsLat = gtfsStop.getLat();
+            gtfsLon = gtfsStop.getLon();
+        }
+
         if (gtfsStop != null && osmStop != null && !osmStop.getStopID().equals("New")) {
-            if(OsmDistance.distVincenty(gtfsStop.getLat(), gtfsStop.getLon(), osmStop.getLat(), osmStop.getLon())<10){
+            if(OsmDistance.distVincenty(gtfsLat, gtfsLon, osmStop.getLat(), osmStop.getLon())<10){
                 isOverlapped=true;
             }
         }
         if(gtfsStop!=null){
             final Stop tempStop = new Stop(gtfsStop);
+            if (gtfsStop.getReportCategory().equals("MODIFY")) {
+                tempStop.setLat(gtfsLat);
+                tempStop.setLon(gtfsLon);
+            }
             selectedGtfsOverlayPainter = new Painter<JXMapViewer>() {
                 public void paint(Graphics2D g, JXMapViewer map, int w, int h) {
                     g = (Graphics2D) g.create();

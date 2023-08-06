@@ -703,7 +703,7 @@ public class ReportViewer extends javax.swing.JFrame implements TableModelListen
         // set last edited information
         String lastEditedUser = "N/A";
         String lastEditedDate = "N/A";
-        if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New") && usedOSMstops.containsKey(selectedOsmStop.getOsmId())) {
+        if (selectedOsmStop != null && !selectedOsmStop.getStopID().equals("New")) {
             if(selectedOsmStop.getLastEditedOsmUser()!=null && !selectedOsmStop.getLastEditedOsmUser().equals(""))
                 lastEditedUser = selectedOsmStop.getLastEditedOsmUser();
             if(selectedOsmStop.getLastEditedOsmDate()!=null && !selectedOsmStop.getLastEditedOsmDate().equals(""))

@@ -17,11 +17,15 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.object;
 
+import static edu.usf.cutr.go_sync.gui.MainForm.processingParams;
+import java.util.List;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import edu.usf.cutr.go_sync.tools.OsmDistance;
 import edu.usf.cutr.go_sync.tag_defs;
+import java.util.ArrayList;
+import java.util.Arrays;
 /**
  *
  * @author Khoa Tran
@@ -29,20 +33,40 @@ import edu.usf.cutr.go_sync.tag_defs;
 
 public class Stop extends OsmPrimitive implements Comparable{
 	private final double ERROR_TO_ZERO = 0.5;	
-	private final String GTFS_STOP_ID_KEY	= tag_defs.GTFS_STOP_ID_KEY;
-    private final String GTFS_OPERATOR_KEY	= tag_defs.GTFS_OPERATOR_KEY;
-    private final String GTFS_NAME_KEY		= tag_defs.GTFS_NAME_KEY;
     private String lat, lon;
     private HashSet<Route> routes;
-    public Stop(String stopID, String operatorName, String stopName, String lat, String lon) {
+    private String stopNameWithTown;
+
+    public Stop(String osmPrimitiveType, String stopID, String operatorName, String stopName, String lat, String lon,
+            NetexStopElement netexStopElement) {
+        super(osmPrimitiveType);
         osmTags = new Hashtable();
         if (operatorName == null || operatorName.equals("")) operatorName="none";
         if (stopID == null || stopID.equals("")) stopID="none";
         if (stopName == null || stopName.equals("")) stopName="none";
 //        osmTags.put("highway", "bus_stop");
-        osmTags.put(GTFS_STOP_ID_KEY, stopID);
-        osmTags.put(GTFS_OPERATOR_KEY, operatorName);
-        osmTags.put(GTFS_NAME_KEY, stopName);
+        osmTags.put(tag_defs.OSM_STOP_ID_KEY, stopID);
+        osmTags.put(tag_defs.OSM_NETWORK_KEY, operatorName);
+
+        //System.out.println("Creating stop " + stopID.toString());
+        // Use Quay Name of NetEx instead of GTFS (netexQuayName is null if not created with GTFSReadIn)
+        if (netexStopElement != null) {
+            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, netexStopElement.getLogicalName(processingParams.getStopCities()));
+            stopNameWithTown = netexStopElement.getLogicalNameWithTown(null);
+            // Get alt_names
+            List<String> altNames = netexStopElement.getLogicalAltNames(processingParams.getStopCities());
+            // Add gtfs stop name to alt_name if it is different than the logicalName from Netex
+            if (!stopName.equals(netexStopElement.getLogicalName(processingParams.getStopCities())) && !netexStopElement.getLogicalAltNames(processingParams.getStopCities()).isEmpty()) {
+                if (!altNames.contains(stopName)) {
+                    altNames.add(stopName.replace(";", "_"));
+                }
+            }
+            if (!altNames.isEmpty()) {
+                osmTags.put("alt_name", String.join(";", altNames));
+            }
+        } else {
+            osmTags.put(tag_defs.OSM_STOP_NAME_KEY, stopName);
+        }
 
         //        osmTags.put("bus", "yes");
 //        osmTags.put("public_transport", "plaform");
@@ -52,20 +76,24 @@ public class Stop extends OsmPrimitive implements Comparable{
 //        osmTags.put("source", "http://translink.com.au/about-translink/reporting-and-publications/public-transport-performance-data");
         
 //       osmTags.put("network", getOperatorName());
-//      osmTags.put(GTFS_OPERATOR_KEY, "");
+//      osmTags.put(tag_defs.OSM_NETWORK_KEY, "");
         this.lat = lat;
         this.lon = lon;
         routes = new HashSet<Route>();
     }
 
     public Stop(Stop s) {
+        super(s.primitiveType);
         this.osmTags = new Hashtable();
         this.osmTags.putAll(s.osmTags);
 //        this.osmTags.put("highway", "bus_stop");
 
-        this.osmTags.put(GTFS_STOP_ID_KEY, s.getStopID());
-        this.osmTags.put(GTFS_OPERATOR_KEY, s.getOperatorName());
-        this.osmTags.put(GTFS_NAME_KEY, s.getStopName());
+        this.osmTags.put(tag_defs.OSM_STOP_ID_KEY, s.getStopID());
+        this.osmTags.put(tag_defs.OSM_NETWORK_KEY, s.getOperatorName());
+        this.osmTags.put(tag_defs.OSM_STOP_NAME_KEY, s.getStopName());
+        if (s.getStopAltName() != null) {
+            this.osmTags.put("alt_name", s.getStopAltName());
+        }
         
 //        this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID());
 //        if (!s.getStopID().contains("place")) this.osmTags.put("url", "http://translink.com.au/stop/"+s.getStopID()); 
@@ -75,9 +103,10 @@ public class Stop extends OsmPrimitive implements Comparable{
 
         
 //        this.osmTags.put("network", s.getOperatorName());
-//        this.osmTags.put(GTFS_OPERATOR_KEY, "");
+//        this.osmTags.put(tag_defs.OSM_NETWORK_KEY, "");
         this.lat = s.lat;
         this.lon = s.lon;
+        this.stopNameWithTown = s.stopNameWithTown;
         this.setOsmId(s.getOsmId());
         this.setOsmVersion(s.getOsmVersion());
         this.setReportCategory(s.getReportCategory());
@@ -85,6 +114,7 @@ public class Stop extends OsmPrimitive implements Comparable{
         this.setStatus(s.getStatus());
         this.setLastEditedOsmDate(s.getLastEditedOsmDate());
         this.setLastEditedOsmUser(s.getLastEditedOsmUser());
+        this.wayNdRefs.addAll(s.wayNdRefs);
         routes = new HashSet<Route>();
         routes.addAll(s.getRoutes());
     }
@@ -106,15 +136,34 @@ public class Stop extends OsmPrimitive implements Comparable{
     }
 
     public String getStopID(){
-        return (String)osmTags.get(GTFS_STOP_ID_KEY);
+        return (String)osmTags.get(tag_defs.OSM_STOP_ID_KEY);
     }
 
     public String getOperatorName(){
-        return (String)osmTags.get(GTFS_OPERATOR_KEY);
+        return (String)osmTags.get(tag_defs.OSM_NETWORK_KEY);
     }
 
     public String getStopName(){
-        return (String)osmTags.get(GTFS_NAME_KEY);
+        return (String)osmTags.get(tag_defs.OSM_STOP_NAME_KEY);
+    }
+
+    public String getStopNameWithTown(){
+        if (stopNameWithTown != null)
+            return stopNameWithTown;
+        else
+            return getStopName();
+    }
+
+    public String getStopAltName(){
+        return (String)osmTags.get("alt_name");
+    }
+
+    public static List<String> stopAltNamesToList(String alt_names) {
+        if (alt_names == null)
+            return null;
+
+        String[] altNamesArray = alt_names.split(";");
+        return new ArrayList<>(Arrays.asList(altNamesArray));
     }
 
     public String getLat(){
@@ -138,17 +187,22 @@ public class Stop extends OsmPrimitive implements Comparable{
 
     public int compareTo(Object o){
         Stop s = (Stop) o;
-        double distance = OsmDistance.distVincenty(this.getLat(), this.getLon(),
-                            s.getLat(), s.getLon());
         if (!(this.getStopID().equals("none")) && !(this.getStopID().equals("missing"))
                 && (!(s.getStopID().equals("none"))) && (!(s.getStopID().equals("missing")))
+                && (!(this.getStopID().equals("New"))) && (!(s.getStopID().equals("New")))
                 && (!this.getOperatorName().equals("none")) && (!s.getOperatorName().equals("none"))
                 && (!this.getOperatorName().equals("missing")) && (!s.getOperatorName().equals("missing"))) {
             if ((s.getStopID().equals(this.getStopID())) && (this.compareOperatorName(s))) {
                 return 0;
             }
-        }
-        else {
+        } else if (this.getStopID().equals("New") || s.getStopID().equals("New")) {
+            if ((s.getStopID().equals(this.getStopID()))) {
+                return 0;
+            }
+            return 1;
+        } else {
+            double distance = OsmDistance.distVincenty(this.getLat(), this.getLon(),
+                    s.getLat(), s.getLon());
             if (distance < ERROR_TO_ZERO) {
                 return 0;
             }
@@ -195,5 +249,9 @@ public class Stop extends OsmPrimitive implements Comparable{
     @Override
     public String toString(){
         return this.getStopID();
+    }
+
+    public String getOsmPublicTransportType() {
+        return (String) osmTags.get(tag_defs.OSM_STOP_TYPE_KEY);
     }
 }

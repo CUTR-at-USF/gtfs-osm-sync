@@ -264,7 +264,7 @@ public class WriteFile {
                     //if last key
                     else {
                         if(!isGtfsFormat){
-                            st.removeTag(tag_defs.GTFS_OPERATOR_KEY);
+                            st.removeTag(tag_defs.OSM_NETWORK_KEY);
                             st.removeTag("name");
                             st.removeTag("source");
                             st.removeTag("highway");

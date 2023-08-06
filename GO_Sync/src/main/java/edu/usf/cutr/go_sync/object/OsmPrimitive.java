@@ -29,10 +29,16 @@ import java.util.Hashtable;
  */
 public class OsmPrimitive {
     Hashtable osmTags;
+
+    String primitiveType;
+    ArrayList<String> wayNdRefs;
+
     //TODO change reportCategory to enum
     private String status, osmVersion, osmid, reportCategory, reportText, lastEditedOsmUser="", lastEditedOsmDate="";
-    public OsmPrimitive(){
+    public OsmPrimitive(String primitiveType){
         osmTags = new Hashtable();
+        this.primitiveType = primitiveType;
+        wayNdRefs = new ArrayList<>();
     }
 
     public void addTag(String k, String v){
@@ -173,5 +179,23 @@ public class OsmPrimitive {
 
     public String getLastEditedOsmDate(){
         return lastEditedOsmDate;
+    }
+
+    public void setWayNdRefs(ArrayList<String> v) {
+        //System.out.println("setWayNdRefs: size " + v.size());
+        //System.out.println(v.toString());
+        wayNdRefs = v;
+    }
+
+    public ArrayList<String> getWayNdRefs() {
+        return wayNdRefs;
+    }
+
+    public void setPrimitiveType(String primitiveType) {
+        this.primitiveType = primitiveType;
+    }
+
+    public String getPrimitiveType() {
+        return primitiveType;
     }
 }

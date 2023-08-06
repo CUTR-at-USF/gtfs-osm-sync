@@ -17,9 +17,10 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.object;
 
-import java.util.HashSet;
+import edu.usf.cutr.go_sync.tag_defs;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  *
@@ -28,26 +29,28 @@ import java.util.Iterator;
 
 public class Route extends OsmPrimitive implements Comparable{
     private String routeId, routeRef, operatorName;
-    private HashSet<RelationMember> osmMembers;
-    private final String route_id_key = "gtfs_route_id";
+    private LinkedHashSet<RelationMember> osmMembers;
 
     public Route(String rId, String rRef, String op) {
+        super("relation");
         osmTags = new Hashtable();
-        osmMembers = new HashSet<RelationMember>();
+        osmMembers = new LinkedHashSet <RelationMember>();
         routeId = rId;
-        if(rId!=null) this.osmTags.put(route_id_key, rId);
+        if(rId!=null) this.osmTags.put(tag_defs.OSM_TRIP_ID_KEY, rId);
         routeRef = rRef;
         operatorName = op;
     }
 
     public Route(Route r) {
+        super("relation");
         this.osmTags = new Hashtable();
         if(r.osmTags!=null) this.osmTags.putAll(r.osmTags);
-        this.osmMembers = new HashSet<RelationMember>();
+        this.osmMembers = new LinkedHashSet <RelationMember>();
         if(r.getOsmMembers()!=null) this.osmMembers.addAll(r.getOsmMembers());
         this.routeId = r.getRouteId();
-        String ori = (String)r.getTags().get(route_id_key);
-        if(ori==null) this.osmTags.put(route_id_key, routeId);
+        if (routeId == null) routeId = "missing";
+        String ori = (String)r.getTags().get(tag_defs.OSM_TRIP_ID_KEY);
+        if(ori==null) this.osmTags.put(tag_defs.OSM_TRIP_ID_KEY, routeId);
         this.routeRef = r.getRouteRef();
         this.operatorName = r.getOperatorName();
         if(r.getOsmId()!=null) this.setOsmId(r.getOsmId());
@@ -63,8 +66,13 @@ public class Route extends OsmPrimitive implements Comparable{
         osmMembers.add(osmNodeId);
     }
 
-    public void addOsmMembers(HashSet<RelationMember> oMembers){
+    public void addOsmMembers(LinkedHashSet <RelationMember> oMembers){
         osmMembers.addAll(oMembers);
+    }
+
+    public void setOsmMembers(LinkedHashSet <RelationMember> oMembers){
+        osmMembers.clear();
+        osmMembers = oMembers;
     }
 
     public void removeOsmMember(RelationMember rm){
@@ -84,7 +92,7 @@ public class Route extends OsmPrimitive implements Comparable{
         return null;
     }
 
-    public HashSet<RelationMember> getOsmMembers(){
+    public LinkedHashSet <RelationMember> getOsmMembers(){
         return osmMembers;
     }
 
@@ -108,12 +116,22 @@ public class Route extends OsmPrimitive implements Comparable{
         return false;
     }
 
+    @Override
     public int compareTo(Object o){
         Route r = (Route) o;
-        if(this.compareOperatorName(r) && r.getRouteId().equals(this.getRouteId())) {
+        if (this.getRouteId().equals("missing") || r.getRouteId().equals("missing")) {
+            // Compare osmid
+            if (this.getOsmId().equals(r.getOsmId())) {
+                return 0;
+            }
+        }
+
+        if (!this.getRouteId().equals("missing") && !r.getRouteId().equals("missing")
+                && this.compareOperatorName(r) && r.getRouteId().equals(this.getRouteId())) {
             return 0;
         }
-        return 1;
+
+        return toString().compareTo(r.toString());
     }
 
     @Override
@@ -129,11 +147,14 @@ public class Route extends OsmPrimitive implements Comparable{
     @Override
     public int hashCode(){
         String id = this.getRouteId();
-        return id.hashCode();
+        String osmId = this.getTag("id");
+        return (id + '|' + osmId).hashCode();
     }
 
     @Override
     public String toString(){
-        return this.getRouteId();
+        if (routeId.equals("missing") && !getOsmId().isEmpty())
+            return "missing (" + getOsmId() + ")";
+        return this.getRouteRef() + ": " + this.getRouteId();
     }
 }

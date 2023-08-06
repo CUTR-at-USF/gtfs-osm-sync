@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.swinglabs</groupId>
+  <artifactId>swingx-beaninfo</artifactId>
+  <versioning>
+    <release>1.6</release>
+    <versions>
+      <version>1.6</version>
+    </versions>
+    <lastUpdated>20230716102207</lastUpdated>
+  </versioning>
+</metadata>

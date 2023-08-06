@@ -23,10 +23,15 @@ package edu.usf.cutr.go_sync.object;
  */
 public class RelationMember {
     private String ref, type, role, status, gtfsId="";
-    public RelationMember(String ref, String type, String role){
+    private String lat, lon;
+    private String refOsmPublicTransportType;
+    public RelationMember(String ref, String type, String role, String lat, String lon, String refOsmPublicTransportType) {
         this.ref = ref;
         this.type = type;
         this.role = role;
+        this.lat = lat;
+        this.lon = lon;
+        this.refOsmPublicTransportType = refOsmPublicTransportType;
     }
 
     public RelationMember(RelationMember rm){
@@ -35,6 +40,9 @@ public class RelationMember {
         this.role = rm.getRole();
         this.gtfsId = rm.getGtfsId();
         this.status = rm.getStatus();
+        this.lat = rm.getLat();
+        this.lon = rm.getLon();
+        this.refOsmPublicTransportType = rm.getRefOsmPublicTransportType();
     }
 
     public String getRef(){
@@ -49,12 +57,48 @@ public class RelationMember {
         return role;
     }
 
+    public String getRoleForFinalOutput() {
+        // Get the role/public_transport_type from the referenced osm object.
+        String cur_role = role;
+        String new_role = role;
+        if (refOsmPublicTransportType == null) {
+            return role;
+        }
+        if (!refOsmPublicTransportType.equals("stop_position") && !refOsmPublicTransportType.equals("platform")) {
+            return role;
+        }
+        if (refOsmPublicTransportType.equals("stop_position")) {
+            new_role = "stop";
+        }
+        if (refOsmPublicTransportType.equals("platform")) {
+            new_role = "platform";
+        }
+        if (role.endsWith("_exit_only")) {
+            return new_role + "_exit_only";
+        } else if (role.endsWith("_entry_only")) {
+            return new_role + "_entry_only";
+        }
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public void setGtfsId(String v){
         gtfsId = v;
     }
 
     public String getGtfsId(){
         return gtfsId;
+    }
+
+    public String getRefOsmPublicTransportType() {
+        return refOsmPublicTransportType;
+    }
+
+    public void setRefOsmPublicTransportType(String refOsmPublicTransportType) {
+        this.refOsmPublicTransportType = refOsmPublicTransportType;
     }
 
     public int compareTo(Object o){
@@ -77,6 +121,22 @@ public class RelationMember {
 
     public String getStatus(){
         return status;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
     }
 
     @Override

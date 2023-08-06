@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -53,7 +54,9 @@ import edu.usf.cutr.go_sync.tools.parser.BusStopParser;
 import edu.usf.cutr.go_sync.tools.parser.ChangesetDownloadParser;
 import edu.usf.cutr.go_sync.tools.parser.OsmVersionParser;
 import edu.usf.cutr.go_sync.tools.parser.RouteParser;
+import edu.usf.cutr.go_sync.tools.parser.NodeWayAttr;
 import edu.usf.cutr.go_sync.tag_defs;
+import java.util.Arrays;
 /**
  *
  * @author Khoa Tran
@@ -63,11 +66,11 @@ public class HttpRequest {
     private static final String API_VERSION ="0.6";
     private static final String OSM_HOST = "https://openstreetmap.org/api/0.6/";
 
-    private ArrayList<AttributesImpl> existingNodes = new ArrayList<AttributesImpl>();
+    private ArrayList<NodeWayAttr> existingNodes = new ArrayList<NodeWayAttr>();
     private ArrayList<AttributesImpl> existingRelations = new ArrayList<AttributesImpl>();
     private ArrayList<Hashtable> existingBusTags = new ArrayList<Hashtable>();
     private ArrayList<Hashtable> existingRelationTags = new ArrayList<Hashtable>();
-    private ArrayList<HashSet<RelationMember>> existingRelationMembers = new ArrayList<HashSet<RelationMember>>();
+    private ArrayList<LinkedHashSet <RelationMember>> existingRelationMembers = new ArrayList<LinkedHashSet <RelationMember>>();
 
     private HashSet<Stop> revertDelete = new HashSet<Stop>();
     private HashSet<Stop> revertModify = new HashSet<Stop>();
@@ -107,7 +110,7 @@ public class HttpRequest {
         }
     }
 
-    public ArrayList<AttributesImpl> getExistingBusStops(String left, String bottom, String right, String top) throws InterruptedException{
+    public ArrayList<NodeWayAttr> getExistingBusStops(String left, String bottom, String right, String top) throws InterruptedException{
         //http://open.mapquestapi.com/xapi/
         //"http://www.informationfreeway.org"
 //        String urlSuffix = "/api/0.6/node[highway=bus_stop][bbox="+left+","+bottom+","+right+","+top+"]";
@@ -125,6 +128,12 @@ public class HttpRequest {
     			"<has-kv k='public_transport' v='platform'/>"+
     			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
     			"</query>"+
+
+    			"<query type='way'>" +
+    			"<has-kv k='public_transport' v='platform'/>"+
+    			"<bbox-query w='left' e='right' s='bottom' n='north'/>"+
+    			"</query>"+
+                        "<union><item/><recurse type='down'/></union>"+
 
     			"<query type='node'>" +
     			"<has-kv k='public_transport' v='station'/>"+
@@ -190,11 +199,27 @@ public class HttpRequest {
     public ArrayList<AttributesImpl> getExistingBusRelations(String left, String bottom, String right, String top) throws InterruptedException{
 //        String urlSuffix = "/api/0.6/relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
 //        String[] hosts = {"http://open.mapquestapi.com/xapi","http://www.informationfreeway.org"};
-    	String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
-        String[] hosts = {"http://www.overpass-api.de/api/xapi_meta","http://overpass.openstreetmap.ru/cgi/xapi_meta"};
+
+        String content = "";
+        content += "<query type='relation'>";
+        content += "<bbox-query w='left' e='right' s='bottom' n='north'/>";
+        content += "<has-kv k='route' v='bus'/>";
+        content += "</query>";
+        content += "<union>";
+        content += "<item/>";
+        content += "<recurse type='down'/>";
+        content += "</union>";
+        content += "<print mode='meta'/>";
+        content = content.replace("left", left).replace("right", right).replace("bottom", bottom).replace("north", top);
+        System.out.println(content);
+
+        //String urlSuffix = "?relation[route=bus][bbox="+left+","+bottom+","+right+","+top+"]";
+        //String[] hosts = {"http://www.overpass-api.de/api/xapi_meta","http://overpass.openstreetmap.ru/cgi/xapi_meta"};
+        String[] hosts = {"http://overpass-api.de/api/interpreter", "http://api.openstreetmap.fr/oapi/interpreter", "http://overpass.osm.rambler.ru/cgi/interpreter",};
         try {
             // get data from server
-            String s = sendRequest(hosts, urlSuffix, "GET", "");
+            //String s = sendRequest(hosts, urlSuffix, "GET", "");
+            String s = sendRequest(hosts, "", "POST", content);
             InputSource inputSource = new InputSource(new StringReader(s));
             // get data from file - need to remove this for REAL APPLICATION
 //            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
@@ -225,7 +250,7 @@ public class HttpRequest {
     }
 
     // this method needs to be invoked after getExistingBusRelations
-    public ArrayList<HashSet<RelationMember>> getExistingBusRelationMembers(){
+    public ArrayList<LinkedHashSet <RelationMember>> getExistingBusRelationMembers(){
         System.out.println("tags = "+existingRelationMembers.size());
         if (!existingRelationMembers.isEmpty() )
             return existingRelationMembers;
@@ -298,10 +323,11 @@ public class HttpRequest {
 //            InputSource inputSource = new InputSource("DataFromServerRELATION.osm");
             BusStopParser par = new BusStopParser();
             SAXParserFactory.newInstance().newSAXParser().parse(inputSource, par);
-            AttributesImpl attImplNode = par.getOneNode();
+            NodeWayAttr attImplNode = par.getOneNode();
             Hashtable tags = par.getTagsOneNode();
-            st = new Stop(null,(String)tags.get(tag_defs.GTFS_OPERATOR_KEY),(String)tags.get("name"),
-                    attImplNode.getValue("lat"),attImplNode.getValue("lon"));
+            
+            st = new Stop("node", null,(String)tags.get(tag_defs.OSM_NETWORK_KEY),(String)tags.get("name"),
+                    attImplNode.getValue("lat"),attImplNode.getValue("lon"), null);
             st.addTags(tags);
             if (!isNew) {
                 st.setOsmId(attImplNode.getValue("id"));

@@ -17,11 +17,14 @@ Copyright 2010 University of South Florida
 
 package edu.usf.cutr.go_sync.gui.object;
 
+import edu.usf.cutr.go_sync.gui.ReportViewer;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 import edu.usf.cutr.go_sync.gui.object.StopTableInfo;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -29,6 +32,7 @@ import edu.usf.cutr.go_sync.gui.object.StopTableInfo;
  */
 public class BooleanMouseListener implements MouseListener{
     private JTable dataTable;
+    private ReportViewer reportViewer;
 
     private void checkBoxEvent(MouseEvent e) {
         TableColumnModel columnModel = dataTable.getColumnModel();
@@ -47,30 +51,36 @@ public class BooleanMouseListener implements MouseListener{
 
         // add appropriate data to New Values
         String dataValue = (String)dataTable.getValueAt(row, column-1);
-        if((dataValue!=null) && !(dataValue.equals(""))){
-            Boolean otherCheckBox;
-            String otherData, insertData=dataValue;
-            int otherCheckColumn;
-            int dataColumn = column - 1;
-            int otherDataColumn;
 
+        Boolean otherCheckBox;
+        String otherData, insertData = dataValue;
+        int otherCheckColumn;
+        int otherDataColumn;
+
+        // look at data, checkBox info for other columns
+        // FIXME: needs some cleaning up for better readability
+        if (column == StopTableInfo.GTFS_CHECK_COL) {
+            otherCheckColumn = StopTableInfo.OSM_CHECK_COL;
+            otherDataColumn = otherCheckColumn - 1;
+            otherCheckBox = (Boolean) dataTable.getValueAt(row, otherCheckColumn);
+            otherData = (String) dataTable.getValueAt(row, otherDataColumn);
+        } else { // column == StopTableInfo.OSM_CHECK_COL
+            otherCheckColumn = StopTableInfo.GTFS_CHECK_COL;
+            otherDataColumn = otherCheckColumn - 1;
+            otherCheckBox = (Boolean) dataTable.getValueAt(row, otherCheckColumn);
+            otherData = (String) dataTable.getValueAt(row, otherDataColumn);
+        }
+
+        if((dataValue!=null) && !(dataValue.equals(""))){
             // look at data, checkBox info for other columns
             // FIXME: needs some cleaning up for better readability
             if(column==StopTableInfo.GTFS_CHECK_COL) {
-                otherCheckColumn = StopTableInfo.OSM_CHECK_COL;
-                otherDataColumn = otherCheckColumn - 1;
-                otherCheckBox = (Boolean)dataTable.getValueAt(row, otherCheckColumn);
-                otherData = (String)dataTable.getValueAt(row, otherDataColumn);
                 if(otherData!=null && !(otherData.equals("")))
-                    insertData = dataValue+";"+otherData;
+                    insertData = addToOSMMultiValue(dataValue, otherData);
             } else { // column == StopTableInfo.OSM_CHECK_COL
-                otherCheckColumn = StopTableInfo.GTFS_CHECK_COL;
-                otherDataColumn = otherCheckColumn - 1;
-                otherCheckBox = (Boolean)dataTable.getValueAt(row, otherCheckColumn);
-                otherData = (String)dataTable.getValueAt(row, otherDataColumn);
                 if(otherCheckBox) {
                     if (otherData!=null && !(otherData.equals("")))
-                        insertData = otherData+";"+dataValue;
+                        insertData = addToOSMMultiValue(dataValue, otherData);
                     else {
                         insertData = dataValue;
                         otherCheckBox = false;
@@ -113,10 +123,25 @@ public class BooleanMouseListener implements MouseListener{
                 }
             }
         }
+
+        if ((dataValue == null || dataValue.isEmpty()) && (otherData == null || otherData.isEmpty())) {
+            insertData = null;
+            dataTable.setValueAt(insertData, row, StopTableInfo.NEW_VALUE_DATA_COL);
+        }
+
+        String tagName = (String)dataTable.getValueAt(row, 0);
+        if (tagName.equals("public_transport:version")) {
+            reportViewer.PTVersionChanged();
+        }
     }
 
     public BooleanMouseListener(JTable table) {
         dataTable = table;
+    }
+
+    public BooleanMouseListener(JTable table, ReportViewer rviewer) {
+        dataTable = table;
+        reportViewer = rviewer;
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -138,5 +163,18 @@ public class BooleanMouseListener implements MouseListener{
 
     public void mouseReleased(MouseEvent e) {
 //        checkBoxEvent(e);
+    }
+
+    private String addToOSMMultiValue(String dataValue, String otherData) {
+        ArrayList<String> dataValueList = new ArrayList<>(Arrays.asList(dataValue.split(";")));
+        ArrayList<String> otherDataList = new ArrayList<>(Arrays.asList(otherData.split(";")));
+        dataValueList.replaceAll(String::trim);
+        otherDataList.replaceAll(String::trim);
+        for (String data : otherDataList) {
+            if (!dataValueList.contains(data)) {
+                dataValueList.add(data);
+            }
+        }
+        return String.join(";", dataValueList);
     }
 }

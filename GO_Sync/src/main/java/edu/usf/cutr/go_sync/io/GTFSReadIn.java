@@ -20,11 +20,18 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import edu.usf.cutr.go_sync.gui.MainForm;
 import edu.usf.cutr.go_sync.tag_defs;
 import edu.usf.cutr.go_sync.object.OperatorInfo;
 import edu.usf.cutr.go_sync.object.Route;
+import edu.usf.cutr.go_sync.object.RouteVariant;
 import edu.usf.cutr.go_sync.object.Stop;
 import edu.usf.cutr.go_sync.tools.OsmFormatter;
+import edu.usf.cutr.go_sync.object.NetexQuay;
+import edu.usf.cutr.go_sync.object.NetexStopElement;
+import edu.usf.cutr.go_sync.object.NetexStopPlace;
+import edu.usf.cutr.go_sync.object.ProcessingOptions;
+import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -35,14 +42,25 @@ public class GTFSReadIn {
     private static final String ROUTE_KEY = "route_ref";
     private static final String NTD_ID_KEY = "ntd_id";
 
+    // Since we don't save all trip_id in RouteVariant, we have to maintain a list that says which RouteVariant
+    // has the same trip as the Gtfs trip_id in file
+    HashMap<String, String> gtfsTripIdToRouteVariantMap = new HashMap<>();
+
     private List<Stop> stops;
+    private HashMap<String, Stop> stopsMap;
+    HashMap <String, NetexQuay> netexQuaysByGtfsId;
+    HashMap <String, NetexQuay> netexQuaysByQuayId;
+    HashMap <String, NetexStopPlace> netexLogicalSites;
+    HashMap <String, NetexStopPlace> netexParentSitesByGtfsId;
+    HashMap <String, NetexStopPlace> netexAllStopPlacesByGtfsId;
+    HashMap <String, NetexStopPlace> netexAllStopPlacesByStopPlaceId;
 
     public GTFSReadIn() {
         stops = new ArrayList<Stop>();
+        stopsMap = new HashMap<String, Stop>();
         allRoutes = new Hashtable<String, Route>();
 //        readBusStop("C:\\Users\\Khoa Tran\\Desktop\\Summer REU\\Khoa_transit\\stops.txt");
     }
-
     public static Set<String> getAllRoutesID(){
         return allRoutes.keySet();
     }
@@ -55,10 +73,10 @@ public class GTFSReadIn {
 
             for (CSVRecord csvRecord : parser) {
                 String agencyName;
-                if (csvRecord.get(tag_defs.GTFS_NETWORK_KEY) == null ||
-                    csvRecord.get(tag_defs.GTFS_NETWORK_KEY).isEmpty())
-                    agencyName = csvRecord.get(tag_defs.GTFS_NETWORK_ID_KEY);
-                else agencyName = csvRecord.get(tag_defs.GTFS_NETWORK_KEY);
+                if (csvRecord.get(tag_defs.GTFS_AGENCY_NAME_KEY) == null ||
+                    csvRecord.get(tag_defs.GTFS_AGENCY_NAME_KEY).isEmpty())
+                    agencyName = csvRecord.get(tag_defs.GTFS_AGENCY_ID_KEY);
+                else agencyName = csvRecord.get(tag_defs.GTFS_AGENCY_NAME_KEY);
                 br.close();
                 return agencyName;
             }
@@ -70,14 +88,18 @@ public class GTFSReadIn {
         return null;
     }
 
-    public List<Stop> readBusStop(String fName, String agencyName, String routes_fName, String trips_fName, String stop_times_fName){
+    public List<Stop> readBusStop(String fName, String agencyName, String routes_fName, String trips_fName, String stop_times_fName, String netexStopsFilename){
         long tStart = System.currentTimeMillis();
         Hashtable<String, HashSet<Route>> id = matchRouteToStop(routes_fName, trips_fName, stop_times_fName);
         Hashtable<String, HashSet<Route>> stopIDs = new Hashtable<String, HashSet<Route>>(id);
 
+        if (netexStopsFilename != null && !netexStopsFilename.isEmpty()) {
+            readNetexStopsFile(netexStopsFilename);
+        }
+
         String thisLine;
         String [] elements;
-        int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1;
+        int stopIdKey=-1, stopNameKey=-1, stopLatKey=-1, stopLonKey=-1, locationTypeKey=-1, parentStationKey=-1;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(fName)),"UTF-8"));
             HashMap<String,Integer> keysIndex = new HashMap<String,Integer> ();
@@ -106,13 +128,18 @@ public class GTFSReadIn {
                                 stopLonKey = i;
                                 break;
                             case tag_defs.GTFS_STOP_URL_KEY:
-                                keysIndex.put(tag_defs.OSM_URL_KEY, i);
+                                keysIndex.put(tag_defs.OSM_STOP_URL_KEY, i);
                                 break;
                             case tag_defs.GTFS_ZONE_KEY:
                                 keysIndex.put(tag_defs.OSM_ZONE_KEY, i);
                                 break;
                             case tag_defs.GTFS_STOP_TYPE_KEY:
+                                locationTypeKey = i;
                                 keysIndex.put(tag_defs.OSM_STOP_TYPE_KEY, i);
+                                break;
+                            case tag_defs.GTFS_PARENT_STATION_KEY:
+                                parentStationKey = i;
+                                keysIndex.put(tag_defs.OSM_PARENT_STATION_KEY, i);
                                 break;
                             case tag_defs.GTFS_WHEELCHAIR_KEY:
                                 keysIndex.put(tag_defs.OSM_WHEELCHAIR_KEY, i);
@@ -131,9 +158,12 @@ public class GTFSReadIn {
                 Map<String,String> hm = csvRecord.toMap();
                 elements =  new String[hm.size()];
                 elements = hm.values().toArray(elements);
+                String public_transport_type = "";
                  //add leading 0's to gtfs_id
                     String tempStopId = OsmFormatter.getValidBusStopId(elements[stopIdKey]);
-                    Stop s = new Stop(tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey]);
+                    //System.out.println("Reading stop from gtfs: " + tempStopId.toString());
+                    NetexStopElement netexObject = getMatchingNetexObject(elements[locationTypeKey], elements[stopIdKey], elements[parentStationKey], elements[stopLatKey],elements[stopLonKey], elements[stopNameKey]);
+                    Stop s = new Stop("node", tempStopId, agencyName, elements[stopNameKey],elements[stopLatKey],elements[stopLonKey], netexObject);
                     HashSet<String> keysn = new HashSet<String>(keysIndex.keySet());
                     Iterator it = keysn.iterator();
                     try {
@@ -147,8 +177,12 @@ public class GTFSReadIn {
                                 if (k.equals(tag_defs.OSM_STOP_TYPE_KEY)) {
                                     switch(Integer.parseInt(v)) {
                                         // https://developers.google.com/transit/gtfs/reference/stops-file
-                                        case 0: v="platform";break;
-                                        case 1: v="station"; break;
+                                        case 0:
+                                            v = public_transport_type = "platform";
+                                            break;
+                                        case 1:
+                                            v = public_transport_type = "station";
+                                            break;
                                         default: break;
                                     }
                                 }
@@ -175,7 +209,7 @@ public class GTFSReadIn {
                                         s.addTag(k, v);
                                     }
                                 } else
-                                    s.addTag(k, v);
+                                    s.addTag(k, v.replace("  ", " ").trim());
                             }
                             //System.out.print(k+":" + v +" ");
                         }
@@ -201,8 +235,9 @@ public class GTFSReadIn {
                     if(asdf!=null)s.addRoutes(stopIDs.get(tempStopId));
 
                     stops.add(s);
+                    stopsMap.put(tempStopId,s);
 
-                    HashMap<String,String> modes = getModeTagsByBusStop(stopIDs.get(tempStopId));
+                    HashMap<String, String> modes = getModeTagsByBusStop(stopIDs.get(tempStopId), public_transport_type);
                     if (!r.isEmpty()) s.addTags(modes);
 //                    System.out.println(thisLine);
                 }
@@ -242,7 +277,7 @@ public class GTFSReadIn {
                         routeIdKey = i;
                         break;
                     case tag_defs.GTFS_ROUTE_URL_KEY:
-                        keysIndex.put(tag_defs.OSM_URL_KEY, i);
+                        keysIndex.put(tag_defs.OSM_ROUTE_URL_KEY, i);
                         break;
                     case "route_type":
                         keysIndex.put(tag_defs.OSM_ROUTE_TYPE_KEY, i);
@@ -251,11 +286,11 @@ public class GTFSReadIn {
                     case tag_defs.GTFS_COLOR_KEY:
                         keysIndex.put(tag_defs.OSM_COLOUR_KEY, i);
                         break;
-                    case tag_defs.GTFS_ROUTE_NUM:
+                    case tag_defs.GTFS_ROUTE_NUM_KEY:
                         routeShortNameKey = i;
                         break;
-                    case tag_defs.GTFS_ROUTE_NAME:
-                        routeLongNameKey = i;
+                    case tag_defs.GTFS_ROUTE_NAME_KEY:
+                        keysIndex.put(tag_defs.OSM_ROUTE_NAME_KEY, i);
                         break;
                     default:
                         String t = "gtfs_" + keysn[i];
@@ -263,9 +298,6 @@ public class GTFSReadIn {
                         break;
                 }
             }
-            if (routeLongNameKey != -1)
-                keysIndex.put("name",routeLongNameKey);
-//                    System.out.println(stopIdKey+","+stopNameKey+","+stopLatKey+","+stopLonKey);
 
             {
                 final Pattern colourPattern = Pattern.compile("^[a-fA-F0-9]+$");
@@ -315,9 +347,23 @@ public class GTFSReadIn {
 //                                if (k.equals(tag_defs.OSM_COLOUR_KEY))
 //                                    System.out.println(tag_defs.OSM_COLOUR_KEY + " "+ v + " #"+v);
                                 if (k.equals(tag_defs.OSM_COLOUR_KEY) && ((v.length() == 3 || v.length() == 6) && colourPattern.matcher(v).matches()))/*^[a-fA-F0-9]+$")))*/ {
+                                    if (v.equalsIgnoreCase("FFFFFF")) {
+                                        // If value is not set, it defaults to FFFFFF (ie. white). If value is set to FFFFFF, we consider that color is not set.
+                                        continue;
+                                    }
                                     v = "#".concat(v);
                                 }
-                                r.addTag(k, v);
+                                if (k.equals("gtfs_route_text_color")) {
+                                    if (MainForm.processingOptions.contains(ProcessingOptions.DONT_ADD_GTFS_ROUTE_TEXT_COLOR_TO_ROUTE)) {
+                                        continue;
+                                    }
+                                }
+                                if (k.equals("gtfs_agency_id")) {
+                                    if (MainForm.processingOptions.contains(ProcessingOptions.DONT_ADD_GTFS_AGENCY_ID_TO_ROUTE)) {
+                                        continue;
+                                    }
+                                }
+                                r.addTag(k, v.replace("  ", " ").trim());
                             }
                         }
                     } catch(Exception e){
@@ -335,9 +381,132 @@ public class GTFSReadIn {
         return routes;
     }
 
-    public Hashtable<String, HashSet<Route>> matchRouteToStop(String routes_fName, String trips_fName, String stop_times_fName){
-        allRoutes.putAll(readRoutes(routes_fName));
-        HashMap<String,String> tripIDs = new HashMap<String,String>();
+    private void insertRouteVariantToAllRouteVariants(String prev_trip_id, RouteVariant rv, HashMap<String, RouteVariant> allRouteVariants) {
+        String duplicate_route = null;
+        // If we start reading a new trip, save the previous trip to allRouteVariants
+
+        // Search if there is any RouteVariant in allRouteVariants having the same sequence.
+        for (HashMap.Entry<String, RouteVariant> rv_check : allRouteVariants.entrySet()) {
+            String key = rv_check.getKey();
+            RouteVariant value = rv_check.getValue();
+
+            if (value.equalsSequenceOf(rv)) {
+                duplicate_route = key;
+                //System.out.println(String.format("Duplicate trips: Existing:%s vs New:%s", key, rv.getTrip_id()));
+                break;
+            }
+        }
+        if (duplicate_route == null) {
+            allRouteVariants.put(prev_trip_id, rv);
+            gtfsTripIdToRouteVariantMap.put(prev_trip_id, prev_trip_id);
+        } else {
+            //System.out.println(String.format("Adding equal %s to existing trip %s", rv.getTrip_id(), duplicate_route));
+            allRouteVariants.get(duplicate_route).addSame_trip_sequence(rv.getTrip_id());
+            gtfsTripIdToRouteVariantMap.put(prev_trip_id, duplicate_route);
+        }
+    }
+
+    public HashMap<String, RouteVariant> readRouteVariants(String stop_times_fName, String trips_fName, String routes_fName) {
+        //assert (!stopsMap.isEmpty()) : "no stops. Is this called after having read the stops.txt file?";
+
+        HashMap<String, RouteVariant> allRouteVariants = new HashMap<String, RouteVariant>();
+        String thisLine;
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new BOMInputStream(new FileInputStream(stop_times_fName)), "UTF-8"));
+            HashMap<String, Integer> keysIndex = new HashMap<String, Integer>();
+            thisLine = br.readLine();
+            StringReader sr = new StringReader(thisLine);
+            CSVParser headerParser = CSVParser.parse(sr, CSVFormat.DEFAULT.withHeader( //"route_id","route_short_name","route_long_name","route_desc","route_type","route_url","color","route_text_color"
+                    ));
+            List<String> CSVkeysList = headerParser.getHeaderNames();
+            String[] keysn = new String[CSVkeysList.size()];
+            keysn = CSVkeysList.toArray(keysn);
+            for (int i = 0; i < keysn.length; i++) {
+                //read keys
+                switch (keysn[i]) {
+                    default:
+                        keysIndex.put(keysn[i], i);
+                        break;
+                }
+            }
+
+            String prev_trip_id = null;
+            String trip_id = null;
+            RouteVariant rv = null;
+
+            CSVParser parser = CSVParser.parse(br, CSVFormat.DEFAULT.withHeader(keysn));
+            for (CSVRecord csvRecord : parser) {
+                // Create route variant if it doesn't exist, or fetch the existing one.
+                trip_id = csvRecord.get(keysIndex.get("trip_id"));
+
+                if (prev_trip_id == null) {
+                    rv = new RouteVariant(trip_id);
+                } else {
+                    if (!trip_id.equals(prev_trip_id)) {
+                        insertRouteVariantToAllRouteVariants(prev_trip_id, rv, allRouteVariants);
+                        rv = new RouteVariant(trip_id);
+                    }
+                }
+
+                prev_trip_id = trip_id;
+
+                Integer sequence_id = Integer.valueOf(csvRecord.get(keysIndex.get("stop_sequence")));
+                String stop_id = csvRecord.get(keysIndex.get("stop_id"));
+                String arrival_time = csvRecord.get(keysIndex.get("arrival_time"));
+                String departure_time = csvRecord.get(keysIndex.get("departure_time"));
+                String pickup_type = csvRecord.get(keysIndex.get("pickup_type"));
+                String drop_off_type = csvRecord.get(keysIndex.get("drop_off_type"));
+
+                rv.addStop(sequence_id, stop_id, stopsMap.get(stop_id).getStopNameWithTown(), arrival_time, departure_time, pickup_type, drop_off_type);
+            }
+            // We finished reading the file, save the last trip we read.
+            insertRouteVariantToAllRouteVariants(prev_trip_id, rv, allRouteVariants);
+
+            // Read trips & routes files
+            Hashtable<String, Route> routes = readRoutes(routes_fName);
+            HashMap<String, String> tripIDs = getTripIDs(trips_fName);
+
+            // Now fill the routeVariants with the route_id & route_short_name
+            for (HashMap.Entry<String, RouteVariant> rv_entry : allRouteVariants.entrySet()) {
+                RouteVariant current_rv = rv_entry.getValue();
+                String route_id = tripIDs.get(current_rv.getTrip_id());
+                current_rv.setRoute_id(route_id);
+                current_rv.setRoute(routes.get(route_id));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error: " + e);
+        }
+
+        return allRouteVariants;
+    }
+
+    public static HashMap<String, ArrayList<RouteVariant>> getAllRouteVariantsByRoute(HashMap<String, RouteVariant> allRouteVariants) {
+        HashMap<String, ArrayList<RouteVariant>> allRouteVariantsByRoute = new HashMap<>();
+
+        for (HashMap.Entry<String, RouteVariant> rv_entry : allRouteVariants.entrySet()) {
+            RouteVariant current_rv = rv_entry.getValue();
+            String route_id = current_rv.getRoute_id();
+
+            if (allRouteVariantsByRoute.containsKey(route_id)) {
+                allRouteVariantsByRoute.get(route_id).add(current_rv);
+            } else {
+                ArrayList rvlist = new ArrayList<>();
+                rvlist.add(current_rv);
+                allRouteVariantsByRoute.put(route_id, rvlist);
+            }
+        }
+        return allRouteVariantsByRoute;
+    }
+
+    public HashMap<String, String> getGtfsTripIdToRouteVariantMap() {
+        //System.out.println(String.format("gtfsTripIdToRouteVariantMap content: %s", gtfsTripIdToRouteVariantMap.toString()));
+        return gtfsTripIdToRouteVariantMap;
+    }
+
+    public HashMap<String, String> getTripIDs(String trips_fName) {
+        HashMap<String, String> tripIDs = new HashMap<>();
 
         // trips.txt read-in
         try {
@@ -356,6 +525,12 @@ public class GTFSReadIn {
         catch (IOException e) {
             System.err.println("Error: " + e);
         }
+        return tripIDs;
+    }
+
+    public Hashtable<String, HashSet<Route>> matchRouteToStop(String routes_fName, String trips_fName, String stop_times_fName){
+        allRoutes.putAll(readRoutes(routes_fName));
+        HashMap<String,String> tripIDs = getTripIDs(trips_fName);
 
         // hashtable String(stop_id) vs. HashSet(routes)
         Hashtable<String, HashSet<Route>> stopIDs = new Hashtable<String, HashSet<Route>>();
@@ -372,7 +547,7 @@ public class GTFSReadIn {
                 Route tr = null;
                 if (tripIDs.get(trip) != null) tr = allRoutes.get(tripIDs.get(trip));
                 if (tr != null) routes.add(tr);
-                String sid = OsmFormatter.getValidBusStopId(csvRecord.get(tag_defs.GTFS_TRIPS_STOP_ID_KEY));
+                String sid = OsmFormatter.getValidBusStopId(csvRecord.get(tag_defs.GTFS_STOP_ID_KEY));
                 if (stopIDs.containsKey(sid)) {
                     routes.addAll(stopIDs.get(sid));
                     stopIDs.remove(sid);
@@ -388,22 +563,59 @@ public class GTFSReadIn {
 
     //TODO implement  this
     // https://wiki.openstreetmap.org/wiki/Public_transport
-    public HashMap<String,String> getModeTagsByBusStop(HashSet<Route> r) {
+    public HashMap<String,String> getModeTagsByBusStop(HashSet<Route> r, String public_transport_type) {
         HashMap<String,String> keys = new HashMap<String,String>();
         if (r!=null) {
             //convert from hashset to arraylist
             ArrayList<Route> routes = new ArrayList<Route>(r);
-            for (Route rr:routes) {
-                if (rr.containsKey(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+            for (Route rr : routes) {
+                if (public_transport_type.equals("platform")) {
+                    if (rr.containsKey(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                        switch (rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                            case "bus":
+                            case "trolley_bus":
+                            case "share_taxi":
+                                keys.put("highway", "bus_stop");
+                                break;
+                            case "railway":
+                            case "tram":
+                            case "subway":
+                            case "light_rail":
+                                keys.put("railway", "paltform");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                } else if (public_transport_type.equals("stop_position")) {
                     keys.put(rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY), "yes");
-                    if (rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY) == "ferry")
-                        keys.put("amenity","ferry_terminal");
-                }
-                if (rr.containsKey("aerialway"))
-                     keys.put("aerialway","station");
-                if (rr.containsKey("railway") && rr.getTag("railway") == "funicular") {
-                    keys.put("railway","station");
-                    keys.put("station","funicular");
+                } else if (public_transport_type.equals("station")) {
+                    if (rr.containsKey(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                        switch (rr.getTag(tag_defs.OSM_ROUTE_TYPE_KEY)) {
+                            case "bus":
+                                keys.put("amenity", "bus_station");
+                                break;
+                            case "railway":
+                            case "tram":
+                            case "subway":
+                            case "light_rail":
+                                keys.put("railway", "station");
+                                break;
+                            case "ferry":
+                                keys.put("amenity", "ferry_terminal");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (rr.containsKey("railway") && rr.getTag("railway").equals("funicular")) {
+                        keys.put("railway", "station");
+                        keys.put("station", "funicular");
+                    }
+                    if (rr.containsKey("aerialway")) {
+                        keys.put("aerialway", "station");
+                    }
                 }
             }
         }
@@ -431,5 +643,165 @@ public class GTFSReadIn {
             text = String.join(";",routeRefSet);
         }
         return text;
+    }
+
+    private NetexStopElement getMatchingNetexObject(String gtfsLocationType, String gtfsId, String parentSite, String lat, String lon, String gtfsStopName) {
+        NetexStopElement matchingObject = null;
+        if (gtfsLocationType == null) {
+            return null;
+        }
+
+        if (gtfsLocationType.isEmpty() || gtfsLocationType.equals("0")) {
+            // 0: Stop (or Platform) in gtfs, corresponds to a Quay in Netex
+            matchingObject = getMatchingNetexQuay(gtfsId, parentSite, lat, lon, gtfsStopName);
+        }
+
+        if (gtfsLocationType.isEmpty() || gtfsLocationType.equals("1")) {
+            // 1: station in gtfs, corresponds to a StopPlace in Netex
+            matchingObject = getMatchingNetexStopPlace(gtfsId, parentSite, lat, lon, gtfsStopName);
+        }
+
+        return matchingObject;
+    }
+
+    private NetexStopPlace getMatchingNetexStopPlace(String gtfsId, String parentSite, String lat, String lon, String gtfsStopName) {
+        if (netexAllStopPlacesByGtfsId == null) {
+            return null;
+        }
+
+        // Check if there is a <StopPlace id=""> matching the gtfsId
+        // If it exists, return this value.
+        NetexStopPlace stopPlace = netexAllStopPlacesByGtfsId.get(gtfsId);
+        if (stopPlace != null) {
+            return stopPlace;
+        }
+
+        // TODO: implement the case where nothing was found.
+        //   iterate on all stopPlaces to find the ones with the same lat/lon
+        //     if only one, return that one
+        //     if more that one, check by name
+        //       if only one with that name, return that one
+        //       else return the first one with that name
+        ArrayList<NetexStopPlace> stopPlaceMatchingLatLon = new ArrayList<>();
+        for (NetexStopPlace sp : netexAllStopPlacesByGtfsId.values()) {
+            if (lat.equals(sp.getLat()) && lon.equals(sp.getLon())) {
+                stopPlaceMatchingLatLon.add(sp);
+            }
+        }
+        if (stopPlaceMatchingLatLon.size() == 1) {
+            return stopPlaceMatchingLatLon.get(0);
+        }
+
+        ArrayList<NetexStopPlace> stopPlaceMatchingName = new ArrayList<>();
+        if (stopPlaceMatchingLatLon.size() > 1) {
+            for (NetexStopPlace sp : stopPlaceMatchingLatLon) {
+                if (gtfsStopName.equals(sp.getName())) {
+                    stopPlaceMatchingName.add(sp);
+                }
+            }
+        }
+        if (!stopPlaceMatchingName.isEmpty()) {
+            return stopPlaceMatchingName.get(0);
+        }
+
+        // if there is no match found, return null
+        System.out.println("Warning: No matching StopPlace found in netex for gtfs stop_id: " + gtfsId);
+        return null;
+    }
+
+    private NetexQuay getMatchingNetexQuay(String gtfsId, String parentSite, String lat, String lon, String gtfsStopName) {
+        if (netexQuaysByGtfsId == null) {
+            return null;
+        }
+
+        // Check if there is a <Quay id=""> matching the gtfsId
+        // If it exists, return this value.
+        NetexQuay quay = netexQuaysByGtfsId.get(gtfsId);
+        if (quay != null) {
+            return quay;
+        }
+
+        // Find the "parent StopPlace" that matches the parentSite and determine the StopPlace holding the Quays
+        // Then, with these "child StopPlace"s:
+        //   get all the Quay the refer to (QuayRef)
+        //     if there is only one Quay, return that one.
+        //     if there are more than one, return the one that matches the lat/lon.
+        //       if more than one matches the lat/lon return the one whose name is same as gtfs' stop_name
+        //         if more than one matches the gtfs stop_name return the 1st one
+        // If still not found, search all the Quays for a match (by lat/lon)
+        ArrayList<NetexQuay> quayMatches = new ArrayList<>();
+
+        NetexStopPlace parentStopPlace = netexParentSitesByGtfsId.get(parentSite);
+        ArrayList<NetexStopPlace> childStopPlaces = new ArrayList<>();
+        if (parentStopPlace != null) {
+            for (String childSiteRef : parentStopPlace.getChildSiteRef()) {
+                childStopPlaces.add(netexAllStopPlacesByStopPlaceId.get(childSiteRef));
+            }
+            for (NetexStopPlace childStopPlace : childStopPlaces) {
+                for (String quayRef : childStopPlace.getQuayRefs()) {
+                    quayMatches.add(netexQuaysByQuayId.get(quayRef));
+                }
+            }
+        }
+
+        if (quayMatches.size() == 1) {
+            return quayMatches.get(0);
+        }
+
+        ArrayList<NetexQuay> quayMatchingLatLon = new ArrayList<>();
+        if (quayMatches.size() > 1) {
+            for (NetexQuay q : quayMatches) {
+                if (lat.equals(q.getLat()) && lon.equals(q.getLon())) {
+                    quayMatchingLatLon.add(q);
+                }
+            }
+        }
+
+        if (quayMatchingLatLon.isEmpty()) {
+            // Finally search in all Quays if any matches lat/lon
+            for (NetexQuay q : netexQuaysByQuayId.values()) {
+                if (lat.equals(q.getLat()) && lon.equals(q.getLon())) {
+                    quayMatchingLatLon.add(q);
+                }
+            }
+        }
+
+        if (quayMatchingLatLon.size() == 1) {
+            return quayMatchingLatLon.get(0);
+        }
+
+        ArrayList<NetexQuay> quayMatchingName = new ArrayList<>();
+        if (quayMatchingLatLon.size() > 1) {
+            for (NetexQuay qmll : quayMatchingLatLon) {
+                if (gtfsStopName.equals(qmll.getName())) {
+                    quayMatchingName.add(qmll);
+                }
+            }
+        }
+        if (!quayMatchingName.isEmpty()) {
+            return quayMatchingName.get(0);
+        }
+
+        // if there is no match found, return null
+        System.out.println("Warning: No matching Quay found in netex for gtfs stop_id: " + gtfsId);
+        return null;
+    }
+
+    private void readNetexStopsFile(String netexFilePath) {
+        try {
+            File nextFile = new File(netexFilePath);
+            NetexParser netexParser = new NetexParser();
+            SAXParserFactory.newInstance().newSAXParser().parse(nextFile, netexParser);
+            netexQuaysByGtfsId = netexParser.getQuayListByGtfsId();
+            netexQuaysByQuayId = netexParser.getQuayListByQuayId();
+            netexLogicalSites = netexParser.getLogicalSiteListByGtfsId();
+            netexParentSitesByGtfsId = netexParser.getParentSiteListByGtfsId();
+            netexAllStopPlacesByGtfsId = netexParser.getAllStopPlaceListByGtfsId();
+            netexAllStopPlacesByStopPlaceId = netexParser.getAllStopPlaceListByStopPlaceId();
+        } catch (UnsupportedOperationException e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
